@@ -1,0 +1,14 @@
+---
+theme: jekyll-theme-dinky
+include:
+  - "provisioner/README.md"
+exclude:
+  - "roles"
+  - "provisioner/roles"
+  - "provisioner/group_vars"
+  - "provisioner/inventory"
+  - "provisioner/tests"
+  - "legacy-assets"
+kramdown:
+  syntax_highlighter_opts:
+    disable: true
