@@ -8,11 +8,11 @@ The Red Hat Ansible Automation Workshops project is intended for effectively dem
 
 ## Instructor-led Workshops
 
-2 hour workshops:
 >**Note**
 >
 >Google Source will only work for Red Hat employees.  PDFs are provided for public consumption.
 
+### 2 hour workshops:
 | Workshop   | Public Deck | Red Hat Internal  | Exercises  | Workshop Type Var   |
 |---|---|---|---|---|
 | **[Red Hat Device Edge Any Workload](./exercises/rhde_aw_120)** <br> focused on deploying different workloads to Device Edge  | [PDF](./decks/rhde_aw_120.pdf) | [Google Source](https://docs.google.com/presentation/d/1RZTqdKSXVhbguuidvNMx3fkR77lD4cM41N7S95Xb7HA) | [Exercises](./exercises/rhde_aw_120)  | `workshop_type: rhde_aw_120`  |
