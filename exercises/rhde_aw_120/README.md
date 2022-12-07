@@ -11,9 +11,11 @@ After finishing this lab you are ready to start using Red Hat Device Edge to run
   - [Presentations](#presentations)
   - [Time planning](#time-planning)
   - [Lab Diagram](#lab-diagram)
-  - [Section 1 - Command-line Ansible Exercises](#section-1---command-line-ansible-exercises)
-  - [Section 2 - Ansible Automation Platform Exercises](#section-2---ansible-automation-platform-exercises)
-  - [Supplemental Exercises](#supplemental-exercises)
+  - [Section 1 - Investigating the Lab Environment](#section-1---investigating-the-lab-environment)
+  - [Section 2 - Initial Image Creation and Device Installation](#section-2---initial-image-creation-and-device-installation)
+  - [Section 3 - Deploying a Base-Metal Workload](#section-3---deploying-a-bare---metal-workload)
+  - [Section 4 - Deploying a Containerized Workload](#section-4---deploying-a-containerized-workload)
+  - [Section 5 - Deploying a Kubernetes Native Application](#section-5---deploying-a-kubernetes-native-application)
 
 ## Presentations
 
@@ -37,33 +39,42 @@ Having said that, this workshop is built to take roughly 2 hours.
 
 ## Section 1 - Investigating the Lab Environment
 
-## Section 2 - Initial Image Creation
+* [Exercise 1.1 - Preflight Checks](1.1-preflight)
+* [Exercise 1.2 - Investigating Ansible Controller](1.2-controller-intro)
+* [Exercise 1.3 - Investigating Source Control](1.3-source-control-intro)
+* [Exercise 1.4 - Investigating Your Edge Device](1.4-device-intro)
+* [Exercise 1.5 - Gathering Networking Information](1.5-network-info)
+* [Exercise 1.6 - Investigating the Example Workload](1.6-application-info)
 
-## Section 2 - Deploying Workloads and Updating Images
+## Section 2 - Initial Image Creation and Device Installation
 
-* [Exercise 1.1 - Check the Prerequisites](1.1-setup)
-* [Exercise 1.2 - The Ansible Basics](1.2-thebasics)
-* [Exercise 1.3 - Writing Your First Playbook](1.3-playbook)
-* [Exercise 1.4 - Using Variables](1.4-variables)
-* [Exercise 1.5 - Conditionals, Handlers and Loops](1.5-handlers)
-* [Exercise 1.6 - Templates](1.6-templates)
-* [Exercise 1.7 - Roles](1.7-role)
+* [Exercise 2.1 - Introduction to infra.osbuild Collection](2.1-infra.osbuild-intro)
+* [Exercise 2.2 - Building an Initial Image](2.2-build-initial-image)
+* [Exercise 2.3 - Create Installation Flash Drice](2.3-create-flash-drive)
+* [Exercise 2.4 - Initial Device Installation](2.4-initial-device-install)
+* [Exercise 2.5 - Red Hat Device Edge OS Investigation](2.5-os-intro)
 
-## Section 2 - Ansible Automation Platform Exercises
+## Section 3 - Deploying a Base-Metal Workload
 
-* [Exercise 2.1 - Introduction to automation controller](2.1-intro)
-* [Exercise 2.2 - Inventories, credentials and ad hoc commands](2.2-cred)
-* [Exercise 2.3 - Projects & job templates](2.3-projects)
-* [Exercise 2.4 - Surveys](2.4-surveys)
-* [Exercise 2.5 - Role based access control](2.5-rbac)
-* [Exercise 2.6 - Workflows](2.6-workflows)
-* [Exercise 2.7 - Wrap up](2.7-wrap)
+* [Exercise 3.1 - Updating Image for a Bare Metal Application](3.1-base-metal-image)
+* [Exercise 3.2 - Roll Device Forward to New Image](0.1-update-device)
+* [Exercise 3.3 - Create Automation to Deploy Application](3.3-bare-metal-app-automation)
+* [Exercise 3.4 - Deploy Application](3.4-deploy-bare-metal-app)
 
-## Supplemental Exercises
+## Section 4 - Deploying a Containerized Workload
 
-There is also a series of exercises that go above and beyond our normal workshop content.  Please check out our supplemental exercises if you want more content to learn from.
+* [Exercise 4.1 - Updating Image for Bare Metal Deployment](4.1-podman-image)
+* [Exercise 4.2 - Roll Device Forward to New Image](0.1-update-device)
+* [Exercise 4.3 - Leveraging redhat.rhel_system_roles.podman Role](4.3-podman-role)
+* [Exercise 4.4 - Deploy Application](4.4-deploy-containerized-app)
 
-* [Supplemental Exercises](supplemental)
+## Section 5 - Deploying a Kubernetes Native Application
+
+* [Exercise 5.1 - Adding Device Edge Functunality-to the Image](5.1-add-device-edge)
+* [Exercise 5.2 - Roll Device Forward to New Image](0.1-update-device)
+* [Exercise 5.3 - Investigate New Device Edge Functionality](5.3-device-edge-features)
+* [Exercise 5.4 - Create Automation to Deploy Application](5.4-device-edge-app-deployment)
+* [Exercise 5.5 - Deploy Application](2.4-deploy-to-device-edge)
 
 ---
-![Red Hat Ansible Automation](../../images/rh-ansible-automation-platform.png)
+![Red Hat](../../images/redhat-logo.svg)
