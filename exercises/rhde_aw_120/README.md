@@ -75,6 +75,3 @@ Having said that, this workshop is built to take roughly 2 hours.
 * [Exercise 5.3 - Investigate New Device Edge Functionality](5.3-device-edge-features)
 * [Exercise 5.4 - Create Automation to Deploy Application](5.4-device-edge-app-deployment)
 * [Exercise 5.5 - Deploy Application](2.4-deploy-to-device-edge)
-
----
-![Red Hat](../../images/redhat-logo.svg)
