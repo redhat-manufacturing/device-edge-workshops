@@ -19,23 +19,27 @@ After finishing this lab you are ready to start using Red Hat Device Edge to run
 
 The exercises are self explanatory and guide the participants through the entire lab. All concepts are explained when they are introduced.
 
-There is an optional presentation available to support the workshops and explain Automation, the basics of Ansible and the topics of the exercises in more detail:
-[Ansible RHEL Automation](../../decks/ansible_rhel.pdf)
+Have a look at a general deck about Red Hat's Edge strategy:
+[Red Hat Edge Compute Platform](../../decks/rh_edge_compute_platform.pdf)
 
-Also have a look at our Ansible Best Practices Deck:
+Also, have a look at our Ansible Best Practices Deck:
 [Ansible Best Practices](../../decks/ansible_best_practices.pdf)
 
 ## Time planning
 
 The time required to do the workshops strongly depends on multiple factors: the number of participants, how familiar those are with Linux in general and how much discussions are done in between.
 
-Having said that, the exercises themselves should take roughly 4-5 hours. The first section is slightly longer than the second one. The accompanying presentation itself adds another hour.
+Having said that, this workshop is built to take roughly 2 hours.
 
 ## Lab Diagram
 
-![ansible rhel lab diagram](../../images/rhel_lab_diagram.png)
+![Lab Diagram](../../images/rhde_aw_120_lab_diagram.png)
 
-## Section 1 - Command-line Ansible Exercises
+## Section 1 - Investigating the Lab Environment
+
+## Section 2 - Initial Image Creation
+
+## Section 2 - Deploying Workloads and Updating Images
 
 * [Exercise 1.1 - Check the Prerequisites](1.1-setup)
 * [Exercise 1.2 - The Ansible Basics](1.2-thebasics)
