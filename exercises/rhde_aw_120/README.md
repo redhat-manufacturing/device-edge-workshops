@@ -43,8 +43,8 @@ Having said that, this workshop is built to take roughly 2 hours.
 * [Exercise 1.2 - Investigating Ansible Controller](1.2-controller-intro)
 * [Exercise 1.3 - Investigating Source Control](1.3-source-control-intro)
 * [Exercise 1.4 - Investigating Your Edge Device](1.4-device-intro)
-* [Exercise 1.5 - Gathering Networking Information](1.5-network-info)
-* [Exercise 1.6 - Investigating the Example Workload](1.6-application-info)
+* [Exercise 1.5 - Investigating the Example Workload](1.5-application-info)
+* [Exercise 1.6 - Gathering Networking Information](1.6-network-info)
 
 ## Section 2 - Initial Image Creation and Device Installation
 
