@@ -5,7 +5,7 @@
 * [Objective](#objective)
 * [Guide](#guide)
    * [Your Lab Environment](#your-lab-environment)
-   * [Step 1 - Edge Device vs. Virtual Device](#step-1---edge-device-vs.-virtual-device)
+   * [Step 1 - Edge Device vs Virtual Device](#step-1---edge-device-vs-virtual-device)
    * [Step 2 - Investigating the Edge Device](#step-2---investigating-the-edge-device)
    * [Step 3 - Accessing the Virtual Device Host](#step-3---accessing-the-virtual-device-host)
 
@@ -33,7 +33,7 @@ Since this is a shortened lab, the Image Builder related steps have already been
 
 > Note: If you need more information on new Ansible Automation Platform components bookmark this landing page [https://red.ht/AAP-20](https://red.ht/AAP-20)
 
-### Step 1 - Edge Device vs. Virtual Device
+### Step 1 - Edge Device vs Virtual Device
 
 - If physical devices are available at your lab station, proceed to [Step 2 - Investigating the Edge Device](#step-2---using-the-terminal)
 - If a physical device is not available at your lab station, proceed to [Step 3 - Accessing the Virtual Device Host](#step-3---accessing-the-virtual-device-host)
