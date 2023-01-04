@@ -65,9 +65,6 @@ A baremetal instance has been created in RHPDS that will host virtual instances 
 ---
 **Navigation**
 
-<br>
-
 [Next Exercise](../1.2-controller-intro)
 
-<br><br>
-[Click here to return to the Ansible for Red Hat Enterprise Linux Workshop](../README.md)
+[Click here to return to the Workshop Homepage](../README.md)
