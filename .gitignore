@@ -5,3 +5,4 @@ extra-vars.yml
 testing*
 provision_lab-artifact*
 ansible-navigator.log
+provisioner/na-tech-exchange
