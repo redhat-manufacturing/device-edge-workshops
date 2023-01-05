@@ -1,0 +1,14 @@
+---
+- name: find ami for edge-management node
+  ec2_ami_info:
+    region: "{{ ec2_region }}"
+    owners: "{{ ec2_info['edge-management'].owners }}"
+    filters:
+      name: "{{ ec2_info['edge-management'].filter }}"
+      architecture: "{{ ec2_info['edge-management'].architecture }}"
+  register: amis
+
+- name: save ami for edge-management node
+  set_fact:
+    node_ami_edge_management: >
+      {{ amis.images | selectattr('name', 'defined') | sort(attribute='name') | last }}

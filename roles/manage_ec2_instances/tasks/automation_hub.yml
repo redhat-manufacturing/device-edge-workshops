@@ -1,0 +1,9 @@
+---
+- name: set ami for hub host
+  import_tasks: 'ami_find/ami_find_hub.yml'
+
+- name: create automation hub host
+  import_tasks: 'instances/instances_automation_hub.yml'
+
+- name: configure automation hub inventory
+  import_tasks: 'inventory/addhost_automation_hub.yml'
