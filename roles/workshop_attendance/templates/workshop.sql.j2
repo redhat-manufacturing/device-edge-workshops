@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS `users` (
+  `name` varchar(128) DEFAULT '',
+  `email` varchar(128) DEFAULT '',
+  `id` int(12) NOT NULL DEFAULT '0',
+  `controller` varchar(512) DEFAULT '',
+  `username` varchar(128) DEFAULT '',
+  `password` varchar(128) DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+{% for number in range(1, student_total + 1) %}
+INSERT INTO `users` (`id`, `controller`, `username`, `password`) VALUES
+({{ number }},
+'{{ hostvars[groups['edge_management'][0]]['ansible_host'] }}',
+'test123',
+'test123')
+ON DUPLICATE KEY UPDATE `password` = '{{ admin_password }}';
+{% endfor %}
