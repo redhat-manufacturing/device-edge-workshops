@@ -1,0 +1,6 @@
+.venv
+.aws-credentials
+execution-environment/context
+extra-vars.yml
+testing*
+provision_lab-artifact*
