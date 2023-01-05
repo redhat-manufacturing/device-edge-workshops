@@ -24,3 +24,33 @@
         - name: Error with setup
           fail:
             msg: The provisioner has failed during initial check_setup, please scroll up to see exact error.
+
+- name: Create lab instances in AWS
+  hosts: localhost
+  connection: local
+  become: false
+  gather_facts: false
+  tasks:
+    - include_role:
+        name: ../roles/manage_ec2_instances
+
+- name: wait for all nodes to have SSH reachability
+  hosts: "edge_management:attendance"
+  become: true
+  gather_facts: false
+  tasks:
+    - include_role:
+        name: ../roles/connectivity_test
+
+- name: Configure nginx on attendance host
+  hosts: attendance
+  become: true
+  gather_facts: true
+  pre_tasks:
+    - name: set student_total to a big number
+      ansible.builtin.set_fact:
+        student_total: 250
+  tasks:
+    - include_role:
+        name: ../roles/workshop_attendance
+      when: attendance|bool
