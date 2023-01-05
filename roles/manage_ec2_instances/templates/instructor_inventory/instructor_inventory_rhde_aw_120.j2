@@ -1,0 +1,15 @@
+[all:vars]
+{% if ssh_port is defined %}
+ansible_port={{ ssh_port }}
+ansible_ssh_private_key_file="{{ playbook_dir }}/{{ ec2_name_prefix }}/{{ ec2_name_prefix }}-private.pem"
+{% endif %}
+
+[edge_management]
+edge-management ansible_host={{ edge_management_node_facts.instances[0].public_ip_address }} ansible_user={{ edge_management_node_facts.instances[0].tags.username }}
+
+{% if attendance %}
+[attendance]
+{% for host in attendance_host_facts.instances %}
+{{ host.tags.short_name }} ansible_host={{ host.public_ip_address }} ansible_user=ec2-user
+{%   endfor %}
+{% endif %}
