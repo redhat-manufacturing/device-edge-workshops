@@ -1,0 +1,13 @@
+---
+ansible-navigator:
+  execution-environment:
+    image: quay.io/device-edge-workshops/provisioner-execution-environment:latest
+    enabled: true
+    container-engine: auto
+    pull:
+      policy: tag
+    environment-variables:
+      pass:
+        - AWS_ACCESS_KEY_ID
+        - AWS_SECRET_ACCESS_KEY
+        - AWS_SESSION_TOKEN
