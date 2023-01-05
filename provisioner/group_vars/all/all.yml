@@ -1,0 +1,38 @@
+---
+workshop_version: aug11-2022
+student_user: student
+admin_password: ansible
+code_server: true
+workshop_dns_zone: "rhdemo.io"
+s3_state: "present"
+teardown: false
+controllerinstall: true
+populatecontroller: true
+website_information: ""
+login_website_information: ""
+dns_information: ""
+callback_information: "No issue with Ansible Controller callback"
+demo_information: "No errors with Demos"
+workshop_type: ""
+dns_type: aws
+valid_dns_type:
+  - aws
+  - none
+valid_workshop_types:
+  - rhde_aw_120
+network_type: multivendor
+# valid_network_types:
+#   - cisco
+#   - arista
+#   - juniper
+#   - multivendor
+doubleup: false
+attendance: true
+# security_console: qradar
+# valid_security_console_types:
+#   - splunk
+#   - qradar
+create_cluster: false
+automation_hub: false
+developer_mode: false
+pre_build: true
