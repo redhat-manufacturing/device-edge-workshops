@@ -70,6 +70,11 @@ workshops:
         from_port: 27199
         cidr_ip: 0.0.0.0/0
         rule_desc: receptor
+      - proto: tcp
+        to_port: 9090
+        from_port: 9090
+        cidr_ip: 0.0.0.0/0
+        rule_desc: cockpit
   f5:
     ports:
       - proto: tcp
