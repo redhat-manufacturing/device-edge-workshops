@@ -6,3 +6,5 @@ testing*
 provision_lab-artifact*
 ansible-navigator.log
 provisioner/na-tech-exchange
+aap.tar.gz
+manifest.zip
