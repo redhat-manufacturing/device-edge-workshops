@@ -1,0 +1,24 @@
+---
+
+- name: create cockpit webui user group
+  ansible.builtin.group:
+    name: cockpit-webui-users
+
+- name: create cockpit webui user
+  ansible.builtin.user:
+    name: cockpit-webui-user
+    group: cockpit-webui-users
+    password: "{{ admin_password | password_hash('sha512') }}"
+
+- name: push generated key for login
+  ansible.posix.authorized_key:
+    user: cockpit-webui-user
+    state: present
+    key: "{{ lookup('file', public_key_path) }}"
+
+- name: allow password-less sudo
+  community.general.sudoers:
+    name: cockpit-webui-user-sudo
+    user: cockpit-webui-user
+    commands: ALL
+    nopassword: true

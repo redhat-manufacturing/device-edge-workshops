@@ -1,0 +1,36 @@
+---
+
+- name: register to the customer portal
+  community.general.redhat_subscription:
+    username: "{{ redhat_username }}"
+    password: "{{ redhat_password }}"
+  notify:
+    - clean_dnf
+
+- name: check if subman can configure repos
+  ansible.builtin.shell:
+    cmd: subscription-manager config | grep -i 'manage_repos = [0]'
+  register: subman_repo_control
+  changed_when: false
+  check_mode: false
+  failed_when: false
+
+- name: give subman repo control
+  ansible.builtin.shell:
+    cmd: subscription-manager config --rhsm.manage_repos=1
+  when:
+    - subman_repo_control.rc | int == 0
+
+- name: enable baseos/appstream
+  community.general.rhsm_repository:
+    name:
+      - "rhel-{{ ansible_distribution_major_version }}-for-x86_64-baseos-rpms"
+      - "rhel-{{ ansible_distribution_major_version }}-for-x86_64-appstream-rpms"
+    state: enabled
+  notify: clean_dnf
+
+- name: remove the rhui repo file
+  ansible.builtin.file:
+    path: /etc/yum.repos.d/redhat-rhui.repo
+    state: absent
+  notify: clean_dnf
