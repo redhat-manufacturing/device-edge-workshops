@@ -9,13 +9,13 @@
     instance_type: "{{ ec2_info['edge-management'].size }}"
     image_id: "{{ node_ami_edge_management.image_id }}"
     region: "{{ ec2_region }}"
-    exact_count: "{{ student_total }}"
+    exact_count: 1
     filters:
       instance-state-name: running
-      "tag:Workshop_edge_management_node": "{{ ec2_name_prefix }}-edge-management-node"
+      "tag:Workshop_edge_management_node": "{{ ec2_name_prefix }}-edge-manager-aws"
     tags:
-      Workshop_edge_management_node: "{{ ec2_name_prefix }}-edge-management-node"
-      Name: "{{ ec2_name_prefix }}-edge-management-node"
+      Workshop_edge_management_node: "{{ ec2_name_prefix }}-edge-manager-aws"
+      Name: "{{ ec2_name_prefix }}-edge-manager-aws"
       Workshop: "{{ ec2_name_prefix }}"
       uuid: "{{ ec2_name_prefix }}"
       guid: "{{ ec2_name_prefix }}"
@@ -27,7 +27,7 @@
       short_name: "edge-management"
       username: "{{ ec2_info['edge-management'].username }}"
       ansible-workshops: "true"
-      Student: 0
+      Students: "{{ student_total }}"
     wait: "{{ ec2_wait }}"
     vpc_subnet_id: "{{ ec2_vpc_subnet_id }}"
     volumes:
@@ -45,7 +45,7 @@
     region: "{{ ec2_region }}"
     filters:
       instance-state-name: running
-      "tag:Workshop_edge_management_node": "{{ ec2_name_prefix }}-edge-management-node"
+      "tag:Workshop_edge_management_node": "{{ ec2_name_prefix }}-edge-manager-aws"
   register: node1_output
 
 - name: Ensure tags are present for edge management node
@@ -54,14 +54,14 @@
     resource: "{{ item.1.instance_id }}"
     state: present
     tags:
-      Name: "{{ ec2_name_prefix }}-edge-management-node"
+      Name: "{{ ec2_name_prefix }}-edge-manager-aws"
       Index: "{{ item[0] }}"
       launch_time: "{{ item.1.launch_time }}"
   with_indexed_items:
     - "{{ node1_output.instances }}"
   when: node1_output.instances|length > 0
 
-- name: Associate IAM instance profile with node1
+- name: Associate IAM instance profile with edge management node
   amazon.aws.ec2_instance:
     instance_ids: "{{ item.1.instance_id }}"
     region: "{{ ec2_region }}"

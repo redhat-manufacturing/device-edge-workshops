@@ -8,7 +8,19 @@
       architecture: "{{ ec2_info['edge-management'].architecture }}"
   register: amis
 
-- name: save ami for edge-management node
+- name: save ami for node for controller
+  set_fact:
+    ansible_control_node_ami: >
+      {{ amis.images | selectattr('name', 'defined') | sort(attribute='name') | last }}
+
+- name: ensure at least RHEL8.6+
+  ansible.builtin.assert:
+    that:
+      - ansible_control_node_ami.name[5] | int >= 8
+      - ansible_control_node_ami.name[7] | int >= 6
+    msg: "Please use RHEL8.6 or later"
+
+- name: save ami for edge management node
   set_fact:
     node_ami_edge_management: >
       {{ amis.images | selectattr('name', 'defined') | sort(attribute='name') | last }}

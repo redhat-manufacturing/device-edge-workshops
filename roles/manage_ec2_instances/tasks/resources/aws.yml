@@ -1,7 +1,14 @@
 ---
+
+- name: allow overriding of s3 bucket name
+  ansible.builtin.set_fact:
+    s3_bucket_name: "{{ ec2_name_prefix|lower }}.{{ workshop_dns_zone|lower }}.private"
+  when:
+    - s3_bucket_name is not defined
+
 - name: s3 bucket for persistent storage of ec2 key exists
   amazon.aws.s3_bucket:
-    name: "{{ ec2_name_prefix|lower }}.{{ workshop_dns_zone|lower }}.private"
+    name: "{{ s3_bucket_name }}"
     state: present
     region: "{{ ec2_region }}"
     tags:
@@ -13,7 +20,7 @@
 
 - name: Store SSH Key Pair
   amazon.aws.aws_s3:
-    bucket: "{{ ec2_name_prefix|lower }}.{{ workshop_dns_zone }}.private"
+    bucket: "{{ s3_bucket_name }}"
     mode: put
     object: "{{ec2_name_prefix}}-private.pem"
     src: "{{ playbook_dir }}/{{ ec2_name_prefix|lower }}/{{ ec2_name_prefix|lower }}-private.pem"
@@ -23,7 +30,7 @@
 
 - name: Save Private key from S3 Bucket when not generating it
   amazon.aws.aws_s3:
-    bucket: "{{ ec2_name_prefix|lower }}.{{ workshop_dns_zone }}.private"
+    bucket: "{{ s3_bucket_name }}"
     mode: get
     object: "{{ ec2_name_prefix }}-private.pem"
     dest: "{{ playbook_dir }}/{{ ec2_name_prefix|lower }}/{{ ec2_name_prefix|lower }}-private.pem"

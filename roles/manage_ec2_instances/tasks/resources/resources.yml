@@ -147,6 +147,19 @@
     mode: '0400'
   when: create_key.changed
 
+- name: retrieve public key
+  ansible.builtin.shell:
+    cmd: ssh-keygen -y -f "{{ playbook_dir }}/{{ ec2_name_prefix }}/{{ ec2_name_prefix }}-private.pem"
+  register: pub_key
+  when: create_key.changed
+
+- name: save public key
+  copy:
+    content: "{{ pub_key.stdout }}"
+    dest: "{{ playbook_dir }}/{{ ec2_name_prefix }}/{{ ec2_name_prefix }}.pub"
+    mode: '0400'
+  when: create_key.changed
+
 - name: use {{ dns_type }} storage for key
   include_tasks: "{{ dns_type }}.yml"
 
