@@ -19,6 +19,7 @@ The `https://github.com/redhat-manufacturing/device-edge-workshops` contains an 
     * [2. Running Ansible-Navigator from the project root](#2-running-ansible-navigator-from-the-project-root)
     * [Setup (per workshop)](#setup-per-workshop)
     * [The Student Variable](#the-student-variable)
+    * [Building Local Resources](#building-local-resources)
     * [Automation controller license](#automation-controller-license)
     * [Additional examples](#additional-examples)
     * [Accessing student documentation and slides](#accessing-student-documentation-and-slides)
@@ -29,7 +30,7 @@ The `https://github.com/redhat-manufacturing/device-edge-workshops` contains an 
   * [Lab Teardown](#lab-teardown)
   * [Demos](#demos)
   * [FAQ](#faq)
-  * [More info on what is happening](#more-info-on-what-is-happening))
+  * [More info on what is happening](#more-info-on-what-is-happening)
 <!-- /TOC -->
 
 ## Requirements
@@ -69,6 +70,10 @@ ansible-navigator run provisioner/provision_lab.yml -e @provisioner/extra_vars.y
 
 ```yaml
 ---
+# where the workshop is being run
+run_in_aws: true
+run_locally: true
+
 # region where the nodes will live
 ec2_region: us-east-1
 
@@ -133,7 +138,33 @@ ee_default_image: "{{ ee_registry_name }}/ee-supported-rhel8:latest"
 ```
 
 ### The Student Variable
-In normal Ansible workshops, a student number is defined to control how many student slots are provisioned, however to better reflect the edge mantra (and because, ideally, these workshops will be run with edge devices) that var is not required. If no edge devices are available, or if additional capacity is required, the provisioner can fire up a bare metal instance to host virtualized edge devices via the `provision_baremetal_instance` variable.
+In normal Ansible workshops, a student number is defined to control how many student slots are provisioned, however to better reflect the edge mantra (and because, ideally, these workshops will be run with edge devices) that var simply controls the number of available signup slots on the attendance host. If no edge devices are available, or if additional capacity is required, the provisioner can fire up a bare metal instance to host virtualized edge devices via the `provision_baremetal_instance` variable.
+
+### Building Local Resources
+To demonstrate the capabilities of the device edge stack running in a disconnected environment, the provisioner can also be used to configure a local asset (a laptop, NUC, whatever) to act as the 'edge-manager' box. This behavior is controlled by the `run_locally` variable. In addition to setting the var, you'll also need to set up an inventory, like so:
+```yaml
+all:
+  children:
+    edge_management:
+      children:
+        local:
+          hosts:
+            edge-manager-local:
+              ansible_host: 10.1.3.120
+              ansible_user: ansible_user
+              ansible_password: your_password123
+              ansible_become_password: your_password123
+```
+
+The provisioner can build the workshop in aws, locally, or both if desired. Running in both can help avoid issues with networking not under the control of the instructor (think terribad hotel wifi) by having two distinct yet identical systems to run the lab from.
+
+>**Note**
+>
+> ini-formatted inventories are fine, as well as using ssh keys, this is just a standard inventory file. Since the provisioner isn't creating the host (like for aws instances), connection information must be provided.
+
+>**Note**
+>
+> For local resources, you are responsible for the vast majority of the initial setup, including having RHEL installed, having connectivity, DNS, etc. This provisioner will not manage these elements in the local environment for you.
 
 ### Automation controller license
 
