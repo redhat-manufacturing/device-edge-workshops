@@ -1,0 +1,8 @@
+---
+
+# Doing it this way so static entries can be added in the future
+- name: insert host line into /etc/hosts
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: "{{ ansible_default_ipv4.address }} {{ inventory_hostname }} {{ inventory_hostname }}.local"
+    insertafter: EOF

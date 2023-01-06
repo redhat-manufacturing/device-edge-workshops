@@ -1,0 +1,7 @@
+---
+
+- name: import /etc/hosts tasks
+  ansible.builtin.import_tasks: etc-hosts.yml
+
+- name: import hostname tasks
+  ansible.builtin.import_tasks: hostname.yml
