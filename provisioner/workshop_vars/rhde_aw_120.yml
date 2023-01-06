@@ -1,0 +1,15 @@
+---
+
+builder_compose_type: edge-commit
+builder_blueprint_name: rhde-image
+
+builder_compose_customizations:
+  user:
+    name: ansible
+    description: ansible
+    password: "{{ admin_password }}"
+    groups: '["users", "wheel"]'
+
+builder_compose_pkgs:
+  - "vim-enhanced"
+  - "git"
