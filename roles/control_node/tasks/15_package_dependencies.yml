@@ -1,0 +1,38 @@
+---
+- name: Install EPEL
+  dnf:
+    name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm"
+    state: present
+    disable_gpg_check: true
+
+- name: Install base packages
+  dnf:
+    name:
+      - vim
+      - git
+      - wget
+      - nano
+      - tree
+      - sshpass
+      - tmux
+      - python3-pip
+      - python3-devel
+      - ansible-core
+      - gcc
+      - bind-utils
+      - jq
+      - net-tools
+      - podman
+    state: present
+  register: dnf_check
+  until: dnf_check is not failed
+  retries: 4
+  delay: 5
+
+- name: install community collection
+  shell: "ansible-galaxy collection install {{ item }} --force-with-deps "
+  register: controlnode
+  loop:
+    - community.general
+  until: controlnode is not failed
+  retries: 5
