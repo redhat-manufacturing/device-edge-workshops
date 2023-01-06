@@ -1,5 +1,5 @@
 .venv
-.aws-credentials
+.aws-credentials*
 execution-environment/context
 extra-vars.yml
 testing*
