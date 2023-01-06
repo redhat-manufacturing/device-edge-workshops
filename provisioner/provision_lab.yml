@@ -5,21 +5,21 @@
   become: false
   gather_facts: true
   tasks:
-    - name: workshop collection final check
+    - name: run checks
       block:
         - name: run pre-check role to make sure workshop will complete provisioning
           include_role:
             name: ../roles/workshop_check_setup
-
         - name: run AWS check setup if using AWS
           include_role:
             name: ../roles/aws_check_setup
-
+          when:
+            - run_in_aws is defined
+            - run_in_aws | bool
         - name: download AAP
           include_role:
             name: ../roles/aap_download
           when: not pre_build | bool
-
       rescue:
         - name: Error with setup
           fail:
@@ -33,6 +33,9 @@
   tasks:
     - include_role:
         name: ../roles/manage_ec2_instances
+      when:
+        - run_in_aws is defined
+        - run_in_aws | bool
 
 - name: wait for all nodes to have SSH reachability
   hosts: "edge_management:attendance"
@@ -42,15 +45,65 @@
     - include_role:
         name: ../roles/connectivity_test
 
-- name: Configure nginx on attendance host
-  hosts: attendance
+- name: run common tasks
+  hosts: "edge_management:attendance"
   become: true
-  gather_facts: true
-  pre_tasks:
-    - name: set student_total to a big number
-      ansible.builtin.set_fact:
-        student_total: 250
   tasks:
     - include_role:
-        name: ../roles/workshop_attendance
-      when: attendance|bool
+        name: ../roles/common
+
+# - name: build edge management node
+#   hosts:
+#     - edge_management
+#   become: true
+#   tasks:
+#     - name: do initial node setup
+#       ansible.builtin.include_role:
+#         name: ../roles/edge_management_node
+#     - name: use role to setup Image Builder
+#       ansible.builtin.include_role:
+#         name: infra.osbuild.setup_server
+
+# - name: generate first image on edge management node
+#   hosts:
+#     - edge_management
+#   vars_files:
+#     - "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
+#   become: true
+#   pre_tasks:
+#     - name: workaround for https://access.redhat.com/solutions/6973651
+#       ansible.builtin.dnf:
+#         name: python36
+#       when:
+#         - ansible_distribution_major_version | int == 8
+#   tasks:
+#     - name: build image via role
+#       ansible.builtin.include_role:
+#         name: infra.osbuild.builder
+
+- name: install controller on edge management node
+  hosts:
+    - edge_management
+  become: true
+  pre_tasks:
+    - name: reset 'username' var
+      ansible.builtin.set_fact:
+        username: "{{ ansible_user }}"
+  tasks:
+    - name: include control_node role
+      ansible.builtin.include_role:
+        name: ../roles/control_node
+
+
+    # - name: include role to build edge management node
+    #   ansible.builtin.include_role:
+    #     name: ../roles/edge_management_node
+
+# - name: Configure nginx on attendance host
+#   hosts: attendance
+#   become: true
+#   gather_facts: true
+#   tasks:
+#     - include_role:
+#         name: ../roles/workshop_attendance
+#       when: attendance|bool
