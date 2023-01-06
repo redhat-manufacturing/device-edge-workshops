@@ -4,7 +4,7 @@
     msg:
       - "ansible_host {{ ansible_host }}"
       - "ansible_user {{ ansible_user }}"
-      - "ansible_ssh_private_key_file {{ ansible_ssh_private_key_file }}"
+      - "ansible_ssh_private_key_file {{ ansible_ssh_private_key_file | default('no key file, ensure user/pass are set')}}"
       - "groups {{ groups }}"
 
 - name: Wait 400 seconds (using wait_for_connection)
