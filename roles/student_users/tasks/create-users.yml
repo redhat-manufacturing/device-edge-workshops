@@ -1,0 +1,24 @@
+---
+
+- name: create group for students
+  ansible.builtin.group:
+    name: students
+    gid: 10000
+
+- name: create student users
+  ansible.builtin.user:
+    name: "student{{ student_number }}"
+    group: students
+    password: "{{ admin_password | password_hash('sha512') }}"
+  loop: "{{ range(1, student_total, 1)|list }}"
+  loop_control:
+    loop_var: student_number
+
+- name: push generated key for login
+  ansible.posix.authorized_key:
+    user: "student{{ student_number }}"
+    state: present
+    key: "{{ lookup('file', public_key_path) }}"
+  loop: "{{ range(1, student_total, 1)|list }}"
+  loop_control:
+    loop_var: student_number

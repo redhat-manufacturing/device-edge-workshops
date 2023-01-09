@@ -1,0 +1,10 @@
+---
+
+- name: import pre-flight tasks
+  ansible.builtin.import_tasks: pre-flight.yml
+
+- name: import create user tasks
+  ansible.builtin.import_tasks: create-users.yml
+
+- name: import sudo tasks
+  ansible.builtin.import_tasks: sudo.yml

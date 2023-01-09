@@ -1,0 +1,8 @@
+---
+
+- name: allow password-less sudo
+  community.general.sudoers:
+    name: students-sudo
+    group: students
+    commands: ALL
+    nopassword: true
