@@ -38,7 +38,10 @@
         - run_in_aws | bool
 
 - name: wait for all nodes to have SSH reachability
-  hosts: "edge_management:attendance"
+  hosts:
+    - edge_management
+    - edge_hypervisor
+    - attendance
   become: true
   gather_facts: false
   tasks:
@@ -46,23 +49,33 @@
         name: ../roles/connectivity_test
 
 - name: run common tasks
-  hosts: "edge_management:attendance"
+  hosts:
+    - edge_management
+    - edge_hypervisor
+    - attendance
   become: true
   tasks:
     - include_role:
         name: ../roles/common
 
-# - name: build edge management node
-#   hosts:
-#     - edge_management
-#   become: true
-#   tasks:
-#     - name: do initial node setup
-#       ansible.builtin.include_role:
-#         name: ../roles/edge_management_node
-#     - name: use role to setup Image Builder
-#       ansible.builtin.include_role:
-#         name: infra.osbuild.setup_server
+- name: build edge management node
+  hosts:
+    - edge_management
+  become: true
+  pre_tasks:
+    - name: reset 'username' var
+      ansible.builtin.set_fact:
+        username: "{{ ansible_user }}"
+  tasks:
+    - name: do initial node setup
+      ansible.builtin.include_role:
+        name: ../roles/edge_management_node
+    - name: use role to setup Image Builder
+      ansible.builtin.include_role:
+        name: infra.osbuild.setup_server
+    - name: include control_node role
+      ansible.builtin.include_role:
+        name: ../roles/control_node
 
 # - name: generate first image on edge management node
 #   hosts:
@@ -81,23 +94,6 @@
 #       ansible.builtin.include_role:
 #         name: infra.osbuild.builder
 
-- name: install controller on edge management node
-  hosts:
-    - edge_management
-  become: true
-  pre_tasks:
-    - name: reset 'username' var
-      ansible.builtin.set_fact:
-        username: "{{ ansible_user }}"
-  tasks:
-    - name: include control_node role
-      ansible.builtin.include_role:
-        name: ../roles/control_node
-
-
-    # - name: include role to build edge management node
-    #   ansible.builtin.include_role:
-    #     name: ../roles/edge_management_node
 
 # - name: Configure nginx on attendance host
 #   hosts: attendance
