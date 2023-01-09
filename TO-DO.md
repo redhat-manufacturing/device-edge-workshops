@@ -16,3 +16,4 @@
 2. Valid SSL certs on Cockpit
 3. Probably can check for existing Controller input before running copy/extract tasks as well
 4. Really the student_users role should be more modular and just be looped over/included
+5. Do we really need rhsm registration? (I doubt it?)
