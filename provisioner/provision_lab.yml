@@ -58,6 +58,18 @@
     - include_role:
         name: ../roles/common
 
+- name: configure student users
+  hosts:
+    - edge_hypervisor
+  become: true
+  tasks:
+    - name: include student user config role
+      ansible.builtin.include_role:
+        name: ../roles/student_users
+    - name: include hypervisor config role
+      ansible.builtin.include_role:
+        name: ../roles/edge_hypervisor
+
 - name: build edge management node
   hosts:
     - edge_management
@@ -67,6 +79,9 @@
       ansible.builtin.set_fact:
         username: "{{ ansible_user }}"
   tasks:
+    - name: register to rhsm
+      ansible.builtin.include_role:
+        name: ../roles/rhsm
     - name: do initial node setup
       ansible.builtin.include_role:
         name: ../roles/edge_management_node
