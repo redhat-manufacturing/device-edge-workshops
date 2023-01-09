@@ -8,6 +8,7 @@
 6. Figure out how to move HEAD in rpm-ostree repo
 7. Update documentation _significantly_
 ~~8. Build hypervisor - mostly just cockpit setup~~
+9. Populate Controller
 
 ## Nice-to-Haves
 
