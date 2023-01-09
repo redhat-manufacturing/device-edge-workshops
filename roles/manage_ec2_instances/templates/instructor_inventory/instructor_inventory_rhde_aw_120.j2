@@ -30,6 +30,7 @@ edge-hypervisor-aws
 {% for host in attendance_host_facts.instances %}
 {{ host.tags.short_name }} ansible_host={{ host.public_ip_address }} ansible_user=ec2-user
 {%   endfor %}
+{% endif %}
 
 [all:vars]
 {% if ssh_port is defined %}
