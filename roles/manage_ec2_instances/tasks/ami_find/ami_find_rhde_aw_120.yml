@@ -32,6 +32,7 @@
         edge_hypervisor_node_ami: >
           {{ amis.images | selectattr('name', 'defined') | sort(attribute='name') | last }}
 
+# this will need an update for RHEL9 (since 9.1 > 8.6, but 1 ! >= 6)
 - name: common tasks
   block:
     - name: ensure at least RHEL8.6+
