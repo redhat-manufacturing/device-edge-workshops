@@ -1,0 +1,27 @@
+---
+
+- name: install virt module
+  ansible.builtin.dnf:
+    name: '@virt'
+  register: virt_installed
+
+- name: install additional packages
+  ansible.builtin.dnf:
+    name:
+      - virt-install
+      - virt-viewer
+  register: virt_additional_installed
+
+- name: start/enable services
+  ansible.builtin.systemd:
+    name: libvirtd
+    state: started
+    enabled: true
+
+- name: run virt host validater
+  ansible.builtin.shell:
+    cmd: virt-host-validate
+  register: virt_host_validate_output
+  when:
+    - virt_installed.changed or
+      virt_additional_installed.changed

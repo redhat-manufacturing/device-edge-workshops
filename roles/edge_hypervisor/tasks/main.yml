@@ -1,0 +1,10 @@
+---
+
+- name: import pre-flight tasks
+  ansible.builtin.import_tasks: pre-flight.yml
+
+- name: import kvm tasks
+  ansible.builtin.import_tasks: kvm.yml
+
+- name: import cockpit tasks
+  ansible.builtin.import_tasks: cockpit.yml

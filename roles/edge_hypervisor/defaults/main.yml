@@ -1,0 +1,23 @@
+---
+
+use_rhsm_repos: false
+
+cockpit_enabled: true
+cockpit_started: true
+cockpit_manage_firewall: true
+
+cockpit_packages:
+  - cockpit
+  - cockpit-networkmanager
+  - cockpit-packagekit
+  - cockpit-selinux
+  - cockpit-storaged
+  - cockpit-machines
+
+cockpit_config:
+  WebService:
+    LoginTitle: "{{ ec2_name_prefix }} Device Edge Workshop"
+    MaxStartups: "{{ student_total }}"
+  Session:
+    IdleTimeout: 60
+    Banner: "{{ ec2_name_prefix }} Device Edge Workshop"
