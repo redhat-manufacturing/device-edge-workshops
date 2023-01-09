@@ -1,0 +1,13 @@
+---
+
+- name: import registration tasks
+  ansible.builtin.import_tasks: register.yml
+
+- name: import subman config tasks
+  ansible.builtin.import_tasks: configure-subman.yml
+
+- name: import rhui cleanup tasks
+  ansible.builtin.import_tasks: cleanup-rhui.yml
+
+- name: import repo config tasks
+  ansible.builtin.import_tasks: configure-repos.yml

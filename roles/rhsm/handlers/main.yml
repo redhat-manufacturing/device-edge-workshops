@@ -1,0 +1,13 @@
+---
+
+- name: clean dnf
+  ansible.builtin.shell:
+    cmd: dnf clean all
+  listen:
+    - clean_dnf
+
+- name: dump the dnf cache
+  ansible.builtin.shell:
+    cmd: rm -rf /var/cache/dnf/*
+  listen:
+    - clean_dnf

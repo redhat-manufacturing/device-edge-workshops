@@ -1,0 +1,15 @@
+---
+
+- name: check if subman can configure repos
+  ansible.builtin.shell:
+    cmd: subscription-manager config | grep -i 'manage_repos = [0]'
+  register: subman_repo_control
+  changed_when: false
+  check_mode: false
+  failed_when: false
+
+- name: give subman repo control
+  ansible.builtin.shell:
+    cmd: subscription-manager config --rhsm.manage_repos=1
+  when:
+    - subman_repo_control.rc | int == 0

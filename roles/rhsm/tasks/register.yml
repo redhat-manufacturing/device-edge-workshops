@@ -1,0 +1,8 @@
+---
+
+- name: register to the customer portal
+  community.general.redhat_subscription:
+    username: "{{ redhat_username }}"
+    password: "{{ redhat_password }}"
+  notify:
+    - clean_dnf

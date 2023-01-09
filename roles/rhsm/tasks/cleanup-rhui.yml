@@ -1,0 +1,7 @@
+---
+
+- name: remove the rhui repo file
+  ansible.builtin.file:
+    path: /etc/yum.repos.d/redhat-rhui.repo
+    state: absent
+  notify: clean_dnf
