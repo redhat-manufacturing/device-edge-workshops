@@ -7,8 +7,10 @@
 5. Setup 3rd image | microshift-based
 6. Figure out how to move HEAD in rpm-ostree repo
 7. Update documentation _significantly_
+8. Build hypervisor - mostly just cockpit setup
 
 ## Nice-to-Haves
 
 1. Valid SSL certs on Controller
 2. Valid SSL certs on Cockpit
+3. Probably can check for existing Controller input before running copy/extract tasks as well
