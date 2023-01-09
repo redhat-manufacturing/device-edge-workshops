@@ -50,8 +50,18 @@ ec2_info:
     username: ec2-user
   edge-management:
     owners: 309956199498
-    #size: m4.xlarge
     size: t3.xlarge
+    os_type: linux
+    disk_volume_type: gp3
+    disk_space: 250
+    disk_iops: 3000
+    disk_throughput: 125
+    architecture: x86_64
+    filter: 'RHEL-8*HVM-*Hourly*'
+    username: ec2-user
+  edge-hypervisor:
+    owners: 309956199498
+    size: c5n.metal
     os_type: linux
     disk_volume_type: gp3
     disk_space: 250
