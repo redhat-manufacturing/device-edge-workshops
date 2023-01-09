@@ -5,3 +5,10 @@
 
 - name: import cockpit user tasks
   ansible.builtin.import_tasks: cockpit-user.yml
+
+- name: include aws dns tasks
+  ansible.builtin.include_tasks:
+    file: aws-dns.yml
+  when:
+    - dns_type is defined
+    - dns_type == "aws"

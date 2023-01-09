@@ -1,0 +1,25 @@
+---
+
+- name: create DNS record for controller
+  become: false
+  community.aws.route53:
+    state: "{{ s3_state }}"
+    zone: "{{ workshop_dns_zone }}"
+    record: "controller.{{ec2_name_prefix|lower}}.{{workshop_dns_zone}}"
+    type: A
+    overwrite: true
+    value: "{{ ansible_host }}"
+    wait: true
+  delegate_to: localhost
+
+- name: create DNS record for cockpit
+  become: false
+  community.aws.route53:
+    state: "{{ s3_state }}"
+    zone: "{{ workshop_dns_zone }}"
+    record: "cockpit.{{ec2_name_prefix|lower}}.{{workshop_dns_zone}}"
+    type: A
+    overwrite: true
+    value: "{{ ansible_host }}"
+    wait: true
+  delegate_to: localhost
