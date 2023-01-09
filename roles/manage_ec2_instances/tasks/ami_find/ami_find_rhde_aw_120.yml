@@ -1,26 +1,44 @@
 ---
-- name: find ami for edge-management node
-  ec2_ami_info:
-    region: "{{ ec2_region }}"
-    owners: "{{ ec2_info['edge-management'].owners }}"
-    filters:
-      name: "{{ ec2_info['edge-management'].filter }}"
-      architecture: "{{ ec2_info['edge-management'].architecture }}"
-  register: amis
 
-- name: save ami for node for controller
-  set_fact:
-    ansible_control_node_ami: >
-      {{ amis.images | selectattr('name', 'defined') | sort(attribute='name') | last }}
+- name: setup for edge-management node
+  block:
+    - name: find ami for edge-management node
+      ec2_ami_info:
+        region: "{{ ec2_region }}"
+        owners: "{{ ec2_info['edge-management'].owners }}"
+        filters:
+          name: "{{ ec2_info['edge-management'].filter }}"
+          architecture: "{{ ec2_info['edge-management'].architecture }}"
+      register: edge_management_node_amis
 
-- name: ensure at least RHEL8.6+
-  ansible.builtin.assert:
-    that:
-      - ansible_control_node_ami.name[5] | int >= 8
-      - ansible_control_node_ami.name[7] | int >= 6
-    msg: "Please use RHEL8.6 or later"
+    - name: save ami for node for edge-management node
+      set_fact:
+        edge_management_node_ami: >
+          {{ amis.images | selectattr('name', 'defined') | sort(attribute='name') | last }}
 
-- name: save ami for edge management node
-  set_fact:
-    node_ami_edge_management: >
-      {{ amis.images | selectattr('name', 'defined') | sort(attribute='name') | last }}
+- name: setup for edge-hypervisor node
+  block:
+    - name: find ami for edge-hypervisor node
+      ec2_ami_info:
+        region: "{{ ec2_region }}"
+        owners: "{{ ec2_info['edge-hypervisor'].owners }}"
+        filters:
+          name: "{{ ec2_info['edge-hypervisor'].filter }}"
+          architecture: "{{ ec2_info['edge-hypervisort'].architecture }}"
+      register: edge_hypervisor_node_amis
+
+    - name: save ami for node for edge-hypervisor node
+      set_fact:
+        edge_hypervisor_node_ami: >
+          {{ amis.images | selectattr('name', 'defined') | sort(attribute='name') | last }}
+
+- name: common tasks
+  block:
+    - name: ensure at least RHEL8.6+
+      ansible.builtin.assert:
+        that:
+          - edge_management_node_ami.name[5] | int >= 8
+          - edge_management_node_ami.name[7] | int >= 6
+          - edge_hypervisor_node_ami.name[5] | int >= 8
+          - edge_hypervisor_node_ami.name[7] | int >= 6
+        msg: "Please use RHEL8.6 or later"
