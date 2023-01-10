@@ -8,3 +8,6 @@
 
 - name: import firewalld tasks
   ansible.builtin.import_tasks: firewalld.yml
+
+- name: import packages tasks
+  ansible.builtin.import_task: packages.yml

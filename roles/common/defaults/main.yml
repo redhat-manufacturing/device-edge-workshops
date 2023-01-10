@@ -1,0 +1,6 @@
+---
+
+common_packages:
+  - firewalld
+  - python3-firewall
+  - vim-enhanced

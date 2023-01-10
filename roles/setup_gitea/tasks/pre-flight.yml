@@ -10,11 +10,6 @@
     path: "{{ build_dir }}"
     state: directory
 
-- name: ensure python3-firewall is present
-  ansible.builtin.dnf:
-    name: python3-firewall
-  become: true
-
 - name: create parent {{ source_control_tmp_dir }} exists
   ansible.builtin.file:
     path: "{{ source_control_tmp_dir }}"
