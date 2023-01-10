@@ -4,3 +4,10 @@
   containers.podman.podman_play:
     kube_file: "/home/{{ ansible_user }}/{{ kube_spec.kube_file_content.metadata.name }}.yaml"
     state: started
+  register: gitea_deployed
+
+- name: give gitea time to start up
+  ansible.builtin.pause:
+    minutes: 1
+  when:
+    - gitea_deployed.changed
