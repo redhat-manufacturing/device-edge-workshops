@@ -7,7 +7,8 @@
   register: gitea_deployed
 
 - name: give gitea time to start up
-  ansible.builtin.pause:
-    minutes: 1
+  ansible.builtin.wait_for:
+    port: 3000
+    delay: 60
   when:
     - gitea_deployed.changed
