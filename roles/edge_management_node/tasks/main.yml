@@ -12,3 +12,4 @@
   when:
     - dns_type is defined
     - dns_type == "aws"
+    - "'aws' in group_names"
