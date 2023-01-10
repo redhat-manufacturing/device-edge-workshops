@@ -6,8 +6,8 @@
 - name: import hostname tasks
   ansible.builtin.import_tasks: hostname.yml
 
+- name: import packages tasks
+  ansible.builtin.import_tasks: packages.yml
+
 - name: import firewalld tasks
   ansible.builtin.import_tasks: firewalld.yml
-
-- name: import packages tasks
-  ansible.builtin.import_task: packages.yml
