@@ -1,0 +1,49 @@
+---
+
+build_dir: ~/build
+source_control_tmp_dir: /tmp
+
+firewall_ports:
+  - port: 2222/tcp
+    zone: public
+    permanent: true
+  - port: 3000/tcp
+    zone: public
+    permanent: true    
+
+podman_kube_specs:
+  - state: started
+    run_as_user: "{{ ansible_user }}"
+    run_as_group: "{{ ansible_user }}"
+    kube_file_content:
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        name: gitea
+      spec:
+        containers:
+          - name: database
+            image: localhost/database:1.0.0
+            volumeMounts:
+              - mountPath: /var/lib/postgresql/data:Z
+                name: gitea-database
+          - name: gitea
+            image: localhost/gitea:1.0.0
+            ports:
+              - containerPort: 22
+                hostPort: 2222
+              - containerPort: 3000
+                hostPort: 3000
+        volumes:
+          - name: gitea-database
+            HostPath:
+              path: "/home/{{ ansible_user }}/gitea-database"
+              type: DirectoryOrCreate
+
+repo_name: device-edge-codebase
+
+repo_files:
+  - src: templates/README.md.j2
+    dest: README.md
+  - src: templates/hello-world.yml.j2
+    dest: playbooks/hello-world.yml

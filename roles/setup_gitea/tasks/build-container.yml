@@ -1,0 +1,9 @@
+---
+
+- name: build {{ container.name }} container
+  containers.podman.podman_image:
+    name: "{{ container.image }}"
+    path: "{{ build_dir }}/{{ podman_kube_specs[0].kube_file_content.metadata.name }}/{{ container.name }}"
+    build:
+      format: oci
+  retries: 3

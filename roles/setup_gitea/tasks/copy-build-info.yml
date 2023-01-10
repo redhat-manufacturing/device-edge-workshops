@@ -1,0 +1,6 @@
+---
+
+- name: copy the build info for {{ container.name }} over
+  ansible.builtin.copy:
+    src: "files/{{ container.name }}"
+    dest: "{{ build_dir }}/{{ podman_kube_specs[0].kube_file_content.metadata.name }}/"

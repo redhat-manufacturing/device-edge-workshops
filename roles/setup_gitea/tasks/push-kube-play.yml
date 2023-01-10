@@ -1,0 +1,6 @@
+---
+
+- name: template out kube file
+  ansible.builtin.copy:
+    content: "{{ kube_spec.kube_file_content | to_nice_yaml }}"
+    dest: "/home/{{ ansible_user }}/{{ kube_spec.kube_file_content.metadata.name }}.yaml"

@@ -1,0 +1,6 @@
+---
+
+- name: play kube file
+  containers.podman.podman_play:
+    kube_file: "/home/{{ ansible_user }}/{{ kube_spec.kube_file_content.metadata.name }}.yaml"
+    state: started

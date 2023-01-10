@@ -1,0 +1,13 @@
+---
+
+- name: open ports for gitea
+  ansible.posix.firewalld:
+    port: "{{ port.port }}"
+    zone: "{{ port.zone }}"
+    permanent: "{{ port.permanent }}"
+    state: "{{ port.state | default('enabled') }}"
+    immediate: "{{ port.immediate | default(true) }}"
+  loop: "{{ firewall_ports }}"
+  loop_control:
+    loop_var: port
+  become: true

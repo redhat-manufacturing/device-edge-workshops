@@ -1,0 +1,54 @@
+---
+
+- name: import pre-flight tasks
+  ansible.builtin.import_tasks: pre-flight.yml
+
+- name: include copy build info tasks
+  ansible.builtin.include_tasks:
+    file: copy-build-info.yml
+  loop_control:
+    loop_var: container
+  loop: "{{ podman_kube_specs[0].kube_file_content.spec.containers }}"
+
+- name: import tasks to template out app.ini
+  ansible.builtin.import_tasks: push-gitea-config.yml
+
+- name: include tasks to build container
+  ansible.builtin.include_tasks:
+    file: build-container.yml
+  loop_control:
+    loop_var: container
+  loop: "{{ podman_kube_specs[0].kube_file_content.spec.containers }}"
+
+- name: include kube spec template tasks
+  ansible.builtin.include_tasks:
+    file: push-kube-play.yml
+  loop_control:
+    loop_var: kube_spec
+  loop: "{{ podman_kube_specs }}"
+
+- name: include podman kube play tasks
+  ansible.builtin.include_tasks:
+    file: podman-kube-play.yml
+  loop_control:
+    loop_var: kube_spec
+  loop: "{{ podman_kube_specs }}"
+
+- name: import firewall tasks
+  ansible.builtin.import_tasks: open-firewall-ports.yml
+
+- name: import inital config tasks
+  ansible.builtin.import_tasks: initial-gitea-config.yml
+
+- name: import gitea user create tasks
+  ansible.builtin.import_tasks: create-gitea-users.yml
+
+- name: import tasks to create code repo
+  ansible.builtin.import_tasks: create-gitea-repos.yml
+
+- name: include tasks to populate repos
+  ansible.builtin.include_tasks:
+    file: populate-repos.yml
+  loop: "{{ range(2, (student_total + 1), 1)|list }}"
+  loop_control:
+    loop_var: student_number

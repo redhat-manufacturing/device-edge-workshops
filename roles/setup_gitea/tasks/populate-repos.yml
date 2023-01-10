@@ -1,0 +1,65 @@
+---
+
+- name: set repo root dir
+  ansible.builtin.set_fact:
+    repo_root_path: "{{ source_control_tmp_dir }}/{{ ansible_host }}/student{{ student_number }}"
+
+- name: setup files locally
+  delegate_to: localhost
+  block:
+    - name: create dir for student{{ student_number }}
+      ansible.builtin.file:
+        path: "{{ repo_root_path }}"
+        state: directory
+    - name: create playbook dir in student repo
+      ansible.builtin.file:
+        path: "{{ repo_root_path }}/playbooks"
+        state: directory
+    - name: template out files to push into repo
+      ansible.builtin.template:
+        src: "{{ file.src }}"
+        dest: "{{ repo_root_path }}/{{ file.dest }}"
+      loop: "{{ repo_files }}"
+      loop_control:
+        loop_var: file
+
+- name: check for existing git config
+  ansible.builtin.stat:
+    path: "{{ repo_root_path }}/.git"
+  register: git_dir
+  delegate_to: localhost
+
+- name: run from localhost
+  delegate_to: localhost
+  when:
+    - not git_dir.stat.exists
+  block:
+    - name: initialize git
+      ansible.builtin.shell:
+        cmd: git init
+        chdir: "{{ repo_root_path }}"
+    - name: checkout main branch
+      ansible.builtin.shell:
+        cmd: git checkout -b main
+        chdir: "{{ repo_root_path }}"
+    - name: add all files for push
+      ansible.builtin.shell:
+        cmd: git add *
+        chdir: "{{ repo_root_path }}"
+    - name: commit new files
+      ansible.builtin.shell:
+        cmd: git commit -m "initial commit by provisioner"
+        chdir: "{{ repo_root_path }}"
+    - name: push repos into local source control
+      ansible.builtin.expect:
+        command: "git push --set-upstream http://student{{ student_number }}:'{{ admin_password }}'@{{ ansible_host }}:3000/student{{ student_number }}/{{ repo_name }}.git main"
+        chdir: "{{ repo_root_path }}"
+        responses:
+          Username: "student{{ student_number }}"
+          Password: '{{ admin_password }}'
+      register: code_push
+      changed_when:
+        - "'up-to-date' not in code_push.stdout"
+      failed_when:
+        - "'up-to-date' not in code_push.stdout"
+        - code_push.rc | int != 0

@@ -1,0 +1,6 @@
+---
+
+- name: template out gitea.ini
+  ansible.builtin.template:
+    src: templates/app.ini.j2
+    dest: "{{ build_dir }}/gitea/gitea/app.ini"

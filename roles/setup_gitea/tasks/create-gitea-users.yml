@@ -1,0 +1,22 @@
+---
+
+- name: create student users in gitea
+  ansible.builtin.uri:
+    url: "http://{{ ansible_host }}:3000/api/v1/admin/users"
+    user: lab-instructor
+    password: '{{ admin_password }}'
+    force_basic_auth: true
+    body_format: json
+    method: POST
+    body:
+      username: "student{{ student_number }}"
+      password: "{{ admin_password }}"
+      email: "student{{ student_number }}@email.me"
+      must_change_password: false
+    status_code:
+      - 201
+      - 422
+  loop: "{{ range(1, (student_total + 1), 1)|list }}"
+  loop_control:
+    loop_var: student_number
+  delegate_to: localhost
