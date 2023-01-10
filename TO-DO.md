@@ -18,3 +18,4 @@
 4. Really the student_users role should be more modular and just be looped over/included
 5. Do we really need rhsm registration? (I doubt it?)
 6. Use DNS for rpm-ostree repo (would require DNS in local, easy in AWS)
+7. Can gitea.ini be templated out so web links work?
