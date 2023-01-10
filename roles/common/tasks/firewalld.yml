@@ -1,0 +1,11 @@
+---
+
+- name: ensure firewalld is present
+  ansible.builtin.dnf:
+    name: firewalld
+
+- name: enable/start firewalld service
+  ansible.builtin.systemd:
+    name: firewalld
+    state: started
+    enabled: true
