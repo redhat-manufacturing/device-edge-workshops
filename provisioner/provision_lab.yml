@@ -58,39 +58,48 @@
     - include_role:
         name: ../roles/common
 
-- name: configure student users
-  hosts:
-    - edge_hypervisor
-  become: true
-  tasks:
-    - name: include student user config role
-      ansible.builtin.include_role:
-        name: ../roles/student_users
-    - name: include hypervisor config role
-      ansible.builtin.include_role:
-        name: ../roles/edge_hypervisor
+# - name: configure student users
+#   hosts:
+#     - edge_hypervisor
+#   become: true
+#   tasks:
+#     - name: include student user config role
+#       ansible.builtin.include_role:
+#         name: ../roles/student_users
+#     - name: include hypervisor config role
+#       ansible.builtin.include_role:
+#         name: ../roles/edge_hypervisor
+
+# - name: build edge management node
+#   hosts:
+#     - edge_management
+#   become: true
+#   pre_tasks:
+#     - name: reset 'username' var
+#       ansible.builtin.set_fact:
+#         username: "{{ ansible_user }}"
+#   tasks:
+#     - name: register to rhsm
+#       ansible.builtin.include_role:
+#         name: ../roles/rhsm
+#     - name: do initial node setup
+#       ansible.builtin.include_role:
+#         name: ../roles/edge_management_node
+#     - name: use role to setup Image Builder
+#       ansible.builtin.include_role:
+#         name: infra.osbuild.setup_server
+#     - name: include control_node role
+#       ansible.builtin.include_role:
+#         name: ../roles/control_node
 
 - name: build edge management node
   hosts:
     - edge_management
-  become: true
-  pre_tasks:
-    - name: reset 'username' var
-      ansible.builtin.set_fact:
-        username: "{{ ansible_user }}"
-  tasks:
-    - name: register to rhsm
+  # become: yes
+  tasks:  
+    - name: include gitea setup role
       ansible.builtin.include_role:
-        name: ../roles/rhsm
-    - name: do initial node setup
-      ansible.builtin.include_role:
-        name: ../roles/edge_management_node
-    - name: use role to setup Image Builder
-      ansible.builtin.include_role:
-        name: infra.osbuild.setup_server
-    - name: include control_node role
-      ansible.builtin.include_role:
-        name: ../roles/control_node
+        name: ../roles/setup_gitea
 
 # - name: generate first image on edge management node
 #   hosts:
