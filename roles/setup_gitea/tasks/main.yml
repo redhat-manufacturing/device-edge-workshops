@@ -49,6 +49,6 @@
 - name: include tasks to populate repos
   ansible.builtin.include_tasks:
     file: populate-repos.yml
-  loop: "{{ range(2, (student_total + 1), 1)|list }}"
+  loop: "{{ range(1, (student_total + 1), 1)|list }}"
   loop_control:
     loop_var: student_number
