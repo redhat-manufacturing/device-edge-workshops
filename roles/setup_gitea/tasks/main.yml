@@ -3,6 +3,9 @@
 - name: import pre-flight tasks
   ansible.builtin.import_tasks: pre-flight.yml
 
+- name: import firewall tasks
+  ansible.builtin.import_tasks: open-firewall-ports.yml
+
 - name: include copy build info tasks
   ansible.builtin.include_tasks:
     file: copy-build-info.yml
@@ -33,9 +36,6 @@
   loop_control:
     loop_var: kube_spec
   loop: "{{ podman_kube_specs }}"
-
-- name: import firewall tasks
-  ansible.builtin.import_tasks: open-firewall-ports.yml
 
 - name: import inital config tasks
   ansible.builtin.import_tasks: initial-gitea-config.yml
