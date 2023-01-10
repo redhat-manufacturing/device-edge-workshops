@@ -75,6 +75,16 @@ workshops:
         from_port: 9090
         cidr_ip: 0.0.0.0/0
         rule_desc: cockpit
+      - proto: tcp
+        to_port: 2222
+        from_port: 2222
+        cidr_ip: 0.0.0.0/0
+        rule_desc: gitea SSH
+      - proto: tcp
+        to_port: 3000
+        from_port: 3000
+        cidr_ip: 0.0.0.0/0
+        rule_desc: gitea web
   f5:
     ports:
       - proto: tcp
