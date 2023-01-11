@@ -52,11 +52,3 @@
   loop: "{{ range(1, (student_total + 1), 1)|list }}"
   loop_control:
     loop_var: student_number
-
-- name: include aws dns tasks
-  ansible.builtin.include_tasks:
-    file: aws-dns.yml
-  when:
-    - dns_type is defined
-    - dns_type == "aws"
-    - "'aws' in group_names"
