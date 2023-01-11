@@ -1,0 +1,8 @@
+---
+
+- name: restart cockpit service
+  ansible.builtin.systemd:
+    name: cockpit.service
+    state: restarted
+  listen:
+    - restart_cockpit

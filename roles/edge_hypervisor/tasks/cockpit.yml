@@ -1,11 +1,6 @@
 ---
 
-- name: ensure vars are set
-  ansible.builtin.assert:
-    that:
-      - cockpit_packages is defined
-    msg: "Ensure cockpit variables are defined for proper setup"
-
-- name: include cockpit role
-  ansible.builtin.include_role:
-    name: fedora.linux_system_roles.cockpit
+- name: ensure cockpit-machines is installed
+  ansible.builtin.dnf:
+    name: cockpit-machines
+  notify: restart_cockpit
