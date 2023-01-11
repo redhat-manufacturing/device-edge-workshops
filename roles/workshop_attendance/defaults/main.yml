@@ -1,0 +1,9 @@
+---
+
+firewall_ports:
+  - port: 80/tcp
+    zone: public
+    permanent: true
+  - port: 443/tcp
+    zone: public
+    permanent: true
