@@ -1,0 +1,17 @@
+---
+
+- name: load in {{ workshop_type }} vars
+  ansible.builtin.include_vars:
+    file: "vars/{{ workshop_type }}/controller-components.yml"
+
+- name: include tasks to configure controller | admin level
+  ansible.builtin.include_tasks:
+    file: manage-components.yml
+  loop: "{{ (range(1, (student_total + 1), 1)|list)|product(admin_level_components)|list }}"
+
+- name: include tasks to configure controller | user level
+  ansible.builtin.include_tasks:
+    file: manage-components.yml
+  loop: "{{ (range(1, (student_total + 1), 1)|list)|product(user_level_components)|list }}"
+  vars:
+    controller_username: "student{{ item.0 }}"

@@ -1,0 +1,9 @@
+---
+
+controller_projects:
+  - name: Device Edge Codebase
+    organization: "Student{{ student_number }} Organization"
+    scm_type: git
+    scm_branch: main
+    scm_url: http://{{ source_control_hostname }}:3000/student{{ student_number }}/device-edge-codebase.git
+    credential: Gitea Credentials

@@ -1,0 +1,12 @@
+---
+
+admin_level_components:
+  - organizations
+  - users
+  - roles
+
+user_level_components:
+  - inventories
+  - credentials
+  - projects
+  - job_templates

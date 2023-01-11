@@ -1,0 +1,4 @@
+---
+
+controller_organizations:
+  - name: "Student{{ student_number }} Organization"

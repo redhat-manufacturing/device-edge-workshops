@@ -1,0 +1,16 @@
+---
+
+- name: set natural var names
+  ansible.builtin.set_fact:
+    controller_component: "{{ item.1 }}"
+    student_number: "{{ item.0 }}"
+
+- name: load in {{ controller_component }} vars
+  ansible.builtin.include_vars:
+    file: "vars/{{ workshop_type }}/{{ controller_component }}.yml"
+
+- name: manage {{ controller_component }}
+  ansible.builtin.include_role:
+    name: "redhat_cop.controller_configuration.{{ controller_component }}"
+    apply:
+      delegate_to: localhost
