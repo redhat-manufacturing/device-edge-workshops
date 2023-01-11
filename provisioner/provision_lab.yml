@@ -48,7 +48,7 @@
     - include_role:
         name: ../roles/connectivity_test
 
-- name: run common tasks
+- name: run common role
   hosts:
     - edge_management
     - edge_hypervisor
@@ -92,13 +92,30 @@
       ansible.builtin.include_role:
         name: ../roles/control_node
 
-- name: setup gitea
+- name: setup gitea, populate controller
   hosts:
     - edge_management
-  tasks:  
+  pre_tasks:
+    - name: set source_control_host dns name
+      ansible.builtin.set_fact:
+        source_control_hostname: "gitea.{{ ec2_name_prefix|lower }}.{{ workshop_dns_zone }}"
+      when:
+        - dns_type is defined
+        - dns_type == "aws"
+        - "'aws' in group_names"
+    - name: fallback to ip address
+      ansible.builtin.set_fact:
+        source_control_hostname: "{{ ansible_host }}"
+      when:
+        - source_control_hostname is not defined
+  tasks:
     - name: include gitea setup role
       ansible.builtin.include_role:
         name: ../roles/setup_gitea
+    - name: populate controller
+      ansible.builtin.include_role:
+        name: ../roles/populate_single_controller
+
 
 # - name: generate first image on edge management node
 #   hosts:
@@ -118,11 +135,11 @@
 #         name: infra.osbuild.builder
 
 
-# - name: Configure nginx on attendance host
-#   hosts: attendance
-#   become: true
-#   gather_facts: true
-#   tasks:
-#     - include_role:
-#         name: ../roles/workshop_attendance
-#       when: attendance|bool
+- name: Configure nginx on attendance host
+  hosts: attendance
+  become: true
+  gather_facts: true
+  tasks:
+    - include_role:
+        name: ../roles/workshop_attendance
+      when: attendance|bool
