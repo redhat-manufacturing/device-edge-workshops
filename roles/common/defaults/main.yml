@@ -2,3 +2,4 @@
 
 common_packages:
   - vim-enhanced
+  - wget
