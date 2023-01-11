@@ -10,12 +10,6 @@
     - httpd_can_network_connect
     - httpd_can_network_relay
 
-- name: enable at startup
-  service:
-    name: nginx
-    state: started
-    enabled: true
-
 - name: setup site config dirs
   file:
     dest: /etc/nginx/{{ item }}
@@ -38,3 +32,9 @@
     src: site.conf.j2
     dest: /etc/nginx/sites-enabled.d/site.conf
   notify: restart nginx
+
+- name: enable at startup
+  service:
+    name: nginx
+    state: started
+    enabled: true
