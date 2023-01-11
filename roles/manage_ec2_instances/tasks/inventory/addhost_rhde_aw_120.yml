@@ -20,6 +20,13 @@
         ansible_user: "{{ item.tags.username }}"
         ansible_port: "{{ ssh_port }}"
         ansible_ssh_private_key_file: "{{ playbook_dir }}/{{ec2_name_prefix}}/{{ec2_name_prefix}}-private.pem"
+        route53_domains:
+          controller:
+            domain: "controller.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
+          cockpit:
+            domain: "cockpit.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
+          gitea:
+            domain:  "controller.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
         groups: edge_management,aws,control_nodes
       with_items:
         - "{{ edge_management_node_facts.instances }}"
@@ -45,6 +52,11 @@
         ansible_user: "{{ item.tags.username }}"
         ansible_port: "{{ ssh_port }}"
         ansible_ssh_private_key_file: "{{ playbook_dir }}/{{ec2_name_prefix}}/{{ec2_name_prefix}}-private.pem"
+        route53_domains:
+          cockpit:
+            domain: "hypervisor.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
+            owner: cockpit-ws
+            group: cockpit-ws
         groups: edge_hypervisor,aws
       with_items:
         - "{{ edge_hypervisor_node_facts.instances }}"
