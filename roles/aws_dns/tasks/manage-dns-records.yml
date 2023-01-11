@@ -1,5 +1,6 @@
 ---
-- name: Configure DNS for the Automation controller node
+
+- name: Configure DNS record for {{ route53_dns_record }}
   become: false
   community.aws.route53:
     state: "{{ s3_state }}"
