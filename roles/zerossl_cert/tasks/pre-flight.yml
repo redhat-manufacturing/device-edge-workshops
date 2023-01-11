@@ -1,0 +1,8 @@
+---
+
+- name: create directory for certs
+  ansible.builtin.file:
+    path: "{{ _cert_dir }}"
+    state: directory
+    owner: "{{ _cert_owner }}"
+    group: "{{ _cert_group }}"

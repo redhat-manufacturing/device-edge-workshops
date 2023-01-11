@@ -1,0 +1,7 @@
+---
+
+domain_name_short: "{{ domain_name.split('.')[0] }}"
+
+_cert_dir: "/etc/ssl/{{ domain_name }}"
+_cert_owner: root
+_cert_group: root

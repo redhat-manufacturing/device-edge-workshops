@@ -1,0 +1,8 @@
+---
+
+- name: ensure permissions are correct
+  ansible.builtin.file:
+    path: "{{ _cert_dir }}"
+    recurse: true
+    owner: "{{ _cert_owner }}"
+    group: "{{ _cert_group }}"

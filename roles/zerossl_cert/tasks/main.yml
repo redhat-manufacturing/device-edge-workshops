@@ -1,0 +1,25 @@
+---
+
+- name: import pre-flight tasks
+  ansible.builtin.import_tasks: pre-flight.yml
+
+- name: check if cert already exists
+  ansible.builtin.stat:
+    path: "{{ _cert_dir }}/{{ domain_name.split('.')[0] }}.crt"
+  register: _issued_cert
+
+- name: include issue cert tasks
+  ansible.builtin.include_tasks:
+    file: "{{ task_file }}"
+  loop:
+    - generate-keys.yml
+    - create-challenge.yml
+    - aws-dns-record.yml
+    - issue-cert.yml
+  loop_control:
+    loop_var: task_file
+  when:
+    - not _issued_cert.stat.exists
+
+- name: import post-flight tasks
+  ansible.builtin.import_tasks: post-flight.yml

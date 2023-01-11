@@ -1,0 +1,18 @@
+---
+
+- name: template out challenge recourd
+  ansible.builtin.set_fact:
+    _acme_challenge_dns_record: "{{ domain_name }}"
+
+- name: create dns entry with challenge data
+  become: false
+  community.aws.route53:
+    state: "{{ s3_state }}"
+    zone: "{{ workshop_dns_zone }}"
+    record: "_acme-challenge.{{ domain_name }}"
+    type: TXT
+    overwrite: true
+    value: "{{ dns_challenge.challenge_data[_acme_challenge_dns_record]['dns-01'].resource_value | regex_replace('^(.*)$', '\"\\1\"') }}"
+    wait: true
+  delegate_to: localhost
+  register: route53_status

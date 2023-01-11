@@ -1,0 +1,19 @@
+---
+
+- name: generate account key
+  community.crypto.openssl_privatekey:
+    path: "{{ _cert_dir }}/{{ domain_name_short }}.account.key"
+    owner: "{{ _cert_owner }}"
+    group: "{{ _cert_group }}"
+
+- name: generate private key
+  community.crypto.openssl_privatekey:
+    path: "{{ _cert_dir }}/{{ domain_name_short }}.pem"
+    owner: "{{ _cert_owner }}"
+    group: "{{ _cert_group }}"
+
+- name: generate csr
+  community.crypto.openssl_csr:
+    path: "{{ _cert_dir }}/{{ domain_name_short }}.csr"
+    privatekey_path: "{{ _cert_dir }}/{{ domain_name_short }}.pem"
+    common_name: "{{ domain_name }}"
