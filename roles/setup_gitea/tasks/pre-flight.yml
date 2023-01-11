@@ -21,3 +21,14 @@
   args:
     creates: "/var/lib/systemd/linger/{{ ansible_user }}"
   become: true
+
+- name: set git config options for push
+  block:
+    - name: set git user.name
+      ansible.builtin.shell:
+        cmd: git config --global user.name "Workshop Provisioner"
+      changed_when: false
+    - name: set git user.email
+      ansible.builtin.shell:
+        cmd: git config --global user.email "dont@email.me"
+      changed_when: false
