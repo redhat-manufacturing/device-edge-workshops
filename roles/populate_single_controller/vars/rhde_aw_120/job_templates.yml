@@ -1,6 +1,6 @@
 ---
 
-controller_job_templates:
+controller_templates:
   - name: Test Device Connectivity
     organization: "Student{{ student_number }} Organization"
     inventory: Edge Systems
