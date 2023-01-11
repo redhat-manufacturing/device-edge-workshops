@@ -11,6 +11,9 @@
         - "{{role_path}}/tasks/{{ dns_type }}.yml"
         - "{{role_path}}/tasks/none.yml"
 
+    - name: configure firewall
+      include_tasks: 05_firewall.yml
+
     - name: install package dependencies for attendance instance
       include_tasks: 10_package_dependencies.yml
 
@@ -28,23 +31,6 @@
               - "{{ dns_information }}"
               - "The Lets Encrypt certbot failed for the attendance node, please check https://letsencrypt.status.io/ to make sure the service is running"
 
-        - name: error with SSL cert
-          debug:
-            msg: "Unable to retrieve SSL cert, ERROR, continuing on with self-signed cert..."
-
-    - name: attempt to get SSL certificates | zeroSSL
-      when:
-        - use_zerossl is defined
-        - use_zerossl|bool
-      block:
-        - name: use zerossl_cert role
-          ansible.builtin.include_role:
-            name: "{{ role_path }}/../zerossl_cert"
-          vars:
-            domain_name: "{{ec2_name_prefix|lower}}.{{workshop_dns_zone}}"
-            _cert_owner: nginx
-            _cert_group: nginx
-      rescue:
         - name: error with SSL cert
           debug:
             msg: "Unable to retrieve SSL cert, ERROR, continuing on with self-signed cert..."
