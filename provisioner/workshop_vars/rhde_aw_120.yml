@@ -42,9 +42,15 @@ images_to_compose:
       - nodejs
   - version: 3.0.0
     packages:
+      - vim-enhanced
+      - git
+      - nano
       - podman
       - buildah
       - skopeo
   - version: 4.0.0
     packages:
+      - vim-enhanced
+      - git
+      - nano
       - microshift
