@@ -12,7 +12,11 @@
     state: present
     contact:
       - mailto:ansible-network@redhat.com
+    request_timeout: 120
   register: acme_account
+  retries: 10
+  delay: 30
+  until: not acme_account.failed
 
 - name: create challenge for {{ domain_name }}
   community.crypto.acme_certificate:
@@ -23,4 +27,8 @@
     csr: "{{ _cert_dir }}/{{ domain_name_short }}.csr"
     dest: "{{ _cert_dir }}/{{ domain_name_short }}.crt"
     challenge: dns-01
+    request_timeout: 120
   register: dns_challenge
+  retries: 10
+  delay: 30
+  until: not dns_challenge.failed
