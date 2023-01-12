@@ -3,9 +3,13 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Guide](#guide)
-* [Step 1 - Work with your Inventory](#step-1---work-with-your-inventory)
-* [Step 2 - Listing Modules and Getting Help](#step-2---listing-modules-and-getting-help)
+* [Step 1 - Logging In](#step-1---logging-in)
+* [Step 2 - Your Controller Organization](#step-2---your-controller-organization)
+* [Step 3 - Credentials](#step-3---credentials)
+* [Step 4 - Project](#step-4---project)
+* [Step 5 - Inventories](#step-5---inventories)
+* [Step 6 - Job Templates](#step-6---job-templates)
+* [Step 7 - Execution Environments](#step-7---execution-environments)
 
 ## Objective
 
@@ -16,7 +20,6 @@ This exercise will cover
 * Logging in to Controller
 * Validating pre-configured resources
 
-## Guide
 
 ### Step 1 - Logging In
 
