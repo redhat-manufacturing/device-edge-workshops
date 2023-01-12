@@ -1,5 +1,9 @@
 ---
 
+- name: load in {{ controller_component }} vars
+  ansible.builtin.include_vars:
+    file: "vars/{{ workshop_type }}/{{ controller_component }}.yml"
+
 - name: manage {{ controller_component }}
   ansible.builtin.include_role:
     name: "redhat_cop.controller_configuration.{{ controller_component }}"
