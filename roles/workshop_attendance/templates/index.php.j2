@@ -277,7 +277,7 @@ if (isset($student['id'])) {
 function display_student($student) {
   print "<div class='student_logins'>
     <div class='header'>
-        <p class='studentinfo'>" . ucfirst($student['username']) . "</p></div>
+        <p class='studentinfo'></p></div>
       <div class='content'>
         <p>";
   
@@ -391,7 +391,7 @@ function display_student($student) {
     </tr>
     <tr>
         <td>Username:</td>
-        <td><code>Username here</code></td>
+        <td><code>Username here</code></td> 
     </tr>
     <tr>
         <td>Password:</td>
@@ -566,34 +566,6 @@ function display_student($student) {
     </div>';
   {% if workshop_type == "windows" %}
   {% else %}
-  print '<div id="section_title"><a data-toggle="collapse" href="#collapse1">SSH access-></a></div><div id="collapse1" class="panel-collapse collapse">
-  As a backup option if VS Code Terminal is not sufficient, you can directly SSH to your control node:<br>
-  <div id="control_node">
-  <div id="login_info">
-  <table>
-    <tr>
-      <td>username:</td>
-      <td><code>{{ student_user }}</code></td>
-    </tr>
-    <tr>
-      <td>password:</td>
-      <td><code>' . $student['password'] . '</code></td>
-    </tr>
-    <tr>
-      <td>IP Address:</td>
-      <td><code>' . $student['ip'] . '</code></td>
-    </tr>
-  </table>
-  </div>
-  <div id="example_login">
-  <pre><code>ssh {{ student_user }}@' . $student['ip'] . '</code></pre>
-  {% if dns_type != 'none' %}
-  DNS: student' . $student['id'] . '.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}<br>
-  <pre><code>ssh {{ student_user }}@student' . $student['id'] . '.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}</code></pre>
-  {% endif %}
-  </div>
-  </div>
-  </div>';
   {% endif %}
 
   print "</div></div>";
