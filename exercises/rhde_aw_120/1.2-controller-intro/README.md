@@ -72,11 +72,15 @@ A sample job template has been created that can be used to test connectivity to 
 
 ### Step 7 - Execution Environments
 
-> TODOHERE
+An execution environment has been created that has all the necessary collections and python libraries built in. This EE is globally available so all students can leverage it.
+
+![Execution Environments](../images/ee.png)
+
+> Note: The details of this execution environment can be found in the [code repository](https://github.com/redhat-manufacturing/device-edge-workshops/tree/main/execution-environment) for device edge workshops, and are build using [Ansible Builder](https://www.ansible.com/blog/introduction-to-ansible-builder).
 
 ---
 **Navigation**
 
-[Next Exercise](../1.2-controller-intro)
+[Previous Excercise](../1.1-preflight) | [Next Exercise](../1.3-controller-intro)
 
 [Click here to return to the Workshop Homepage](../README.md)
