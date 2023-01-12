@@ -4,7 +4,7 @@
   ansible.builtin.blockinfile:
     path: "{{ compose_info_file }}"
     block: |
-      {{ image_version }}
+      {{ image.version }}
         {{ checksum_output | to_yaml }}
     insertafter: EOF
     marker: "# Image Version: {{ image.version }}"
