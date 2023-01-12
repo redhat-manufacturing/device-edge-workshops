@@ -46,7 +46,12 @@ Having said that, this workshop is built to take roughly 2 hours.
 * [Exercise 1.5 - Investigating the Example Workload](1.5-application-info)
 * [Exercise 1.6 - Gathering Networking Information](1.6-network-info)
 
-## Section 2 - Initial Image Creation and Device Installation
+## Section 2 - Initial Controller Configuration
+
+
+## Section 3 - Kickstarting a Device
+
+
 
 * [Exercise 2.1 - Introduction to infra.osbuild Collection](2.1-infra.osbuild-intro)
 * [Exercise 2.2 - Building an Initial Image](2.2-build-initial-image)
