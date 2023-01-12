@@ -281,7 +281,7 @@ function display_student($student) {
       <div class='content'>
         <p>
   
-  {% if code_server is defined and code_server and if workshop_type != 'rhde_aw_120' %}
+  {% if code_server is defined and code_server and workshop_type != 'rhde_aw_120' %}
   <div id='section_title'>VS Code access</div>
   To login to Visual Studio Code via your web browser please go here:<br>
   <table>
@@ -301,7 +301,6 @@ function display_student($student) {
   print '<div id="section_title"> General Information</div>
   Link to workshop exercises: Insert link from provisioner here<br>
   <br>
-  <!-- AWS resources -->
   If using AWS resources, use the following netowrk information to kickstart:
   <table>
     <tr>
@@ -475,7 +474,7 @@ function display_student($student) {
     </tr>
     <tr>
       <td>username:</td>
-      <td><code>student' . $student['id'] . '</code></td>
+      <td><code>student' . $student['id'] . '</code></td> 
     </tr> 
     <tr>
       <td>password:</td>
