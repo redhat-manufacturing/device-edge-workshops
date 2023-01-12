@@ -1,0 +1,9 @@
+---
+
+- name: dump compose info to {{ compose_info_file }}
+  ansible.builtin.blockinfile:
+    path: "{{ compose_info_file }}"
+    block: "{{ checksum_output }}"
+    insertafter: EOF
+    marker: "Image Version: {{ image.version }}"
+    create: true
