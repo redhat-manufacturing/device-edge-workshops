@@ -219,7 +219,7 @@ if (isset($_GET['logout']) || (isset($student['email']) && $student['email'] != 
     <div class="container">
         <div class="row">
             <div class="col-sm-8">
-                <h2>Workbench Information</h2>
+                {#<h2>Workbench Information</h2>#}
                 <p><?php print $error ?></p>
                 <a id=studentinfo></a>
             </div>
@@ -277,11 +277,11 @@ if (isset($student['id'])) {
 function display_student($student) {
   print "<div class='student_logins'>
     <div class='header'>
-        <p class='studentinfo'>" . ucfirst($student['username']) . "</p></div>
+        {#<p class='studentinfo'>" . ucfirst($student['username']) . "</p></div>#} 
       <div class='content'>
         <p>
   
-  {% if code_server is defined and code_server %}
+  {# {% if code_server is defined and code_server %}
   <div id='section_title'>VS Code access</div>
   To login to Visual Studio Code via your web browser please go here:<br>
   <table>
@@ -295,7 +295,7 @@ function display_student($student) {
     </tr>
   </table>";
 
-  {% endif %}
+  {% endif %} #}
   {% if workshop_type == 'rhde_aw_120'%} 
   
   print '<div id="section_title"> General Information</div>
