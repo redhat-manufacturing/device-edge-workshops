@@ -5,3 +5,15 @@
     path: /etc/yum.repos.d/redhat-rhui.repo
     state: absent
   notify: clean_dnf
+
+- name: remove the other rhui repo file
+  ansible.builtin.file:
+    path: /etc/yum.repos.d/redhat-rhui-client-config.repo
+    state: absent
+  notify: clean_dnf
+
+- name: remove rhui cron job
+  ansible.builtin.file:
+    path: /etc/cron.daily/update-client-config-packages
+    state: absent
+  notify: clean_dnf
