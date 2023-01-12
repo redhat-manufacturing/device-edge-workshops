@@ -297,7 +297,7 @@ function display_student($student) {
 
   {% endif %}
   {% if workshop_type == 'rhde_aw_120'%} 
-  <!-- For Workshop_type='rhde_aw_120' -->
+  
   print '<div id="section_title"> General Information</div>
   Link to workshop exercises: Insert link from provisioner here<br>
   <br>
@@ -314,7 +314,7 @@ function display_student($student) {
     </tr>
   </table>
   <br>
-  <!-- Local Resources -->
+  
   If using local resources, use the following network information to kickstart:
   <table>
     <tr>
@@ -328,9 +328,9 @@ function display_student($student) {
   </table>
   <br>
   <br>
-  <!-- Beginning of workbench information -->
+  
   <h2>Workbench Information</h2>
-  <!-- Information here for AWS Resources: Gitea Access, Image Builder Access, Ansible Controller Access, Hypervisor Access (SSH as well)-->
+  
   <div id="section_title">AWS resources</div>
   <br>
   Source control Gitea Access:
@@ -413,7 +413,7 @@ function display_student($student) {
     </tr>
   </table>  
   <br>
-  <!-- Information here for AWS Resources: Gitea Access, Image Builder Access, Ansible Controller Access-->
+  
   <div id="section_title">Local resources</div>
   <br>
   Source control Gitea Access:  
@@ -476,7 +476,7 @@ function display_student($student) {
     <tr>
       <td>username:</td>
       <td><code>student' . $student['id'] . '</code></td>
-    </tr>
+    </tr> 
     <tr>
       <td>password:</td>
       <td><code>' . $student['password'] . '</code></td>
