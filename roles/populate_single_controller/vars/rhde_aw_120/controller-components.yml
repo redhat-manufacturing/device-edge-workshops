@@ -1,5 +1,8 @@
 ---
 
+one_time_config_components:
+  - execution_environments
+
 admin_level_components:
   - organizations
   - users

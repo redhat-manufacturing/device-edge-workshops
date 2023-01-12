@@ -4,6 +4,13 @@
   ansible.builtin.include_vars:
     file: "vars/{{ workshop_type }}/controller-components.yml"
 
+- name: include tasks to configure controller | one-time config
+  ansible.builtin.include_tasks:
+    file: one-time-config.yml
+  loop: "{{ one_time_config_components }}"
+  loop_control:
+    loop_var: controller_component
+
 - name: include tasks to configure controller | admin level
   ansible.builtin.include_tasks:
     file: manage-components.yml

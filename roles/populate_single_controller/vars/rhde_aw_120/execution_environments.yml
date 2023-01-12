@@ -1,0 +1,6 @@
+---
+
+controller_execution_environments:
+  - name: Device Edge Workshops Execution Environment
+    iamge: quay.io/device-edge-workshops/provisioner-execution-environment
+    pull: missing
