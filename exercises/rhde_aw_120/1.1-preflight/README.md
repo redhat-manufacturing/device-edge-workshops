@@ -26,7 +26,6 @@ In this lab you work in a pre-configured lab environment. You will have access t
 | --- | --- |
 | Ansible Controller | Automation controller for running Ansible automation |
 | Gitea Source Control | SCM with a webUI for code storage |
-| CDN Mirrors | Local copies of the appropriate CDN repos |
 | rpm-osree Repo | Repo with various versions of an edge image available over an http server |
 
 Since this is a shortened lab, the Image Builder related steps have already been completed, and images are hosted and ready for consumption.
