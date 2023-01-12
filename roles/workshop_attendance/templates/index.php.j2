@@ -277,30 +277,17 @@ if (isset($student['id'])) {
 function display_student($student) {
   print "<div class='student_logins'>
     <div class='header'>
-        <p class='studentinfo'></p></div> 
+        <p class='studentinfo'></p></div>
       <div class='content'>
-        <p>
+        <p>"
   
-  {% if code_server is defined and code_server and workshop_type != 'rhde_aw_120' %}
-  <div id='section_title'>VS Code access</div>
-  To login to Visual Studio Code via your web browser please go here:<br>
-  <table>
-    <tr>
-      <td>WebUI link:</td>
-      <td>{% if workshop_type == 'windows' %}<a target=_blank href='" . $student['vscode'] . "'>" . $student['vscode_display'] . "</a>{% else %}<a target=_blank href='" . $student['vscode_display'] . "'>" . $student['vscode_display'] . "</a>{% endif %}</td>
-    </tr>
-    <tr>
-      <td>password:</td>
-      <td><code>" . $student['password'] . "</code></td>
-    </tr>
-  </table>";
-
-  {% endif %}
+  
   {% if workshop_type == 'rhde_aw_120'%} 
   
   print '<div id="section_title"> General Information</div>
   Link to workshop exercises: Insert link from provisioner here<br>
   <br>
+  
   If using AWS resources, use the following netowrk information to kickstart:
   <table>
     <tr>
@@ -474,8 +461,8 @@ function display_student($student) {
     </tr>
     <tr>
       <td>username:</td>
-      <td><code>student' . $student['id'] . '</code></td> 
-    </tr> 
+      <td><code>student' . $student['id'] . '</code></td>
+    </tr>
     <tr>
       <td>password:</td>
       <td><code>' . $student['password'] . '</code></td>
