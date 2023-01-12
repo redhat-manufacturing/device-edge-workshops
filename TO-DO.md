@@ -2,13 +2,14 @@
 
 1. ~~Test hypervisor node code~~
 2. ~~Add Route53/DNS for management services~~
-3. Add packages to initial image creation for running app "bare-metal"
-4. Setup 2nd image | podman-based
-5. Setup 3rd image | microshift-based
+3. ~~Add packages to initial image creation for running app "bare-metal"~~
+4. ~~Setup 2nd image | podman-based~~
+5. ~~Setup 3rd image | microshift-based~~
 6. Figure out how to move HEAD in rpm-ostree repo
 7. Update documentation _significantly_
 8. ~~Build hypervisor - mostly just cockpit setup~~
-9. Populate Controller
+9. ~~Populate Controller~~
+10. Pull EEs immediately during install
 
 ## Nice-to-Haves
 
