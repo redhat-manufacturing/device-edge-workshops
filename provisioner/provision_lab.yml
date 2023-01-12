@@ -58,164 +58,164 @@
     - include_role:
         name: ../roles/common
 
-- name: setup cockpit
-  hosts:
-    - edge_hypervisor
-    - edge_management
-  become: true
-  tasks:
-    - name: setup dns and cockpit with certs
-      when:
-        - route53_domains.cockpit is defined
-      block:
-        - name: setup dns in route53
-          ansible.builtin.include_role:
-            name: ../roles/aws_dns
-          vars:
-            route53_dns_record: "{{ route53_domains.cockpit.domain }}"
-        - name: issue certificates
-          ansible.builtin.include_role:
-            name: ../roles/zerossl_cert
-          vars:
-            domain_name: "{{ route53_domains.cockpit.domain }}"
-        - name: setup with custom certs
-          ansible.builtin.include_role:
-            name: fedora.linux_system_roles.cockpit
-          vars:
-            cockpit_cert: "/etc/ssl/{{ route53_domains.cockpit.domain }}/{{ route53_domains.cockpit.domain.split('.')[0] }}-fullchain.crt"
-            cockpit_private_key: "/etc/ssl/{{ route53_domains.cockpit.domain }}/{{ route53_domains.cockpit.domain.split('.')[0] }}.pem"
+# - name: setup cockpit
+#   hosts:
+#     - edge_hypervisor
+#     - edge_management
+#   become: true
+#   tasks:
+#     - name: setup dns and cockpit with certs
+#       when:
+#         - route53_domains.cockpit is defined
+#       block:
+#         - name: setup dns in route53
+#           ansible.builtin.include_role:
+#             name: ../roles/aws_dns
+#           vars:
+#             route53_dns_record: "{{ route53_domains.cockpit.domain }}"
+#         - name: issue certificates
+#           ansible.builtin.include_role:
+#             name: ../roles/zerossl_cert
+#           vars:
+#             domain_name: "{{ route53_domains.cockpit.domain }}"
+#         - name: setup with custom certs
+#           ansible.builtin.include_role:
+#             name: fedora.linux_system_roles.cockpit
+#           vars:
+#             cockpit_cert: "/etc/ssl/{{ route53_domains.cockpit.domain }}/{{ route53_domains.cockpit.domain.split('.')[0] }}-fullchain.crt"
+#             cockpit_private_key: "/etc/ssl/{{ route53_domains.cockpit.domain }}/{{ route53_domains.cockpit.domain.split('.')[0] }}.pem"
 
-    - name: setup cockpit with self-signed certs
-      ansible.builtin.include_role:
-        name: fedora.linux_system_roles.cockpit
+#     - name: setup cockpit with self-signed certs
+#       ansible.builtin.include_role:
+#         name: fedora.linux_system_roles.cockpit
 
-- name: configure hypervisor
-  hosts:
-    - edge_hypervisor
-  become: true
-  tasks:
-    - name: include student user config role
-      ansible.builtin.include_role:
-        name: ../roles/student_users
-    - name: include hypervisor config role
-      ansible.builtin.include_role:
-        name: ../roles/edge_hypervisor
+# - name: configure hypervisor
+#   hosts:
+#     - edge_hypervisor
+#   become: true
+#   tasks:
+#     - name: include student user config role
+#       ansible.builtin.include_role:
+#         name: ../roles/student_users
+#     - name: include hypervisor config role
+#       ansible.builtin.include_role:
+#         name: ../roles/edge_hypervisor
 
-- name: setup rhsm,edge_management,controller
-  hosts:
-    - edge_management
-  become: true
-  pre_tasks:
-    - name: reset 'username' var
-      ansible.builtin.set_fact:
-        username: "{{ ansible_user }}"
-    - name: setup dns/certs for controller
-      when:
-        - route53_domains.controller is defined
-      block:
-        - name: setup dns in route53
-          ansible.builtin.include_role:
-            name: ../roles/aws_dns
-          vars:
-            route53_dns_record: "{{ route53_domains.controller.domain }}"
-        - name: issue certificates
-          ansible.builtin.include_role:
-            name: ../roles/zerossl_cert
-          vars:
-            domain_name: "{{ route53_domains.controller.domain }}"
-  tasks:
-    - name: register to rhsm
-      ansible.builtin.include_role:
-        name: ../roles/rhsm
-    - name: do initial node setup
-      ansible.builtin.include_role:
-        name: ../roles/edge_management_node
-    - name: setup ansible controller
-      ansible.builtin.include_role:
-        name: ../roles/control_node
+# - name: setup rhsm,edge_management,controller
+#   hosts:
+#     - edge_management
+#   become: true
+#   pre_tasks:
+#     - name: reset 'username' var
+#       ansible.builtin.set_fact:
+#         username: "{{ ansible_user }}"
+#     - name: setup dns/certs for controller
+#       when:
+#         - route53_domains.controller is defined
+#       block:
+#         - name: setup dns in route53
+#           ansible.builtin.include_role:
+#             name: ../roles/aws_dns
+#           vars:
+#             route53_dns_record: "{{ route53_domains.controller.domain }}"
+#         - name: issue certificates
+#           ansible.builtin.include_role:
+#             name: ../roles/zerossl_cert
+#           vars:
+#             domain_name: "{{ route53_domains.controller.domain }}"
+#   tasks:
+#     - name: register to rhsm
+#       ansible.builtin.include_role:
+#         name: ../roles/rhsm
+#     - name: do initial node setup
+#       ansible.builtin.include_role:
+#         name: ../roles/edge_management_node
+#     - name: setup ansible controller
+#       ansible.builtin.include_role:
+#         name: ../roles/control_node
 
 - name: setup gitea, populate controller
   hosts:
     - edge_management
-  pre_tasks:
-    - name: set source_control_host dns name and setup record
-      when:
-        - route53_domains.gitea is defined
-      block:
-        - name: set var for gitea role
-          ansible.builtin.set_fact:
-            source_control_hostname: "{{ route53_domains.gitea.domain }}"
-        - name: setup dns in route53
-          ansible.builtin.include_role:
-            name: ../roles/aws_dns
-          vars:
-            route53_dns_record: "{{ route53_domains.controller.domain }}"
+#   pre_tasks:
+#     - name: set source_control_host dns name and setup record
+#       when:
+#         - route53_domains.gitea is defined
+#       block:
+#         - name: set var for gitea role
+#           ansible.builtin.set_fact:
+#             source_control_hostname: "{{ route53_domains.gitea.domain }}"
+#         - name: setup dns in route53
+#           ansible.builtin.include_role:
+#             name: ../roles/aws_dns
+#           vars:
+#             route53_dns_record: "{{ route53_domains.controller.domain }}"
     
-    - name: fallback to ip address
-      ansible.builtin.set_fact:
-        source_control_hostname: "{{ ansible_host }}"
-      when:
-        - source_control_hostname is not defined
+#     - name: fallback to ip address
+#       ansible.builtin.set_fact:
+#         source_control_hostname: "{{ ansible_host }}"
+#       when:
+#         - source_control_hostname is not defined
   
   tasks:
-    - name: include gitea setup role
-      ansible.builtin.include_role:
-        name: ../roles/setup_gitea
+#     - name: include gitea setup role
+#       ansible.builtin.include_role:
+#         name: ../roles/setup_gitea
     - name: populate controller
       ansible.builtin.include_role:
         name: ../roles/populate_single_controller
 
 
-- name: setup image builder, compose images
-  hosts:
-    - edge_management
-  vars_files:
-    - "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
-  become: true
-  pre_tasks:
-    - name: workaround for https://access.redhat.com/solutions/6973651
-      ansible.builtin.dnf:
-        name: python36
-      when:
-        - ansible_distribution_major_version | int == 8
-    - name: workaround for not actually supporting dnf modules
-      ansible.builtin.shell:
-        cmd: dnf module enable nodejs:16 -y
-    - name: use role to setup Image Builder
-      ansible.builtin.include_role:
-        name: infra.osbuild.setup_server
-  tasks:
-    - name: build images via builder role
-      ansible.builtin.include_role:
-        name: ../roles/infra_osbuild_builder_wrapper
-      vars:
-        builder_compose_pkgs: "{{ image.packages }}"
-      loop: "{{ images_to_compose }}"
-      loop_control:
-        loop_var: image
+# - name: setup image builder, compose images
+#   hosts:
+#     - edge_management
+#   vars_files:
+#     - "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
+#   become: true
+#   pre_tasks:
+#     - name: workaround for https://access.redhat.com/solutions/6973651
+#       ansible.builtin.dnf:
+#         name: python36
+#       when:
+#         - ansible_distribution_major_version | int == 8
+#     - name: workaround for not actually supporting dnf modules
+#       ansible.builtin.shell:
+#         cmd: dnf module enable nodejs:16 -y
+#     - name: use role to setup Image Builder
+#       ansible.builtin.include_role:
+#         name: infra.osbuild.setup_server
+#   tasks:
+#     - name: build images via builder role
+#       ansible.builtin.include_role:
+#         name: ../roles/infra_osbuild_builder_wrapper
+#       vars:
+#         builder_compose_pkgs: "{{ image.packages }}"
+#       loop: "{{ images_to_compose }}"
+#       loop_control:
+#         loop_var: image
 
 
-- name: Configure nginx on attendance host
-  hosts: attendance
-  become: true
-  pre_tasks:
-    - name: setup dns/get certs
-      when:
-        - dns_type is defined
-        - dns_type == 'aws'
-      block:
-        - name: dynamically set domain name
-          ansible.builtin.set_fact:
-            domain_name: "{{ ec2_name_prefix|lower }}.{{ workshop_dns_zone }}"
-        - name: setup dns in route53
-          ansible.builtin.include_role:
-            name: ../roles/aws_dns
-          vars:
-            route53_dns_record: "{{ domain_name }}"
-        - name: get certificate
-          ansible.builtin.include_role:
-            name: ../roles/zerossl_cert
-  tasks:
-    - include_role:
-        name: ../roles/workshop_attendance
-      when: attendance|bool
+# - name: Configure nginx on attendance host
+#   hosts: attendance
+#   become: true
+#   pre_tasks:
+#     - name: setup dns/get certs
+#       when:
+#         - dns_type is defined
+#         - dns_type == 'aws'
+#       block:
+#         - name: dynamically set domain name
+#           ansible.builtin.set_fact:
+#             domain_name: "{{ ec2_name_prefix|lower }}.{{ workshop_dns_zone }}"
+#         - name: setup dns in route53
+#           ansible.builtin.include_role:
+#             name: ../roles/aws_dns
+#           vars:
+#             route53_dns_record: "{{ domain_name }}"
+#         - name: get certificate
+#           ansible.builtin.include_role:
+#             name: ../roles/zerossl_cert
+#   tasks:
+#     - include_role:
+#         name: ../roles/workshop_attendance
+#       when: attendance|bool
