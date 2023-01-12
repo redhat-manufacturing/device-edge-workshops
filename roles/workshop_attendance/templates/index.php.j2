@@ -277,9 +277,9 @@ if (isset($student['id'])) {
 function display_student($student) {
   print "<div class='student_logins'>
     <div class='header'>
-        <p class='studentinfo'></p></div>
+        <p class='studentinfo'>" . ucfirst($student['username']) . "</p></div>
       <div class='content'>
-        <p>"
+        <p>";
   
   
   {% if workshop_type == 'rhde_aw_120'%} 
