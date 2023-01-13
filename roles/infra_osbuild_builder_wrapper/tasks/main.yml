@@ -1,5 +1,8 @@
 ---
 
+- name: import pre-flight tasks
+  ansible.builtin.import_tasks: pre-flight.yml
+
 - name: run infra.osbuild.builder role
   ansible.builtin.include_role:
     name: infra.osbuild.builder
