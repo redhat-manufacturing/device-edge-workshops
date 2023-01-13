@@ -15,6 +15,19 @@ The Red Hat Ansible Automation Workshops project is intended for effectively dem
 ### 2 hour workshops:
 | Workshop | Public Deck | Red Hat Internal | Exercises | Workshop Type Var |
 |---|---|---|---|---|
-| **[Red Hat Device Edge Any Workload](./exercises/rhde_aw_120)** <br> focused on deploying different workloads to Device Edge  | [PDF](./decks/rhde_aw_120.pdf) | [Google Source](https://docs.google.com/presentation/d/1RZTqdKSXVhbguuidvNMx3fkR77lD4cM41N7S95Xb7HA) | [Exercises](./exercises/rhde_aw_120)  | `workshop_type: rhde_aw_120`  |
+| **[Red Hat Device Edge Any Workload](./exercises/rhde_aw_120)** <br> focused on deploying different workloads to Device Edge  | [PDF](./decks/rhde_aw_120.pdf) | [Google Source](https://docs.google.com/presentation/d/1RZTqdKSXVhbguuidvNMx3fkR77lD4cM41N7S95Xb7HA) | [Exercises](./exercises/rhde_aw_120)  | `workshop_type: rhde_aw_120`
 
 ### All day workshops:
+
+---
+### Special Thanks
+
+The Red Hat Edge team would like to offer special thanks to the following people for their contributions to this workshop or the components that make it work:
+- James Harmison | Red Hat
+- Adam Miller | Red Hat
+- Chris Santiago | Red Hat
+- Matthew Sandoval | Red Hat
+- Tim Biernat | Rockwell Automation
+- Aaron Neustedter | Rockwell Automation
+- Luca Ferrari | Red Hat
+- Jeremiah Swanson | Red Hat
