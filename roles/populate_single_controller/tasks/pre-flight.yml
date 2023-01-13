@@ -12,7 +12,7 @@
       ansible.builtin.set_fact:
         edge_manager_credential_inputs:
           username: "{{ ansible_user }}"
-          ssh_key_data: "{{ lookup('file', ssh_key_data_path }}"
+          ssh_key_data: "{{ lookup('file', ssh_key_data_path) }}"
         edge_manager_host: "{{ route53_domains.controller.domain }}"
 
 - name: local specific vars
