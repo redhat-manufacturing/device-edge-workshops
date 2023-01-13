@@ -13,3 +13,4 @@ user_level_components:
   - credentials
   - projects
   - job_templates
+  - hosts
