@@ -4,6 +4,9 @@
   ansible.builtin.include_vars:
     file: "vars/{{ workshop_type }}/controller-components.yml"
 
+- name: import pre-flight tasks
+  ansible.builtin.import_tasks: pre-flight.yml
+
 - name: include tasks to configure controller | one-time config
   ansible.builtin.include_tasks:
     file: one-time-config.yml

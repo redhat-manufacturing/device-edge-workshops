@@ -1,0 +1,28 @@
+---
+
+- name: aws specific vars
+  when:
+    - "'aws' in group_names"
+  block:
+    - name: set path to ec2 instance ssh key
+      ansible.builtin.set_fact:
+        ssh_key_data_path: "{{ playbook_dir }}/{{ ec2_name_prefix }}/{{ ec2_name_prefix }}-private.pem"
+
+    - name: set vars for aws controller
+      ansible.builtin.set_fact:
+        edge_manager_credential_inputs:
+          username: "{{ ansible_user }}"
+          ssh_key_data: "{{ lookup('file', ssh_key_data_path }}"
+        edge_manager_host: "{{ route53_domains.controller.domain }}"
+
+- name: local specific vars
+  when:
+    - "'local' in group_names"
+  block:
+    - name: set vars for local controller
+      ansible.builtin.set_fact:
+        edge_manager_credential_inputs:
+          username: "{{ ansible_user }}"
+          password: "{{ ansible_password }}"
+          become_password: "{{ ansible_become_password }}"
+        edge_manager_host: "{{ ansible_host }}"
