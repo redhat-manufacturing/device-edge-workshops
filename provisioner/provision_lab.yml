@@ -99,7 +99,7 @@
         name: ../roles/student_users
     - name: include hypervisor config role
       ansible.builtin.include_role:
-        name: ../roles/edge_hyp  # tasks:ervisor
+        name: ../roles/edge_hypervisor
 
 - name: setup rhsm,edge_management,controller
   hosts:
