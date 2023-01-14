@@ -4,12 +4,8 @@
 
 * [Objective](#objective)
 * [Step 1 - Introduction](#step-1---introduction)
-* [Step 2 - Your Controller Organization](#step-2---your-controller-organization)
-* [Step 3 - Credentials](#step-3---credentials)
-* [Step 4 - Project](#step-4---project)
-* [Step 5 - Inventories](#step-5---inventories)
-* [Step 6 - Job Templates](#step-6---job-templates)
-* [Step 7 - Execution Environments](#step-7---execution-environments)
+* [Step 2 - Physical Edge Devices Introduction](#step-2---physical-edge-devices-introduction)
+* [Step 3 - Edge Hypervisor Introduction](#step-3-edge-hypervisor-introduction)
 
 ## Objective
 
