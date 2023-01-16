@@ -1,0 +1,32 @@
+---
+
+- name: setup cockpit
+  hosts:
+    - edge_hypervisor
+    - edge_management
+  become: true
+  tasks:
+    - name: setup dns and cockpit with certs
+      when:
+        - route53_domains.cockpit is defined
+      block:
+        - name: setup dns in route53
+          ansible.builtin.include_role:
+            name: ../roles/aws_dns
+          vars:
+            route53_dns_record: "{{ route53_domains.cockpit.domain }}"
+        - name: issue certificates
+          ansible.builtin.include_role:
+            name: ../roles/zerossl_cert
+          vars:
+            domain_name: "{{ route53_domains.cockpit.domain }}"
+        - name: setup with custom certs
+          ansible.builtin.include_role:
+            name: fedora.linux_system_roles.cockpit
+          vars:
+            cockpit_cert: "/etc/ssl/{{ route53_domains.cockpit.domain }}/{{ route53_domains.cockpit.domain.split('.')[0] }}-fullchain.crt"
+            cockpit_private_key: "/etc/ssl/{{ route53_domains.cockpit.domain }}/{{ route53_domains.cockpit.domain.split('.')[0] }}.pem"
+
+    - name: setup cockpit with self-signed certs
+      ansible.builtin.include_role:
+        name: fedora.linux_system_roles.cockpit

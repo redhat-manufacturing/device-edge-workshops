@@ -25,81 +25,20 @@
           fail:
             msg: The provisioner has failed during initial check_setup, please scroll up to see exact error.
 
-- name: Create lab instances in AWS
-  hosts: localhost
-  connection: local
-  become: false
-  gather_facts: false
-  tasks:
-    - include_role:
-        name: ../roles/manage_ec2_instances
-      when:
-        - run_in_aws is defined
-        - run_in_aws | bool
+- name: import aws setup playbook
+  ansible.builtin.import_playbook: aws-setup.yml
 
-- name: wait for all nodes to have SSH reachability
-  hosts:
-    - edge_management
-    - edge_hypervisor
-    - attendance
-  become: true
-  gather_facts: false
-  tasks:
-    - include_role:
-        name: ../roles/connectivity_test
+- name: import connectivity playbook
+  ansible.builtin.import_playbook: ensure-connectivity.yml
 
-- name: run common role
-  hosts:
-    - edge_management
-    - edge_hypervisor
-    - attendance
-  become: true
-  tasks:
-    - include_role:
-        name: ../roles/common
+- name: import common roles playbook
+  ansible.builtin.import_playbook: common.yml
 
-- name: setup cockpit
-  hosts:
-    - edge_hypervisor
-    - edge_management
-  become: true
-  tasks:
-    - name: setup dns and cockpit with certs
-      when:
-        - route53_domains.cockpit is defined
-      block:
-        - name: setup dns in route53
-          ansible.builtin.include_role:
-            name: ../roles/aws_dns
-          vars:
-            route53_dns_record: "{{ route53_domains.cockpit.domain }}"
-        - name: issue certificates
-          ansible.builtin.include_role:
-            name: ../roles/zerossl_cert
-          vars:
-            domain_name: "{{ route53_domains.cockpit.domain }}"
-        - name: setup with custom certs
-          ansible.builtin.include_role:
-            name: fedora.linux_system_roles.cockpit
-          vars:
-            cockpit_cert: "/etc/ssl/{{ route53_domains.cockpit.domain }}/{{ route53_domains.cockpit.domain.split('.')[0] }}-fullchain.crt"
-            cockpit_private_key: "/etc/ssl/{{ route53_domains.cockpit.domain }}/{{ route53_domains.cockpit.domain.split('.')[0] }}.pem"
+- name: import cockpit playbook
+  ansible.builtin.import_playbook: cockpit.yml
 
-    - name: setup cockpit with self-signed certs
-      ansible.builtin.include_role:
-        name: fedora.linux_system_roles.cockpit
-
-- name: configure hypervisor
-  hosts:
-    - edge_hypervisor
-  become: true
-  tasks:
-    - name: include student user config role
-      ansible.builtin.include_role:
-        name: ../roles/student_users
-    - name: include hypervisor config role
-      ansible.builtin.include_role:
-        name: ../roles/edge_hypervisor
+- name: import hypervisor playbook
+  ansible.builtin.import_playbook: hypervisor.yml
 
 - name: setup rhsm,edge_management,controller
   hosts:
@@ -165,35 +104,8 @@
       ansible.builtin.include_role:
         name: ../roles/populate_single_controller
 
-
-- name: setup image builder, compose images
-  hosts:
-    - edge_management
-  vars_files:
-    - "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
-  become: true
-  pre_tasks:
-    - name: workaround for https://access.redhat.com/solutions/6973651
-      ansible.builtin.dnf:
-        name: python36
-      when:
-        - ansible_distribution_major_version | int == 8
-    - name: workaround for not actually supporting dnf modules
-      ansible.builtin.shell:
-        cmd: dnf module enable nodejs:16 -y
-    - name: use role to setup Image Builder
-      ansible.builtin.include_role:
-        name: infra.osbuild.setup_server
-  tasks:
-    - name: build images via builder role
-      ansible.builtin.include_role:
-        name: ../roles/infra_osbuild_builder_wrapper
-      vars:
-        builder_compose_pkgs: "{{ image.packages }}"
-      loop: "{{ images_to_compose }}"
-      loop_control:
-        loop_var: image
-
+- name: compose images
+  ansible.builtin.import_playbook: compose-images.yml
 
 - name: Configure nginx on attendance host
   hosts: attendance

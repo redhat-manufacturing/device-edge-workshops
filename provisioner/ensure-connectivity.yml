@@ -1,0 +1,12 @@
+---
+
+- name: wait for all nodes to have SSH reachability
+  hosts:
+    - edge_management
+    - edge_hypervisor
+    - attendance
+  become: true
+  gather_facts: false
+  tasks:
+    - include_role:
+        name: ../roles/connectivity_test

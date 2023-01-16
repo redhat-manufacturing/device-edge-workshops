@@ -1,0 +1,29 @@
+---
+
+- name: setup image builder, compose images
+  hosts:
+    - edge_management
+  vars_files:
+    - "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
+  become: true
+  pre_tasks:
+    - name: workaround for https://access.redhat.com/solutions/6973651
+      ansible.builtin.dnf:
+        name: python36
+      when:
+        - ansible_distribution_major_version | int == 8
+    - name: workaround for not actually supporting dnf modules
+      ansible.builtin.shell:
+        cmd: dnf module enable nodejs:16 -y
+    - name: use role to setup Image Builder
+      ansible.builtin.include_role:
+        name: infra.osbuild.setup_server
+  tasks:
+    - name: build images via builder role
+      ansible.builtin.include_role:
+        name: ../roles/infra_osbuild_builder_wrapper
+      vars:
+        builder_compose_pkgs: "{{ image.packages }}"
+      loop: "{{ images_to_compose }}"
+      loop_control:
+        loop_var: image
