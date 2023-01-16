@@ -1,0 +1,26 @@
+---
+
+- name: Configure nginx on attendance host
+  hosts: attendance
+  become: true
+  pre_tasks:
+    - name: setup dns/get certs
+      when:
+        - dns_type is defined
+        - dns_type == 'aws'
+      block:
+        - name: dynamically set domain name
+          ansible.builtin.set_fact:
+            domain_name: "{{ ec2_name_prefix|lower }}.{{ workshop_dns_zone }}"
+        - name: setup dns in route53
+          ansible.builtin.include_role:
+            name: ../roles/aws_dns
+          vars:
+            route53_dns_record: "{{ domain_name }}"
+        - name: get certificate
+          ansible.builtin.include_role:
+            name: ../roles/zerossl_cert
+  tasks:
+    - include_role:
+        name: ../roles/workshop_attendance
+      when: attendance|bool
