@@ -50,7 +50,7 @@ Having said that, this workshop is built to take roughly 2 hours.
 ## Section 2 - Setting Up for Zero Touch Provisioning
 
 * [Exercise 2.1 - Creating a Provision Workflow](2.1-provisioning-workflow)
-1. Create a provisioning workflow in controller
+1. Create a provisioning workflow in controller(2.2-kickstart-template)
 2. Create a kickstart template
 3. Write a playbook to template out kickstart
 4. Run kickstart playbook
