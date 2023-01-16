@@ -1,4 +1,4 @@
-# Workshop Exercise 1.7 - Cloning Your Code Repository
+# Workshop Exercise 2.1 - Creating a Provisioning Workflow
 
 ## Table of Contents
 
