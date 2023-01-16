@@ -296,7 +296,7 @@ function display_student($student) {
     </tr>
     <tr>
         <td>DNS Hostname:</td>
-        <td>{{ route53_domains.controller.domain }}</td>
+        <td>{{ hostvars['edge-manager-aws']['route53_domains']['controller']['domain'] }}</td>
     </tr>
   </table>
   <br>
@@ -321,7 +321,7 @@ function display_student($student) {
   <table>
     <tr>
         <td>WebUI Link</td>
-        <td>{{ route53_domains.gitea.domain }}</td> 
+        <td>{{ hostvars['edge-manager-aws']['route53_domains']['gitea']['domain'] }}</td> 
     </tr>
     <tr>
         <td>Username:</td>
@@ -404,7 +404,7 @@ function display_student($student) {
   <table>
     <tr>
         <td>WebUI Link</td>
-        <td>{{ route53_domains.gitea.domain }}</td>
+        <td>{{ hostvars['edge-manager-local']['ansible_host'] }}</td>
     </tr>
     <tr>
         <td>Username:</td>
