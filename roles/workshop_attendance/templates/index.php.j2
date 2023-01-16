@@ -292,7 +292,7 @@ function display_student($student) {
   <table>
     <tr>
         <td>IP Address:</td>
-        <td>{{ hostvars['edge-manager-aws']['ansible_default_ipv4']['address'] }}</td>
+        <td>{{ hostvars['edge-manager-aws']['ansible_host'] }}</td> 
     </tr>
     <tr>
         <td>DNS Hostname:</td>
