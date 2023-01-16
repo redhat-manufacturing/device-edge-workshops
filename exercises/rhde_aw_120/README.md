@@ -45,9 +45,11 @@ Having said that, this workshop is built to take roughly 2 hours.
 * [Exercise 1.4 - Investigating Your Edge Device](1.4-device-intro)
 * [Exercise 1.5 - Investigating the Example Workload](1.5-application-info)
 * [Exercise 1.6 - Gathering Networking Information](1.6-network-info)
+* [Exercise 1.7 - Cloning Your Code Repository](1.7-coding-intro)
 
 ## Section 2 - Setting Up for Zero Touch Provisioning
 
+* [Exercise 2.1 - Creating a Provision Workflow](2.1-provisioning-workflow)
 1. Create a provisioning workflow in controller
 2. Create a kickstart template
 3. Write a playbook to template out kickstart
