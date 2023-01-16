@@ -292,7 +292,7 @@ function display_student($student) {
   <table>
     <tr>
         <td>IP Address:</td>
-        <td>{{ hostvars['edge-maager-aws']['ansible_default_ip4']['address'] }}</td>
+        <td>{{ hostvars['edge-manager-aws']['ansible_default_ip4']['address'] }}</td>
     </tr>
     <tr>
         <td>DNS Hostname:</td>
@@ -305,11 +305,11 @@ function display_student($student) {
   <table>
     <tr>
         <td>IP Address:</td>
-        <td>{{ hostvars['edge-maager-local']['ansible_host'] }}</td>
+        <td>{{ hostvars['edge-manager-local']['ansible_host'] }}</td>
     </tr>
     {#<tr>
         <td>DNS Hostname:</td>
-        <td>{{ hostvars['edge-maager-local']['ansible_host'] }}</td>
+        <td>{{ hostvars['edge-manager-local']['ansible_host'] }}</td> 
     </tr>#} 
   </table>
   <br>
