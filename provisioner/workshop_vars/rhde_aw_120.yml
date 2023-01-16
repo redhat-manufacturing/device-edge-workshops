@@ -17,7 +17,7 @@ images_to_compose:
       - git
       - nano
   - version: 2.0.0
-    enabled_repos:
+    repos:
       - name: EPEL8
         base_url: "https://dl.fedoraproject.org/pub/epel/{{ hostvars[inventory_hostname].ansible_distribution_major_version }}/Everything/x86_64/"
         type: yum-baseurl
@@ -30,7 +30,7 @@ images_to_compose:
       - mosquitto
       - nodejs
   - version: 3.0.0
-    disabled_repos:
+    repos:
       - name: EPEL8
         base_url: "https://dl.fedoraproject.org/pub/epel/{{ hostvars[inventory_hostname].ansible_distribution_major_version }}/Everything/x86_64/"
         type: yum-baseurl
@@ -45,7 +45,7 @@ images_to_compose:
       - buildah
       - skopeo
   - version: 4.0.0
-    enabled_repos:
+    repos:
       - name: EPEL8
         base_url: "https://dl.fedoraproject.org/pub/epel/{{ hostvars[inventory_hostname].ansible_distribution_major_version }}/Everything/x86_64/"
         type: yum-baseurl
