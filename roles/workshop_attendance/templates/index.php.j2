@@ -292,11 +292,11 @@ function display_student($student) {
   <table>
     <tr>
         <td>IP Address:</td>
-        <td>IP address here</td>
+        <td>{{ hostvars['edge-maager-aws']['ansible_default_ip4']['address'] }}</td>
     </tr>
     <tr>
         <td>DNS Hostname:</td>
-        <td>Insert hostname here</td>
+        <td>{{ route53_domains.controller.domain }}</td>
     </tr>
   </table>
   <br>
@@ -305,12 +305,12 @@ function display_student($student) {
   <table>
     <tr>
         <td>IP Address:</td>
-        <td>{IP address here}</td>
+        <td>{{ hostvars['edge-maager-local']['ansible_host'] }}</td>
     </tr>
-    <tr>
+    {#<tr>
         <td>DNS Hostname:</td>
-        <td>{Insert hostname here}</td>
-    </tr>
+        <td>{{ hostvars['edge-maager-local']['ansible_host'] }}</td>
+    </tr>#} 
   </table>
   <br>
   <br>
@@ -321,15 +321,15 @@ function display_student($student) {
   <table>
     <tr>
         <td>WebUI Link</td>
-        <td>Link here</td>
+        <td>{{ route53_domains.gitea.domain }}</td> 
     </tr>
     <tr>
         <td>Username:</td>
-        <td>Username here</td>
+        <td><code>' . $student['id'] . '</td>
     </tr>
     <tr>
         <td>Password:</td>
-        <td><code>' . $student['password'] . '</code></td> 
+        <td><code>{{ admin_password }}</code></td> 
     </tr>
   </table>
   <br>
@@ -341,11 +341,11 @@ function display_student($student) {
     </tr>
     <tr>
         <td>Username:</td>
-        <td>Username here</td>
+        <td>N/A</td>
     </tr>
     <tr>
         <td>Password:</td>
-        <td>Pass here</td>
+        <td>N/A</td>
     </tr>
   </table>
   <br>
@@ -357,11 +357,11 @@ function display_student($student) {
     </tr>
     <tr>
         <td>Username:</td>
-        <td>Username here</td>
+        <td>' . $student['id'] . '</td>
     </tr>
     <tr>
         <td>Password:</td>
-        <td>Pass here</td>
+        <td>{{ admin_password }}</td>
     </tr>
   </table>
   <br>
@@ -373,11 +373,11 @@ function display_student($student) {
     </tr>
     <tr>
         <td>Username:</td>
-        <td>Username here</td>
+        <td>' . $student['id'] . '</td>
     </tr>
     <tr>
         <td>Password:</td>
-        <td>Pass here</td>
+        <td>{{ admin_password }}</td>
     </tr>
   </table>
   <br>
@@ -389,11 +389,11 @@ function display_student($student) {
     </tr>
     <tr>
         <td>Username:</td>
-        <td><code>Username here</code></td> 
+        <td><code>' . $student['id'] . '</code></td> 
     </tr>
     <tr>
         <td>Password:</td>
-        <td><code>Pass here</code></td>
+        <td><code>{{ admin_password }}</code></td>
     </tr>
   </table>  
   <br>
@@ -404,15 +404,15 @@ function display_student($student) {
   <table>
     <tr>
         <td>WebUI Link</td>
-        <td>Link here</td>
+        <td>{{ route53_domains.gitea.domain }}</td>
     </tr>
     <tr>
         <td>Username:</td>
-        <td>Username here</td>
+        <td>' . $student['id'] . '</td>
     </tr>
     <tr>
         <td>Password:</td>
-        <td>Pass here</td>
+        <td>{{ admin_password }}</td>
     </tr>
   </table>
   <br>
@@ -424,11 +424,11 @@ function display_student($student) {
     </tr>
     <tr>
         <td>Username:</td>
-        <td>Username here</td>
+        <td>' . $student['id'] . '</td>
     </tr>
     <tr>
         <td>Password:</td>
-        <td>Pass here</td>
+        <td>{{ admin_password }}</td>
     </tr>
   </table>
   <br>
@@ -440,11 +440,11 @@ function display_student($student) {
     </tr>
     <tr>
         <td>Username:</td>
-        <td>Username here</td>
+        <td>' . $student['id'] . '</td>
     </tr>
     <tr>
-        <td>Password:</td>
-        <td>Pass here</td>
+        <td>Password:</td> 
+        <td>{{ admin_password }}</td> 
     </tr>
   </table>
   <br>';
