@@ -3,13 +3,8 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Introduction to the Workload](#step-1---introduction-to-the-workload)
-* [Step 2 - The MQTT Broker](#step-2---the-mqtt-broker)
-* [Step 3 - The Simulator](#step-3---the-simulator)
-* [Step 4 - The Controller](#step4---the-controller)
-* [Step 5 - The WebUI](#step-5---the-webui)
-* [Step 6 - The Assembled Application](#step-1---the-assembled-application)
-
+* [Step 1 - Reviewing the Code Repo Location](#step-1---reviewing-the-code-repo-location)
+* [Step 2 - Cloning Your Code Repo](#step-2---cloning-your-code-repo)
 
 ## Objective
 
