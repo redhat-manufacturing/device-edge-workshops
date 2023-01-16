@@ -3,13 +3,9 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Introduction to the Workload](#step-1---introduction-to-the-workload)
-* [Step 2 - The MQTT Broker](#step-2---the-mqtt-broker)
-* [Step 3 - The Simulator](#step-3---the-simulator)
-* [Step 4 - The Controller](#step4---the-controller)
-* [Step 5 - The WebUI](#step-5---the-webui)
-* [Step 6 - The Assembled Application](#step-1---the-assembled-application)
-
+* [Step 1 - Creating a Workflow](#step-1---creating-a-workflow)
+* [Step 2 - Adding Workflow Nodes](#step-2---adding-workflow-nodes)
+* [Solutions](#solutions)
 
 ## Objective
 
@@ -26,10 +22,68 @@ This enables new applications for Ansible automation controller: different Job T
 
 ### Step 1 - Creating a Workflow
 
+Under **Resources**, select the **Templates** page. Once here, click **Add** > **Add workflow template**. Fill in the form with the following information:
+
+<table>
+  <tr>
+    <th>Parameter</th>
+    <th>Value</th>
+  </tr>
+  <tr>
+    <td>Name</td>
+    <td>Provision Edge Device</td>
+  </tr>
+  <tr>
+    <td>Organization</td>
+    <td>(Your_Student_Organization)</td>
+  </tr>
+  <tr>
+    <td>Inventory</td>
+    <td>Edge Systems</td>
+  </tr>
+  <tr>
+    <td>Options</td>
+    <td><ul><li>✓ Limit: Prompt on launch</li><li>✓ Enable Concurrent Jobs</li></ul></td>
+  </tr>
+</table>
+
+Click **Save**
+
+### Step 2 - Adding Workflow Nodes
+
+After saving the workflow, you'll be presented with the workflow visualizer. Click the **Start** button to begin adding nodes.
+
+We're going to add two nodes to our workflow to begin with:
+1. Sync our code repo
+2. Run the **Test Device Connectivity** job template
+
+These nodes should be connected via an **On-Success** connection in the workflow.
+
+Once you've added the two nodes to the workflow, click the **Save** button in the top right corner.
+
+### Solutions
+
+#### Step 1:
+
+![Workflow Inputs](../images/workflow-inputs.png)
+
+#### Step 2:
+
+##### Sync Code Node:
+
+![Sync Code Node](../images/sync-code-node.png)
+
+##### Test Device Connectivity Node:
+
+![Test Connectivity Node](../images/test-connectivity-node.png)
+
+##### Finished Workflow:
+
+![Finished Workflow](../images/initial-workflow-nodes.png)
 
 ---
 **Navigation**
 
-[Previous Exercise](../1.6-network-info) | [Next Exercise](../2.1-provisioning-workflow)
+[Previous Exercise](../1.7-coding-intro) | [Next Exercise](../2.2-kickstart-template)
 
 [Click here to return to the Workshop Homepage](../README.md)
