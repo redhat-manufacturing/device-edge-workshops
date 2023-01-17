@@ -102,6 +102,7 @@ To accomplish this, we'll use the `%post` section of our kickstart, along with s
 
 We'll also be leveraging the `raw` capibilities of jinja so Ansible doesn't attempt to template out vars in the playbook tasks, but we do want the variables in `vars` and `module_defaults` instantiated.
 
+{% raw %}
 ```
 %post
 # create playbook for controller registration
@@ -164,6 +165,7 @@ cat > /var/tmp/aap-auto-registration.yml <<EOF
 {% endraw %}
 EOF
 ```
+{% endraw %}
 ### Step 5 - Using Systemd to Run the Playbook on First Boot
 
 Finally, we'll use systemd to run the playbook once the system boots up the first time. There's a few conditions to running this playbook that we can specify in our systemd-service file:
@@ -204,6 +206,7 @@ systemctl enable aap-auto-registration.service
 ### Solutions
 
 The finished kickstart should look be similar to this:
+{% raw %}
 ```
 %pre
 nmcli dev wifi connect "{{ wifi_network }}" password "{{ wifi_password }}"
@@ -305,8 +308,8 @@ EOF
 # Enable the service
 systemctl enable aap-auto-registration.service
 %end
-
 ```
+{% endraw %}
 
 Once you've assembled your kickstart template, be sure to push it into your git repo.
 
