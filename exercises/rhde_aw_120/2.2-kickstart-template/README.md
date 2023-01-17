@@ -97,7 +97,7 @@ To accomplish this, we'll use the `%post` section of our kickstart, along with s
 4. Kick off that provisioning workflow with a limit of "just itself"
 
 
-We'll also be leveraging the `{% raw %}` capibilities of jinja so Ansible doesn't attempt to template out vars in the playbook tasks, but we do want the variables in `vars` and `module_defaults` instantiated.
+We'll also be leveraging the `raw` capibilities of jinja so Ansible doesn't attempt to template out vars in the playbook tasks, but we do want the variables in `vars` and `module_defaults` instantiated.
 
 ```
 %post
