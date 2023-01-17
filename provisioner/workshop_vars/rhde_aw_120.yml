@@ -11,7 +11,7 @@ builder_compose_customizations:
 
 images_to_compose:
   - version: 1.0.0
-    type: edge-installer
+    type: edge-commit
     packages:
       - vim-enhanced
       - git
