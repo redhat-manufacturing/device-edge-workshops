@@ -122,7 +122,7 @@ cat > /var/tmp/aap-auto-registration.yml <<EOF
       password: "{{ controller_api_password }}"
       force_basic_auth: yes
       validate_certs: no
-{% raw %}
+# Ensure you use the raw option here
   tasks:
     - name: find the id of {{ controller_inventory }}
       ansible.builtin.uri:
@@ -162,7 +162,7 @@ cat > /var/tmp/aap-auto-registration.yml <<EOF
         body_format: json
         body:
           limit: "edge-{{ ansible_default_ipv4.macaddress | replace(':','') }}"
-{% endraw %}
+# End your raw here
 EOF
 ```
 {% endraw %}
@@ -242,7 +242,7 @@ cat > /var/tmp/aap-auto-registration.yml <<EOF
       password: "{{ controller_api_password }}"
       force_basic_auth: yes
       validate_certs: no
-{% raw %}
+# Ensure you start your raw here
   tasks:
     - name: find the id of {{ controller_inventory }}
       ansible.builtin.uri:
@@ -282,7 +282,7 @@ cat > /var/tmp/aap-auto-registration.yml <<EOF
         body_format: json
         body:
           limit: "edge-{{ ansible_default_ipv4.macaddress | replace(':','') }}"
-{% endraw %}
+# End your raw here
 EOF
 
 # create systemd runonce file to trigger playbook
