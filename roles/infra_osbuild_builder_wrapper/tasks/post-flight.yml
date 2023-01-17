@@ -1,11 +1,15 @@
 ---
 
+- name: setup compose facts block
+  ansible.builtin.set_fact:
+    images_composed:
+      - version: "{{ image.version }}"
+        ref: "{{ checksum_output.stdout }}"
+
 - name: dump compose info to {{ compose_info_file }}
   ansible.builtin.blockinfile:
     path: "{{ compose_info_file }}"
-    block: |
-      {{ image.version }}
-        {{ checksum_output | to_yaml }}
+    block: "{{ images_composed }}"
     insertafter: EOF
     marker: "# Image Version: {{ image.version }}"
     create: true
