@@ -55,8 +55,6 @@
         route53_domains:
           cockpit:
             domain: "hypervisor.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
-            owner: cockpit-ws
-            group: cockpit-ws
         groups: edge_hypervisor,aws
       with_items:
         - "{{ edge_hypervisor_node_facts.instances }}"
