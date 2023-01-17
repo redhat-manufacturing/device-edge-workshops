@@ -1,6 +1,5 @@
 ---
 
-builder_compose_type: edge-commit
 builder_blueprint_name: rhde-image
 
 builder_compose_customizations:
@@ -12,12 +11,14 @@ builder_compose_customizations:
 
 images_to_compose:
   - version: 1.0.0
+    type: edge-installer
     packages:
       - vim-enhanced
       - git
       - nano
       - NetworkManager-wifi
   - version: 2.0.0
+    type: edge-commit
     repos:
       - name: EPEL8
         base_url: "https://dl.fedoraproject.org/pub/epel/{{ hostvars[inventory_hostname].ansible_distribution_major_version }}/Everything/x86_64/"
@@ -32,6 +33,7 @@ images_to_compose:
       - nodejs
       - NetworkManager-wifi
   - version: 3.0.0
+    type: edge-commit
     repos:
       - name: EPEL8
         base_url: "https://dl.fedoraproject.org/pub/epel/{{ hostvars[inventory_hostname].ansible_distribution_major_version }}/Everything/x86_64/"
@@ -48,6 +50,7 @@ images_to_compose:
       - skopeo
       - NetworkManager-wifi
   - version: 4.0.0
+    type: edge-commit
     repos:
       - name: EPEL8
         base_url: "https://dl.fedoraproject.org/pub/epel/{{ hostvars[inventory_hostname].ansible_distribution_major_version }}/Everything/x86_64/"

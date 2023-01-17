@@ -23,6 +23,7 @@
       ansible.builtin.include_role:
         name: ../roles/infra_osbuild_builder_wrapper
       vars:
+        builder_compose_type: "{{ image.type }}"
         builder_compose_pkgs: "{{ image.packages }}"
       loop: "{{ images_to_compose }}"
       loop_control:
