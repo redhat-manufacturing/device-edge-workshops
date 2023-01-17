@@ -11,3 +11,5 @@
   loop: "{{ image.repos }}"
   loop_control:
     loop_var: repo
+  when:
+    - image.repos is defined
