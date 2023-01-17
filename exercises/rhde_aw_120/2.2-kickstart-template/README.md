@@ -15,7 +15,7 @@ We're writing this as a jinja2 template so that:
 1. Our kickstarts are fundamentally code, kept in source control, etc.
 2. We can use Ansible to push them out to anywhere we need them to be.
 
-### Step 1 - Initial Kickstart
+### Step 1 - Kickstart Basics
 
 The most basic kickstart for Device Edge contains the following:
 ```
@@ -33,6 +33,8 @@ ostreesetup --nogpg --url=http://1.2.3.4:80/repo --osname=rhel --ref=rhel/8/x86_
 
 Most of these are the defaults for kickstarting standard RHEL, and they apply here to Device Edge as well.
 
+### Step 2 - OSTree Specific Setup
+
 The line that handles the setup of Device Edge is the last one:
 `ostreesetup --nogpg --url=http://1.2.3.4:80/repo --osname=rhel --ref=rhel/8/x86_64/edge`
 
@@ -46,6 +48,7 @@ Let's take a look at these options:
 The above is just an example, we'll need to tweak this section slightly for our purposes. First, create a new directory in your source control repo: `playbooks/templates`, and in it create a file named `student(your-student-number).ks.j2`, for example: `student10.ks.j2`. Open the file with your editor of choice and add some ansible variables:
 
 ```
+keyboard --xlayouts='us'
 lang en_US.UTF-8
 timezone UTC
 zerombr
@@ -58,31 +61,43 @@ services --enabled=ostree-remount
 ostreesetup --nogpg --url={{ ostree_repo_protocol }}://{{ ostree_host }}:{{ ostree_repo_port }}/{{ ostree_path }} --osname={{ ostree_os_name }} --ref={{ ostree_ref }}
 ```
 
+Here we've convered a few lines to be more dynamic so this template is re-usable. Some of these are fine to store as variables in Controller, while others we'll create a custom credential type and credential for so they're stored securely.
 
+### Step 3 - Adding Networking Information
 
+Since we're provisioning these systems over the network, it may be necessary to include networking information in the kickstart to ensure the device is on the network prior to trying to pull the OS.
 
+If wired networking and DHCP is available, then most likely things will just work "out of the box". If you're using virtualized devices in AWS, this will most likely be your experience as the workshop's VPC will have DHCP available, and the virtual machines will be presented with a "wired" connection.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+> Note:
+>
+> Wifi connections are not supported in the `network` line of a kickstart, so we'll establish the connection using `nmcli` in the `%pre` section of the kickstart.
 
 ```
+%pre
+nmcli dev wifi connect "{{ wifi_network }}" password "{{ wifi_password }}"
+%end
+```
 
+NetworkManager should automatically select the correct device for us to connect to a wireless network.
+
+
+### Step 4 - Creating a Call Home Playbook
+
+Our kickstart file will install an operating system, but doesn't yet include everything we want it to. After devices boot up the first time, we want them to attempt to call home and register themselves with Ansible Controller so we can automate against them.
+
+To accomplish this, we'll use the `%post` section of our kickstart, along with some additional options in jinja, to lay down an Ansible playbook that does the following:
+
+1. Grab the inventory ID of the inventory for our edge devices
+2. Create a new host in that inventory for itself with current connectivity information
+3. Grab the ID of the provisioning workflow we created
+4. Kick off that provisioning workflow with a limit of "just itself"
+
+
+We'll also be leveraging the `{% raw %}` capibilities of jinja so Ansible doesn't attempt to template out vars in the playbook tasks, but we do want the variables in `vars` and `module_defaults` instantiated.
+
+```
 %post
-
 # create playbook for controller registration
 cat > /var/tmp/aap-auto-registration.yml <<EOF
 ---
@@ -91,15 +106,16 @@ cat > /var/tmp/aap-auto-registration.yml <<EOF
     - localhost
   vars:
     ansible_connection: local
-    controller_url: https://10.15.120.50/api/v2
-    controller_inventory: Edge Devices
-    provisioning_template: Post-Install Edge System
+    controller_url: https://{{ controller_host }}/api/v2
+    controller_inventory: Edge Systems
+    provisioning_template: Provision Edge Device
   module_defaults:
     ansible.builtin.uri:
-      user: admin
-      password: 'R3dh4t123!'
+      user: "{{ controller_api_username }}"
+      password: "{{ controller_api_password }}"
       force_basic_auth: yes
       validate_certs: no
+{% raw %}
   tasks:
     - name: find the id of {{ controller_inventory }}
       ansible.builtin.uri:
@@ -139,7 +155,20 @@ cat > /var/tmp/aap-auto-registration.yml <<EOF
         body_format: json
         body:
           limit: "edge-{{ ansible_default_ipv4.macaddress | replace(':','') }}"
+{% raw %}
 EOF
+```
+### Step 5 - Using Systemd to Run the Playbook on First Boot
+
+Finally, we'll use systemd to run the playbook once the system boots up the first time. There's a few conditions to running this playbook that we can specify in our systemd-service file:
+
+- Ensure local filesystems are available
+- Ensure networking is up
+- If successful, leave behind a "cookie" denoting success
+- If that cookie is present, do not run again
+
+These conditions can be handled using options in the `Unit` and `Service` sections of our service file:
+```
 # create systemd runonce file to trigger playbook
 cat > /etc/systemd/system/aap-auto-registration.service <<EOF
 [Unit]
@@ -165,69 +194,118 @@ systemctl enable aap-auto-registration.service
 
 ```
 
-
-Under **Resources**, select the **Templates** page. Once here, click **Add** > **Add workflow template**. Fill in the form with the following information:
-
-<table>
-  <tr>
-    <th>Parameter</th>
-    <th>Value</th>
-  </tr>
-  <tr>
-    <td>Name</td>
-    <td>Provision Edge Device</td>
-  </tr>
-  <tr>
-    <td>Organization</td>
-    <td>(Your_Student_Organization)</td>
-  </tr>
-  <tr>
-    <td>Inventory</td>
-    <td>Edge Systems</td>
-  </tr>
-  <tr>
-    <td>Options</td>
-    <td><ul><li>✓ Limit: Prompt on launch</li><li>✓ Enable Concurrent Jobs</li></ul></td>
-  </tr>
-</table>
-
-Click **Save**
-
-### Step 2 - Adding Workflow Nodes
-
-After saving the workflow, you'll be presented with the workflow visualizer. Click the **Start** button to begin adding nodes.
-
-We're going to add two nodes to our workflow to begin with:
-1. Sync our code repo
-2. Run the **Test Device Connectivity** job template
-
-These nodes should be connected via an **On-Success** connection in the workflow.
-
-Once you've added the two nodes to the workflow, click the **Save** button in the top right corner.
-
 ### Solutions
 
-#### Step 1:
+The finished kickstart should look be similar to this:
+```
+%pre
+nmcli dev wifi connect "{{ wifi_network }}" password "{{ wifi_password }}"
+%end
 
-![Workflow Inputs](../images/workflow-inputs.png)
+keyboard --xlayouts='us'
+lang en_US.UTF-8
+timezone UTC
+zerombr
+clearpart --all --initlabel
+autopart --type=plain --fstype=xfs --nohome
+reboot
+text
+user --name {{ kickstart_user_username }} --groups=wheel --password={{ kickstart_user_password }}
+services --enabled=ostree-remount
+ostreesetup --nogpg --url={{ ostree_repo_protocol }}://{{ ostree_host }}:{{ ostree_repo_port }}/{{ ostree_path }} --osname={{ ostree_os_name }} --ref={{ ostree_ref }}
 
-#### Step 2:
+%post
+# create playbook for controller registration
+cat > /var/tmp/aap-auto-registration.yml <<EOF
+---
+- name: register a r4e system to ansible controller
+  hosts:
+    - localhost
+  vars:
+    ansible_connection: local
+    controller_url: https://{{ controller_host }}/api/v2
+    controller_inventory: Edge Systems
+    provisioning_template: Provision Edge Device
+  module_defaults:
+    ansible.builtin.uri:
+      user: "{{ controller_api_username }}"
+      password: "{{ controller_api_password }}"
+      force_basic_auth: yes
+      validate_certs: no
+{% raw %}
+  tasks:
+    - name: find the id of {{ controller_inventory }}
+      ansible.builtin.uri:
+        url: "{{ controller_url }}/inventories?name={{ controller_inventory | regex_replace(' ', '%20') }}"
+      register: controller_inventory_lookup
+    - name: set inventory id fact
+      ansible.builtin.set_fact:
+        controller_inventory_id: "{{ controller_inventory_lookup.json.results[0].id }}"
+    - name: create host in inventory {{ controller_inventory }}
+      ansible.builtin.uri:
+        url: "{{ controller_url }}/inventories/{{ controller_inventory_id }}/hosts/"
+        method: POST
+        body_format: json
+        body:
+          name: "edge-{{ ansible_default_ipv4.macaddress | replace(':','') }}"
+          variables:
+            'ansible_host: {{ ansible_default_ipv4.address }}'
+      register: create_host
+      changed_when:
+        - create_host.status | int == 201
+      failed_when:
+        - create_host.status | int != 201
+        - "'already exists' not in create_host.content"
+    - name: find the id of {{ provisioning_template }}
+      ansible.builtin.uri:
+        url: "{{ controller_url }}/workflow_job_templates?name={{ provisioning_template | regex_replace(' ', '%20') }}"
+      register: job_template_lookup
+    - name: set the id of {{ provisioning_template }}
+      ansible.builtin.set_fact:
+        job_template_id: "{{ job_template_lookup.json.results[0].id }}"
+    - name: trigger {{ provisioning_template }}
+      ansible.builtin.uri:
+        url: "{{ controller_url }}/workflow_job_templates/{{ job_template_id }}/launch/"
+        method: POST
+        status_code:
+          - 201
+        body_format: json
+        body:
+          limit: "edge-{{ ansible_default_ipv4.macaddress | replace(':','') }}"
+{% raw %}
+EOF
 
-##### Sync Code Node:
+# create systemd runonce file to trigger playbook
+cat > /etc/systemd/system/aap-auto-registration.service <<EOF
+[Unit]
+Description=Ansible Automation Platform Auto-Registration
+After=local-fs.target
+After=network.target
+ConditionPathExists=!/var/tmp/post-installed
 
-![Sync Code Node](../images/sync-code-node.png)
+[Service]
+ExecStartPre=/usr/bin/sleep 20
+ExecStart=/usr/bin/ansible-playbook /var/tmp/aap-auto-registration.yml
+ExecStartPost=/usr/bin/touch /var/tmp/post-installed
+User=root
+RemainAfterExit=true
+Type=oneshot
 
-##### Test Device Connectivity Node:
+[Install]
+WantedBy=multi-user.target
+EOF
 
-![Test Connectivity Node](../images/test-connectivity-node.png)
+# Enable the service
+systemctl enable aap-auto-registration.service
+%end
 
-##### Finished Workflow:
+```
 
-![Finished Workflow](../images/initial-workflow-nodes.png)
+Once you've assembled your kickstart template, be sure to push it into your git repo.
 
 ---
 **Navigation**
 
-[Previous Exercise](../1.7-coding-intro) | [Next Exercise](../2.2-kickstart-template)
+[Previous Exercise](../2.1-provisioning-workflow) | [Next Exercise](../2.3-kickstart-playbook)
 
 [Click here to return to the Workshop Homepage](../README.md)
