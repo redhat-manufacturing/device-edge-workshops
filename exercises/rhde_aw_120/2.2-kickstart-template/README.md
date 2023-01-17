@@ -61,7 +61,7 @@ reboot
 text
 user --name {{ kickstart_user_username }} --groups=wheel --password={{ kickstart_user_password }}
 services --enabled=ostree-remount
-ostreesetup --nogpg --url={{ ostree_repo_protocol }}://{{ ostree_host }}:{{ ostree_repo_port }}/{{ ostree_path }} --osname={{ ostree_os_name }} --ref={{ ostree_ref }}
+ostreesetup --nogpg --url={{ ostree_repo_protocol }}://{{ ostree_repo_host }}:{{ ostree_repo_port }}/{{ ostree_repo_path }} --osname={{ ostree_os_name }} --ref={{ ostree_ref }}
 ```
 
 Here we've convered a few lines to be more dynamic so this template is re-usable. Some of these are fine to store as variables in Controller, while others we'll create a custom credential type and credential for so they're stored securely.
@@ -72,14 +72,14 @@ Since we're provisioning these systems over the network, it may be necessary to 
 
 If wired networking and DHCP is available, then most likely things will just work "out of the box". If you're using virtualized devices in AWS, this will most likely be your experience as the workshop's VPC will have DHCP available, and the virtual machines will be presented with a "wired" connection.
 
-> Note:
->
-> Wifi connections are not supported in the `network` line of a kickstart, so we'll establish the connection using `nmcli` in the `%pre` section of the kickstart.
+Wifi connections are not supported in the `network` line of a kickstart, so we'll establish the connection using `nmcli` in the `%pre` section of the kickstart. Additionally, we'll conditionalize this via `if/endif` statements so this section is only present if wireless credentials have been provided.
 
 ```
+{% if wifi_network and wifi_password are defined %}
 %pre
 nmcli dev wifi connect "{{ wifi_network }}" password "{{ wifi_password }}"
 %end
+{% endif %}
 ```
 
 NetworkManager should automatically select the correct device for us to connect to a wireless network.
