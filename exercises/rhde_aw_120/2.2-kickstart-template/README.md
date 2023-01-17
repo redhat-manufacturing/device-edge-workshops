@@ -75,7 +75,7 @@ If wired networking and DHCP is available, then most likely things will just wor
 Wifi connections are not supported in the `network` line of a kickstart, so we'll establish the connection using `nmcli` in the `%pre` section of the kickstart. Additionally, we'll conditionalize this via `if/endif` statements so this section is only present if wireless credentials have been provided.
 
 ```
-{% if wifi_network and wifi_password are defined %}
+{% if wifi_network is defined and wifi_password is defined %}
 %pre
 nmcli dev wifi connect "{{ wifi_network }}" password "{{ wifi_password }}"
 %end
@@ -194,6 +194,7 @@ EOF
 
 # Enable the service
 systemctl enable aap-auto-registration.service
+%end
 
 ```
 
