@@ -51,7 +51,7 @@ Having said that, this workshop is built to take roughly 2 hours.
 
 * [Exercise 2.1 - Creating a Provision Workflow](2.1-provisioning-workflow)
 * [Exercise 2.2 - Creating a Kickstart Template](2.2-kickstart-template)
-* [Exercise 2.3 - Custom Credentials for Kickstart Template](2.3-kickstart-creds)
+* [Exercise 2.3 - Creating Custom Credentials for Kickstart Template](2.3-kickstart-creds)
 * [Exercise 2.4 - Templating Out Our Kickstart](../2.4-kickstart-playbook) #build playbook, job template, and run
 
 5. Embedding the kickstart into a boot ISO
