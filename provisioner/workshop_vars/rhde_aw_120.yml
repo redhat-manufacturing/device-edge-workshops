@@ -16,6 +16,7 @@ images_to_compose:
       - vim-enhanced
       - git
       - nano
+      - NetworkManager-wifi
   - version: 2.0.0
     repos:
       - name: EPEL8
@@ -29,6 +30,7 @@ images_to_compose:
       - nano
       - mosquitto
       - nodejs
+      - NetworkManager-wifi
   - version: 3.0.0
     repos:
       - name: EPEL8
@@ -36,7 +38,7 @@ images_to_compose:
         type: yum-baseurl
         check_ssl: true
         check_gpg: false
-        state: disabled
+        state: absent
     packages:
       - vim-enhanced
       - git
@@ -44,6 +46,7 @@ images_to_compose:
       - podman
       - buildah
       - skopeo
+      - NetworkManager-wifi
   - version: 4.0.0
     repos:
       - name: EPEL8
@@ -66,3 +69,4 @@ images_to_compose:
       - git
       - nano
       - microshift
+      - NetworkManager-wifi
