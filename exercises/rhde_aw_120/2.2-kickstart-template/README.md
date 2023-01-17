@@ -3,8 +3,11 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Creating a Workflow](#step-1---creating-a-workflow)
-* [Step 2 - Adding Workflow Nodes](#step-2---adding-workflow-nodes)
+* [Step 1 - Kickstart Basics](#step-1---kickstart-basics)
+* [Step 2 - OSTree Specific Setup](#step-2---ostree-specific-setup)
+* [Step 3 - Adding Networking Information][#step-3---adding-network-information]
+* [Step 4 - Creating a Call Home Playbook](#step-4---creating-a-call-home-playbook)
+* [Step 5 - Using Systemd to Run the Playbook on First Boot](#step-5---using-systemd-to-run-the-playbook-on-first-boot)
 * [Solutions](#solutions)
 
 ## Objective
