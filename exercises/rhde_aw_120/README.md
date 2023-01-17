@@ -12,7 +12,7 @@ After finishing this lab you are ready to start using Red Hat Device Edge to run
   - [Time planning](#time-planning)
   - [Lab Diagram](#lab-diagram)
   - [Section 1 - Investigating the Lab Environment](#section-1---investigating-the-lab-environment)
-  - [Section 2 - Initial Image Creation and Device Installation](#section-2---initial-image-creation-and-device-installation)
+  - [Section 2 - Setting Up for Zero Touch Provisioning](#section-2---setting-up-for-zero-touch-provisioning)
   - [Section 3 - Deploying a Base-Metal Workload](#section-3---deploying-a-bare---metal-workload)
   - [Section 4 - Deploying a Containerized Workload](#section-4---deploying-a-containerized-workload)
   - [Section 5 - Deploying a Kubernetes Native Application](#section-5---deploying-a-kubernetes-native-application)
