@@ -292,7 +292,7 @@ function display_student($student) {
   <table>
     <tr>
         <td>IP Address:</td>
-        <td><a>{{ hostvars['edge-manager-aws']['ansible_host'] }}</a></td> 
+        <td>{{ hostvars['edge-manager-aws']['ansible_host'] }}</td> 
     </tr>
     <tr>
         <td>DNS Hostname:</td>
@@ -305,7 +305,7 @@ function display_student($student) {
   <table>
     <tr>
         <td>IP Address:</td>
-        <td><a>{{ hostvars['edge-manager-local']['ansible_host'] }}</a></td>
+        <td>{{ hostvars['edge-manager-local']['ansible_host'] }}</td>
     </tr>
     {#<tr>
         <td>DNS Hostname:</td>
@@ -353,7 +353,7 @@ function display_student($student) {
   <table>
     <tr>
         <td>WebUI Link</td>
-        <td><a>{{ hostvars['edge-manager-aws']['route53_domains']['controller']['domain'] }}</a></td>
+        <td><a>https://{{ hostvars['edge-manager-aws']['route53_domains']['controller']['domain'] }}</a></td>
     </tr>
     <tr>
         <td>Username:</td>
@@ -369,7 +369,7 @@ function display_student($student) {
   <table>
     <tr>
         <td>WebUI Link</td>
-        <td><a>{{ hostvars['edge-hypervisor-aws']['route53_domains']['cockpit']['domain'] }}</a></td>
+        <td><a>https://{{ hostvars['edge-hypervisor-aws']['route53_domains']['cockpit']['domain'] }}:9090</a></td>
     </tr>
     <tr>
         <td>Username:</td>
@@ -420,7 +420,7 @@ function display_student($student) {
   <table>
     <tr>
         <td>WebUI Link</td>
-        <td>"<a>{{ hostvars['edge-manager-local']['ansible_host'] }}</a></td>
+        <td><a>https://{{ hostvars['edge-manager-local']['ansible_host'] }}:9090</a></td>
     </tr>
     <tr>
         <td>Username:</td>
@@ -436,7 +436,7 @@ function display_student($student) {
   <table>
     <tr>
         <td>WebUI Link</td>
-        <td><a>{{ hostvars['edge-manager-local']['ansible_host'] }}</a></td>
+        <td><a>https://{{ hostvars['edge-manager-local']['ansible_host'] }}</a></td> 
     </tr>
     <tr>
         <td>Username:</td>
