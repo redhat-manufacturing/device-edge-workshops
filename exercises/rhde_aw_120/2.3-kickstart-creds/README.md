@@ -3,11 +3,10 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Kickstart Basics](#step-1---kickstart-basics)
-* [Step 2 - OSTree Specific Setup](#step-2---ostree-specific-setup)
-* [Step 3 - Adding Networking Information](#step-3---adding-network-information)
-* [Step 4 - Creating a Call Home Playbook](#step-4---creating-a-call-home-playbook)
-* [Step 5 - Using Systemd to Run the Playbook on First Boot](#step-5---using-systemd-to-run-the-playbook-on-first-boot)
+* [Quick Review](#quick-review)
+* [Step 1 - Reviewing Created Custom Credential Types](#step-1---reviewing-created-custom-credential-types)
+* [Step 2 - Creating Credentials from Custom Credential Types](#step-2---creating-credentials-from-custom-credential-types)
+* [Step 3 - Creating a Machine Credential](#step-3---creating-a-machine-credential)
 * [Solutions](#solutions)
 
 ## Objective
@@ -23,35 +22,88 @@ This gives us some additional functionality because:
 In the [previous exercise](../2.2-kickstart-template/), we set up our kickstart template with some variables, specifically for the following information:
 
 For the user created during kickstart:
-|Variable|Description|
-|---|---|
-|`kickstart_user_username`|The username of the user that will be created on the system|
-|`kickstart_user_password`|The password of the user that will be created on the system|
+<table>
+  <tr>
+    <th>Variable</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>kickstart_user_username</td>
+    <td>The username of the user that will be created on the system</td>
+  </tr>
+  <tr>
+    <td>kickstart_user_password</td>
+    <td>The password of the user that will be created on the system</td>
+  </tr>
+</table>
 
 For the ostree repo containing where to pull the commit from:
-|Variable|Description|
-|---|---|
-|`ostree_repo_protocol`|The protocol to use when accessing the repo (http/https)|
-|`ostree_repo_host`|The host of the ostree repo|
-|`ostree_repo_port`|The port to use when accessing the repo|
-|`ostree_repo_path`|The path on the server where the repo can be accessed|
-|`ostree_os_name`|The name of the OS in the repo|
-|`ostree_ref`|The ref to pull and deploy|
+<table>
+  <tr>
+    <th>Variable</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>ostree_repo_protocol</td>
+    <td>The protocol to use when accessing the repo (http/https)</td>
+  </tr>
+  <tr>
+    <td>ostree_repo_host</td>
+    <td>The host of the ostree repo</td>
+  </tr>
+  <tr>
+    <td>ostree_repo_port</td>
+    <td>The port to use when accessing the repo</td>
+  </tr>
+  <tr>
+    <td>ostree_repo_path</td>
+    <td>The path on the server where the repo can be accessed</td>
+  </tr>
+  <tr>
+    <td>ostree_os_name</td>
+    <td>The name of the OS in the repo</td>
+  </tr>
+  <tr>
+    <td>ostree_ref</td>
+    <td>The ref to pull and deploy</td>
+  </tr>
+</table>
 
 For authenticating to the Ansible Controller API:
-|Variable|Description|
-|---|---|
-|`controller_host`|Where Ansible Controller is running|
-|`controller_api_username`|The username to use to authenticate to the Ansible Controller API|
-|`controller_api_password`|The password to use to authenticate to the Ansible Controller API|
+<table>
+  <tr>
+    <th>Variable</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>controller_host</td>
+    <td>Where Ansible Controller is running</td>
+  </tr>
+  <tr>
+    <td>controller_api_username</td>
+    <td>The username to use to authenticate to the Ansible Controller API</td>
+  </tr>
+  <tr>
+    <td>controller_api_password</td>
+    <td>The password to use to authenticate to the Ansible Controller API</td>
+  </tr>
+</table>
 
 Optionally, if using wifi for physical devices:
-|Variable|Description|
-|---|---|
-|`wifi_network`|The wireless network's SSID|
-|`wifi_password`|The wireless network's password|
-
-In the interest of time, three custom credential types have already been created for you to review.
+<table>
+  <tr>
+    <th>Variable</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>wifi_network</td>
+    <td>The wireless network's SSID</td>
+  </tr>
+  <tr>
+    <td>wifi_password</td>
+    <td>The wireless network's password</td>
+  </tr>
+</table>
 
 ### Step 1 - Reviewing Created Custom Credential Types
 
@@ -216,6 +268,43 @@ Finally, if provisioning a physical device over wireless, create a final credent
 
 Remember to click **Save**.
 
+### Step 3 - Creating a Machine Credential
+
+Finally, we'll want to create one last credential that Ansible will use to authenticate to the device once it's provisioned. This should match the credential inputs of the **Kickstart User Info** above.
+
+Enter the following information:
+
+<table>
+  <tr>
+    <th>Parameter</th>
+    <th>Value</th>
+  </tr>
+  <tr>
+    <td>Name</td>
+    <td>Device Credentials</td>
+  </tr>
+  <tr>
+    <td>Organization</td>
+    <td>(Your_Student_Organization)</td>
+  </tr>
+  <tr>
+    <td>Credential Type</td>
+    <td>Machine</td>
+  </tr>
+  <tr>
+    <td>Username</td>
+    <td>ansible</td>
+  </tr>
+  <tr>
+    <td>Password</td>
+    <td>$(same-as-kickstart-user-password)</td>
+  </tr>
+  <tr>
+    <td>Privilege Escalation Password</td>
+    <td>$(same-as-kickstart-user-password)</td>
+  </tr>
+</table>
+
 We'll attach these credentials to a job template in the next exercise.
 
 ### Solutions
@@ -235,6 +324,10 @@ Ansible Controller API credential:
 Wireless Network credential:
 
 ![Wireless Network Credential](../images/wireless-credential.png)
+
+Machine credential:
+
+![Machine Credential](../images/machine-credential.png)
 
 > Note:
 >
