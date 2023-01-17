@@ -9,7 +9,7 @@
 - name: dump compose info to {{ compose_info_file }}
   ansible.builtin.blockinfile:
     path: "{{ compose_info_file }}"
-    block: "{{ images_composed }}"
+    block: "{{ images_composed | to_yaml }}"
     insertafter: EOF
     marker: "# Image Version: {{ image.version }}"
     create: true
