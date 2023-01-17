@@ -296,7 +296,7 @@ function display_student($student) {
     </tr>
     <tr>
         <td>DNS Hostname:</td>
-        <td><a>{{ hostvars['edge-manager-aws']['route53_domains']['controller']['domain'] }}</a></td>
+        <td><a href="{{ hostvars['edge-manager-aws']['route53_domains']['controller']['domain'] }}">{{ hostvars['edge-manager-aws']['route53_domains']['controller']['domain'] }}</a></td>
     </tr>
   </table>
   <br>
@@ -341,7 +341,7 @@ function display_student($student) {
     </tr>
     <tr>
         <td>Username:</td>
-        <td>student' . $student['id'] . '/td>
+        <td>student' . $student['id'] . '</td> 
     </tr>
     <tr>
         <td>Password:</td>
