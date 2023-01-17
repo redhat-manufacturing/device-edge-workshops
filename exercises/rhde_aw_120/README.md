@@ -51,10 +51,10 @@ Having said that, this workshop is built to take roughly 2 hours.
 
 * [Exercise 2.1 - Creating a Provision Workflow](2.1-provisioning-workflow)
 * [Exercise 2.2 - Creating a Kickstart Template](2.2-kickstart-template)
-3. Write a playbook to template out kickstart
-4. Run kickstart playbook
+* [Exercise 2.3 - Custom Credentials for Kickstart Template](2.3-kickstart-creds)
+* [Exercise 2.4 - Templating Out Our Kickstart](../2.4-kickstart-playbook) #build playbook, job template, and run
+
 5. Embedding the kickstart into a boot ISO
-* [Exercise 2.1 - Introduction to infra.osbuild Collection](2.1-infra.osbuild-intro)
 
 ## Section 3 - Kickstarting a Device
 
@@ -85,3 +85,7 @@ Having said that, this workshop is built to take roughly 2 hours.
 * [Exercise 5.3 - Investigate New Device Edge Functionality](5.3-device-edge-features)
 * [Exercise 5.4 - Create Automation to Deploy Application](5.4-device-edge-app-deployment)
 * [Exercise 5.5 - Deploy Application](2.4-deploy-to-device-edge)
+
+## Supplamental Resources
+infra.osbuild
+redhat_cop.controller_configuration
