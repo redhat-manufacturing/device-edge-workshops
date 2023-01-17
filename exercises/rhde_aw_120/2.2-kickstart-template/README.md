@@ -275,7 +275,7 @@ cat > /var/tmp/aap-auto-registration.yml <<EOF
         body_format: json
         body:
           limit: "edge-{{ ansible_default_ipv4.macaddress | replace(':','') }}"
-{% raw %}
+{% endraw %}
 EOF
 
 # create systemd runonce file to trigger playbook
