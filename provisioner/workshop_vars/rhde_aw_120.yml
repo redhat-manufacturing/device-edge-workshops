@@ -17,6 +17,7 @@ images_to_compose:
       - git
       - nano
       - NetworkManager-wifi
+      - ansible-core
   - version: 2.0.0
     type: edge-commit
     repos:
@@ -32,6 +33,7 @@ images_to_compose:
       - mosquitto
       - nodejs
       - NetworkManager-wifi
+      - ansible-core
   - version: 3.0.0
     type: edge-commit
     repos:
@@ -49,6 +51,7 @@ images_to_compose:
       - buildah
       - skopeo
       - NetworkManager-wifi
+      - ansible-core
   - version: 4.0.0
     type: edge-commit
     repos:
@@ -73,3 +76,4 @@ images_to_compose:
       - nano
       - microshift
       - NetworkManager-wifi
+      - ansible-core
