@@ -1,0 +1,33 @@
+---
+
+- name: Retrieve the default network XML
+  community.libvirt.virt_net:
+    name: default
+    command: get_xml
+  register: default_xml
+
+- name: Undefine and redefine the default network
+  block:
+  - name: Undefine the default network
+    community.libvirt.virt_net:
+      name: default
+      state: absent
+  - name: Redefine the default network
+    community.libvirt.virt_net:
+      name: default
+      state: present
+      xml: '{{ lookup("template", "templates/network.xml.j2") }}'
+  when:
+    - default_xml.get_xml != lookup("template", "templates/network.xml.j2")
+  vars:
+    virtual_machines: '{{ virtual_machines_yaml|from_yaml }}'
+
+- name: Ensure the network is active
+  community.libvirt.virt_net:
+    name: default
+    state: active
+
+- name: Ensure the network autostarts
+  community.libvirt.virt_net:
+    name: default
+    autostart: true

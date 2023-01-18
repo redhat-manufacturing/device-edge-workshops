@@ -9,5 +9,11 @@
 - name: import kvm tasks
   ansible.builtin.import_tasks: kvm.yml
 
+- name: import virtual networking tasks
+  ansible.builtin.import_tasks: virtual-networking.yml
+
+- name: import virtual machine tasks
+  ansible.builtin.import_tasks: virtual-machines.yml
+
 - name: import cockpit tasks
   ansible.builtin.import_tasks: cockpit.yml

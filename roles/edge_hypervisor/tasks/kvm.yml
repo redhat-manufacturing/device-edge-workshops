@@ -25,3 +25,17 @@
   when:
     - virt_installed.changed or
       virt_additional_installed.changed
+  
+- name: create storage directory for VMs
+  ansible.builtin.file:
+    path: /var/virtual-machines
+    state: directory
+    owner: qemu
+    group: qemu
+
+- name: create storage directory for student ISOs
+  ansible.builtin.file:
+    path: /var/virtual-machines/iso
+    state: directory
+    owner: qemu
+    group: qemu

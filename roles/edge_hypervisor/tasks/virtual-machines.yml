@@ -1,0 +1,21 @@
+---
+
+- name: Ensure that disk images exist
+  ansible.builtin.shell: qemu-img create -f qcow2 {{ vm_name }}.qcow2 10G
+  args:
+    chdir: /var/virtual-machines
+    creates:  '{{ vm_name }}.qcow2'
+  retries: 5
+  vars:
+    vm_name: 'student{{ virtual_machine.num }}-edge-device'
+  loop: '{{ virtual_machines_yaml|from_yaml }}'
+  loop_control:
+    loop_var: virtual_machine
+
+- name: Ensure that VMs are defined with correct MAC addresses
+  community.libvirt.virt:
+    command: define
+    xml: '{{ lookup("template", "templates/vm.xml.j2") }}'
+  loop: '{{ virtual_machines_yaml|from_yaml }}'
+  loop_control:
+    loop_var: virtual_machine

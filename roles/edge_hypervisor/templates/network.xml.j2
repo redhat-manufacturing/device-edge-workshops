@@ -1,0 +1,19 @@
+<network>
+  <name>default</name>
+  <uuid>1ce2c156-7f81-4f71-ae93-19b6aefaaaa4</uuid>
+  <forward mode='nat'>
+    <nat>
+      <port start='22' end='65535'/>
+    </nat>
+  </forward>
+  <bridge name='virbr0' stp='on' delay='0'/>
+  <mac address='52:54:00:43:3b:43'/>
+  <ip address='192.168.122.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.122.2' end='192.168.122.200'/>
+{% for virtual_machine in virtual_machines %}
+      <host mac='52:54:00:43:3c:{{ "%02x" % virtual_machine.num }}' name='{{ virtual_machine.name }}' ip='{{ virtual_machine.ip }}'/>
+{% endfor %}
+    </dhcp>
+  </ip>
+</network>
