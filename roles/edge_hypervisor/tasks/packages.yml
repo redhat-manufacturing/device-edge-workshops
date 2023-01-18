@@ -1,0 +1,6 @@
+---
+
+- name: install packges to the system
+  ansible.builtin.dnf:
+    name: "{{ hypervisor_packages }}"
+    state: present

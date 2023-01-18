@@ -21,3 +21,7 @@ cockpit_config:
   Session:
     IdleTimeout: 60
     Banner: "{{ ec2_name_prefix }} Device Edge Workshop"
+
+hypervisor_packages:
+  - genisoimage
+  - isomd5sum

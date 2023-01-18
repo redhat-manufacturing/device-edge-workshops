@@ -3,6 +3,9 @@
 - name: import pre-flight tasks
   ansible.builtin.import_tasks: pre-flight.yml
 
+- name: import packages tasks
+  ansible.builtin.import_tasks: packages.yml
+
 - name: import kvm tasks
   ansible.builtin.import_tasks: kvm.yml
 
