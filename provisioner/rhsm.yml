@@ -1,0 +1,12 @@
+---
+
+- name: setup rhsm,edge_management,controller
+  hosts:
+    - edge_management
+    - controller
+    - edge_hypervisor
+  become: true
+  tasks:
+    - name: register to rhsm
+      ansible.builtin.include_role:
+        name: ../roles/rhsm

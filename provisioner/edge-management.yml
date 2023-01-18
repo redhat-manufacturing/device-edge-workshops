@@ -1,0 +1,10 @@
+---
+
+- name: setup edge management nodes
+  hosts:
+    - edge_management
+  become: true
+  tasks:
+    - name: do initial node setup
+      ansible.builtin.include_role:
+        name: ../roles/edge_management_node
