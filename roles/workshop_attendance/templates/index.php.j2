@@ -337,7 +337,7 @@ function display_student($student) {
   <table> 
     <tr>
         <td>WebUI Link</td>
-        <td><a href="https://cockpit.{{ hostvars['edge-manager-aws']['route53_domains']['cockpit']['domain'] }}:9090">https://cockpit.{{ hostvars['edge-manager-aws']['route53_domains']['cockpit']['domain'] }}:9090</a></td>
+        <td><a href="https://{{ hostvars['edge-manager-aws']['route53_domains']['cockpit']['domain'] }}:9090">https://{{ hostvars['edge-manager-aws']['route53_domains']['cockpit']['domain'] }}:9090</a></td>
     </tr>
     <tr>
         <td>Username:</td>
