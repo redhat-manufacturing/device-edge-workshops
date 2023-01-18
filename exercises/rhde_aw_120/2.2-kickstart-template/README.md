@@ -22,6 +22,7 @@ We're writing this as a jinja2 template so that:
 
 The most basic kickstart for Device Edge contains the following:
 ```
+keyboard --xlayouts='us'
 lang en_US.UTF-8
 timezone UTC
 zerombr
