@@ -6,5 +6,3 @@ controller_templates:
     inventory: Edge Systems
     project: Device Edge Codebase
     playbook: playbooks/hello-world.yml
-    credentials:
-      - Device Credentials
