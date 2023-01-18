@@ -4,8 +4,9 @@
 
 * [Objective](#objective)
 * [Stem]
-* [Step 1 - Creating a Workflow](#step-1---creating-a-workflow)
-* [Step 2 - Adding Workflow Nodes](#step-2---adding-workflow-nodes)
+* [Step 1 - Adding Credentials to the Existing Job Template](#step-1---adding-credentials-to-the-existing-job-template)
+* [Step 2 - Creating a Workflow](#step-2---creating-a-workflow)
+* [Step 3 - Adding Workflow Nodes](#step-3---adding-workflow-nodes)
 * [Solutions](#solutions)
 
 ## Objective
