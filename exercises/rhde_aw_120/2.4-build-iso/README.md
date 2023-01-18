@@ -1,4 +1,4 @@
-# Workshop Exercise 2.5 - Create a Customized ISO
+# Workshop Exercise 2.4 - Create a Customized ISO
 
 ## Table of Contents
 
@@ -316,6 +316,6 @@ submenu 'Troubleshooting -->' {
 ---
 **Navigation**
 
-[Previous Exercise](../2.4-kickstart-playbook) | [Next Exercise](../3.1-boot-edge-device)
+[Previous Exercise](../2.3-kickstart-playbook) | [Next Exercise](../2.3-kickstart-playbook)
 
 [Click here to return to the Workshop Homepage](../README.md)

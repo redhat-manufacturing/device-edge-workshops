@@ -32,6 +32,6 @@ For most, a simple `git clone` into a directory of your choosing will suffice. I
 ---
 **Navigation**
 
-[Previous Exercise](../1.6-network-info) | [Next Exercise](../2.1-provisioning-workflow)
+[Previous Exercise](../1.6-network-info) | [Next Exercise](../2.1-kickstart-template)
 
 [Click here to return to the Workshop Homepage](../README.md)

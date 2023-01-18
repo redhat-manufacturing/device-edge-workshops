@@ -1,4 +1,4 @@
-# Workshop Exercise 2.3 - Creating Custom Credentials for Kickstart Template
+# Workshop Exercise 2.2 - Creating Custom Credentials for Kickstart Template
 
 ## Table of Contents
 
@@ -336,6 +336,6 @@ Machine credential:
 ---
 **Navigation**
 
-[Previous Exercise](../2.2-kickstart-template) | [Next Exercise](../2.4-kickstart-playbook)
+[Previous Exercise](../2.1-kickstart-template) | [Next Exercise](../2.3-kickstart-playbook)
 
 [Click here to return to the Workshop Homepage](../README.md)

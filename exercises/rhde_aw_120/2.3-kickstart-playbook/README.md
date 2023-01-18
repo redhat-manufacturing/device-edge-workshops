@@ -1,4 +1,4 @@
-# Workshop Exercise 2.4 - Templating Out Our Kickstart
+# Workshop Exercise 2.3 - Templating Out Our Kickstart
 
 ## Table of Contents
 
@@ -122,6 +122,6 @@ Template Kickstart select credentials:
 ---
 **Navigation**
 
-[Previous Exercise](../2.3-kickstart-creds) | [Next Exercise](../2.5-build-iso)
+[Previous Exercise](../2.2-kickstart-creds) | [Next Exercise](../2.4-build-iso)
 
 [Click here to return to the Workshop Homepage](../README.md)

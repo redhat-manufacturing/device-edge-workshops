@@ -3,6 +3,7 @@
 ## Table of Contents
 
 * [Objective](#objective)
+* [Stem]
 * [Step 1 - Creating a Workflow](#step-1---creating-a-workflow)
 * [Step 2 - Adding Workflow Nodes](#step-2---adding-workflow-nodes)
 * [Solutions](#solutions)
@@ -20,7 +21,13 @@ And the workflows are not even limited to Job Templates, but can also include pr
 
 This enables new applications for Ansible automation controller: different Job Templates can build upon each other.
 
-### Step 1 - Creating a Workflow
+### Step 1 - Adding Credentials to the Existing Job Template
+
+A job template has been created by the provisioner with an example playbook that tests connectivity to devices. This job template can be found on the **Templates** page under **Resources**.
+
+Click on the job template name, then select **Edit** at the bottom of the page. Click the mangnifying glass icon next to **Credentials**. In the **Select Credentials** box, ensure **Selected Category** is set to **Machine**, and then select the **Device Credentials** created earler in [exercise 2.2](../2.2-kickstart-creds/). This will allow this job template to authenticate to your edge devices as they're provisioned.
+
+### Step 2 - Creating a Workflow
 
 Under **Resources**, select the **Templates** page. Once here, click **Add** > **Add workflow template**. Fill in the form with the following information:
 
@@ -49,7 +56,7 @@ Under **Resources**, select the **Templates** page. Once here, click **Add** > *
 
 Click **Save**
 
-### Step 2 - Adding Workflow Nodes
+### Step 3 - Adding Workflow Nodes
 
 After saving the workflow, you'll be presented with the workflow visualizer. Click the **Start** button to begin adding nodes.
 
@@ -65,9 +72,13 @@ Once you've added the two nodes to the workflow, click the **Save** button in th
 
 #### Step 1:
 
-![Workflow Inputs](../images/workflow-inputs.png)
+![Test Connectivity Credentials](../images/test-connectivity-credentials.png)
 
 #### Step 2:
+
+![Workflow Inputs](../images/workflow-inputs.png)
+
+#### Step 3:
 
 ##### Sync Code Node:
 
@@ -84,6 +95,6 @@ Once you've added the two nodes to the workflow, click the **Save** button in th
 ---
 **Navigation**
 
-[Previous Exercise](../1.7-coding-intro) | [Next Exercise](../2.2-kickstart-template)
+[Previous Exercise](../1.7-build-iso) | [Next Exercise](../3.1-boot-edge-device)
 
 [Click here to return to the Workshop Homepage](../README.md)

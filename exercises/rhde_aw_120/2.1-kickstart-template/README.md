@@ -1,4 +1,4 @@
-# Workshop Exercise 2.2 - Creating a Kickstart Template
+# Workshop Exercise 2.1 - Creating a Kickstart Template
 
 ## Table of Contents
 
@@ -317,6 +317,6 @@ Once you've assembled your kickstart template, be sure to push it into your git 
 ---
 **Navigation**
 
-[Previous Exercise](../2.1-provisioning-workflow) | [Next Exercise](../2.3-kickstart-playbook)
+[Previous Exercise](../1.7-coding-intro) | [Next Exercise](../2.1-provisioning-workflow)
 
 [Click here to return to the Workshop Homepage](../README.md)
