@@ -13,7 +13,7 @@ After finishing this lab you are ready to start using Red Hat Device Edge to run
   - [Lab Diagram](#lab-diagram)
   - [Section 1 - Investigating the Lab Environment](#section-1---investigating-the-lab-environment)
   - [Section 2 - Setting Up for Zero Touch Provisioning](#section-2---setting-up-for-zero-touch-provisioning)
-  - [Section 3 - Deploying a Base-Metal Workload](#section-3---deploying-a-bare---metal-workload)
+  - [Section 3 - Deploying a Bare-Metal Workload](#section-3---deploying-a-bare---metal-workload)
   - [Section 4 - Deploying a Containerized Workload](#section-4---deploying-a-containerized-workload)
   - [Section 5 - Deploying a Kubernetes Native Application](#section-5---deploying-a-kubernetes-native-application)
 
@@ -52,8 +52,8 @@ Having said that, this workshop is built to take roughly 2 hours.
 * [Exercise 2.1 - Creating a Provision Workflow](2.1-provisioning-workflow)
 * [Exercise 2.2 - Creating a Kickstart Template](2.2-kickstart-template)
 * [Exercise 2.3 - Creating Custom Credentials for Kickstart Template](2.3-kickstart-creds)
-* [Exercise 2.4 - Templating Out Our Kickstart](../2.4-kickstart-playbook)
-* [Exercise 2.5 - Creating a Customized ISO](../2.5-build-iso)
+* [Exercise 2.4 - Templating Out Our Kickstart](2.4-kickstart-playbook)
+* [Exercise 2.5 - Creating a Customized ISO](2.5-build-iso)
 
 ## Section 3 - Kickstarting a Device
 
@@ -62,7 +62,7 @@ Having said that, this workshop is built to take roughly 2 hours.
 * [Exercise 3.3 - Booting a Virtualized Edge Device](3.3-start-cockpit-vm)
 * [Exercise 3.4 - Red Hat Device Edge OS Investigation](3.4-rhde-os-intro)
 
-## Section 4 - Deploying a Base-Metal Workload
+## Section 4 - Deploying a Bare-Metal Workload
 
 * [Exercise 3.1 - Updating Image for a Bare Metal Application](3.1-base-metal-image)
 * [Exercise 3.2 - Automated Device Update](0.1-update-device)
