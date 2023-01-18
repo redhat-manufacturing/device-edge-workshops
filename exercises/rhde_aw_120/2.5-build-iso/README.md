@@ -316,6 +316,6 @@ submenu 'Troubleshooting -->' {
 ---
 **Navigation**
 
-[Previous Exercise](../2.4-kickstart-playbook) | [Next Exercise](../3.1-)
+[Previous Exercise](../2.4-kickstart-playbook) | [Next Exercise](../3.1-boot-edge-device)
 
 [Click here to return to the Workshop Homepage](../README.md)
