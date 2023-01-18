@@ -57,27 +57,26 @@ Having said that, this workshop is built to take roughly 2 hours.
 
 ## Section 3 - Kickstarting a Device
 
-1. Edge device | boot from flash drive
-2. Edge hypervisor | upload iso
-3. Edge hypervisor | create VM in Cockpit
-4. Edge hypervisor | boot and provision VM
-* [Exercise 2.5 - Red Hat Device Edge OS Investigation](2.5-os-intro)
+* [Exercise 3.1 - Booting an Edge Device](3.1-boot-edge-device)
+* [Exercise 3.2 - Creating a VM in Cockpit](3.2-create-cockpit-vm)
+* [Exercise 3.3 - Booting a Virtualized Edge Device](3.3-start-cockpit-vm)
+* [Exercise 3.4 - Red Hat Device Edge OS Investigation](3.4-rhde-os-intro)
 
-## Section 3 - Deploying a Base-Metal Workload
+## Section 4 - Deploying a Base-Metal Workload
 
 * [Exercise 3.1 - Updating Image for a Bare Metal Application](3.1-base-metal-image)
 * [Exercise 3.2 - Automated Device Update](0.1-update-device)
 * [Exercise 3.3 - Create Automation to Deploy Application](3.3-bare-metal-app-automation)
 * [Exercise 3.4 - Deploy Application](3.4-deploy-bare-metal-app)
 
-## Section 4 - Deploying a Containerized Workload
+## Section 5 - Deploying a Containerized Workload
 
 * [Exercise 4.1 - Updating Image for Bare Metal Deployment](4.1-podman-image)
 * [Exercise 3.2 - Automated Device Update](0.1-update-device)
 * [Exercise 4.3 - Leveraging redhat.rhel_system_roles.podman Role](4.3-podman-role)
 * [Exercise 4.4 - Deploy Application](4.4-deploy-containerized-app)
 
-## Section 5 - Deploying a Kubernetes Native Application
+## Section 6 - Deploying a Kubernetes Native Application
 
 * [Exercise 5.1 - Adding Device Edge Functunality-to the Image](5.1-add-device-edge)
 * [Exercise 3.2 - Automated Device Update](0.1-update-device)
