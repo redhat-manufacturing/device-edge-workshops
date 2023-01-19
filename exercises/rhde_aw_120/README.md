@@ -59,7 +59,8 @@ Having said that, this workshop is built to take roughly 2 hours.
 
 * [Exercise 3.1 - Booting an Edge Device](3.1-boot-edge-device)
 * [Exercise 3.2 - Booting an Edge Virtual Machine](3.2-boot-edge-vm)
-* [Exercise 3.3 - Red Hat Device Edge OS Investigation](3.4-rhde-os-intro)
+* [Exercise 3.3 - Observing Zero Touch Provisioning](3.3-ztp-intro)
+* [Exercise 3.4 - Red Hat Device Edge OS Investigation](3.4-rhde-os-intro)
 
 ## Section 4 - Deploying a Bare-Metal Workload
 

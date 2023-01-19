@@ -3,9 +3,10 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Copy ISO to VM Storage](#step-1---grabbing-the-rhel-boot-iso)
-* [Step 2 - Attach ISO to Virtual Machine](#step-2---creating-a-job-template-for-our-playbook)
-* [Step 3 - Provisioning our Edge Virtual Machine](#step-3---creating-our-customized-iso)
+* [Step 1 - Copying Our Customized ISO to the VM Storage](#step-1---copying-our-customized-iso-to-the-vm-storage)
+* [Step 2 - Attaching the ISO to your Virtual Machine](#step-2---attaching-the-iso-to-your-virtual-machine)
+* [Step 3 - Adjusting the Boot Options](#step-3---adjusting-the-boot-options)
+* [Step 4 - Powering On the Virtual Machine](#step-4---powering-on-the-virtual-machine)
 * [Solutions](#solutions)
 
 ## Objective
@@ -58,7 +59,7 @@ In the **Change boot order** window, ensure that both the first disk (the virtua
 
 Click **Save**
 
-### Step 3 - Power On the Virtual Machine
+### Step 4 - Powering On the Virtual Machine
 
 At this point, we should be able to power on the virtual machine and observe it completely provision itself without our intervention.
 
@@ -75,6 +76,6 @@ Click the **Run** button at the top of the page and observe the process.
 ---
 **Navigation**
 
-[Previous Exercise](../2.4-kickstart-playbook) | [Next Exercise](../3.1-boot-edge-device)
+[Previous Exercise](../3.1-boot-edge-device) | [Next Exercise](../3.3-ztp-intro)
 
 [Click here to return to the Workshop Homepage](../README.md)
