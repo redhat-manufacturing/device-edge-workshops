@@ -31,6 +31,9 @@
 - name: import connectivity playbook
   ansible.builtin.import_playbook: ensure-connectivity.yml
 
+- name: import rhsm playbook
+  ansible.builtin.import_playbook: rhsm.yml
+
 - name: import common roles playbook
   ansible.builtin.import_playbook: common.yml
 
@@ -40,72 +43,20 @@
 - name: import hypervisor playbook
   ansible.builtin.import_playbook: hypervisor.yml
 
-- name: setup rhsm,edge_management,controller
-  hosts:
-    - edge_management
-  become: true
-  pre_tasks:
-    - name: reset 'username' var
-      ansible.builtin.set_fact:
-        username: "{{ ansible_user }}"
-    - name: setup dns/certs for controller
-      when:
-        - route53_domains.controller is defined
-      block:
-        - name: setup dns in route53
-          ansible.builtin.include_role:
-            name: ../roles/aws_dns
-          vars:
-            route53_dns_record: "{{ route53_domains.controller.domain }}"
-        - name: issue certificates
-          ansible.builtin.include_role:
-            name: ../roles/zerossl_cert
-          vars:
-            domain_name: "{{ route53_domains.controller.domain }}"
-  tasks:
-    - name: register to rhsm
-      ansible.builtin.include_role:
-        name: ../roles/rhsm
-    - name: do initial node setup
-      ansible.builtin.include_role:
-        name: ../roles/edge_management_node
-    - name: setup ansible controller
-      ansible.builtin.include_role:
-        name: ../roles/control_node
+- name: import edge manager playbook
+  ansible.builtin.import_playbook: edge-management.yml
 
-- name: setup gitea, populate controller
-  hosts:
-    - edge_management
-  pre_tasks:
-    - name: set source_control_host dns name and setup record
-      when:
-        - route53_domains.gitea is defined
-      block:
-        - name: set var for gitea role
-          ansible.builtin.set_fact:
-            source_control_hostname: "{{ route53_domains.gitea.domain }}"
-        - name: setup dns in route53
-          ansible.builtin.include_role:
-            name: ../roles/aws_dns
-          vars:
-            route53_dns_record: "{{ route53_domains.gitea.domain }}"
-    
-    - name: fallback to ip address
-      ansible.builtin.set_fact:
-        source_control_hostname: "{{ ansible_host }}"
-      when:
-        - source_control_hostname is not defined
-  
-  tasks:
-    - name: include gitea setup role
-      ansible.builtin.include_role:
-        name: ../roles/setup_gitea
-    - name: populate controller
-      ansible.builtin.include_role:
-        name: ../roles/populate_single_controller
+- name: import install controller playbook
+  ansible.builtin.import_playbook: install-controller.yml
 
-- name: compose images
-  ansible.builtin.import_playbook: compose-images.yml
+- name: import gitea playbook
+  ansible.builtin.import_playbook: gitea.yml
+
+- name: import populate controller playbook
+  ansible.builtin.import_playbook: populate-controller.yml
 
 - name: setup attendance host
   ansible.builtin.import_playbook: attendance.yml
+
+- name: compose images
+  ansible.builtin.import_playbook: compose-images.yml
