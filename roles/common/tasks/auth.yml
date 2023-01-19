@@ -1,0 +1,8 @@
+---
+
+- name: allow password auth
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    line: PasswordAuthentication yes
+    regexp: '^PasswordAuthentication'
+  notify: restart_sshd
