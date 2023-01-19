@@ -60,3 +60,8 @@
 
 - name: compose images
   ansible.builtin.import_playbook: compose-images.yml
+
+- name: import playbook to set active image
+  ansible.builtin.import_playbook: set-active-image.yml
+  vars:
+    desired_image_version: '1.0.0'

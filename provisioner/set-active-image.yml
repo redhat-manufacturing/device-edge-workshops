@@ -1,0 +1,10 @@
+---
+
+- name: set the active image in an ostree repo
+  hosts:
+    - edge_management
+  become: true
+  tasks:
+    - name: include role
+      ansible.builtin.include_role:
+        name: ../roles/set_active_image
