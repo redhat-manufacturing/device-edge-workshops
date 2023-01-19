@@ -120,8 +120,9 @@ controller_inventories_yaml: |-
       student_number: "{{ student_number }}"
   {% endfor %}
 
-controller_credentials_yaml: |-
-  {% for student_number in range(1, student_total + 1) %}
+# These are student specific because we must query the API for credentials under the student user so we only see that student's credentials
+# Loop over these by student number, which is slower but not bad
+controller_credentials:
   - name: Gitea Credentials
     organization: "Student{{ student_number }} Organization"
     credential_type: Source Control
@@ -131,20 +132,8 @@ controller_credentials_yaml: |-
   - name: Edge Manager SSH Credentials
     organization: "Student{{ student_number }} Organization"
     credential_type: Machine
-    inputs:
-  {% if 'aws' in group_names %}
-      username: "{{ ansible_user }}"
-      ssh_key_data: "{{ lookup('file', ssh_key_data_path) }}"
-  {% endif %}
-  {%if 'local' in group_names %}
-      username: "{{ ansible_user }}"
-      password: "{{ ansible_password }}"
-      become_password: "{{ ansible_become_password }}"
-  {% endif %}
-  {% endfor %}
+    inputs: "{{ edge_manager_credential_inputs }}"
 
-# These are student specific because we must query the API for credentials under the student user so we only see that student's credentials
-# Loop over these by student number, which is slower but not bad
 controller_projects:
   - name: Device Edge Codebase
     organization: "Student{{ student_number }} Organization"

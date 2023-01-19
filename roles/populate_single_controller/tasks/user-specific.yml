@@ -1,5 +1,9 @@
 ---
 
+- name: configure credentials
+  ansible.builtin.include_role:
+    name: redhat_cop.controller_configuration.credentials
+
 - name: configure projects
   ansible.builtin.include_role:
     name: redhat_cop.controller_configuration.projects
