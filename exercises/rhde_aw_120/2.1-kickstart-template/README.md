@@ -73,7 +73,7 @@ Here we've convered a few lines to be more dynamic so this template is re-usable
 
 Since we're provisioning these systems over the network, it may be necessary to include networking information in the kickstart to ensure the device is on the network prior to trying to pull the OS.
 
-If wired networking and DHCP is available, then most likely things will just work "out of the box". If you're using virtualized devices in AWS, this will most likely be your experience as the workshop's VPC will have DHCP available, and the virtual machines will be presented with a "wired" connection.
+If wired networking and DHCP is available, then most likely things will just work "out of the box" by specifying `network --bootproto=dhcp --onboot=true` in the kickstart file. If you're using virtualized devices in AWS, this will most likely be your experience as the workshop's VPC will have DHCP available, and the virtual machines will be presented with a "wired" connection.
 
 Wifi connections are not supported in the `network` line of a kickstart, so we'll establish the connection using `nmcli` in the `%pre` section of the kickstart. Additionally, we'll conditionalize this via `if/endif` statements so this section is only present if wireless credentials have been provided.
 
@@ -88,6 +88,16 @@ nmcli dev wifi connect "{{ wifi_network }}" password "{{ wifi_password }}"
 {% endraw %}
 NetworkManager should automatically select the correct device for us to connect to a wireless network.
 
+We'll also add the following for wired connections:
+
+{% raw %}
+```
+{% if wifi_network is not defined  %}
+network --bootproto=dhcp --onboot=true
+{% endif %}
+```
+{% endraw %}
+Take note that this is not part of `%pre`, it goes in the same section as the rest of of the kickstart options. Check the [solutions](#solutions) section for more info.
 
 ### Step 4 - Creating a Call Home Playbook
 
@@ -209,10 +219,14 @@ systemctl enable aap-auto-registration.service
 The finished kickstart should look be similar to this:
 {% raw %}
 ```
+{% if wifi_network is defined and wifi_password is defined %}
 %pre
 nmcli dev wifi connect "{{ wifi_network }}" password "{{ wifi_password }}"
 %end
-
+{% endif %}
+{% if wifi_network is not defined  %}
+network --bootproto=dhcp --onboot=true
+{% endif %}
 keyboard --xlayouts='us'
 lang en_US.UTF-8
 timezone UTC
