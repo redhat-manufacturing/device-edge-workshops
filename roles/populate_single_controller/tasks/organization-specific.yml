@@ -24,11 +24,6 @@
   vars:
     controller_inventories: "{{ controller_inventories_yaml|from_yaml }}"
 
-- debug:
-    msg: "{{ controller_credentials }}"
-  vars:
-    controller_credentials: "{{ controller_credentials_yaml|from_yaml }}" 
-
 - name: configure credentials
   ansible.builtin.include_role:
     name: redhat_cop.controller_configuration.credentials
