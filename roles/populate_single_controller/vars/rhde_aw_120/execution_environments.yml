@@ -1,6 +1,0 @@
----
-
-controller_execution_environments:
-  - name: Device Edge Workshops Execution Environment
-    image: quay.io/device-edge-workshops/provisioner-execution-environment:latest
-    pull: missing

@@ -1,0 +1,167 @@
+---
+
+# These are configured for global use
+controller_execution_environments:
+  - name: Device Edge Workshops Execution Environment
+    image: quay.io/device-edge-workshops/provisioner-execution-environment:latest
+    pull: missing
+
+controller_credential_types:
+  - name: Kickstart User
+    kind: cloud
+    inputs:
+      fields:
+        - id: kickstart_user_username
+          type: string
+          label: Kickstart User Username
+        - id: kickstart_user_password
+          type: string
+          label: Kickstart User Password
+          secret: true
+    injectors:
+      extra_vars:
+        kickstart_user_username: "{  { kickstart_user_username }}"
+        kickstart_user_password: "{  { kickstart_user_password }}"
+  - name: OSTree Info
+    kind: cloud
+    inputs:
+      fields:
+        - id: ostree_repo_protocol
+          type: string
+          label: OSTree Repo Protocol
+        - id: ostree_repo_host
+          type: string
+          label: OSTree Repo Host
+        - id: ostree_repo_port
+          type: string
+          label: OSTree Repo Port
+        - id: ostree_repo_path
+          type: string
+          label: OSTree Repo Path
+        - id: ostree_os_name
+          type: string
+          label: OSTree OS Name
+        - id: ostree_ref
+          type: string
+          label: OSTree Ref
+    injectors:
+      extra_vars:
+        ostree_repo_protocol: "{  { ostree_repo_protocol }}"
+        ostree_repo_host: "{  { ostree_repo_host }}"
+        ostree_repo_port: "{  { ostree_repo_port }}"
+        ostree_repo_path: "{  { ostree_repo_path }}"
+        ostree_os_name: "{  { ostree_os_name }}"
+        ostree_ref: "{  { ostree_ref }}"
+  - name: Wireless Network Connection Info
+    kind: cloud
+    inputs:
+      fields:
+        - id: wifi_network
+          type: string
+          label: Wireless Network SSID
+        - id: wifi_password
+          type: string
+          label: Wireless Network Password
+          secret: true
+    injectors:
+      extra_vars:
+        wifi_network: "{  { wifi_network }}"
+        wifi_password: "{  { wifi_password }}"
+  - name: Ansible Controller API Authentication Info
+    kind: cloud
+    inputs:
+      fields:
+        - id: controller_host
+          type: string
+          label: Controller Host
+        - id: controller_api_username
+          type: string
+          label: Controller API Username
+        - id: controller_api_password
+          type: string
+          label: Controller API Password
+          secret: true
+    injectors:
+      extra_vars:
+        controller_host: "{  { controller_host }}"
+        controller_api_username: "{  { controller_api_username }}"
+        controller_api_password: "{  { controller_api_password }}"        
+
+# These can be templated out for all students
+controller_organizations_yaml: |-
+  {% for student_number in range(1, student_total + 1) %}
+  - name: "Student{{ student_number }} Organization"
+  {% endfor %}
+
+controller_users_yaml: |-
+  {% for student_number in range(1, student_total + 1) %}
+  - username: "student{{ student_number }}"
+    password: "{{ admin_password }}"
+    email: "student{{ student_number }}@dont-email.me"
+    organization: "Student{{ student_number }} Organization"
+  {% endfor %}
+
+controller_roles_yaml: |-
+  {% for student_number in range(1, student_total + 1) %}
+  - user: "student{{ student_number }}"
+    organization: "Student{{ student_number }} Organization"
+    role: admin
+  {% endfor %}
+
+controller_inventories_yaml: |-
+  {% for student_number in range(1, student_total + 1) %}
+  - name: Edge Systems
+    organization: "Student{{ student_number }} Organization"
+    variables:
+      student_number: "{{ student_number }}"
+  - name: Edge Utilities
+    organization: "Student{{ student_number }} Organization"
+    variables:
+      student_number: "{{ student_number }}"
+  {% endfor %}
+
+controller_credentials_yaml: |-
+  {% for student_number in range(1, student_total + 1) %}
+  - name: Gitea Credentials
+    organization: "Student{{ student_number }} Organization"
+    credential_type: Source Control
+    inputs:
+      username: "student{{ student_number }}"
+      password: "{{ admin_password }}"
+  - name: Edge Manager SSH Credentials
+    organization: "Student{{ student_number }} Organization"
+    credential_type: Machine
+    inputs:
+  {% if 'aws' in group_names %}
+      username: "{{ ansible_user }}"
+      ssh_key_data: "{{ lookup('file', ssh_key_data_path) }}"
+  {% endif %}
+  {%if 'local' in group_names %}
+      username: "{{ ansible_user }}"
+      password: "{{ ansible_password }}"
+      become_password: "{{ ansible_become_password }}"
+  {% endif %}
+  {% endfor %}
+
+# These are student specific because we must query the API for credentials under the student user so we only see that student's credentials
+# Loop over these by student number, which is slower but not bad
+controller_projects:
+  - name: Device Edge Codebase
+    organization: "Student{{ student_number }} Organization"
+    scm_type: git
+    scm_branch: main
+    scm_url: http://{{ source_control_hostname }}:3000/student{{ student_number }}/device-edge-codebase.git
+    credential: Gitea Credentials
+
+controller_templates:
+  - name: Test Device Connectivity
+    organization: "Student{{ student_number }} Organization"
+    inventory: Edge Systems
+    project: Device Edge Codebase
+    playbook: playbooks/hello-world.yml
+
+controller_hosts:
+  - name: edge_manager
+    inventory: Edge Utilities
+    variables:
+      ansible_host: "{{ edge_manager_host }}"

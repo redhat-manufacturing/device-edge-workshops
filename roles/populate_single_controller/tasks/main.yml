@@ -2,26 +2,30 @@
 
 - name: load in {{ workshop_type }} vars
   ansible.builtin.include_vars:
-    file: "vars/{{ workshop_type }}/controller-components.yml"
+    file: "vars/{{ workshop_type }}/controller-config.yml"
 
 - name: import pre-flight tasks
   ansible.builtin.import_tasks: pre-flight.yml
 
-- name: include tasks to configure controller | one-time config
+- name: include cross-organization config
   ansible.builtin.include_tasks:
-    file: one-time-config.yml
-  loop: "{{ one_time_config_components }}"
-  loop_control:
-    loop_var: controller_component
+    file: cross-organization.yml
+    apply:
+      delegate_to: localhost
 
-- name: include tasks to configure controller | admin level
+- name: include organization-specific config
   ansible.builtin.include_tasks:
-    file: manage-components.yml
-  loop: "{{ (range(1, (student_total + 1), 1)|list)|product(admin_level_components)|list }}"
+    file: organization-specific.yml
+    apply:
+      delegate_to: localhost
 
 - name: include tasks to configure controller | user level
   ansible.builtin.include_tasks:
-    file: manage-components.yml
-  loop: "{{ (range(1, (student_total + 1), 1)|list)|product(user_level_components)|list }}"
+    file: user-specific.yml
+    apply:
+      delegate_to: localhost
   vars:
-    controller_username: "student{{ item.0 }}"
+    controller_username: "student{{ student_number }}"
+  loop: "{{ (range(1, (student_total + 1), 1)|list) }}"
+  loop_control:
+    loop_var: student_number

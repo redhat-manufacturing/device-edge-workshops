@@ -1,6 +1,0 @@
----
-
-controller_roles:
-  - user: "student{{ student_number }}"
-    organization: "Student{{ student_number }} Organization"
-    role: admin

@@ -1,7 +1,0 @@
----
-
-controller_user_accounts:
-  - username: "student{{ student_number }}"
-    password: "{{ admin_password }}"
-    email: "student{{ student_number }}@dont-email.me"
-    organization: "Student{{ student_number }} Organization"

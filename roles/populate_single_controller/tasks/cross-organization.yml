@@ -1,0 +1,9 @@
+---
+
+- name: configure execution environments
+  ansible.builtin.include_role:
+    name: redhat_cop.controller_configuration.execution_environments
+
+- name: configure credential types
+  ansible.builtin.include_role:
+    name: redhat_cop.controller_configuration.credential_types

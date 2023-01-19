@@ -1,0 +1,36 @@
+---
+
+- name: configure organizations
+  ansible.builtin.include_role:
+    name: redhat_cop.controller_configuration.organizations
+  vars:
+    controller_organizations: "{{ controller_organizations_yaml|from_yaml }}"
+
+- name: configure users
+  ansible.builtin.include_role:
+    name: redhat_cop.controller_configuration.users
+  vars:
+    controller_user_accounts: "{{ controller_users_yaml|from_yaml }}"
+
+- name: configure roles
+  ansible.builtin.include_role:
+    name: redhat_cop.controller_configuration.roles
+  vars:
+    controller_roles: "{{ controller_roles_yaml|from_yaml }}"
+
+- name: configure inventories
+  ansible.builtin.include_role:
+    name: redhat_cop.controller_configuration.inventories
+  vars:
+    controller_inventories: "{{ controller_inventories_yaml|from_yaml }}"
+
+- debug:
+    msg: "{{ controller_credentials }}"
+  vars:
+    controller_credentials: "{{ controller_credentials_yaml|from_yaml }}" 
+
+- name: configure credentials
+  ansible.builtin.include_role:
+    name: redhat_cop.controller_configuration.credentials
+  vars:
+    controller_credentials: "{{ controller_credentials_yaml|from_yaml }}"

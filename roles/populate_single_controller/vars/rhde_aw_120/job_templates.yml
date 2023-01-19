@@ -1,8 +1,0 @@
----
-
-controller_templates:
-  - name: Test Device Connectivity
-    organization: "Student{{ student_number }} Organization"
-    inventory: Edge Systems
-    project: Device Edge Codebase
-    playbook: playbooks/hello-world.yml

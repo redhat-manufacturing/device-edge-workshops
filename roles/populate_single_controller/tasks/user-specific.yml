@@ -1,0 +1,13 @@
+---
+
+- name: configure projects
+  ansible.builtin.include_role:
+    name: redhat_cop.controller_configuration.projects
+
+- name: configure job templates
+  ansible.builtin.include_role:
+    name: redhat_cop.controller_configuration.job_templates
+
+- name: configure hosts
+  ansible.builtin.include_role:
+    name: redhat_cop.controller_configuration.hosts
