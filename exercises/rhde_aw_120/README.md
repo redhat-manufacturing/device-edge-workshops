@@ -49,18 +49,17 @@ Having said that, this workshop is built to take roughly 2 hours.
 
 ## Section 2 - Setting Up for Zero Touch Provisioning
 
-* [Exercise 2.1 - Creating a Provision Workflow](2.1-provisioning-workflow)
-* [Exercise 2.2 - Creating a Kickstart Template](2.2-kickstart-template)
-* [Exercise 2.3 - Creating Custom Credentials for Kickstart Template](2.3-kickstart-creds)
-* [Exercise 2.4 - Templating Out Our Kickstart](2.4-kickstart-playbook)
-* [Exercise 2.5 - Creating a Customized ISO](2.5-build-iso)
+* [Exercise 2.1 - Creating a Kickstart Template](2.1-kickstart-template)
+* [Exercise 2.2 - Creating Custom Credentials for Kickstart Template](2.2-kickstart-creds)
+* [Exercise 2.3 - Templating Out Our Kickstart](2.3-kickstart-playbook)
+* [Exercise 2.4 - Creating a Customized ISO](2.4-build-iso)
+* [Exercise 2.5 - Creating a Provision Workflow](2.5-provisioning-workflow)
 
 ## Section 3 - Kickstarting a Device
 
 * [Exercise 3.1 - Booting an Edge Device](3.1-boot-edge-device)
-* [Exercise 3.2 - Creating a VM in Cockpit](3.2-create-cockpit-vm)
-* [Exercise 3.3 - Booting a Virtualized Edge Device](3.3-start-cockpit-vm)
-* [Exercise 3.4 - Red Hat Device Edge OS Investigation](3.4-rhde-os-intro)
+* [Exercise 3.2 - Booting an Edge Virtual Machine](3.2-boot-edge-vm)
+* [Exercise 3.3 - Red Hat Device Edge OS Investigation](3.4-rhde-os-intro)
 
 ## Section 4 - Deploying a Bare-Metal Workload
 
