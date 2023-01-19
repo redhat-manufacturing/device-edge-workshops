@@ -24,6 +24,4 @@
         that:
           - edge_management_node_ami.name[5] | int >= 8
           - edge_management_node_ami.name[7] | int >= 6
-          - edge_hypervisor_node_ami.name[5] | int >= 8
-          - edge_hypervisor_node_ami.name[7] | int >= 6
         msg: "Please use RHEL8.6 or later"
