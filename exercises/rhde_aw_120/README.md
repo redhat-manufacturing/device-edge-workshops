@@ -13,9 +13,10 @@ After finishing this lab you are ready to start using Red Hat Device Edge to run
   - [Lab Diagram](#lab-diagram)
   - [Section 1 - Investigating the Lab Environment](#section-1---investigating-the-lab-environment)
   - [Section 2 - Setting Up for Zero Touch Provisioning](#section-2---setting-up-for-zero-touch-provisioning)
-  - [Section 3 - Deploying a Bare-Metal Workload](#section-3---deploying-a-bare---metal-workload)
-  - [Section 4 - Deploying a Containerized Workload](#section-4---deploying-a-containerized-workload)
-  - [Section 5 - Deploying a Kubernetes Native Application](#section-5---deploying-a-kubernetes-native-application)
+  - [Section 3 - Kickstarting a Device](#section-3---kickstarting-a-device)
+  - [Section 4 - Deploying a Bare-Metal Workload](#section-4---deploying-a-bare-metal-workload)
+  - [Section 5 - Deploying a Containerized Workload](#section-5---deploying-a-containerized-workload)
+  - [Section 6 - Deploying a Kubernetes Native Application](#section-6---deploying-a-kubernetes-native-application)
 
 ## Presentations
 
@@ -62,27 +63,27 @@ Having said that, this workshop is built to take roughly 2 hours.
 * [Exercise 3.3 - Observing Zero Touch Provisioning](3.3-ztp-intro)
 * [Exercise 3.4 - Red Hat Device Edge OS Investigation](3.4-rhde-os-intro)
 
-## Section 4 - Deploying a Bare-Metal Workload
+## Section 4 - Deploying a Bare Metal Workload
 
-* [Exercise 3.1 - Updating Image for a Bare Metal Application](3.1-base-metal-image)
-* [Exercise 3.2 - Automated Device Update](0.1-update-device)
-* [Exercise 3.3 - Create Automation to Deploy Application](3.3-bare-metal-app-automation)
-* [Exercise 3.4 - Deploy Application](3.4-deploy-bare-metal-app)
+* [Exercise 4.1 - Updating Image for a Bare Metal Application](3.1-base-metal-image)
+* [Exercise 4.2 - Automated Device Update](0.1-update-device)
+* [Exercise 4.3 - Create Automation to Deploy Application](3.3-bare-metal-app-automation)
+* [Exercise 4.4 - Deploy Application](3.4-deploy-bare-metal-app)
 
 ## Section 5 - Deploying a Containerized Workload
 
-* [Exercise 4.1 - Updating Image for Bare Metal Deployment](4.1-podman-image)
-* [Exercise 3.2 - Automated Device Update](0.1-update-device)
-* [Exercise 4.3 - Leveraging redhat.rhel_system_roles.podman Role](4.3-podman-role)
-* [Exercise 4.4 - Deploy Application](4.4-deploy-containerized-app)
+* [Exercise 5.1 - Updating Image for Bare Metal Deployment](4.1-podman-image)
+* [Exercise 5.2 - Automated Device Update](0.1-update-device)
+* [Exercise 5.3 - Leveraging redhat.rhel_system_roles.podman Role](4.3-podman-role)
+* [Exercise 5.4 - Deploy Application](4.4-deploy-containerized-app)
 
 ## Section 6 - Deploying a Kubernetes Native Application
 
-* [Exercise 5.1 - Adding Device Edge Functunality-to the Image](5.1-add-device-edge)
-* [Exercise 3.2 - Automated Device Update](0.1-update-device)
-* [Exercise 5.3 - Investigate New Device Edge Functionality](5.3-device-edge-features)
-* [Exercise 5.4 - Create Automation to Deploy Application](5.4-device-edge-app-deployment)
-* [Exercise 5.5 - Deploy Application](2.4-deploy-to-device-edge)
+* [Exercise 6.1 - Adding Device Edge Functunality-to the Image](5.1-add-device-edge)
+* [Exercise 6.2 - Automated Device Update](0.1-update-device)
+* [Exercise 6.3 - Investigate New Device Edge Functionality](5.3-device-edge-features)
+* [Exercise 6.4 - Create Automation to Deploy Application](5.4-device-edge-app-deployment)
+* [Exercise 6.5 - Deploy Application](2.4-deploy-to-device-edge)
 
 ## Supplamental Resources
 infra.osbuild
