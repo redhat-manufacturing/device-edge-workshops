@@ -2,15 +2,7 @@
 
 - name: populate controller for students
   hosts:
-    - edge_management
-  pre_tasks:
-    - name: set source_control_host dns name and setup record
-      when:
-        - route53_domains.gitea is defined
-      block:
-        - name: set var for gitea role
-          ansible.builtin.set_fact:
-            source_control_hostname: "{{ route53_domains.gitea.domain }}"
+    - controller
   tasks:
     - name: populate controller
       ansible.builtin.include_role:
