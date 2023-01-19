@@ -1,0 +1,11 @@
+---
+
+- name: set the active commit in the repo
+  ansible.builtin.shell:
+    cmd: >
+      ostree commit
+      --repo={{ ostree_repo_path }}
+      --branch={{ ostree_repo_branch }}
+      --subject='Release {{ desired_image_version }}'
+      --add-metadata-string='version={{ desired_image_version }}'
+      --tree=ref={{ desired_ref }}

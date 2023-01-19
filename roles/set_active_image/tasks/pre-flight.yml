@@ -1,0 +1,10 @@
+---
+
+- name: slurp up composes.yml file
+  ansible.builtin.slurp:
+    src: /var/www/html/composes.yml
+  register: available_images_raw
+  
+- name: set available_images fact
+  ansible.builtin.set_fact:
+    available_images: "{{ available_images_raw['content'] | b64decode | from_yaml }}"

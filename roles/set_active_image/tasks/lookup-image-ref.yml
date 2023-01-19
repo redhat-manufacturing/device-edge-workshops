@@ -1,0 +1,7 @@
+---
+
+- name: lookup ref for image_version
+  ansible.builtin.set_fact:
+    desired_ref: "{{ (available_images | json_query(query))[0] }}"
+  vars:
+    query: "[?version=='{{ desired_image_version }}'].ref"

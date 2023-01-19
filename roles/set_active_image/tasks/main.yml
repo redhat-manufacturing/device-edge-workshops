@@ -1,0 +1,10 @@
+---
+
+- name: import pre-flight tasks
+  ansible.builtin.import_tasks: pre-flight.yml
+
+- name: import tasks to lookup ref
+  ansible.builtin.import_tasks: lookup-image-ref.yml
+
+- name: import tasks to set active image
+  ansible.builtin.import_tasks: set-active-image.yml

@@ -1,0 +1,5 @@
+---
+
+image_name: rhde-image
+ostree_repo_path: "/var/www/html/{{ image_name }}/repo"
+ostree_repo_branch: "rhel/{{ ansible_distribution_major_version }}/{{ ansible_architecture }}/edge"
