@@ -3,6 +3,7 @@
 collections:
   - name: ansible.utils
   - name: ansible.posix
+    version: '>=1.5.1'
   - name: awx.awx
   - name: community.aws
   - name: community.crypto
