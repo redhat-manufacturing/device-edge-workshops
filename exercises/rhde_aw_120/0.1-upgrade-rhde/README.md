@@ -3,10 +3,10 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Copying Our Customized ISO to the VM Storage](#step-1---copying-our-customized-iso-to-the-vm-storage)
-* [Step 2 - Attaching the ISO to your Virtual Machine](#step-2---attaching-the-iso-to-your-virtual-machine)
-* [Step 3 - Adjusting the Boot Options](#step-3---adjusting-the-boot-options)
-* [Step 4 - Powering On the Virtual Machine](#step-4---powering-on-the-virtual-machine)
+* [Step 1 - Reviewing How to Upgrade RHDE](#step-1---reviewing-how-to-upgrade-rhde)
+* [Step 2 - Creating a Playbook to Upgrade RHDE](#step-2---creating-a-playbook-to-upgrade-rhde)
+* [Step 3 - Creating a Job Template for our Upgrade Playbook](#step-3---creating-a-job-template-for-our-upgrade-playbook)
+* [Step 4 - Running The Upgrade Job](#step-4---running-the-upgrade-job)
 * [Solutions](#solutions)
 
 ## Objective
