@@ -3,11 +3,8 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Copying Our Customized ISO to the VM Storage](#step-1---copying-our-customized-iso-to-the-vm-storage)
-* [Step 2 - Attaching the ISO to your Virtual Machine](#step-2---attaching-the-iso-to-your-virtual-machine)
-* [Step 3 - Adjusting the Boot Options](#step-3---adjusting-the-boot-options)
-* [Step 4 - Powering On the Virtual Machine](#step-4---powering-on-the-virtual-machine)
-* [Solutions](#solutions)
+* [Step 1 - Reviewing the Requirements for the Application](#step-1---reviewing-the-requirements-for-the-application)
+* [Step 2 - Automated Device Update](#step-2---automated-device-update)
 
 ## Objective
 
@@ -44,6 +41,12 @@ Specifically, this image was customized with the following variables:
       - NetworkManager-wifi
       - ansible-core
 ```
+
+Here we can see that we've added `ELEL` are a repository for Image Builder, and `mosquitto` and `nodejs` images are added to the image.
+
+### Step 2 - Automated Device Update
+
+Proceed to [this exercise](../0.1-update-rhde/) for next steps on how to get your device updated to the correct image version.
 
 ---
 **Navigation**
