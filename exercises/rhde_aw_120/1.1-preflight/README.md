@@ -26,7 +26,7 @@ In this lab you work in a pre-configured lab environment. You will have access t
 | --- | --- |
 | Ansible Controller | Automation controller for running Ansible automation |
 | Gitea Source Control | SCM with a webUI for code storage |
-| rpm-osree Repo | Repo with various versions of an edge image available over an http server |
+| rpm-ostree Repo | Repo with various versions of an edge image available over an http server |
 
 Since this is a shortened lab, the Image Builder related steps have already been completed, and images are hosted and ready for consumption.
 
@@ -56,6 +56,7 @@ A baremetal instance has been created in RHPDS that will host virtual instances 
     <li>A web based console for bootstraping and troubleshooting</li>
     </ul>
     SSH access may be available as a backup, which provides access to the underlying tooling (such as virsh).
+    [Intro to Cockpit](https://www.redhat.com/sysadmin/intro-cockpit)
 </th>
 </tr>
 </thead>
