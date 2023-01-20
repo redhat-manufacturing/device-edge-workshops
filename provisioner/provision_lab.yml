@@ -65,3 +65,6 @@
   ansible.builtin.import_playbook: set-active-image.yml
   vars:
     desired_image_version: '1.0.0'
+
+- name: import random task playbook
+  ansible.builtin.import_playbook: random-task.yml
