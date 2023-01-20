@@ -17,7 +17,7 @@ In this exercise, we are going to investigate the workload we'll be deploying to
 
 This exercise will cover
 
-* The components of the application and their fuctions
+* The components of the application and their functions
 * The required communication between the components
 
 ### Step 1 - Introduction to the Workload
@@ -50,14 +50,14 @@ In a production setting these would not be acceptable, as anyone on the network 
 
 This brew process simulation includes a tank with a temperature sensor and heater. It is responsible for the following:
 
-- The simulation communicates via MQTT topics with the control and visualization components.
+- The simulation communicates via MQTT topics with the controller and visualization components.
 - The simulation, MQTT broker, control and visualization components are independent services.
 
 ![Simulation](https://github.com/jjaswanson4/process-demo-simulate/blob/master/system.png?raw=true)
 
-This component will need to communicate with other parts of the application, but does not need to be access directly.
+This component will need to communicate with other parts of the application, but does not need to be accessed directly.
 
-### Step 4 - The Contoller
+### Step 4 - The Controller
 
 This component takes input from the WebUI as well as information from the simulator and determines how much energy should be added or optionally, should the heater even be on.
 
