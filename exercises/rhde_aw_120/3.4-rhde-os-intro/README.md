@@ -74,6 +74,6 @@ total 28K
 ---
 **Navigation**
 
-[Previous Exercise](../3.3-ztp-intro) | [Next Exercise](../4.1-bare-metal-intro)
+[Previous Exercise](../3.3-ztp-intro) | [Next Exercise](../4.1-bare-metal-image)
 
 [Click here to return to the Workshop Homepage](../README.md)
