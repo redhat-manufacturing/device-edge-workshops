@@ -72,24 +72,30 @@ ansible-navigator run provisioner/provision_lab.yml -e @provisioner/extra_vars.y
 ---
 # where the workshop is being run
 run_in_aws: true
-run_locally: true
+run_locally: false
+
+# if local hypervisor nodes should be configured
+manage_local_hypervisor: false
 
 # region where the nodes will live
-ec2_region: us-east-1
+ec2_region: us-east-2
 
 # name prefix for all the VMs
-ec2_name_prefix: TESTWORKSHOP
+ec2_name_prefix: lab-prefix
 
-# Set the right workshop type, like network, rhel or f5 (see above)
+# Set the right workshop type
 workshop_type: rhde_aw_120
+
+# Set the number of student slots
+student_total: 10
 
 # Generate offline token to authenticate the calls to Red Hat's APIs
 # Can be accessed at https://access.redhat.com/management/api
-offline_token: "eyQ.60y_ezoosYst_FJlZfVsud9qGbDt7QRly6nhprqVEREi......XYZ"
+offline_token: "your-token-here"
 
 # Required for podman authentication to registry.redhat.io
-redhat_username: <redhat_username>
-redhat_password: <redhat_password>
+redhat_username: your-username
+redhat_password: your-password
 
 #####OPTIONAL VARIABLES
 
@@ -97,48 +103,39 @@ redhat_password: <redhat_password>
 dns_type: aws
 
 # password for Ansible control node
-admin_password: your_password123
+admin_password: lab-admin-password
 
 # Sets the Route53 DNS zone to use for Amazon Web Services
-workshop_dns_zone: demoredhat.com
+workshop_dns_zone: your-dns-zone-here.com
+
+# Use zeroSSL
+use_zerossl: true
+
+zerossl_account:
+  kid: your
+  key: info
+  alg: here
 
 # automatically installs Tower to control node
 controllerinstall: true
 
 # forces ansible.workshops collection to install latest edits every time
-developer_mode: true
+developer_mode: false
 
 # SHA value of targeted AAP bundle setup files.
-provided_sha_value: ea2843fae672274cb1b32447c9a54c627aa5bdf5577d9a6c7f957efe68be8c01
+provided_sha_value: e3cd033d6a6f5ddcdeb2f5b91b1382127d29b969fb224f260d0a4f1e495b20e6
+pre_build: false
 
-# Automation controller install setup command. Default: "./setup.sh -e gpgcheck=0" if undefined or empty
-controller_install_command: './setup.sh -e gpgcheck=0'
+# Don't need automation hub
+automation_hub: false
 
-# default vars for ec2 AMIs (ec2_info) are located in provisioner/roles/manage_ec2_instances/defaults/main/main.yml
-# select ec2_info AMI vars can be overwritten via ec2_xtra vars, e.g.:
-ec2_xtra:
-  satellite:
-    owners: 012345678910
-    filter: Satellite*
-    username: ec2-user
-    os_type: linux
-    size: r5b.2xlarge
+builder_pub_key: 'your-key-here'
 
-# Registry name to download execution environments
-ee_registry_name: registry.redhat.io
-
-# List of execution environments to download during controller installation:
-ee_images:
-   - "{{ ee_registry_name }}/ansible-automation-platform-21/ee-29-rhel8:latest"
-   - "{{ ee_registry_name }}/ee-supported-rhel8:latest"
-   - "{{ ee_registry_name }}/ansible-automation-platform-21/ee-minimal-rhel8:latest"
-
-# "Default execution environment" for controller
-ee_default_image: "{{ ee_registry_name }}/ee-supported-rhel8:latest"
+base64_manifest: your-manifest-here
 ```
 
 ### The Student Variable
-In normal Ansible workshops, a student number is defined to control how many student slots are provisioned, however to better reflect the edge mantra (and because, ideally, these workshops will be run with edge devices) that var simply controls the number of available signup slots on the attendance host. If no edge devices are available, or if additional capacity is required, the provisioner can fire up a bare metal instance to host virtualized edge devices via the `provision_baremetal_instance` variable.
+In normal Ansible workshops, a student number is defined to control how many student slots are provisioned, however to better reflect the edge mantra (and because, ideally, these workshops will be run with edge devices) that var simply controls the number of available signup slots on the attendance host. If no edge devices are available, or if additional capacity is required, the provisioner can fire up a bare metal instance to host virtualized edge devices.
 
 ### Building Local Resources
 To demonstrate the capabilities of the device edge stack running in a disconnected environment, the provisioner can also be used to configure a local asset (a laptop, NUC, whatever) to act as the 'edge-manager' box. This behavior is controlled by the `run_locally` variable. In addition to setting the var, you'll also need to set up an inventory, like so:
@@ -146,14 +143,18 @@ To demonstrate the capabilities of the device edge stack running in a disconnect
 all:
   children:
     edge_management:
-      children:
-        local:
-          hosts:
-            edge-manager-local:
-              ansible_host: 10.1.3.120
-              ansible_user: ansible_user
-              ansible_password: your_password123
-              ansible_become_password: your_password123
+      hosts:
+        edge-manager-local:
+          ansible_host: 10.1.3.70
+          ansible_user: ansible
+          ansible_password: your-password
+          ansible_become_password: your-password
+    controller:
+      hosts:
+        edge-manager-local:
+    local:
+      hosts:
+        edge-manager-local:
 ```
 
 The provisioner can build the workshop in aws, locally, or both if desired. Running in both can help avoid issues with networking not under the control of the instructor (think terribad hotel wifi) by having two distinct yet identical systems to run the lab from.
