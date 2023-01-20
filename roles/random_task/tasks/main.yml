@@ -1,0 +1,4 @@
+---
+
+- name: import tasks to mirror some packages
+  ansible.builtin.import_tasks: mirror-packages.yml

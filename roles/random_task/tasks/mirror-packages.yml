@@ -1,0 +1,21 @@
+---
+
+- name: create a directory for packages
+  ansible.builtin.file:
+    path: /var/www/html/packages
+    state: directory
+    owner: apache
+    group: apache
+
+- name: grab a few packages via dnf
+  ansible.builtin.dnf:
+    name:
+      - npm
+    download_only: true
+    download_dir: /var/www/html/packages/
+    disable_gpg_check: true
+
+- name: raw download a package
+  ansible.builtin.get_url:
+    url: https://kojipkgs.fedoraproject.org//packages/nodejs-typescript/4.1.3/4.fc36/noarch/nodejs-typescript-4.1.3-4.fc36.noarch.rpm
+    dest: /var/www/html/packages/

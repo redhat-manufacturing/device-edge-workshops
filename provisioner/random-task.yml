@@ -1,0 +1,10 @@
+---
+
+- name: borrow Dr. Evil's henchman
+  hosts:
+    - edge_management
+  become: true
+  tasks:
+    - name: import random tasks role
+      ansible.builtin.include_role:
+        name: ../roles/random_task
