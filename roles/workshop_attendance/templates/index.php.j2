@@ -365,11 +365,11 @@ function display_student($student) {
     </tr>
   </table>
   <br>
-  Hypervisor Access:  
+  manager Access:  
   <table>
     <tr>
         <td>WebUI Link</td>
-        <td><a href="https://{{ hostvars['edge-hypervisor-aws']['route53_domains']['cockpit']['domain'] }}:9090">https://{{ hostvars['edge-hypervisor-aws']['route53_domains']['cockpit']['domain'] }}:9090</a></td>
+        <td><a href="https://{{ hostvars['edge-manager-aws']['route53_domains']['cockpit']['domain'] }}:9090">https://{{ hostvars['edge-manager-aws']['route53_domains']['cockpit']['domain'] }}:9090</a></td>
     </tr>
     <tr>
         <td>Username:</td>
@@ -381,11 +381,11 @@ function display_student($student) {
     </tr>
   </table>
   <br>
-  Hypervisor SSH Access:
+  manager SSH Access:
   <table>
     <tr>
         <td>Hostname</td>
-        <td><code><a href="https://{{ hostvars['edge-hypervisor-aws']['route53_domains']['cockpit']['domain'] }}">{{ hostvars['edge-hypervisor-aws']['route53_domains']['cockpit']['domain'] }}</a></code></td>
+        <td><code><a href="https://{{ hostvars['edge-manager-aws']['route53_domains']['cockpit']['domain'] }}">{{ hostvars['edge-manager-aws']['route53_domains']['cockpit']['domain'] }}</a></code></td>
     </tr>
     <tr>
         <td>Username:</td>
