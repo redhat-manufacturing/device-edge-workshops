@@ -21,7 +21,7 @@ This exercise will cover
 Ideally you have an edge device at your workstation - a device from OnLogic, Intel NUC, etc, which has power and some peripherals. Depending on the environment, this may not be possible, in which case we'll be using KVM-based virtual machines to emulate an edge device.
 
 - If you have an edge device, proceed to [Step 2](#step-2---physical-edge-devices-introduction)
-- If you will be virtualizing an edge device, proceed to [Step 3](#step-3-edge-hypervisor-introduction)
+- If you will be virtualizing an edge device, proceed to [Step 3](#step-3---edge-hypervisor-introduction)
 
 ### Step 2 - Physical Edge Devices Introduction
 
@@ -58,6 +58,6 @@ Ensure you can access the virtual machines tab:
 ---
 **Navigation**
 
-[Previous Excercise](../1.3-source-control-intro) | [Next Exercise](../1.5-application-info)
+[Previous Excercise](../1.3-source-control-intro) | [Next Exercise](../1.5-application-intro)
 
 [Click here to return to the Workshop Homepage](../README.md)
