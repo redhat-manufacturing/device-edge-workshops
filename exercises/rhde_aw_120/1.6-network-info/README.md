@@ -13,16 +13,16 @@
 
 ## Objective
 
-In this exercise, we are going to gather the required information to be used for kickstarting our edge devices, whether physical devcies in the room or virtualized ones in AWS.
+In this exercise, we are going to gather the required information to be used for kickstarting our edge devices, whether physical devices in the room or virtualized ones in AWS.
 
 This exercise will cover
 
 * What IP addresses/DNS records to use
-* (If Applicible) What Network to use
+* (if applicable) What Network to use
 
 ### Step 1 - Grabbing Information for Physical Edge Devices
 
-For the physical devices, an "edge manager" node should be available. This will have been configured by the workshop proviosioner before the lab was started. Your instructor should have the information ready for you.
+For the physical devices, an "edge manager" node should be available. This will have been configured by the workshop provisioner before the lab was started. Your instructor should have the information ready for you.
 
 In addition, the devices will be connected to the same network (wired or wireless) for provisioning and management. The instructor will be communicating this information to you as well.
 
