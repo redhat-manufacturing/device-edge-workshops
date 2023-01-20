@@ -84,6 +84,6 @@ An execution environment has been created that has all the necessary collections
 ---
 **Navigation**
 
-[Previous Excercise](../1.1-preflight) | [Next Exercise](../1.3-controller-intro)
+[Previous Excercise](../1.1-preflight) | [Next Exercise](../1.3-source-control-intro)
 
 [Click here to return to the Workshop Homepage](../README.md)
