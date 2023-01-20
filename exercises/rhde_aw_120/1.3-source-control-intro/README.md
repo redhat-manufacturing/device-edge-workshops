@@ -13,11 +13,11 @@
 
 ## Objective
 
-In this exercise, we are going to get logged in to Gitea and 
+In this exercise, we are going to get logged into Gitea and explore the content of your instance.
 
 This exercise will cover
 
-* Logging in to Gitea
+* Logging into Gitea
 * Exploring the pre-populated repo
 
 
@@ -27,7 +27,7 @@ This exercise will cover
 
 > Note: If you are using Gitea in AWS: the login information can be found on your student page.
 
-After entering the URL in a browser, you will be greated with the Gitea login page. To log in, the username will be "student$(your_student_number)", such as `student1`, and the pasword is located on your student page.
+After entering the URL in a browser, you will be greeted with the Gitea login page. To log in, the username will be "student$(your_student_number)", such as `student1`, and the pasword is located on your student page.
 
 ![Gitea Login Page](../images/gitea-login.png)
  
