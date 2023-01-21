@@ -68,15 +68,16 @@ Having said that, this workshop is built to take roughly 2 hours.
 * [Exercise 4.1 - Updating Image for a Bare Metal Application](../4.1-bare-metal-image)
 * [Exercise 4.2 - Automated Device Upgrade](0.1-upgrade-rhde)
 * [Exercise 4.3 - Create Automation to Deploy Application](4.3-bare-metal-app-automation)
-* [Exercise 4.4 - Deploy Application](4.4-deploy-bare-metal-app)
-* [Exercise 4.5 - Cleanup Bare Metal Application](4.5-cleanup-bare-metal-app)
+* [Exercise 4.4 - Deploy Bare Metal Application](4.4-deploy-bare-metal-app)
+* [Exercise 4.5 - Cleaning Up after the Bare Metal Application](4.5-cleanup-bare-metal-app)
 
 ## Section 5 - Deploying a Containerized Workload
 
-* [Exercise 5.1 - Updating Image for Bare Metal Deployment](4.1-podman-image)
+* [Exercise 5.1 - Updating the Image for Deploying a Containerized Application](5.1-containerized-image)
 * [Exercise 5.2 - Automated Device Update](0.1-update-device)
-* [Exercise 5.3 - Leveraging redhat.rhel_system_roles.podman Role](4.3-podman-role)
-* [Exercise 5.4 - Deploy Application](4.4-deploy-containerized-app)
+* [Exercise 5.3 - Creating Automation to Deploy a Containerized Application](5.3-containerized-app-automation)
+* [Exercise 5.4 - Deploy Containerized Application](5.4-deploy-containerized-app)
+* [Exercise 4.5 - Cleaning Up the Containerized Application](5.5-cleanup-containerized-app)
 
 ## Section 6 - Deploying a Kubernetes Native Application
 
