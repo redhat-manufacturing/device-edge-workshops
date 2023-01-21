@@ -10,13 +10,14 @@
 8. ~~Build hypervisor - mostly just cockpit setup~~
 9. ~~Populate Controller~~
 10. Pull EEs immediately during install
+11. Add to provisioning workflow: set device hostname
 
 ## Nice-to-Haves
 
-1. Valid SSL certs on Controller
-2. Valid SSL certs on Cockpit
-3. Probably can check for existing Controller input before running copy/extract tasks as well
-4. Really the student_users role should be more modular and just be looped over/included
-5. Do we really need rhsm registration? (I doubt it?)
-6. Use DNS for rpm-ostree repo (would require DNS in local, easy in AWS)
+1. ~~Valid SSL certs on Controller~~
+2. ~~Valid SSL certs on Cockpit~~
+3. ~~Probably can check for existing Controller input before running copy/extract tasks as well~~
+4. ~~Really the student_users role should be more modular and just be looped over/included~~
+5. ~~Do we really need rhsm registration? (I doubt it?)~~
+6. ~~Use DNS for rpm-ostree repo (would require DNS in local, easy in AWS)~~
 7. Can gitea.ini be templated out so web links work?
