@@ -1,0 +1,10 @@
+---
+
+- name: ensure services are started/enabled
+  ansible.builtin.systemd:
+    name: "{{ service }}"
+    state: started
+    enabled: true
+  loop: "{{ wireless_ap_services }}"
+  loop_control:
+    loop_var: service

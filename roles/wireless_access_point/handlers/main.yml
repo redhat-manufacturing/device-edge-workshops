@@ -1,0 +1,19 @@
+---
+
+- name: enable ip forwarding now
+  ansible.builtin.copy:
+    content: '1'
+    dest: /proc/sys/net/ipv4/ip_forward
+  listen:
+    - enable_ip_forwarding
+
+- name: restart services
+  ansible.builtin.systemd:
+    name: "{{ service }}"
+    state: started
+    enabled: true
+  loop: "{{ wireless_ap_services }}"
+  loop_control:
+    loop_var: service
+  listen:
+    - restart_services
