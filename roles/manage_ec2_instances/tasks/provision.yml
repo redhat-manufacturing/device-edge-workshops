@@ -1,7 +1,12 @@
 ---
-- name: ensure workshop folder {{ ec2_name_prefix }} exists
+
+- name: set workshop folder fact
+  ansible.builtin.set_fact:
+    workshop_folder: "{{ playbook_dir }}/{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+
+- name: ensure workshop folder exists
   file:
-    path: "{{ playbook_dir }}/{{ ec2_name_prefix }}"
+    path: "{{ workshop_folder }}"
     state: directory
 
 ## These AWS resources are used for every workshop type

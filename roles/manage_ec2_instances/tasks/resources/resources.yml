@@ -21,12 +21,12 @@
 - name: create file for all AWS security group rules
   template:
     src: vpc_rules.j2
-    dest: "{{playbook_dir}}/{{ec2_name_prefix}}/aws_rules.yml"
+    dest: "{{ workshop_folder }}/aws_rules.yml"
   delegate_to: localhost
   run_once: true
 
 - include_vars:
-    file: "{{playbook_dir}}/{{ec2_name_prefix}}/aws_rules.yml"
+    file: "{{ workshop_folder }}/aws_rules.yml"
 
 - name: Create EC2 security group for VPC named {{ ec2_name_prefix }}-vpc
   amazon.aws.ec2_group:
@@ -143,20 +143,20 @@
 - name: save private key
   copy:
     content: "{{ create_key.key.private_key }}"
-    dest: "{{ playbook_dir }}/{{ ec2_name_prefix }}/{{ ec2_name_prefix }}-private.pem"
+    dest: "{{ workshop_folder }}/ssh-key.pem"
     mode: '0400'
   when: create_key.changed
 
 - name: retrieve public key
   ansible.builtin.shell:
-    cmd: ssh-keygen -y -f "{{ playbook_dir }}/{{ ec2_name_prefix }}/{{ ec2_name_prefix }}-private.pem"
+    cmd: "ssh-keygen -y -f {{ workshop_folder }}/ssh-key.pem"
   register: pub_key
   when: create_key.changed
 
 - name: save public key
   copy:
     content: "{{ pub_key.stdout }}"
-    dest: "{{ playbook_dir }}/{{ ec2_name_prefix }}/{{ ec2_name_prefix }}.pub"
+    dest: "{{ workshop_folder }}/ssh-key.pub"
     mode: '0400'
   when: create_key.changed
 
@@ -165,7 +165,7 @@
 
 - name: Ensure key file has proper permissions
   file:
-    dest: "{{ playbook_dir }}/{{ ec2_name_prefix }}/{{ ec2_name_prefix }}-private.pem"
+    dest: "{{ workshop_folder }}/ssh-key.pem"
     mode: 0600
 
 - name: debugging all variables for ec2 instance creation VPC-1
