@@ -54,7 +54,8 @@ Having said that, this workshop is built to take roughly 2 hours.
 * [Exercise 2.2 - Creating Custom Credentials for Kickstart Template](2.2-kickstart-creds)
 * [Exercise 2.3 - Templating Out Our Kickstart](2.3-kickstart-playbook)
 * [Exercise 2.4 - Creating a Customized ISO](2.4-build-iso)
-* [Exercise 2.5 - Creating a Provision Workflow](2.5-provisioning-workflow)
+* [Exercise 2.5 - Initial Device Configuration Automation](2.5-device-config-automation)
+* [Exercise 2.6 - Creating a Provisioning Workflow](2.6-provisioning-workflow)
 
 ## Section 3 - Kickstarting a Device
 
@@ -77,12 +78,13 @@ Having said that, this workshop is built to take roughly 2 hours.
 * [Exercise 5.2 - Automated Device Update](0.1-update-device)
 * [Exercise 5.3 - Creating Automation to Deploy a Containerized Application](5.3-containerized-app-automation)
 * [Exercise 5.4 - Deploy Containerized Application](5.4-deploy-containerized-app)
-* [Exercise 4.5 - Cleaning Up the Containerized Application](5.5-cleanup-containerized-app)
+* [Exercise 5.5 - Cleaning Up the Containerized Application](5.5-cleanup-containerized-app)
 
 ## Section 6 - Deploying a Kubernetes Native Application
 
 * [Exercise 6.1 - Adding Device Edge Functunality-to the Image](5.1-add-device-edge)
 * [Exercise 6.2 - Automated Device Update](0.1-update-device)
+--todo--
 * [Exercise 6.3 - Investigate New Device Edge Functionality](5.3-device-edge-features)
 * [Exercise 6.4 - Create Automation to Deploy Application](5.4-device-edge-app-deployment)
 * [Exercise 6.5 - Deploy Application](2.4-deploy-to-device-edge)
