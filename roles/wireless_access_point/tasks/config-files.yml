@@ -1,0 +1,11 @@
+---
+
+- name: push config files
+  ansible.builtin.template:
+    src: "templates/{{ template.src }}.js"
+    dest: "{{ template.dest }}"
+  loop: "{{ config_files }}"
+  loop_control:
+    loop_var: template
+  notify:
+    - restart_services

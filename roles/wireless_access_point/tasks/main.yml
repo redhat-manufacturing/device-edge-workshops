@@ -1,0 +1,10 @@
+---
+
+- name: import packages tasks
+  ansible.builtin.import_tasks: packages.yml
+
+- name: import config file tasks
+  ansible.builtin.import_tasks: config-files.yml
+
+- name: import iptables tasks
+  ansible.builtin.import_tasks: iptables.yml

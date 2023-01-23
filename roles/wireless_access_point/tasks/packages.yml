@@ -1,0 +1,8 @@
+---
+
+- name: install packages
+  ansible.builtin.dnf:
+    name: "{{ wireless_ap_packages }}"
+    state: present
+  notify:
+    - restart_services

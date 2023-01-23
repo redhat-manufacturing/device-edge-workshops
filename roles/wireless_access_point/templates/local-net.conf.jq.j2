@@ -1,0 +1,13 @@
+domain-needed
+bogus-priv
+dhcp-authoritative
+no-dhcp-interface={{ wan_interface }}
+interface={{ wlan_interface }}
+local=/{{ local_dns_domain }}/
+{% for server in upstream_dns_servers %}
+server={{ server }}
+{% endif %}
+expand-hosts
+domain={{ local_dns_domain }}
+dhcp-range={{ dhcp_lower_limit }},{{ dhcp_upper_limit }},{{ dhcp_lease_time }}
+dhcp-option=119,{{ local_dns_domain }}
