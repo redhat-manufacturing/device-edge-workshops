@@ -1,0 +1,10 @@
+---
+
+- name: borrow Dr. Evil's henchman
+  hosts:
+    - wireless_ap
+  become: true
+  tasks:
+    - name: include wireless_access_point role
+      ansible.builtin.include_role:
+        name: ../roles/wireless_access_point
