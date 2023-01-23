@@ -1,5 +1,7 @@
 ---
 
+workshop_controller_ee: quay.io/device-edge-workshops/provisioner-execution-environment:latest
+
 builder_blueprint_name: rhde-image
 
 builder_compose_customizations:
