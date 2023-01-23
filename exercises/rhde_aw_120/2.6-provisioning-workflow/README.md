@@ -61,13 +61,14 @@ Click **Save**
 
 After saving the workflow, you'll be presented with the workflow visualizer. Click the **Start** button to begin adding nodes.
 
-We're going to add two nodes to our workflow to begin with:
+We're going to add three nodes to our workflow to begin with:
 1. Sync our code repo
 2. Run the **Test Device Connectivity** job template
+3. Run the **Initial Device Configuration** job template
 
 These nodes should be connected via an **On-Success** connection in the workflow.
 
-Once you've added the two nodes to the workflow, click the **Save** button in the top right corner.
+Once you've added the three nodes to the workflow, click the **Save** button in the top right corner.
 
 ### Solutions
 
@@ -88,6 +89,10 @@ Once you've added the two nodes to the workflow, click the **Save** button in th
 ##### Test Device Connectivity Node:
 
 ![Test Connectivity Node](../images/test-connectivity-node.png)
+
+##### Initial Device Configuration Node:
+
+![Initial Device Configuration Node](../images/initial-device-config-workflow-node.png)
 
 ##### Finished Workflow:
 
