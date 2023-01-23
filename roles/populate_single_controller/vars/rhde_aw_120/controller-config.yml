@@ -85,7 +85,18 @@ controller_credential_types:
       extra_vars:
         controller_host: "{  { controller_host }}"
         controller_api_username: "{  { controller_api_username }}"
-        controller_api_password: "{  { controller_api_password }}"        
+        controller_api_password: "{  { controller_api_password }}"
+  - name: Openshift Pull Secret
+    kind: cloud
+    inputs:
+      fields:
+        - id: ocp_pull_secret
+          type: string
+          label: Openshift Pull Secret
+          secret: true
+    injectors:
+      extra_vars:
+        ocp_pull_secret: "{  { ocp_pull_secret }}"  
 
 # These can be templated out for all students
 controller_organizations_yaml: |-
