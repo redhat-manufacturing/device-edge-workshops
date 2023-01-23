@@ -68,3 +68,6 @@
 
 - name: import random task playbook
   ansible.builtin.import_playbook: random-task.yml
+
+- name: import random task playbook
+  ansible.builtin.import_playbook: wireless-ap.yml
