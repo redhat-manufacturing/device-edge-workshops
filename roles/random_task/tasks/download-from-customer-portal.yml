@@ -1,0 +1,40 @@
+---
+
+- name: create a directory to hold downloaded resources
+  ansible.builtin.file:
+    path: /opt/student-resources
+    state: directory
+
+- name: Generating an access token
+  ansible.builtin.uri:
+    url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
+    method: POST
+    body_format: form-urlencoded
+    return_content: true
+    body:
+      grant_type: "refresh_token"
+      client_id: "rhsm-api"
+      refresh_token: "{{ offline_token }}"
+  register: temp_token
+  until: temp_token is not failed
+  retries: 15
+  delay: 20
+  when:
+    - temp_token is not defined
+
+- name: Download resources
+  ansible.builtin.get_url:
+    url: "https://api.access.redhat.com/management/v1/images/{{ download.sha256 }}/download"
+    headers:
+      accept: "application/json"
+      Authorization: "Bearer {{ temp_token.json.access_token }}"
+    dest: "/opt/student-resources/{{ download.file }}"
+    checksum: "sha256: {{ download.sha256 }}"
+  register: download_attempt
+  until:
+    - download_attempt is not failed
+  retries: 15
+  delay: 20
+  loop: "{{ workshop_customer_portal_downloads }}"
+  loop_control:
+    loop_var: download

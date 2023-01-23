@@ -2,3 +2,6 @@
 
 - name: import tasks to mirror some packages
   ansible.builtin.import_tasks: mirror-packages.yml
+
+- name: import tasks to download stuff from the customer portal
+  ansible.builtin.import_tasks: download-from-customer-portal.yml

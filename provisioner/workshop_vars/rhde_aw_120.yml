@@ -1,5 +1,9 @@
 ---
 
+workshop_customer_portal_downloads:
+  - file: rhel-8-boot.iso
+    sha256: 47e5dbb37b5970f583d0852973af86cc1b522ee1f1e2374c59204583c14717fa
+
 workshop_controller_ee: quay.io/device-edge-workshops/provisioner-execution-environment:latest
 
 builder_blueprint_name: rhde-image
