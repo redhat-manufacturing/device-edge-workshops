@@ -31,14 +31,11 @@
 - name: import connectivity playbook
   ansible.builtin.import_playbook: ensure-connectivity.yml
 
-# - name: import rhsm playbook
-#   ansible.builtin.import_playbook: rhsm.yml
+- name: import rhsm playbook
+  ansible.builtin.import_playbook: rhsm.yml
 
-# - name: import common roles playbook
-#   ansible.builtin.import_playbook: common.yml
-
-- name: import wireless access point playbook
-  ansible.builtin.import_playbook: wireless-ap.yml
+- name: import common roles playbook
+  ansible.builtin.import_playbook: common.yml
 
 - name: import cockpit playbook
   ansible.builtin.import_playbook: cockpit.yml
