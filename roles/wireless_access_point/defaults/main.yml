@@ -6,7 +6,10 @@ wlan_interface: wifi0
 wlan_ssid: EdgeRules
 wlan_passphrase: your-password-here
 
-local_dns_domain: "{{ ec2_name_prefix }}{{ workshop_dns_zone | regex_replace('com', 'lcl') }}"
+local_dns_domain: "{{ ec2_name_prefix }}.{{ workshop_dns_zone | regex_replace('com', 'lcl') }}"
+
+local_network_gateway: 192.168.200.1
+local_network_prefix: 24
 
 dhcp_lower_limit: 192.168.200.10
 dhcp_upper_limit: 192.168.200.250
@@ -20,7 +23,7 @@ wireless_ap_config_files:
   - src: hostapd.conf
     dest: /etc/hostapd/hostapd.conf
   - src: local-net.conf
-    dest: /etc/dnsmasq.conf.d/local-net.conf
+    dest: /etc/dnsmasq.d/local-net.conf
 
 wireless_ap_packages:
   - iw
