@@ -288,7 +288,7 @@ function display_student($student) {
   Link to workshop exercises: Insert link from provisioner here<br>
   <br>
   
-  If using AWS resources, use the following netowrk information to kickstart:
+  If using AWS resources, use the following network information to kickstart:
   <table>
     <tr>
         <td>IP Address:</td>
@@ -296,7 +296,7 @@ function display_student($student) {
     </tr>
     <tr>
         <td>DNS Hostname:</td>
-        <td><a>edge-manager.{{ hostvars['edge-manager-aws']['route53_domains']['controller']['domain'] }}</a></td>
+        <td><a>{{ hostvars['edge-manager-aws']['route53_domains']['edge_manager']['domain'] }}</a></td>
     </tr>
   </table> 
   <br>
@@ -309,7 +309,7 @@ function display_student($student) {
     </tr>
     <tr>
         <td>DNS Hostname:</td>
-        <td><a>edge-manager.{{ hostvars['edge-manager-local']['ansible_host'] | regex_replace('com', 'lcl') }}</a></td>  
+        <td><a>{{ hostvars['edge-manager-local']['local_domains']['edge_manager']['domain'] | regex_replace('com', 'lcl') }}</a></td>  
     </tr> 
   </table>
   <br>
@@ -317,7 +317,7 @@ function display_student($student) {
   
   <div id="section_title">AWS resources</div>
   <br>
-  Source control Gitea Access:
+  Source Control/Gitea Access:
   <table>
     <tr>
         <td>WebUI Link</td>
@@ -404,7 +404,7 @@ function display_student($student) {
   <table>
     <tr>
         <td>WebUI Link</td>
-        <td><a href="http://{{ hostvars['edge-manager-local']['ansible_host'] }}:3000">http://{{ hostvars['edge-manager-local']['ansible_host'] }}:3000</a></td>
+        <td><a href="http://{{ hostvars['edge-manager-local']['local_domains']['gitea']['domain'] }}:3000">http://{{ hostvars['edge-manager-local']['local_domains']['gitea']['domain'] }}:3000</a></td>
     </tr>
     <tr>
         <td>Username:</td>
@@ -420,7 +420,7 @@ function display_student($student) {
   <table>
     <tr>
         <td>WebUI Link</td>
-        <td><a href="https://{{ hostvars['edge-manager-local']['ansible_host'] }}:9090">https://{{ hostvars['edge-manager-local']['ansible_host'] }}:9090</a></td>
+        <td><a href="https://{{ hostvars['edge-manager-local']['local_domains']['cockpit']['domain'] }}:9090">https://{{ hostvars['edge-manager-local']['local_domains']['cockpit']['domain'] }}:9090</a></td>
     </tr>
     <tr>
         <td>Username:</td>
@@ -436,7 +436,7 @@ function display_student($student) {
   <table>
     <tr>
         <td>WebUI Link</td>
-        <td><a href="https://{{ hostvars['edge-manager-local']['ansible_host'] }}">https://{{ hostvars['edge-manager-local']['ansible_host'] }}</a></td> 
+        <td><a href="https://{{ hostvars['edge-manager-local']['local_domains']['controller']['domain'] }}">https://{{ hostvars['edge-manager-local']['local_domains']['controller']['domain'] }}</a></td> 
     </tr>
     <tr>
         <td>Username:</td>
