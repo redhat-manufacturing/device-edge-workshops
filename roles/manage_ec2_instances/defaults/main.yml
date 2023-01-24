@@ -53,7 +53,7 @@ ec2_info:
     size: c5n.metal
     os_type: linux
     disk_volume_type: gp3
-    disk_space: 500
+    disk_space: 1000
     disk_iops: 3000
     disk_throughput: 125
     architecture: x86_64
