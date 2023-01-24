@@ -1,4 +1,4 @@
-# Workshop Exercise - Investigating Source Control
+# Workshop Exercise 1.3 - Investigating Source Control
 
 ## Table of Contents
 
