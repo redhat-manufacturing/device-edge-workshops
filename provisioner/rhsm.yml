@@ -1,6 +1,6 @@
 ---
 
-- name: setup rhsm,edge_management,controller
+- name: setup rhsm
   hosts:
     - edge_management
     - controller
