@@ -1,4 +1,4 @@
-# Workshop Exercise - Preflight Checks
+# Workshop Exercise 1.1 - Preflight Checks
 
 ## Table of Contents
 
