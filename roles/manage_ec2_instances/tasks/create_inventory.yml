@@ -42,4 +42,4 @@
 - name: Generate instructor inventory
   template:
     src: "instructor_inventory/instructor_inventory_{{workshop_type}}.j2"
-    dest: "{{ playbook_dir }}/{{ec2_name_prefix}}/instructor_inventory.ini"
+    dest: "{{ workshop_folder }}/instructor_inventory.ini"
