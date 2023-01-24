@@ -20,13 +20,21 @@
             name: ../roles/zerossl_cert
           vars:
             domain_name: "{{ route53_domains.cockpit.domain }}"
-        - name: setup with custom certs
-          ansible.builtin.include_role:
-            name: fedora.linux_system_roles.cockpit
-          vars:
+        - name: set cert facts
+          ansible.builtin.set_fact:
             cockpit_cert: "/etc/ssl/{{ route53_domains.cockpit.domain }}/{{ route53_domains.cockpit.domain.split('.')[0] }}-fullchain.crt"
             cockpit_private_key: "/etc/ssl/{{ route53_domains.cockpit.domain }}/{{ route53_domains.cockpit.domain.split('.')[0] }}.pem"
+    
+    - name: setup local dns
+      when:
+        - local_domains.cockpit is defined
+      block:
+        - name: setup dns record
+          ansible.builtin.include_role:
+            name: ../roles/local_dns
+          vars:
+            local_dns_record: "{{ local_domains.cockpit.domain }}"
 
-    - name: setup cockpit with self-signed certs
+    - name: install cockpit
       ansible.builtin.include_role:
         name: fedora.linux_system_roles.cockpit
