@@ -33,6 +33,9 @@
   template:
     src: templates/index.php.j2
     dest: /usr/share/nginx/html/index.php
+  notify:
+    - restart php-fpm
+    - restart nginx
 
 - name: Copy files over to attendance node
   copy:
@@ -43,6 +46,9 @@
     - redhat-logo.svg
     - style.css
     - favicon.ico
+  notify:
+    - restart php-fpm
+    - restart nginx
 
 - name: Copy list file to server
   template:
