@@ -11,3 +11,4 @@ expand-hosts
 domain={{ local_dns_domain }}
 dhcp-range={{ dhcp_lower_limit }},{{ dhcp_upper_limit }},{{ dhcp_lease_time }}
 dhcp-option=119,{{ local_dns_domain }}
+dhcp-option=option:router,{{ local_network_gateway }}
