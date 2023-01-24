@@ -1,8 +1,4 @@
 ---
-
-- name: import pre-flight tasks
-  ansible.builtin.import_tasks: pre-flight.yml
-
 - name: check if composes.yml exists
   ansible.builtin.stat:
     path: /var/www/html/composes.yml
