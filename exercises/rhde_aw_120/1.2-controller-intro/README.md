@@ -1,4 +1,4 @@
-# Workshop Exercise - Investigating Ansible Controller
+# Workshop Exercise 1.2 - Investigating Ansible Controller
 
 ## Table of Contents
 
