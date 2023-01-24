@@ -2,8 +2,10 @@
 
 - name: add gateway address to interface
   ansible.builtin.shell:
-    cmd: "ip addr add {{ local_network_gateway }} dev {{ wlan_interface }}"
+    cmd: "ip addr add {{ local_network_gateway }}/{{ local_network_prefix }} dev {{ wlan_interface }}"
   register: address_added
   changed_when:
     - "'File exists' not in address_added.stderr"
   failed_when: false
+  notify:
+    - restart_services
