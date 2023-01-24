@@ -9,8 +9,7 @@
 - name: restart services
   ansible.builtin.systemd:
     name: "{{ service }}"
-    state: started
-    enabled: true
+    state: restarted
   loop: "{{ wireless_ap_services }}"
   loop_control:
     loop_var: service
