@@ -2,4 +2,5 @@
 
 - name: convert public key path to var
   ansible.builtin.set_fact:
-    public_key_path: "{{ playbook_dir }}/{{ ec2_name_prefix }}/{{ ec2_name_prefix }}.pub"
+    public_key_path: "{{ playbook_dir }}/{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/ssh-key.pub"
+
