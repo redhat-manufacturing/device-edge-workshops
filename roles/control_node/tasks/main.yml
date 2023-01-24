@@ -31,3 +31,10 @@
     - controllerinstall is defined
     - controllerinstall|bool
     - check_controller.status != 200
+
+- name: handle EEs if knob is set
+  include_tasks: "40_controller.yml"
+  # when:
+  #   - controllerinstall is defined
+  #   - controllerinstall|bool
+  #   - check_controller.status != 200
