@@ -1,4 +1,4 @@
-# Workshop Exercise 3.4 - Red Hat Device Edge OS Investigation
+# Workshop Exercise 0.1 - Automated Device Upgrade
 
 ## Table of Contents
 
@@ -15,7 +15,7 @@ The purpose of this exercise is to review how RHDE is updated, and then automate
 
 > Note:
 >
-> This exercise is reused at a few different times throughout the workshop, so if you've already completed some of these steps, jump to (add-here)
+> This exercise is reused at a few different times throughout the workshop, so if you've already completed some of these steps, jump to [step 4](#step-4---running-the-upgrade-job).
 
 ### Step 1 - Reviewing How to Upgrade RHDE
 
