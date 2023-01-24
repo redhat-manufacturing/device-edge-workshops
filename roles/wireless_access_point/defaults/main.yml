@@ -17,7 +17,7 @@ upstream_dns_servers:
   - 8.8.4.4
 
 wireless_ap_config_files:
-  - src: lostapd.conf
+  - src: hostapd.conf
     dest: /etc/hostapd/hostapd.conf
   - src: local-net.conf
     dest: /etc/dnsmasq.conf.d/local-net.conf
