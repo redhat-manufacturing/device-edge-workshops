@@ -23,7 +23,7 @@ wireless_ap_config_files:
   - src: hostapd.conf
     dest: /etc/hostapd/hostapd.conf
   - src: local-net.conf
-    dest: /etc/dnsmasq.d/local-net.conf
+    dest: /etc/dnsmasq.conf
 
 wireless_ap_packages:
   - iw
