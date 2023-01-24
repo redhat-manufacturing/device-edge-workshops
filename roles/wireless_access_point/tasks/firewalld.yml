@@ -1,0 +1,17 @@
+---
+
+- name: trust created network
+  ansible.posix.firewalld:
+    source: 192.168.200.0/24
+    zone: trusted
+    permanent: true
+    immediate: true
+    state: enabled
+
+- name: trust interface
+  ansible.posix.firewalld:
+    interface: "{{ wlan_interface }}"
+    zone: trusted
+    permanent: true
+    immediate: true
+    state: enabled
