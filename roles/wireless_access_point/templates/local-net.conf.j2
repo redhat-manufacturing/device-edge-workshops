@@ -6,7 +6,7 @@ interface={{ wlan_interface }}
 local=/{{ local_dns_domain }}/
 {% for server in upstream_dns_servers %}
 server={{ server }}
-{% endif %}
+{% endfor %}
 expand-hosts
 domain={{ local_dns_domain }}
 dhcp-range={{ dhcp_lower_limit }},{{ dhcp_upper_limit }},{{ dhcp_lease_time }}
