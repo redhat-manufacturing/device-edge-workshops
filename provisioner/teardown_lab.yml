@@ -52,6 +52,7 @@
     s3_state: absent
     state: absent
     debug_teardown: false
+    workshop_folder: "{{ playbook_dir }}/{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
 
   tasks:
     - {include_role: {name: ../roles/manage_ec2_instances}}
@@ -60,5 +61,5 @@
 
     - name: Remove workshop local files
       file:
-        dest: "{{ playbook_dir }}/{{ ec2_name_prefix }}"
+        dest: "{{ workshop_folder }}"
         state: absent
