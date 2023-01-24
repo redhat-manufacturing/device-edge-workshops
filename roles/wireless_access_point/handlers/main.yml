@@ -1,9 +1,8 @@
 ---
 
 - name: enable ip forwarding now
-  ansible.builtin.copy:
-    content: '1'
-    dest: /proc/sys/net/ipv4/ip_forward
+  ansible.builtin.shell:
+    cmd: echo '1' > /proc/sys/net/ipv4/ip_forward
   listen:
     - enable_ip_forwarding
 
