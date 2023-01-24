@@ -22,7 +22,7 @@ upstream_dns_servers:
 wireless_ap_config_files:
   - src: hostapd.conf
     dest: /etc/hostapd/hostapd.conf
-  - src: local-net.conf
+  - src: dnsmasq.conf
     dest: /etc/dnsmasq.conf
 
 wireless_ap_packages:
