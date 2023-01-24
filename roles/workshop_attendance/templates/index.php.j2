@@ -296,7 +296,7 @@ function display_student($student) {
     </tr>
     <tr>
         <td>DNS Hostname:</td>
-        <td><a>{{ hostvars['edge-manager-aws']['route53_domains']['controller']['domain'] }}</a></td>
+        <td><a>edge-manager.{{ hostvars['edge-manager-aws']['route53_domains']['controller']['domain'] }}</a></td>
     </tr>
   </table> 
   <br>
@@ -307,10 +307,10 @@ function display_student($student) {
         <td>IP Address:</td>
         <td>{{ hostvars['edge-manager-local']['ansible_host'] }}</td>
     </tr>
-    {#<tr>
+    <tr>
         <td>DNS Hostname:</td>
-        <td>{{ hostvars['edge-manager-local']['ansible_host'] }}</td>  
-    </tr>#} 
+        <td><a>edge-manager.{{ hostvars['edge-manager-local']['ansible_host'] | regex_replace('com', 'lcl') }}</a></td>  
+    </tr> 
   </table>
   <br>
   <br>
@@ -365,7 +365,7 @@ function display_student($student) {
     </tr>
   </table>
   <br>
-  manager Access:  
+  {# manager Access:  
   <table>
     <tr>
         <td>WebUI Link</td>
@@ -395,7 +395,7 @@ function display_student($student) {
         <td>Password:</td>
         <td><code>{{ admin_password }}</code></td>
     </tr>
-  </table>  
+  </table> #}  
   <br>
   
   <div id="section_title">Local resources</div>
