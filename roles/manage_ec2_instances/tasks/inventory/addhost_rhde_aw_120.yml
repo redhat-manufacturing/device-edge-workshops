@@ -19,7 +19,7 @@
         ansible_host: "{{ item.public_ip_address }}"
         ansible_user: "{{ item.tags.username }}"
         ansible_port: "{{ ssh_port }}"
-        ansible_ssh_private_key_file: "{{ playbook_dir }}/{{ec2_name_prefix}}/{{ec2_name_prefix}}-private.pem"
+        ansible_ssh_private_key_file: "{{ workshop_folder }}/ssh-key.pem"
         route53_domains:
           controller:
             domain: "controller.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
