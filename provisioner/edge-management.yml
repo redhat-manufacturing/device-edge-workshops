@@ -4,6 +4,27 @@
   hosts:
     - edge_management
   become: true
+  pre_tasks:
+    - name: setup aws dns
+      when:
+        - route53_domains.edge_manager is defined
+      block:
+        - name: setup dns in route53
+          ansible.builtin.include_role:
+            name: ../roles/aws_dns
+          vars:
+            route53_dns_record: "{{ route53_domains.edge_manager.domain }}"
+    
+    - name: setup local dns
+      when:
+        - local_domains.edge_manager is defined
+      block:
+        - name: setup dns record
+          ansible.builtin.include_role:
+            name: ../roles/local_dns
+          vars:
+            local_dns_record: "{{ local_domains.edge_manager.domain }}"
+
   tasks:
     - name: do initial node setup
       ansible.builtin.include_role:
