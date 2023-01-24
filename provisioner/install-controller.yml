@@ -30,7 +30,7 @@
           ansible.builtin.include_role:
             name: ../roles/local_dns
           vars:
-            loocal_dns_record: "{{ local_domains.controller.domain }}"
+            local_dns_record: "{{ local_domains.controller.domain }}"
   tasks:
     - name: setup ansible controller
       ansible.builtin.include_role:
