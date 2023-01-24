@@ -2,9 +2,9 @@
 
 - name: push config files
   ansible.builtin.template:
-    src: "templates/{{ template.src }}.js"
+    src: "templates/{{ template.src }}.j2"
     dest: "{{ template.dest }}"
-  loop: "{{ config_files }}"
+  loop: "{{ wireless_ap_config_files }}"
   loop_control:
     loop_var: template
   notify:
