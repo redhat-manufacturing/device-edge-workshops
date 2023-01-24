@@ -1,6 +1,6 @@
 ---
 
-- name: borrow Dr. Evil's henchman
+- name: setup device to be a wireless router/AP
   hosts:
     - wireless_ap
   become: true
