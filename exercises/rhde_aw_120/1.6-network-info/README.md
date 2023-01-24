@@ -3,13 +3,9 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Introduction to the Workload](#step-1---introduction-to-the-workload)
-* [Step 2 - The MQTT Broker](#step-2---the-mqtt-broker)
-* [Step 3 - The Simulator](#step-3---the-simulator)
-* [Step 4 - The Controller](#step4---the-controller)
-* [Step 5 - The WebUI](#step-5---the-webui)
-* [Step 6 - The Assembled Application](#step-1---the-assembled-application)
-
+* [Step 1 - Grabbing Information for Physical Edge Devices](#step-1---grabbing-information-for-physical-edge-devices)
+* [Step 2 - Network Information in AWS](#step-2---network-information-in-aws)
+* [Step 3 - Saving the Information](#step-3---saving-the-information)
 
 ## Objective
 
