@@ -26,11 +26,42 @@ Stay tuned!
 ### Special Thanks
 
 The Red Hat Edge team would like to offer special thanks to the following people for their contributions to this workshop or the components that make it work:
-- James Harmison | Red Hat
-- Adam Miller | Red Hat
-- Chris Santiago | Red Hat
-- Matthew Sandoval | Red Hat
-- Tim Biernat | Rockwell Automation
-- Aaron Neustedter | Rockwell Automation
-- Luca Ferrari | Red Hat
-- Jeremiah Swanson | Red Hat
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Organization</th>
+  </tr>
+  <tr>
+    <td>James Harmison</td>
+    <td>Red Hat</td>
+  </tr>
+  <tr>
+    <td>Adam Miller</td>
+    <td>Red Hat</td>
+  </tr>
+  <tr>
+    <td>Chris Santiago</td>
+    <td>Red Hat</td>
+  </tr>
+  <tr>
+    <td>Matthew Sandoval</td>
+    <td>Red Hat</td>
+  </tr>
+  <tr>
+    <td>Tim Biernat</td>
+    <td>Rockwell Automation</td>
+  </tr>
+  <tr>
+    <td>Aaron Neustedter</td>
+    <td>Rockwell Automation</td>
+  </tr>
+  <tr>
+    <td>Luca Ferrari</td>
+    <td>Red Hat</td>
+  </tr>
+   <tr>
+    <td>Jeremiah Swanson</td>
+    <td>Red Hat</td>
+  </tr> 
+</table>
