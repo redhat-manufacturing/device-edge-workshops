@@ -1,0 +1,12 @@
+---
+
+- name: setup local dns
+  hosts:
+    - dns
+  become: true
+  vars:
+    setup_local_dns: true
+  tasks:
+    - name: include local-dns role
+      ansible.builtin.include_role:
+        name: ../roles/local_dns
