@@ -1,0 +1,21 @@
+---
+
+- name: include setup tasks
+  ansible.builtin.include_tasks:
+    file: "{{ tasks_file }}"
+  loop:
+    - packages.yml
+    - config-files.yml
+    - firewalld.yml
+    - services.yml
+  loop_control:
+    loop_var: tasks_file
+  when:
+    - setup_local_dns is defined
+    - setup_local_dns|bool
+
+- name: inclde management record tasks
+  ansible.builtin.include_tasks:
+    file: manage-dns-records.yml
+  when:
+    - local_dns_record is defined

@@ -1,0 +1,8 @@
+---
+
+- name: install packages
+  ansible.builtin.dnf:
+    name: "{{ local_dns_packages }}"
+    state: present
+  notify:
+    - restart_services

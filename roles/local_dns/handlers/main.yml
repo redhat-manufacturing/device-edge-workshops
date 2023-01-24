@@ -1,0 +1,11 @@
+---
+
+- name: restart services
+  ansible.builtin.systemd:
+    name: "{{ service }}"
+    state: restarted
+  loop: "{{ local_dns_services }}"
+  loop_control:
+    loop_var: service
+  listen:
+    - restart_services

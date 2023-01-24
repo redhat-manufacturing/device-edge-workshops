@@ -1,0 +1,10 @@
+---
+
+- name: ensure services are started/enabled
+  ansible.builtin.systemd:
+    name: "{{ service }}"
+    state: started
+    enabled: true
+  loop: "{{ local_dns_services }}"
+  loop_control:
+    loop_var: service

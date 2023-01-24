@@ -27,6 +27,8 @@
             domain: "cockpit.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
           gitea:
             domain:  "gitea.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
+          edge_manager:
+            domain: "edge-manager.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
         groups: edge_management,aws,control_nodes,edge_hypervisor,controller
       with_items:
         - "{{ edge_management_node_facts.instances }}"

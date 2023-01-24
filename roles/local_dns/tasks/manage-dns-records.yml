@@ -1,0 +1,7 @@
+---
+
+- name: put host record into file for dnsmasq
+  ansible.builtin.lineinfile:
+    path: /etc/dnsmasq.hosts
+    line: '{{ ansible_default_ipv4.address }} {{ local_dns_record }}'
+    insertafter: EOF

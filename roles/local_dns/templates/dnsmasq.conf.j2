@@ -1,0 +1,9 @@
+domain-needed
+bogus-priv
+local=/{{ local_dns_domain }}/
+{% for server in upstream_dns_servers %}
+server={{ server }}
+{% endfor %}
+expand-hosts
+domain={{ local_dns_domain }}
+addn-hosts=/etc/dnsmasq.hosts

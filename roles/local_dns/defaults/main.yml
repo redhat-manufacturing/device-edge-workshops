@@ -1,0 +1,17 @@
+---
+
+local_dns_domain: "{{ ec2_name_prefix }}.{{ workshop_dns_zone | regex_replace('com', 'lcl') }}"
+
+upstream_dns_servers:
+  - 8.8.8.8
+  - 8.8.4.4
+
+local_dns_config_files:
+  - src: dnsmasq.conf
+    dest: /etc/dnsmasq.conf
+
+local_dns_packages:
+  - dnsmasq
+
+local_dns_services:
+  - dnsmasq.service
