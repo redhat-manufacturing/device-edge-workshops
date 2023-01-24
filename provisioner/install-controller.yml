@@ -24,13 +24,13 @@
             domain_name: "{{ route53_domains.controller.domain }}"
     - name: setup local dns for controller
       when:
-        - local_dns_domains.controller is defined
+        - local_domains.controller is defined
       block:
         - name: setup local dns
           ansible.builtin.include_role:
             name: ../roles/local_dns
           vars:
-            loocal_dns_record: "{{ local_dns_domains.controller.domain }}"
+            loocal_dns_record: "{{ local_domains.controller.domain }}"
   tasks:
     - name: setup ansible controller
       ansible.builtin.include_role:
