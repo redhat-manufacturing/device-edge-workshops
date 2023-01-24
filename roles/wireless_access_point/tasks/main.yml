@@ -6,6 +6,12 @@
 - name: import config file tasks
   ansible.builtin.import_tasks: config-files.yml
 
+- name: import firewalld tasks
+  ansible.builtin.import_tasks: firewalld.yml
+
+- name: import gateway address tasks
+  ansible.builtin.import_tasks: gateway-address.yml
+
 - name: import services tasks
   ansible.builtin.import_tasks: services.yml
 
