@@ -4,7 +4,7 @@
   hosts:
     - edge_management
   pre_tasks:
-    - name: set source_control_host dns name and setup record
+    - name: set source_control_host dns name and setup record | aws
       when:
         - route53_domains.gitea is defined
       block:
@@ -16,6 +16,19 @@
             name: ../roles/aws_dns
           vars:
             route53_dns_record: "{{ route53_domains.gitea.domain }}"
+
+    - name: set source_control_host dns name and setup record | local
+      when:
+        - route53_domains.gitea is defined
+      block:
+        - name: set var for gitea role
+          ansible.builtin.set_fact:
+            source_control_hostname: "{{ local_domains.gitea.domain }}"
+        - name: setup dns in route53
+          ansible.builtin.include_role:
+            name: ../roles/local_dns
+          vars:
+            local_dns_record: "{{ local_domains.gitea.domain }}"
     
     - name: fallback to ip address
       ansible.builtin.set_fact:
