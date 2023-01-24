@@ -9,8 +9,10 @@
 7. Update documentation _significantly_
 8. ~~Build hypervisor - mostly just cockpit setup~~
 9. ~~Populate Controller~~
-10. Pull EEs immediately during install
-11. Add to provisioning workflow: set device hostname
+10. ~~Pull EEs immediately during install~~
+11. ~~Add to provisioning workflow: set device hostname~~
+12. Move this stupid list to isseus
+13. Handle local DNS
 
 ## Nice-to-Haves
 
