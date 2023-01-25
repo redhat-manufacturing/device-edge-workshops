@@ -66,7 +66,7 @@ Having said that, this workshop is built to take roughly 2 hours.
 
 ## Section 4 - Deploying a Bare Metal Workload
 
-* [Exercise 4.1 - Updating Image for a Bare Metal Application](../4.1-bare-metal-image)
+* [Exercise 4.1 - Updating Image for a Bare Metal Application](4.1-bare-metal-image)
 * [Exercise 4.2 - Automated Device Upgrade](0.1-upgrade-rhde)
 * [Exercise 4.3 - Create Automation to Deploy Application](4.3-bare-metal-app-automation)
 * [Exercise 4.4 - Deploy Bare Metal Application](4.4-deploy-bare-metal-app)
