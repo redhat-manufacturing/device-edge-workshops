@@ -316,6 +316,6 @@ submenu 'Troubleshooting -->' {
 ---
 **Navigation**
 
-[Previous Exercise](../2.3-kickstart-playbook) | [Next Exercise](../2.3-kickstart-playbook)
+[Previous Exercise](../2.3-kickstart-playbook) | [Next Exercise](../2.5-device-config-automation)
 
 [Click here to return to the Workshop Homepage](../README.md)
