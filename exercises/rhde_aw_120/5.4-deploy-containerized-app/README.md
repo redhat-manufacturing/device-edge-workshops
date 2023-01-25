@@ -94,6 +94,6 @@ Another thought: this could be added to the end of our provisioning workflow to 
 ---
 **Navigation**
 
-[Previous Exercise](../4.4-bare-metal-app-automation) | [Next Exercise](../5.5-cleanup-containerized-app)
+[Previous Exercise](../5.3-containerized-app-automation) | [Next Exercise](../5.5-cleanup-containerized-app)
 
 [Click here to return to the Workshop Homepage](../README.md)
