@@ -21,12 +21,13 @@
       ansible.builtin.set_fact:
         available_images: "{{ available_images_raw['content'] | b64decode | from_yaml }}" 
 
-- name: run infra.osbuild.builder role
-  ansible.builtin.include_role:
-    name: infra.osbuild.builder
+- name: run infra.osbuild.builder role and capture the output
   when:
     - not composes_file.stat.exists or
       image.version not in available_images|json_query('[*].version')|list
-
-- name: import post-flight tasks
-  ansible.builtin.import_tasks: post-flight.yml
+  block:
+    - name: run the image builder role
+      ansible.builtin.include_role:
+        name: infra.osbuild.builder
+    - name: include post-flight tasks
+      ansible.builtin.include_tasks: post-flight.yml
