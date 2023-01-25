@@ -3,9 +3,30 @@
 - name: import pre-flight tasks
   ansible.builtin.import_tasks: pre-flight.yml
 
+- name: check if composes.yml exists
+  ansible.builtin.stat:
+    path: /var/www/html/composes.yml
+  register: composes_file
+
+- name: attempt to read in composed images
+  when:
+    - composes_file.stat.exists
+  block:
+    - name: slurp up composes.yml file
+      ansible.builtin.slurp:
+        src: /var/www/html/composes.yml
+      register: available_images_raw
+      
+    - name: set available_images fact
+      ansible.builtin.set_fact:
+        available_images: "{{ available_images_raw['content'] | b64decode | from_yaml }}" 
+
 - name: run infra.osbuild.builder role
   ansible.builtin.include_role:
     name: infra.osbuild.builder
+  when:
+    - not composes_file.stat.exists or
+      image.version not in available_images|json_query('[*].version')|list
 
 - name: import post-flight tasks
   ansible.builtin.import_tasks: post-flight.yml
