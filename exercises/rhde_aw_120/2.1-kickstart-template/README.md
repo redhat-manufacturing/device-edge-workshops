@@ -331,6 +331,6 @@ Once you've assembled your kickstart template, be sure to push it into your git 
 ---
 **Navigation**
 
-[Previous Exercise](../1.7-coding-intro) | [Next Exercise](../2.1-provisioning-workflow)
+[Previous Exercise](../1.7-coding-intro) | [Next Exercise](../2.2-kickstart-creds)
 
 [Click here to return to the Workshop Homepage](../README.md)
