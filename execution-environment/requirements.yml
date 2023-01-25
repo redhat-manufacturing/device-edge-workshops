@@ -9,6 +9,7 @@ collections:
   - name: community.crypto
   - name: community.general
   - name: community.mysql
+  - name: community.libvirt
   - name: containers.podman
   - name: redhat_cop.controller_configuration
   - name: fedora.linux_system_roles
