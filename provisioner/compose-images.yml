@@ -15,6 +15,7 @@
     - name: workaround for not actually supporting dnf modules
       ansible.builtin.shell:
         cmd: dnf module enable nodejs:16 -y
+      changed_when: false
     - name: use role to setup Image Builder
       ansible.builtin.include_role:
         name: infra.osbuild.setup_server
