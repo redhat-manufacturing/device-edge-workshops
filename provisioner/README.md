@@ -174,6 +174,7 @@ In order to use Automation controller (i.e. `controllerinstall: true`), which is
 - Here is a video by Colin McNaughton to help you retrieve your manifest.zip:
  [https://youtu.be/FYtilnsk7sM](https://youtu.be/FYtilnsk7sM).
 - If you need to get a temporary license, get a trial here [http://red.ht/try_ansible](http://red.ht/try_ansible).
+- Follow the following KCS on how to generate the manifest file https://access.redhat.com/solutions/5586461
 
 **How do you use the manifest.zip with the workshop?**
 
