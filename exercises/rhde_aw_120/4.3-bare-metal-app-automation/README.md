@@ -14,7 +14,7 @@
 
 In this exercise, we'll be creating automation to deploy the 4 components of our application. Since our application is 4 individual parts, we'll set up a role to deploy the various components in the correct order.
 
-Reminder: We are going to do things to get this application going THAT YOU SHOULD NOT DO IN PRODUCTION. This is being done to prove a point: when possible, containerize the application.
+Reminder: We are going to do things to get this application going THAT YOU SHOULD NOT DO IN PRODUCTION. This is being done to prove a point: bare metal applications can be run on device edge, however ensure the proper steps are taken to secure the application and device.
 
 ### Step 1 - Setting up a Role
 
@@ -162,6 +162,10 @@ WantedBy=multi-user.target
 There are quite a few tasks involved here: we have to grab the code, install dependencies, and manually set up a systemd file.
 
 Assuming these tasks run successfully, the simulate portion of our application will be up and running.
+
+> Note:
+>
+> Above we install packages onto the system "out of band", meaning we pulled them directly to the system and had rpm-ostree add them to the deployed image. This functionality exists and is useful for testing, but this is not a recommended practice. The proper flow is to add the packages to the image using Image Builer.
 
 ### Step 4 - Setting Up The Control Service
 
