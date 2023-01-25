@@ -82,7 +82,7 @@ Having said that, this workshop is built to take roughly 2 hours.
 
 ## Section 6 - Deploying a Kubernetes Native Application
 
-* [Exercise 6.1 - Adding Device Edge Functunality-to the Image](5.1-add-device-edge)
+* [Exercise 6.1 - Adding Device Edge Functunality-to the Image](6.1-add-device-edge)
 * [Exercise 6.2 - Automated Device Update](0.1-update-device)
 --todo--
 * [Exercise 6.3 - Investigate New Device Edge Functionality](5.3-device-edge-features)
