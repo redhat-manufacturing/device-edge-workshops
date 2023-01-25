@@ -1,4 +1,4 @@
-# Workshop Exercise 4.5 - Cleaning Up after the Bare Metal Application
+# Workshop Exercise 5.5 - Cleaning Up after the Containerized Application
 
 ## Table of Contents
 
