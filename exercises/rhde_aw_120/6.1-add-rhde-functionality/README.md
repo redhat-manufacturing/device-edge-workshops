@@ -12,6 +12,10 @@ In this exercise, we'll review creating a new image via automation to host a kub
 
 For a reminder on the application we're deploying, review [exercise 1.5](../1.5-application-intro).
 
+> Note:
+>
+> Portions of Device Edge are in tech preview. Because of this, a few steps are necessary before starting microshift, and the kubernetes functionality will not work on devices that only have a wireless connection. If you have a physical device on wifi, consult with your instructor for next steps.
+
 ### Step 1 - Reviewing the Requirements for the Application
 
 We're now going to deploy a kubernetes-based application to our edge devices. To accomplish this, we'll need to add a very small footprint kubernetes build to our devices to enable running of k8s-based applications.
