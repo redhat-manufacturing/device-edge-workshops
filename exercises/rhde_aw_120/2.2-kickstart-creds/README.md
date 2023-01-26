@@ -181,7 +181,7 @@ Repeat the process for OSTree info:
   </tr>
   <tr>
     <td>OSTree Repo Host</td>
-    <td>$(kickstart-host-from-student-page)</td>
+    <td><the-kickstart-host-from-student-page></td>
   </tr>
   <tr>
     <td>OSTree Repo Port</td>
@@ -223,15 +223,15 @@ And again for authenticating to the Ansible Controller API:
   </tr>
   <tr>
     <td>Controller Host</td>
-    <td>$(controller-host-from-your-student-page)</td>
+    <td><the-controller-host-from-your-student-page></td>
   </tr>
   <tr>
     <td>Controller API Username</td>
-    <td>student$(your-student-number)</td>
+    <td><your-student-username></td>
   </tr>
   <tr>
     <td>Controller API Password</td>
-    <td>$(your-controller-password-from-your-student-page)</td>
+    <td><the-controller-password-from-your-student-page></td>
   </tr>
 </table>
 
@@ -297,11 +297,11 @@ Enter the following information:
   </tr>
   <tr>
     <td>Password</td>
-    <td>$(same-as-kickstart-user-password)</td>
+    <td><kickstart-password-provided-above></td>
   </tr>
   <tr>
     <td>Privilege Escalation Password</td>
-    <td>$(same-as-kickstart-user-password)</td>
+    <td><kickstart-password-provided-above></td>
   </tr>
 </table>
 
