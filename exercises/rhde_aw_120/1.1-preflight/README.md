@@ -46,21 +46,16 @@ Since this is a shortened lab, the Image Builder related steps have already been
 
 A baremetal instance has been created in RHPDS that will host virtual instances meant to represent an edge device. Ask the lab instructor to provide login and authentication details.
 
-<table>
-<thead>
-  <tr>
-    <th>It is highly encouraged to use the Cockpit web interface to complete the workshop exercises. Cockpit provides:
-    <ul>
-    <li>An easy to access interface to managing virtual machines running on RHEL</li>
-    <li>Tooling for creating, starting, and stopping virtual machines</li>
-    <li>A web based console for bootstraping and troubleshooting</li>
-    </ul>
-    SSH access may be available as a backup, which provides access to the underlying tooling (such as virsh).
-    [Intro to Cockpit](https://www.redhat.com/sysadmin/intro-cockpit)
-</th>
-</tr>
-</thead>
-</table>
+It is highly encouraged to use the Cockpit web interface to complete the workshop exercises. Cockpit provides:
+- An easy to access interface to managing virtual machines running on RHEL
+- Tooling for creating, starting, and stopping virtual machines
+- A web based console for bootstraping and troubleshooting
+
+For more information on Cockpit, check out [Intro to Cockpit](https://www.redhat.com/sysadmin/intro-cockpit)
+
+> Note:
+>
+> SSH access may be available as a backup, which provides access to the underlying tooling (such as virsh).
 
 ---
 **Navigation**
