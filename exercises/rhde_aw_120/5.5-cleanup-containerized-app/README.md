@@ -114,6 +114,6 @@ Our systems are now back to a known good, clean state where we can start our dep
 ---
 **Navigation**
 
-[Previous Exercise](../5.4-deploy-containerized-app) | [Next Exercise](../6.1-add-device-edge)
+[Previous Exercise](../5.4-deploy-containerized-app) | [Next Exercise](../6.1-add-k8s)
 
 [Click here to return to the Workshop Homepage](../README.md)
