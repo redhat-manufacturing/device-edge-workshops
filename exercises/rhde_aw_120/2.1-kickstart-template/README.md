@@ -61,7 +61,7 @@ clearpart --all --initlabel
 autopart --type=plain --fstype=xfs --nohome
 reboot
 text
-user --name {{ kickstart_user_username }} --groups=wheel --password={{ kickstart_user_password }}
+user --name={{ kickstart_user_username }} --groups=wheel --password={{ kickstart_user_password }}
 services --enabled=ostree-remount
 ostreesetup --nogpg --url={{ ostree_repo_protocol }}://{{ ostree_repo_host }}:{{ ostree_repo_port }}/{{ ostree_repo_path }} --osname={{ ostree_os_name }} --ref={{ ostree_ref }}
 ```
