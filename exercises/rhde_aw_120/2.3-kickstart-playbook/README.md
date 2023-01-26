@@ -27,7 +27,7 @@ Return to the code repo via however you were editing files (VSCode, VIM, etc), a
   tasks:
     - name: push templated kickstart file
       ansible.builtin.template:
-        src: templates/kickstart.ks.j2
+        src: templates/<your-student-id>.ks.j2
         dest: "/var/www/html/student{{ student_number }}-kickstart.ks"
         owner: apache
         group: apache
