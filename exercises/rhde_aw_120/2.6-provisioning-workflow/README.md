@@ -1,4 +1,4 @@
-# Workshop Exercise 2.1 - Creating a Provisioning Workflow
+# Workshop Exercise 2.6 - Creating a Provisioning Workflow
 
 ## Table of Contents
 
