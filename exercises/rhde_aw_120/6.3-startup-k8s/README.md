@@ -194,6 +194,6 @@ As a reminder, the output of jobs can be reviewed on the **Jobs** tab.
 ---
 **Navigation**
 
-[Previous Exercise](../0.1-upgrade-rhde) | [Next Exercise](../5.4-deploy-containerized-app)
+[Previous Exercise](../0.1-upgrade-rhde) | [Next Exercise](../6.4-app-definitions)
 
 [Click here to return to the Workshop Homepage](../README.md)

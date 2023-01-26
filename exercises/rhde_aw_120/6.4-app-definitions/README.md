@@ -157,6 +157,6 @@ These yaml files define our application. Next, we'll leverage Ansible to talk di
 ---
 **Navigation**
 
-[Previous Exercise](../0.1-upgrade-rhde) | [Next Exercise](../5.4-deploy-containerized-app)
+[Previous Exercise](../6.3-startup-k8s) | [Next Exercise](../6.5-deploy-k8s-app)
 
 [Click here to return to the Workshop Homepage](../README.md)

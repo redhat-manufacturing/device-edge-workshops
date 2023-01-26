@@ -71,7 +71,7 @@ This playbook handles grabbing the kubeconfig, setting the correct cluster addre
 
 Remember to push your new playbook up to Gitea.
 
-### Step 3 - Creating a Job Template
+### Step 2 - Creating a Job Template
 
 > Note:
 >
@@ -116,7 +116,7 @@ In the Controller WebUI. under **Resources** > **Templates**, select **Add** > *
 
 Remember to click **Save**.
 
-### Step 4 - Running the Job Template
+### Step 3 - Running the Job Template
 
 Now that the job template has been created, click on the rocket ship to launch the job template and enter your device name when prompted for the limit. Monitor the output for any errors or issues, however hopefully the job executes successfully.
 
