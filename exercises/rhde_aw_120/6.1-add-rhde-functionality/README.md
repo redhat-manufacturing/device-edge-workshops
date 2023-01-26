@@ -25,6 +25,7 @@ A quick note: This was perviously referred to as [Microshift](https://github.com
 In the interest of time, this has been done for you and will be made available by the instructor. This image was composed using the [infra.osbuild](https://github.com/redhat-cop/infra.osbuild) Ansible collection, which takes a common set of variables and completely automates interactions with Image Builder.
 
 Specifically, this image was customized with the following variables:
+{% raw %}
 ```yaml
 - version: 4.0.0
   type: edge-commit
@@ -52,6 +53,7 @@ Specifically, this image was customized with the following variables:
     - NetworkManager-wifi
     - ansible-core
 ```
+{% endraw %}
 
 ### Step 2 - Automated Device Update
 
