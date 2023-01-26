@@ -82,13 +82,12 @@ Having said that, this workshop is built to take roughly 2 hours.
 
 ## Section 6 - Deploying a Kubernetes Native Application
 
-* [Exercise 6.1 - Adding Device Edge Functunality-to the Image](6.1-add-device-edge)
-* [Exercise 6.2 - Automated Device Update](0.1-update-device)
---todo--
-* [Exercise 6.3 - Investigate New Device Edge Functionality](5.3-device-edge-features)
-* [Exercise 6.4 - Create Automation to Deploy Application](5.4-device-edge-app-deployment)
-* [Exercise 6.5 - Deploy Application](2.4-deploy-to-device-edge)
+* [Exercise 6.1 - Adding Kubernetes to the Image](6.1-add-k8s)
+* [Exercise 6.2 - Preparing to Add Kubernetes Functionality](0.1-update-device)
+* [Exercise 6.3 - Starting Up Kubernetes on Device Edge](6.3-startup-k8s)
+* [Exercise 6.4 - Create Application Definitions](6.4-app-definitions)
+* [Exercise 6.5 - Deploy Application](6.5-deploy-k8s-app)
 
 ## Supplamental Resources
-infra.osbuild
-redhat_cop.controller_configuration
+* [infra.osbuild](https://github.com/redhat-cop/infra.osbuild)
+* [redhat_cop.controller_configuration](https://github.com/redhat-cop/controller_configuration)
