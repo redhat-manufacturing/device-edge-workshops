@@ -45,6 +45,7 @@ Once your playbook is constructed, push it up into your git repo.
 > Note:
 >
 > Be sure to sync your project in Controller before attempting to create this job template.
+> To sync it, go to **Resources** > **Project** and click on the sync icon for the only project available
 
 Now that we have a playbook and template, we can build a job template to push our our kickstart file.
 
