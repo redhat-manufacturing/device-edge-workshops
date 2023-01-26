@@ -4,3 +4,6 @@ netaddr==0.8.0
 passlib==1.7.4
 requests==2.22.0
 ipaddr==2.2.0
+kubernetes
+pyYAML
+jsonpatch
