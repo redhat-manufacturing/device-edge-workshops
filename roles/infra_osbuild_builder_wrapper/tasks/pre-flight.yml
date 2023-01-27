@@ -1,0 +1,23 @@
+---
+
+- name: override repos on non RHEL8.7 systems
+  ansible.builtin.copy:
+    src: /usr/share/osbuild-composer/repositories/rhel-87.json
+    dest: /etc/osbuild-composer/repositories/
+    remote_src: true
+  register: image_builder_repos_updated
+  when:
+    - ansible_distribution_major_version|int != 8
+
+- name: restart image builder services
+  ansible.builtin.systemd:
+    name: "{{ service }}"
+    state: restarted
+  when:
+    - image_builder_repos_updated.changed
+  loop:
+    - osbuild-worker@.service.d
+    - osbuild-worker@1.service
+    - osbuild-composer.service
+  loop_control:
+    loop_var: service
