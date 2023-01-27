@@ -305,11 +305,11 @@ function display_student($student) {
   <table>
     <tr>
         <td>IP Address:</td>
-        <td>{{ hostvars['edge-manager-local']['ansible_host'] | default('not available') }}</td>
+        <td>{{ hostvars['edge-manager-local']['ansible_host'] }}</td>
     </tr>
     <tr>
         <td>DNS Hostname:</td>
-        <td><a>{{ (hostvars['edge-manager-local']['local_domains']['edge_manager']['domain'] | regex_replace('com', 'lcl')) | default('not available') }}</a></td>  
+        <td><a>{{ hostvars['edge-manager-local']['local_domains']['edge_manager']['domain'] | regex_replace('com', 'lcl') }}</a></td>  
     </tr> 
   </table>
   <br>
@@ -404,7 +404,7 @@ function display_student($student) {
   <table>
     <tr>
         <td>WebUI Link</td>
-        <td><a href="http://{{ (hostvars['edge-manager-local']['local_domains']['gitea']['domain']) | default('not available') }}:3000">http://{{ (hostvars['edge-manager-local']['local_domains']['gitea']['domain']) | default('not available') }}:3000</a></td>
+        <td><a href="http://{{ hostvars['edge-manager-local']['local_domains']['gitea']['domain'] }}:3000">http://{{ hostvars['edge-manager-local']['local_domains']['gitea']['domain'] }}:3000</a></td>
     </tr>
     <tr>
         <td>Username:</td>
@@ -420,7 +420,7 @@ function display_student($student) {
   <table>
     <tr>
         <td>WebUI Link</td>
-        <td><a href="https://{{ (hostvars['edge-manager-local']['local_domains']['cockpit']['domain']) | default('not available') }}:9090">https://{{ (hostvars['edge-manager-local']['local_domains']['cockpit']['domain']) | default('not available') }}:9090</a></td>
+        <td><a href="https://{{ hostvars['edge-manager-local']['local_domains']['cockpit']['domain'] }}:9090">https://{{ hostvars['edge-manager-local']['local_domains']['cockpit']['domain'] }}:9090</a></td>
     </tr>
     <tr>
         <td>Username:</td>
@@ -436,7 +436,7 @@ function display_student($student) {
   <table>
     <tr>
         <td>WebUI Link</td>
-        <td><a href="https://{{ (hostvars['edge-manager-local']['local_domains']['controller']['domain']) | default('not available') }}">https://{{ (hostvars['edge-manager-local']['local_domains']['controller']['domain']) | default('not available') }}</a></td> 
+        <td><a href="https://{{ hostvars['edge-manager-local']['local_domains']['controller']['domain'] }}">https://{{ hostvars['edge-manager-local']['local_domains']['controller']['domain'] }}</a></td> 
     </tr>
     <tr>
         <td>Username:</td>
