@@ -397,60 +397,59 @@ function display_student($student) {
     </tr>
   </table>  
   <br>
-
-  {% if workshop_type == 'rhde_aw_120' and run_locally == true %}
+    {% if run_locally == true %} 
   
-  <div id="section_title">Local resources</div>
-  <br>
-  Source control Gitea Access:  
-  <table>
-    <tr>
-        <td>WebUI Link</td>
-        <td><a href="http://{{ hostvars['edge-manager-local']['local_domains']['gitea']['domain'] }}:3000">http://{{ hostvars['edge-manager-local']['local_domains']['gitea']['domain'] }}:3000</a></td>
-    </tr>
-    <tr>
-        <td>Username:</td>
-        <td>student' . $student['id'] . '</td>
-    </tr>
-    <tr>
-        <td>Password:</td>
-        <td>{{ admin_password }}</td>
-    </tr>
-  </table>
-  <br>
-  Image Builder Access:
-  <table>
-    <tr>
-        <td>WebUI Link</td>
-        <td><a href="https://{{ hostvars['edge-manager-local']['local_domains']['cockpit']['domain'] }}:9090">https://{{ hostvars['edge-manager-local']['local_domains']['cockpit']['domain'] }}:9090</a></td>
-    </tr>
-    <tr>
-        <td>Username:</td>
-        <td>student' . $student['id'] . '</td>
-    </tr>
-    <tr>
-        <td>Password:</td>
-        <td>{{ admin_password }}</td>
-    </tr>
-  </table>
-  <br>
-  Ansible Controller Access:
-  <table>
-    <tr>
-        <td>WebUI Link</td>
-        <td><a href="https://{{ hostvars['edge-manager-local']['local_domains']['controller']['domain'] }}">https://{{ hostvars['edge-manager-local']['local_domains']['controller']['domain'] }}</a></td> 
-    </tr>
-    <tr>
-        <td>Username:</td>
-        <td>student' . $student['id'] . '</td>  
-    </tr>
-    <tr>
-        <td>Password:</td> 
-        <td>{{ admin_password }}</td> 
-    </tr>
-  </table>
-  <br>';
-  {% endif %} 
+    <div id="section_title">Local resources</div>
+    <br>
+    Source control Gitea Access:  
+    <table>
+      <tr>
+          <td>WebUI Link</td>
+          <td><a href="http://{{ hostvars['edge-manager-local']['local_domains']['gitea']['domain'] }}:3000">http://{{ hostvars['edge-manager-local']['local_domains']['gitea']['domain'] }}:3000</a></td>
+      </tr>
+      <tr>
+          <td>Username:</td>
+          <td>student' . $student['id'] . '</td>
+      </tr>
+      <tr>
+          <td>Password:</td>
+          <td>{{ admin_password }}</td>
+      </tr>
+    </table>
+    <br>
+    Image Builder Access:
+    <table>
+      <tr>
+          <td>WebUI Link</td>
+          <td><a href="https://{{ hostvars['edge-manager-local']['local_domains']['cockpit']['domain'] }}:9090">https://{{ hostvars['edge-manager-local']['local_domains']['cockpit']['domain'] }}:9090</a></td>
+      </tr>
+      <tr>
+          <td>Username:</td>
+          <td>student' . $student['id'] . '</td>
+      </tr>
+      <tr>
+          <td>Password:</td>
+          <td>{{ admin_password }}</td>
+      </tr>
+    </table>
+    <br>
+    Ansible Controller Access:
+    <table>
+      <tr>
+          <td>WebUI Link</td>
+          <td><a href="https://{{ hostvars['edge-manager-local']['local_domains']['controller']['domain'] }}">https://{{ hostvars['edge-manager-local']['local_domains']['controller']['domain'] }}</a></td> 
+      </tr>
+      <tr>
+          <td>Username:</td>
+          <td>student' . $student['id'] . '</td>  
+      </tr>
+      <tr>
+          <td>Password:</td> 
+          <td>{{ admin_password }}</td> 
+      </tr>
+    </table>
+    <br>';
+    {% endif %} 
   {% endif %} 
   {% if workshop_type == "windows" or workshop_type == "configascode" %} 
   print '<div id="section_title">Git access</div>
