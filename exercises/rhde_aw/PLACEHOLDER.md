@@ -5,3 +5,6 @@
 - PXE/HTTP Boot
 - Realtime kernel
 - GitOps-style Deployment/Upgrades
+- fapolicyd
+- AIDE
+- oscap/benchmarks
