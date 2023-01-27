@@ -1,4 +1,7 @@
 ---
+
+aap_bundle_sha256_checksum: e3cd033d6a6f5ddcdeb2f5b91b1382127d29b969fb224f260d0a4f1e495b20e6
+
 username: "ec2-user"
 aap_dir: "/home/{{ username }}/aap_install"
 output_dir: "{{ playbook_dir }}/{{ ec2_name_prefix }}"
