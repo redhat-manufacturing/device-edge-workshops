@@ -11,6 +11,9 @@
         - "{{role_path}}/tasks/{{ dns_type }}.yml"
         - "{{role_path}}/tasks/none.yml"
 
+    - name: import pre-flight tasks
+      ansible.builtin.import_tasks: 01_preflight.yml
+
     - name: configure firewall
       include_tasks: 05_firewall.yml
 

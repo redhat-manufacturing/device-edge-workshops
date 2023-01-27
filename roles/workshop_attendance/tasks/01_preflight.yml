@@ -1,0 +1,29 @@
+---
+
+- debug:
+    var: run_locally
+
+- name: define vars for attendance site
+  ansible.builtin.set_fact:
+    local_edge_manager:
+      ip_address: "{{ hostvars['edge-manager-local']['ansible_host'] }}"
+      dns_hostname: "{{ hostvars['edge-manager-local']['local_domains']['edge_manager']['domain'] | regex_replace('com', 'lcl') }}"
+      gitea: "{{ hostvars['edge-manager-local']['local_domains']['gitea']['domain'] }}"
+      image_builder: "{{ hostvars['edge-manager-local']['local_domains']['cockpit']['domain'] }}"
+      controller: "{{ hostvars['edge-manager-local']['local_domains']['controller']['domain'] }}"
+  when:
+    - run_locally is defined
+    - run_locally|bool
+
+- name: define vars in the other direction
+  ansible.builtin.set_fact:
+    local_edge_manager:
+      ip_address: "not-available"
+      dns_hostname: "not-available"
+      gitea: "not-available"
+      image_builder: "not-available"
+      controller: "not-available"
+  when:
+    - run_locally is not defined or
+      not (run_locally|bool)
+      
