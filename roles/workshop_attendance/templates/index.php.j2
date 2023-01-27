@@ -397,6 +397,8 @@ function display_student($student) {
     </tr>
   </table>  
   <br>
+
+  {% if workshop_type == 'rhde_aw_120' and run_locally == true %}
   
   <div id="section_title">Local resources</div>
   <br>
@@ -448,6 +450,7 @@ function display_student($student) {
     </tr>
   </table>
   <br>';
+  {% endif %} 
   {% endif %} 
   {% if workshop_type == "windows" or workshop_type == "configascode" %} 
   print '<div id="section_title">Git access</div>
