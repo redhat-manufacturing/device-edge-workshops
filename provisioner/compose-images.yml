@@ -45,11 +45,11 @@
       ansible.builtin.debug:
         msg: "This will attempt to pull composes from 'edge-manager-local', ensure auth is configured correctly or it will fail."
   tasks:
-    - name: 
-        ansible.posix.synchronize:
-          mode: pull
-          src: "rsync://{{ hostvars['edge-manager-local']['ansible_host'] }}/var/www/html/"
-          dest: /var/www/html/
-          checksum: true
-          recurse: true
-        delegate_to: "{{ inventory_hostname }}"
+    - name: sync to backups
+      ansible.posix.synchronize:
+        mode: pull
+        src: "rsync://{{ hostvars['edge-manager-local']['ansible_host'] }}/var/www/html/"
+        dest: /var/www/html/
+        checksum: true
+        recursive: true
+      delegate_to: "{{ inventory_hostname }}"
