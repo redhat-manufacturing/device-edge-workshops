@@ -16,10 +16,6 @@
           when:
             - run_in_aws is defined
             - run_in_aws | bool
-        - name: download AAP
-          include_role:
-            name: ../roles/aap_download
-          when: not pre_build | bool
       rescue:
         - name: Error with setup
           fail:
