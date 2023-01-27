@@ -1,4 +1,11 @@
 ---
+
+- name: download aap
+  ansible.builtin.include_tasks:
+    file: 05_download_aap.yml
+  when:
+    - not pre_build|bool
+
 - name: aap setup for control node
   include_tasks: 10_aap_setup.yml
   tags:
