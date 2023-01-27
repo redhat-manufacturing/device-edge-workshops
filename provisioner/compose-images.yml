@@ -7,15 +7,18 @@
     - "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
   become: true
   pre_tasks:
-    - name: workaround for https://access.redhat.com/solutions/6973651
-      ansible.builtin.dnf:
-        name: python36
+    - name: rhel8 tasks
       when:
-        - ansible_distribution_major_version | int == 8
-    - name: workaround for not actually supporting dnf modules
-      ansible.builtin.shell:
-        cmd: dnf module enable nodejs:16 -y
-      changed_when: false
+        - ansible_distribution_major_version|int == 8
+      block:
+        - name: workaround for https://access.redhat.com/solutions/6973651
+          ansible.builtin.dnf:
+            name: python36
+        - name: workaround for not actually supporting dnf modules
+          ansible.builtin.shell:
+            cmd: dnf module enable nodejs:16 -y
+          changed_when: false
+
     - name: use role to setup Image Builder
       ansible.builtin.include_role:
         name: infra.osbuild.setup_server
@@ -27,6 +30,26 @@
         builder_compose_type: "{{ image.type }}"
         builder_compose_pkgs: "{{ image.packages }}"
         builder_custom_repos: "{{ image.repos }}"
+        builder_blueprint_distro: "{{ image.distro | default(omit) }}"
       loop: "{{ images_to_compose }}"
       loop_control:
         loop_var: image
+      when:
+        - ansible_distribution_major_version|int == 8
+
+- name: sync composes to backup edge-managers
+  hosts:
+    - backups
+  pre_tasks:
+    - name: print warning
+      ansible.builtin.debug:
+        msg: "This will attempt to pull composes from 'edge-manager-local', ensure auth is configured correctly or it will fail."
+  tasks:
+    - name: 
+        ansible.posix.synchronize:
+          mode: pull
+          src: "rsync://{{ hostvars['edge-manager-local']['ansible_host'] }}/var/www/html/"
+          dest: /var/www/html/
+          checksum: true
+          recurse: true
+        delegate_to: "{{ inventory_hostname }}"
