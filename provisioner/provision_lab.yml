@@ -37,6 +37,9 @@
 - name: import common roles playbook
   ansible.builtin.import_playbook: common.yml
 
+- name: import local dns playbook
+  ansible.builtin.import_playbook: local-dns.yml
+
 - name: import cockpit playbook
   ansible.builtin.import_playbook: cockpit.yml
 
@@ -68,4 +71,3 @@
 
 - name: import random task playbook
   ansible.builtin.import_playbook: random-task.yml
-
