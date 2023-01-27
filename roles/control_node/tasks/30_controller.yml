@@ -40,6 +40,18 @@
   debug:
     msg: '{{ check2.json }}'
 
+- name: set pip executable | RHEL8
+  ansible.builtin.set_fact:
+    pip_executable: /usr/bin/pip3.6
+  when:
+    - ansible_distribution_major_version|int == 8
+
+- name: set pip executable | RHEL9
+  ansible.builtin.set_fact:
+    pip_executable: /usr/bin/pip
+  when:
+    - ansible_distribution_major_version|int == 9 
+
 # Certbot dependancy / acme, needs later version of requests library than task above^^
 - name: install ansible-tower-cli and requests >2.14
   become: true
@@ -47,7 +59,7 @@
     name:
       - ansible-tower-cli
       - "requests==2.14.2"
-    executable: '/usr/bin/pip3.6'
+    executable: "{{ pip_executable }}"
     state: latest
 
 - name: load license block

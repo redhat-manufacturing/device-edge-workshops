@@ -1,4 +1,5 @@
 ---
+
 - name: Create tmp directory to store AAP tar.gz
   tempfile:
     state: directory
