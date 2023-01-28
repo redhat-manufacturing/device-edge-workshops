@@ -36,20 +36,3 @@
         loop_var: image
       when:
         - ansible_distribution_major_version|int == 8
-
-- name: sync composes to backup edge-managers
-  hosts:
-    - backups
-  pre_tasks:
-    - name: print warning
-      ansible.builtin.debug:
-        msg: "This will attempt to pull composes from 'edge-manager-local', ensure auth is configured correctly or it will fail."
-  tasks:
-    - name: sync to backups
-      ansible.posix.synchronize:
-        mode: pull
-        src: "rsync://{{ hostvars['edge-manager-local']['ansible_host'] }}/var/www/html/"
-        dest: /var/www/html/
-        checksum: true
-        recursive: true
-      delegate_to: "{{ inventory_hostname }}"
