@@ -1,13 +1,34 @@
 ---
 
-- name: this is dirty but whatever
+# If your local device running as the edge manager node is slower,
+# use this to sync from a faster device, such as a bare metal instance in aws
+
+# set var in extra-vars:
+# sync_from: 'edge_manager_aws'
+
+# This automatically syncs to all hosts in the 'backup' group
+
+- name: set vars so this doesn't fail
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: define sync_from hosts
+      ansible.builtin.add_host:
+        name: "{{ sync_from }}"
+        groups:
+          - group_sync_from
+      when:
+        - sync_from is defined
+
+- name: pull content from source
   hosts:
-    - 'local:!backups'
+    - group_sync_from
   pre_tasks:
     - name: create landing dir
       ansible.builtin.file:
         path: /tmp/images_sync
         state: directory
+      delegate_to: localhost
   tasks:
     - name: pull contents of /var/www/html/
       ansible.posix.synchronize:
@@ -19,9 +40,9 @@
         rsync_opts:
           - "--exclude=*.lock"
 
-- name: this is dirty but whatever | part 2
+- name: push content to backups
   hosts:
-    - 'local:&backups'
+    - backups
   pre_tasks:
     - name: create a landing dir
       ansible.builtin.file:
@@ -49,11 +70,8 @@
       listen:
         - move_to_webdir
     - name: restore permissions
-      ansible.builtin.file:
-        path: /var/www/html
-        state: directory
-        owner: apache
-        group: apache
+      ansible.builtin.shell:
+        cmd: chown -R apache:apache /var/www/html
       become: true
       listen:
         - restore_permissions
@@ -63,3 +81,12 @@
       become: true
       listen:
         - restore_context
+
+- name: cleanup localhost
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: dump tmp dir
+      ansible.builtin.file:
+        path: /tmp/synced_images
+        state: absent
