@@ -17,6 +17,7 @@ In this exercise, we're going to write a simple playbook to template out our kic
 
 Return to the code repo via however you were editing files (VSCode, VIM, etc), and create a new playbook in the `playbooks/` directory of your repo, called `template-kickstart.yml`. We'll only need one task for this playbook, and can just write our task directly into the playbook over creating a role.
 
+{% raw %}
 ```yaml
 ---
 
@@ -27,12 +28,13 @@ Return to the code repo via however you were editing files (VSCode, VIM, etc), a
   tasks:
     - name: push templated kickstart file
       ansible.builtin.template:
-        src: templates/<your-student-id>.ks.j2
+        src: templates/kickstart.ks.j2
         dest: "/var/www/html/student{{ student_number }}-kickstart.ks"
         owner: apache
         group: apache
         mode: '0755'
 ```
+{% endraw %}
 
 A few notes about this playbook:
 - We want `hosts: all` because we'll use Ansible Controller to determine what inventories/hosts to target
