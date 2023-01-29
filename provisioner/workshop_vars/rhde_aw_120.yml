@@ -61,18 +61,13 @@ images_to_compose:
   - version: 4.0.0
     type: edge-commit
     repos:
-      # - name: EPEL8
-      #   base_url: "https://dl.fedoraproject.org/pub/epel/{{ hostvars[inventory_hostname].ansible_distribution_major_version }}/Everything/x86_64/"
-      #   type: yum-baseurl
-      #   check_ssl: true
-      #   check_gpg: false
       - name: microshift
         base_url: https://mirror.openshift.com/pub/openshift-v4/x86_64/microshift/ocp-dev-preview/latest-4.12/el8/os/
         type: yum-baseurl
         check_ssl: true
         check_gpg: false
       - name: microshift-deps
-        base_url: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rpms/4.12-el8-beta/
+        base_url: https://download.copr.fedorainfracloud.org/results/@redhat-et/microshift-testing/epel-8-x86_64/
         type: yum-baseurl
         check_ssl: true
         check_gpg: false
