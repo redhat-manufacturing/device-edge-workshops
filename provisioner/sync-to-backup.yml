@@ -1,0 +1,65 @@
+---
+
+- name: this is dirty but whatever
+  hosts:
+    - 'local:!backups'
+  pre_tasks:
+    - name: create landing dir
+      ansible.builtin.file:
+        path: /tmp/images_sync
+        state: directory
+  tasks:
+    - name: pull contents of /var/www/html/
+      ansible.posix.synchronize:
+        src: /var/www/html/
+        dest: /tmp/images_sync/
+        mode: pull
+        recursive: true
+        checksum: true
+        rsync_opts:
+          - "--exclude=*.lock"
+
+- name: this is dirty but whatever | part 2
+  hosts:
+    - 'local:&backups'
+  pre_tasks:
+    - name: create a landing dir
+      ansible.builtin.file:
+        path: /tmp/synced_images
+        state: directory
+  tasks:
+    - name: push files
+      ansible.posix.synchronize:
+        src: /tmp/images_sync/
+        dest: /tmp/synced_images
+        mode: push
+        recursive: true
+        checksum: true
+      notify:
+        - move_to_webdir
+        - restore_permissions
+        - restore_context
+  handlers:
+    - name: copy files to /var/www/html
+      ansible.builtin.copy:
+        src: /tmp/synced_images/
+        dest: /var/www/html/
+        remote_src: true
+      become: true
+      listen:
+        - move_to_webdir
+    - name: restore permissions
+      ansible.builtin.file:
+        path: /var/www/html
+        state: directory
+        owner: apache
+        group: apache
+      become: true
+      listen:
+        - restore_permissions
+    - name: restore context
+      ansible.builtin.shell:
+        cmd: restorecon -R /var/www/html
+      become: true
+      listen:
+        - restore_context
