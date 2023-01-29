@@ -4,23 +4,23 @@
 
 * [Objective](#objective)
 * [Step 1 - Grabbing the RHEL Boot ISO](#step-1---grabbing-the-rhel-boot-iso)
-* [Step 2 - Creating Customized Boot Options](#step-2---creating-a-job-template-for-our-playbook)
+* [Step 2 - Creating Customized Boot Options](#step-2---creating-customized-boot-options)
 * [Step 3 - Creating Our Customized ISO](#step-3---creating-our-customized-iso)
 * [Solutions](#solutions)
 
 ## Objective
 
-In this exercise, we're going to create a customized ISO that contains our kickstart. This will allow for zero touch provisioning of devices because all information needed for deployment will be provided.
+In this exercise, we're going to create a customized ISO that contains our kickstart. This will allow for zero touch provisioning of devices as all information should be provided.
 
-Ideally, once this ISO is built, the following should happen:
+Ideally, once this ISO is built, the following should occur:
 - Device boots from flash drive
-- Install happens without user input
+- Install takes place without input
 - Device reboots
 - Device waits for networking
 - Device runs Ansible playbook to call home
 - Ansible Controller finishes provisioning the device
 
-The steps in this exercise are from [this KB article](https://access.redhat.com/solutions/60959), which we'll walk through for reference, however in the interest of time we'll be using a script to generate the ISO.
+The steps in this exercise are based on [this KB article](https://access.redhat.com/solutions/60959), which we'll walk through for reference. However, in the interest of time, we'll be using a script to generate the ISO.
 
 > Note:
 >
@@ -30,13 +30,17 @@ It's recommended to execute these steps either on your laptop if you have a phys
 
 ### Step 1 - Grabbing the RHEL Boot ISO
 
+Depending on the provisioned lab environment, the RHEL Boot ISO has already been provided for you. Otherwise, you will need to download the ISO from the Red Hat Customer Portal.
+
 If an edge hypervisor has been provisioned for you, then the RHEL Boot ISO is available on the system under `/opt/student-resources`. Copy it from that directory to somewhere in your home directory, such as `~/generate-iso/`.
 
-Otherwise visit the [customer portal](https://access.redhat.com/downloads/content/479/ver=/rhel---8/8.7/x86_64/product-software) and download the RHEL8.7 boot ISO. We won't need the full installation image, the boot ISO has everything necessary for provisioning our edge devices.
+Otherwise, visit the [customer portal](https://access.redhat.com/downloads/content/479/ver=/rhel---8/8.7/x86_64/product-software) and download the RHEL8.7 boot ISO. We won't need the full installation image as the boot ISO has everything necessary for provisioning our edge devices.
 
 ### Step 2 - Creating Customized Boot Options
 
-We'll be creating a few files that control the menu items and parameters when booting up a system from this ISO. The full files are available under [Solutions](#solutions), however we'll take a deeper look at a few sections here.
+We'll be creating a few files that control the menu items and parameters when booting up a system from this ISO. The full files are available under [Solutions](#solutions).
+
+The changes that have been customized for this lab are highlighted below.
 
 `isolinux.cfg` controls the boot options for devices booted in BIOS mode. Under the menu options, we'll be removing the defaults and adding the following:
 ```
@@ -66,7 +70,7 @@ menuentry 'Test this media & Zero Touch Provision Red Hat Device Edge' --class f
 }
 ```
 
-Finally, we'll need our kickstart file, which can be grabbed from the web server hosting it via wget, curl, or copy-pasting from your favorite browser. Ensure it is named `ks.cfg`.
+Finally, we'll need our kickstart file, which can be obtained from the web server hosting it via wget, curl, or copy-pasting from your favorite browser. Ensure it is named `ks.cfg`.
 
 Place all these modified files into the same directory as your boot ISO.
 
@@ -80,6 +84,11 @@ First, ensure the following files are present in your directory:
 ├── ks.cfg
 └── rhel-8.7-x86_64-boot.iso
 ```
+
+> Note:
+>
+>  The filename containing the boot ISO will be called `rhel-8-boot.iso` if it was provided for you. Rename the file to match the name of the file in the directory structure shown above.
+
 
 Next, create a file called `recook.sh` with the following contents:
 ```

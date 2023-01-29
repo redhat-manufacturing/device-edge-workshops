@@ -10,7 +10,7 @@
 
 ## Objective
 
-In this exercise, we'll be a playbook to run our role, creating a job template for it in Ansible Controller, and deploying the application all via automtion.
+In this exercise, we'll create a playbook to run our role, creating a job template for it in Ansible Controller, and deploying the application; all via automtion.
 
 ### Step 1 - Creating a Playbook
 
@@ -25,7 +25,7 @@ Return to your code repo and create a playbook in the `playbooks` directory call
 
 ```
 
-Once complete, be sure to push your changes up to Gitea.
+Once complete, be sure to commit and push your changes up to the repo.
 
 ### Step 2 - Creating a Job Template
 
@@ -62,7 +62,7 @@ In the Controller WebUI. under **Resources** > **Templates**, select **Add** > *
   </tr>
   <tr>
     <td>Credentials</td>
-    <td><ul><li>✓ Device Credentials</li></ul></td>
+    <td><li>✓ Device Credentials</li></td>
   </tr>
   <tr>
     <td>Limit</td>
@@ -70,7 +70,7 @@ In the Controller WebUI. under **Resources** > **Templates**, select **Add** > *
   </tr>
    <tr>
     <td>Options</td>
-    <td><ul><li>✓ Privilege Escalation</li></ul></td>
+    <td><li>✓ Privilege Escalation</li></td>
   </tr> 
 </table>
 
@@ -78,7 +78,7 @@ Remember to click **Save**.
 
 ### Step 3 - Running the Job Template
 
-Now that the job template has been created, click on the rocket ship to launch the job template and enter your device name when prompted for the limit. Monitor the output for any errors or issues, however hopefully the job executes successfully.
+Now that the job template has been created, click the **Launch** button if you are still within the _Deploy Bare Metal App_ Job Template. Otherwise, click on the rocket ship on the Templates page to launch the job template. Enter your device name when prompted on the limits page. Monitor the output for any errors or issues. However, hopefully the job executes successfully.
 
 As a reminder, the output of jobs can be reviewed on the **Jobs** tab.
 
@@ -88,7 +88,7 @@ Once the playbook completes, visit http://$(your-device-ip-address):1881/ui to v
 >
 > For virtualized edge devices, you'll need to use SSH tunneling or just curl the port to check for a response.
 
-Another thought: this could be added to the end of our provisioning workflow to deploy the application as soon as a device calls home.
+Further thoughts: The deployment of the application could be added to the end of our provisioning workflow as soon as a device calls home to simplify the setup and configuration process.
 
 ### Solutions
 
@@ -99,6 +99,6 @@ Another thought: this could be added to the end of our provisioning workflow to 
 ---
 **Navigation**
 
-[Previous Exercise](../4.4-bare-metal-app-automation) | [Next Exercise](../4.5-cleanup-bare-metal-app)
+[Previous Exercise](../4.3-bare-metal-app-automation) | [Next Exercise](../4.5-cleanup-bare-metal-app)
 
 [Click here to return to the Workshop Homepage](../README.md)

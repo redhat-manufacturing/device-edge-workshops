@@ -3,7 +3,7 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Creating the Bootstrap Automation](#step-1---crafting-our-kubernetes-yaml)
+* [Step 1 - Creating the Bootstrap Automation](#step-1---creating-the-bootstrap-automation)
 * [Step 2 - Adding Our Pull Secret to Ansible Controller](#step-2---adding-our-pull-secret-to-ansible-controller)
 * [Step 3 - Creating a Job Template](#step-3---creating-a-job-template)
 * [Step 4 - Running the Job Template](#step-4---running-the-job-template)
@@ -11,12 +11,12 @@
 
 ## Objective
 
-In this exercise, we'll write some automation to handle a pre-steps to getting kubernetes going. Mainly, this is working around a few bugs that exist. These should get cleaned up before GA, so these steps may change in the future.
+In this exercise, we'll write some automation to handle a prepratory actions towards getting Kubernetes running. Mainly, the goal is to assist working around a few bugs that currently exist. These should get cleaned up before GA, so these steps may change in the future.
 
 Generally speaking, we need to accomplish the following:
-1. Correct the crio networking configuration
+1. Correct the CRI-O networking configuration
 2. Fix a bug with pulling images
-3. Push our our pull secret
+3. Push our pull secret
 4. Start everything up
 
 ### Step 1 - Creating the Bootstrap Automation
@@ -51,9 +51,9 @@ global_auth_file="/etc/crio/openshift-pull-secret"
 pause_image = "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:dd96c7e645b7cfaba393b8f486692ee76e44c307ebd4d12bb29145488cb31448"
 ```
 
-The `network_dir` ensures the appropriate configurations are picked up when starting the network provider.
+The `network_dir` option ensures the appropriate configurations are picked up when starting the network provider.
 
-Also create a new playbook at `playbooks/bootstrap-kubernetes.yml` with the following contents:
+Next, create a new playbook at `playbooks/bootstrap-kubernetes.yml` with the following contents:
 {% raw %}
 ```yaml
 ---
@@ -85,13 +85,13 @@ Also create a new playbook at `playbooks/bootstrap-kubernetes.yml` with the foll
 ```
 {% endraw %}
 
-Here we can see tasks to accomplish our goals of pushing out a corrected config file, our pull secret, and fixing a bug. Once those are complete, we can start up microshift.
+Here, we can see tasks to accomplish the goals of pushing out a corrected CRI-O config file, our pull secret, and fixing a bug. Once those have been completed, we can then start up microshift.
 
 > Note:
 >
 > Our pull secret will be stored securely in Ansible Controller instead of being committed to our repo.
 
-Once finished, push these files up to Gitea.
+Once these resources have been created, commit and push them up to the git repo.
 
 ### Step 2 - Adding Our Pull Secret to Ansible Controller
 
@@ -164,7 +164,7 @@ In the Controller WebUI. under **Resources** > **Templates**, select **Add** > *
   </tr>
   <tr>
     <td>Credentials</td>
-    <td><ul><li>✓ Device Credentials</li></ul></td>
+    <td><li>✓ Device Credentials</li></td>
   </tr>
   <tr>
     <td>Limit</td>
@@ -172,7 +172,7 @@ In the Controller WebUI. under **Resources** > **Templates**, select **Add** > *
   </tr>
    <tr>
     <td>Options</td>
-    <td><ul><li>✓ Privilege Escalation</li><li>✓ Pull Secret</li></ul></td>
+    <td><li>✓ Privilege Escalation</li><li>✓ Pull Secret</li></td>
   </tr> 
 </table>
 
@@ -180,10 +180,9 @@ Remember to click **Save**.
 
 ### Step 4 - Running the Job Template
 
-Now that the job template has been created, click on the rocket ship to launch the job template and enter your device name when prompted for the limit. Monitor the output for any errors or issues, however hopefully the job executes successfully.
+Now that the job template has been created, click the **Launch** button if you are still within the _Bootstrap Kubernetes_ Job Template. Otherwise, click on the rocket ship on the Templates page to launch the job template. Enter your device name when prompted on the limits page. Monitor the output for any errors or issues. However, hopefully the job executes successfully.
 
 As a reminder, the output of jobs can be reviewed on the **Jobs** tab.
-
 
 ### Solutions
 

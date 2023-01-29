@@ -15,7 +15,9 @@ In this exercise, we're going to write a simple playbook to template out our kic
 
 ### Step 1 - Writing a Playbook to Template out our Kickstart
 
-Return to the code repo via however you were editing files (VSCode, VIM, etc), and create a new playbook in the `playbooks/` directory of your repo, called `template-kickstart.yml`. We'll only need one task for this playbook, and can just write our task directly into the playbook over creating a role.
+Return to the code repo via the method that you were editing files (VSCode, VIM, etc) previously, and create a new playbook in the `playbooks/` directory of your repo called `template-kickstart.yml`. We'll only need one task for this playbook which will be used to render the kickstart file to a directory served by the web server.
+
+Populate the `template-kickstart.yml` file with the following content: 
 
 {% raw %}
 ```yaml
@@ -28,8 +30,8 @@ Return to the code repo via however you were editing files (VSCode, VIM, etc), a
   tasks:
     - name: push templated kickstart file
       ansible.builtin.template:
-        src: templates/student(your-student-number).ks.j2
-        dest: "/var/www/html/student(your-student-number)-kickstart.ks"
+        src: templates/student{{ student_number }}.ks.j2
+        dest: "/var/www/html/student{{ student_number }}-kickstart.ks"
         owner: apache
         group: apache
         mode: '0755'
@@ -38,7 +40,7 @@ Return to the code repo via however you were editing files (VSCode, VIM, etc), a
 
 A few notes about this playbook:
 - We want `hosts: all` because we'll use Ansible Controller to determine what inventories/hosts to target
-- We're going to push this to an already created web server so we can view the results quickly. In addition, for devices on a network, the RHEL boot ISO can be used without modification to kickstart a device by specifying the `inst.ks=` boot option. For more information on this, refer to the [Red Hat Knowledgebase](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/performing_an_advanced_rhel_8_installation/starting-kickstart-installations_installing-rhel-as-an-experienced-user).
+- We're going to push this to an already created web server so we can view the results quickly. In addition, for devices on a network, the RHEL boot ISO can be used without modification to kickstart a device by specifying the `inst.ks=` boot option. For more information on this process, refer to this [Red Hat Knowledgebase Article](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/performing_an_advanced_rhel_8_installation/starting-kickstart-installations_installing-rhel-as-an-experienced-user).
 
 Once your playbook is constructed, push it up into your git repo.
 
@@ -47,11 +49,11 @@ Once your playbook is constructed, push it up into your git repo.
 > Note:
 >
 > Be sure to sync your project in Controller before attempting to create this job template.
-> To sync it, go to **Resources** > **Project** and click on the sync icon for the only project available
+> To sync the project, navigate to **Resources** > **Project** and click on the sync icon for the only project available
 
 Now that we have a playbook and template, we can build a job template to push our our kickstart file.
 
-Under **Resources** > **Templates**, select **Add** > **Add job template** and enter the following information:
+On the **Resources** > **Templates** page, select **Add** > **Add job template** and enter the following information:
 
 <table>
   <tr>
@@ -80,7 +82,7 @@ Under **Resources** > **Templates**, select **Add** > **Add job template** and e
   </tr>
   <tr>
     <td>Credentials</td>
-    <td><ul><li>✓ Ansible Controller API Authentication Info</li><li>✓ Edge Manager SSH Credentials</li><li>✓ Kickstart User</li><li>✓ OSTree Info</li><li>✓ Wireless Network Info</li></ul></td>
+    <td><ul><li>✓ Ansible Controller API Authentication Info</li><li>✓ Machine -> Edge Manager SSH Credentials</li><li>✓ Kickstart User</li><li>✓ OSTree Info</li><li>✓ Wireless Network Info (If applicable)</li></ul></td>
   </tr>
   <tr>
     <td>Limit</td>
@@ -100,17 +102,17 @@ Remember to click **Save**.
 
 ### Step 3 - Running the Job Template
 
-Now that the job template has been created, click on the rocket ship to launch the job template. Monitor the output for any errors or issues, however hopefully the job executes successfully.
+Now that the job template has been created, click on the **Launch** button to start a Job. Monitor the output for any errors or issues.
 
 As a reminder, the output of jobs can be reviewed on the **Jobs** tab.
 
 ### Step 4 - Reviewing the Kickstart File
 
-Once the job has completed, the kickstart file can be viewed immediately via connecting to a web server. Open a web browser and navigate to `http://(kickstart-host-from-your-student-page)/student$(your-student-number)-kickstart.ks`
+Once the job has completed, the kickstart file can be viewed immediately via connecting to the web server. Open a web browser and navigate to `http://(edge-manager-from-your-student-page)/student$(your-student-number)-kickstart.ks`
 
-Ideally, the variables and conditional blocks will have templated out, and the kickstart will be filled out with all the correct information. Give it a once-over to confirm the values you're expecting are present.
+Ideally, the variables and conditional blocks will have templated properly, and the kickstart will be filled out with all the correct information. Review the contents of the kickstart to confirm the values you're expecting are present.
 
-Remember: a chunk of the playbook was surrounded by the `raw` key, meaning Ansible didn't attempt to resolve/replace the variables and simply put down what was there. This is by design, as our playbook has some of its own variables.
+Remember: a portion of the playbook was surrounded by the `raw` key, meaning Ansible didn't attempt to resolve/replace the variables and rendered the content as it was declared. This is by design, as our playbook has some of its own variables.
 
 ### Solutions
 

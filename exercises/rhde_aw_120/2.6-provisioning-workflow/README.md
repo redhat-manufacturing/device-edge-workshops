@@ -10,28 +10,28 @@
 
 ## Objective
 
-In this exercise, we're going to build a workflow that will fully deploy our edge devices. We want to take several steps automatically when the devices boot and call home, so a workflow makes perfect sense.
+In this exercise, we're going to build a workflow that will fully deploy our edge devices. We want to perform several steps automatically when the devices boot and call home, so a workflow provides an ideal solution.
 
 The basic idea of a workflow is to link multiple Job Templates together. They may or may not share inventory, playbooks or even permissions. The links can be conditional:
 
 * if job template A succeeds, job template B is automatically executed afterwards
 * but in case of failure, job template C will be run.
 
-And the workflows are not even limited to Job Templates, but can also include project or inventory updates.
+Workflows are not even limited to executing Job Templates, but can also include project or inventory updates.
 
 This enables new applications for Ansible automation controller: different Job Templates can build upon each other.
 
 ### Step 1 - Adding Credentials to the Existing Job Template
 
-A job template has been created by the provisioner with an example playbook that tests connectivity to devices. This job template can be found on the **Templates** page under **Resources**.
+A job template has been created by the provisioner with an example playbook that tests connectivity to devices. This job template can be found within the **Resources** > **Templates** page.
 
-Click on the job template name, then select **Edit** at the bottom of the page. Click the magnifying glass icon next to **Credentials**. In the **Select Credentials** box, ensure **Selected Category** is set to **Machine**, and then select the **Device Credentials** created earler in [exercise 2.2](../2.2-kickstart-creds/). This will allow this job template to authenticate to your edge devices as they're provisioned.
+Click on the `Test Device Connectivity` template, then select **Edit** at the bottom of the page. Click the mangnifying glass icon next to **Credentials**. In the **Select Credentials** box, ensure **Selected Category** is set to **Machine**, and then select the **Device Credentials** created earler in [exercise 2.2](../2.2-kickstart-creds/). This will allow this job template to authenticate to your edge devices as they're provisioned.
 
-Click **Save** after this change.
+Click **Save** to apply the changes.
 
 ### Step 2 - Creating a Workflow
 
-Under **Resources**, select the **Templates** page. Once here, click **Add** > **Add workflow template**. Fill in the form with the following information:
+Navigate to the **Resources** > **Templates** page. Once here, click **Add** > **Add workflow template**. Fill in the form with the following information:
 
 <table>
   <tr>
@@ -69,6 +69,8 @@ We're going to add three nodes to our workflow to begin with:
 
 These nodes should be connected via an **On-Success** connection in the workflow.
 
+The resulting workflow should appear similar to the depiction illustrated in the [Finished Workflow](#finished-workflow) portion of the Solutions section.
+
 Once you've added the three nodes to the workflow, click the **Save** button in the top right corner.
 
 ### Solutions
@@ -102,6 +104,6 @@ Once you've added the three nodes to the workflow, click the **Save** button in 
 ---
 **Navigation**
 
-[Previous Exercise](../1.7-build-iso) | [Next Exercise](../3.1-boot-edge-device)
+[Previous Exercise](../2.5-device-config-automation) | [Next Exercise](../3.1-boot-edge-device)
 
 [Click here to return to the Workshop Homepage](../README.md)

@@ -3,10 +3,8 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Copying Our Customized ISO to the VM Storage](#step-1---copying-our-customized-iso-to-the-vm-storage)
-* [Step 2 - Attaching the ISO to your Virtual Machine](#step-2---attaching-the-iso-to-your-virtual-machine)
-* [Step 3 - Adjusting the Boot Options](#step-3---adjusting-the-boot-options)
-* [Step 4 - Powering On the Virtual Machine](#step-4---powering-on-the-virtual-machine)
+* [Step 1 - Reviewing the Immutable Nature of RHDE](#step-1---reviewing-the-immutable-nature-of-rhde)
+* [Step 2 - Investigating The Workflow Run](#step-2---investigating-the-workflow-run)
 * [Solutions](#solutions)
 
 ## Objective
@@ -17,7 +15,7 @@ In this exercise, we'll review the details of RHDE's operating system and, optio
 
 ![rpm-ostree OS](../images/rpm-ostree.jpg)
 
-Red Hat Device Edge is a partially immutable operating system built on top of rpm-ostree. It gains the benefits of being immutable, such as: no in-between state, read-only sections of the filesystem, while allowing for other functionality to more closely resemble traditional Red Hat Enterprise Linux, such as leaving `/var` and `/etc` writable and state maintaining.
+Red Hat Device Edge is a partially immutable operating system built on top of rpm-ostree. It gains the benefits of being immutable, such as: no in-between state, read-only sections of the filesystem, while allowing for other functionality to more closely resemble traditional Red Hat Enterprise Linux environments, such as leaving `/var` and `/etc` in a writable and able to save state.
 
 Because of this, the operating system is more suited to edge deployments, and can run many different types of workloads, such as virtual machines, containers, k8s applications, and even bare metal applications, assuming they live in a directory that maintains state.
 
@@ -27,9 +25,9 @@ The exercise is optional, but if you wish, you can SSH into the edge device like
 
 > Note:
 >
-> For virtualized edge devices, connect to the hypervisor over SSH, then attempt to access the edge devices. Their networking doesn't extend beyond the hypervisor.
+> For virtualized edge devices, connect to the hypervisor over SSH. Then, attempt to access the edge devices using the IP address discovered in the Ansible Controller inventory variable. Their networking doesn't extend beyond the hypervisor.
 
-A few interesting things to view are the greenboot status, rpm-ostree status, and filesystem layout.
+A few interesting things to investigate are the greenboot status, rpm-ostree status, and filesystem layout.
 
 Greenboot will display information on login: `Boot Status is GREEN - Health Check SUCCESS`
 

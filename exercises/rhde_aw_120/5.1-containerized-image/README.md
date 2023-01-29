@@ -14,11 +14,11 @@ For a reminder on the application we're deploying, review [exercise 1.5](../1.5-
 
 ### Step 1 - Reviewing the Requirements for the Application
 
-Because we've moving to a containerized deployment for our application, we actually will be removing packages from the image. In addition, podman is **always** included in edge images by Image Builder, however here we've explicitly called it out for clarity.
+Because we've moving to a containerized deployment for our application, we actually will be removing packages from the image. In addition, podman is **always** included in edge images produced by Image Builder. However, we wanted to call it out explicitly.
 
-Also included are buildah and skopeo just to show that edge devices can be leveraged to build applications should local atonomy be desired, however in a production deployment it's recommended to build container images on OpenShift using proper CI/CD tooling, then deploy them out to edge devices.
+Also, included in edge images are buildah and skopeo to highlight that edge devices can be leveraged to build applications should local atonomy be desired. However, in a production deployment, it's recommended to build container images as part of a CI/CD workflow, then deploy them out to edge devices.
 
-In the interest of time, this has been done for you and will be made available by the instructor. This image was composed using the [infra.osbuild](https://github.com/redhat-cop/infra.osbuild) Ansible collection, which takes a common set of variables and completely automates interactions with Image Builder.
+In the interest of time, the image was previously built for you and made available by the instructor. This image was composed using the [infra.osbuild](https://github.com/redhat-cop/infra.osbuild) Ansible collection, which takes a common set of variables and completely automates the interaction with Image Builder.
 
 Specifically, this image was customized with the following variables:
 ```

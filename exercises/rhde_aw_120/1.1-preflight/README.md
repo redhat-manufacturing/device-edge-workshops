@@ -12,7 +12,7 @@
 ## Objective
 
 * Understand the lab topology, provided hardware (if applicable), and how to access virtual instances (again, if applicable).
-* Understand how to work the workshop exercises.
+* Understand how to use the workshop exercises.
 
 These first few lab exercises will be exploring the lab and gathering baseline information for use in later excercises.
 
@@ -20,7 +20,7 @@ These first few lab exercises will be exploring the lab and gathering baseline i
 
 ### Your Lab Environment
 
-In this lab you work in a pre-configured lab environment. You will have access to the following services:
+In this lab, you work in a pre-configured lab environment and will have access to the following services:
 
 | Service | Purpose |
 | --- | --- |
@@ -30,7 +30,7 @@ In this lab you work in a pre-configured lab environment. You will have access t
 
 Since this is a shortened lab, the Image Builder related steps have already been completed, and images are hosted and ready for consumption.
 
-> Note: If you need more information on new Ansible Automation Platform components bookmark this landing page [https://red.ht/AAP-20](https://red.ht/AAP-20)
+> Note: If you need more information on new Ansible Automation Platform components, bookmark this landing page [https://red.ht/AAP-20](https://red.ht/AAP-20)
 
 ### Step 1 - Edge Device vs Virtual Device
 
@@ -44,9 +44,9 @@ Since this is a shortened lab, the Image Builder related steps have already been
 
 ### Step 3 - Accessing the Virtual Device Host
 
-A baremetal instance has been created in RHPDS that will host virtual instances meant to represent an edge device. Ask the lab instructor to provide login and authentication details.
+A baremetal instance has been created in RHPDS that will host virtual instances meant to represent an edge device. Ask the lab instructor to provide login and authentication details along with any steps that you may need to complete.
 
-It is highly encouraged to use the Cockpit web interface to complete the workshop exercises. Cockpit provides:
+It is highly encouraged that the Cockpit web interface be used to complete the workshop exercises. Cockpit provides:
 - An easy to access interface to managing virtual machines running on RHEL
 - Tooling for creating, starting, and stopping virtual machines
 - A web based console for bootstraping and troubleshooting

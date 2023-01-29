@@ -2,7 +2,7 @@
 
 This workshop focuses on deploying various workloads to a Device Edge endpoint, focusing on ease of updating the image to support the workload type and leveraging automation to deploy the workload. Due to the smaller timeframe of this lab, most setup steps have been completed prior to the lab - see the lab diagram for more info. The first excercise will focus on investigating the existing components.
 
-After finishing this lab you are ready to start using Red Hat Device Edge to run your workloads.
+After finishing this lab, you are ready to start using Red Hat Device Edge to run your workloads.
 
 ## Table of Contents
 
@@ -20,7 +20,7 @@ After finishing this lab you are ready to start using Red Hat Device Edge to run
 
 ## Presentations
 
-The exercises are self explanatory and guide the participants through the entire lab. All concepts are explained when they are introduced.
+The exercises are self explanatory and guide the participants through the entire lab. All concepts are explained as they are introduced.
 
 Have a look at a general deck about Red Hat's Edge strategy:
 [Red Hat Edge Compute Platform](../../decks/rh_edge_compute_platform.pdf)

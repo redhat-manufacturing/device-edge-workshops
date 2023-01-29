@@ -10,9 +10,9 @@
 
 ## Objective
 
-Because we've deployed the application without concern for security or best practices, we're going to roll back our changes and work towards a containerized deployment.
+Because we've deployed the application without concern for security or best practices, we're going to roll back our changes and work towards a containerized deployment approach.
 
-In this exercise, we're going to create some automation to roll back the changes we've made and cleanup our systems.
+In this exercise, we will create some automation to roll back the changes we've made and cleanup our systems.
 
 ### Step 1 - Creating a Playbook
 
@@ -81,9 +81,9 @@ Return to your code repo and create a playbook in the `playbooks` directory call
         - reboot_system
 ```
 
-This playbook rolls back the changes we made previously, mainly removing the packages we installed, files we added/modifyed, services we created, and re-enables selinux.
+This playbook rolls back the changes we made previously, mainly removing the packages we installed, files we added/modified, services we created, and re-enables selinux to _enforcing_ mode.
 
-Remember to push your code up to Gitea when finished crafting this playbook.
+Remember to commit and push your code up to Gitea when finished crafting this playbook.
 
 ### Step 2 - Creating a Job Template
 
@@ -120,7 +120,7 @@ In the Controller WebUI. under **Resources** > **Templates**, select **Add** > *
   </tr>
   <tr>
     <td>Credentials</td>
-    <td><ul><li>✓ Device Credentials</li></ul></td>
+    <td><li>✓ Device Credentials</li></td>
   </tr>
   <tr>
     <td>Limit</td>
@@ -128,7 +128,7 @@ In the Controller WebUI. under **Resources** > **Templates**, select **Add** > *
   </tr>
    <tr>
     <td>Options</td>
-    <td><ul><li>✓ Privilege Escalation</li></ul></td>
+    <td><li>✓ Privilege Escalation</li></td>
   </tr> 
 </table>
 
@@ -136,11 +136,11 @@ Remember to click **Save**.
 
 ### Step 3 - Running the Job Template
 
-Now that the job template has been created, click on the rocket ship to launch the job template and enter your device name when prompted for the limit. Monitor the output for any errors or issues, however hopefully the job executes successfully.
+Now that the job template has been created, click that **Launch** button if still within the _Cleanup Bare Metal Application_ Job Template. Otherwise, click the rocket ship to launch the job template from the _Templates_ page. Enter your device name when prompted witih the limit dialog. Monitor the output for any errors or issues. Hopefully the job executes successfully.
 
 As a reminder, the output of jobs can be reviewed on the **Jobs** tab.
 
-Once the playbook completes, you should no longer be able to access the application like before.
+Once the playbook completes, you should no longer be able to access the application as it has been uninstalled.
 
 ### Solutions
 

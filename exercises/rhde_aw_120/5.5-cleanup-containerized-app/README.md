@@ -87,7 +87,7 @@ In the Controller WebUI. under **Resources** > **Templates**, select **Add** > *
   </tr>
   <tr>
     <td>Credentials</td>
-    <td><ul><li>✓ Device Credentials</li></ul></td>
+    <td><li>✓ Device Credentials</li></td>
   </tr>
   <tr>
     <td>Limit</td>
@@ -99,11 +99,11 @@ Remember to click **Save**.
 
 ### Step 3 - Running the Job Template
 
-Now that the job template has been created, click on the rocket ship to launch the job template and enter your device name when prompted for the limit. Monitor the output for any errors or issues, however hopefully the job executes successfully.
+Now that the job template has been created, click the **Launch** button if you are still within the _Cleanup Containerized Application_ Job Template. Otherwise, click on the rocket ship on the Templates page to launch the job template. Enter your device name when prompted on the limits page. Monitor the output for any errors or issues. However, hopefully the job executes successfully.
 
 As a reminder, the output of jobs can be reviewed on the **Jobs** tab.
 
-Once the playbook completes, you should no longer be able to access the application like before.
+Once the playbook completes, you should no longer be able to access the application as it has been uninstalled.
 
 ### Solutions
 

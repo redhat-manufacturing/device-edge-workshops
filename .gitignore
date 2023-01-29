@@ -14,3 +14,4 @@ exercises/rhde_aw_120/solutions
 *extra-vars.yml
 provisioner.log
 provision.log
+.DS_Store

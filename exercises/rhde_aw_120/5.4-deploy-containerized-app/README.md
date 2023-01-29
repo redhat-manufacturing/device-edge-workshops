@@ -10,11 +10,11 @@
 
 ## Objective
 
-In this exercise, we'll be a playbook to run our role, creating a job template for it in Ansible Controller, and deploying the application all via automtion.
+In this exercise, we'll create a playbook to run our role, create a job template for it in Ansible Controller, and deploying the application -- all via automtion.
 
 ### Step 1 - Creating a Playbook
 
-Return to your code repo and create a playbook in the `playbooks` directory called `deploy-bare-metal-app.yml` with the following contents:
+Return to your code repo and create a playbook in the `playbooks` directory called `deploy-containerized-app.yml` with the following contents:
 ```yaml
 ---
 
@@ -24,7 +24,7 @@ Return to your code repo and create a playbook in the `playbooks` directory call
     - ../roles/deploy_containerized_app
 ```
 
-Once complete, be sure to push your changes up to Gitea.
+Once complete, be sure to commit push your changes up to the git server.
 
 ### Step 2 - Creating a Job Template
 
@@ -61,7 +61,7 @@ In the Controller WebUI. under **Resources** > **Templates**, select **Add** > *
   </tr>
   <tr>
     <td>Credentials</td>
-    <td><ul><li>✓ Device Credentials</li></ul></td>
+    <td><li>✓ Device Credentials</li></td>
   </tr>
   <tr>
     <td>Limit</td>
@@ -73,17 +73,17 @@ Remember to click **Save**.
 
 ### Step 3 - Running the Job Template
 
-Now that the job template has been created, click on the rocket ship to launch the job template and enter your device name when prompted for the limit. Monitor the output for any errors or issues, however hopefully the job executes successfully.
+Now that the job template has been created, click the **Launch** button if you are still within the _Deploy Containerized Application_ Job Template. Otherwise, click on the rocket ship on the Templates page to launch the job template. Enter your device name when prompted on the limits page. Monitor the output for any errors or issues. However, hopefully the job executes successfully.
 
 As a reminder, the output of jobs can be reviewed on the **Jobs** tab.
 
-Once the playbook completes, visit http://$(your-device-ip-address):1881/ui to view the application running.
+Once the playbook completes, visit http://$(your-device-ip-address):1881/ui to view the running application.
 
 > Note:
 >
 > For virtualized edge devices, you'll need to use SSH tunneling or just curl the port to check for a response.
 
-Another thought: this could be added to the end of our provisioning workflow to deploy the application as soon as a device calls home.
+Similar to the bare metal deployment of the application, the automation could be added to the end of our provisioning workflow as soon as a device calls home.
 
 ### Solutions
 

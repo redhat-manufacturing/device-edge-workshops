@@ -3,15 +3,15 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Creating the Bootstrap Automation](#step-1---crafting-our-kubernetes-yaml)
-* [Step 2 - Adding Our Pull Secret to Ansible Controller](#step-2---adding-our-pull-secret-to-ansible-controller)
-* [Step 3 - Creating a Job Template](#step-3---creating-a-job-template)
-* [Step 4 - Running the Job Template](#step-4---running-the-job-template)
-* [Solutions](#solutions)
+* [Step 1 - MQTT Service and Deployment](#step-1---mqtt-service-and-deployment)
+* [Step 2 - Simulate Deployment](#step-2---simulate-deployment)
+* [Step 3 - Control Deployment](#step-3---control-deployment)
+* [Step 4 - UI Service and Deployment](#step-4---ui-service-and-deployment)
+* [Conclusion](#conclusion)
 
 ## Objective
 
-Since we're deploying our application to kubernetes, we can now use native definitions to define what we want deployed.
+Since we're deploying our application to Kubernetes, we can now use native definitions to define what we would like to deploy.
 
 Remember: our application has four main components, two of which we'll want to also create services for. These can all be defined in yaml, and Ansible will apply them.
 
@@ -56,7 +56,7 @@ spec:
               name: mqtt-port
 ```
 
-These will create a service and a deployment for our mqtt broker.
+These will create a Service and a Deployment for our mqtt broker.
 
 ### Step 2 - Simulate Deployment
 
@@ -81,7 +81,7 @@ spec:
           image: quay.io/device-edge-workshops/process-control-simulate-k8s:1.0.0
 ```
 
-This will create a deployment for the simulator portion of our app.
+This will create a Deployment for the simulator portion of our app.
 
 ### Step 3 - Control Deployment
 
@@ -152,7 +152,7 @@ spec:
 
 ### Conclusion
 
-These yaml files define our application. Next, we'll leverage Ansible to talk directly to the k8s API.
+These YAML files define our application. Next, we'll leverage Ansible to talk directly to the k8s API to manage these resources.
 
 ---
 **Navigation**

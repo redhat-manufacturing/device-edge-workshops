@@ -21,13 +21,15 @@ For a reminder on how to access the Cockpit WebUI, review [exercise 1.4](../1.4-
 
 First, we'll copy our customized ISO to a location where we can attach it to a virtual machine. A directory has been created for us at `/var/virtual-machines/iso`.
 
-From within the `generate-iso` directory, copy your ISO: `sudo cp rhde-ztp.iso /var/virtual-machines/iso/student$(your-student-number)-rhde-ztp.iso`
+From within the `generate-iso` directory, copy your ISO into the destination directory while being sure to insert your student number into the destination filename: `sudo cp rhde-ztp.iso /var/virtual-machines/iso/student$(your-student-number)-rhde-ztp.iso`
 
 For example: `sudo cp rhde-ztp.iso /var/virtual-machines/iso/student1-rhde-ztp.iso`
 
 ### Step 2 - Attaching the ISO to your Virtual Machine
 
-On the **Virtual machines** tab within Cockpit, select your virtual machine. The naming convention for virtual machines is `student$(your-student-number)-edge-device`, so for example: if you are student 1, your virtual machine is `student1-edge-device`.
+Navigate to the Cockput WebUI and select the **Virtual machines** tab. By default, no Virtaul Machines will be populated as the management of Virtual Machines requires elevated access. Click on the _Limited Access_ button at the top of the page to gain Administrative privileges. Once selected, Virtual Machines will appear. 
+
+Select the virtual machine associated to your student ID. The naming convention for virtual machines is `student$(your-student-number)-edge-device`, so for example: if you are student 1, your virtual machine is `student1-edge-device`.
 
 Under the **Disks** section, select the **Add disk** button. In the **Add disk** path, enter the following information:
 <table>

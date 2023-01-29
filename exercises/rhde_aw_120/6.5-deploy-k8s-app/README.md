@@ -1,11 +1,11 @@
-# Workshop Exercise 6.4 - App Definitions
+# Workshop Exercise 6.5 - Deploy Application
 
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Creating the Bootstrap Automation](#step-1---crafting-our-kubernetes-yaml)
-* [Step 2 - Adding Our Pull Secret to Ansible Controller](#step-2---adding-our-pull-secret-to-ansible-controller)
-* [Step 3 - Creating a Job Template](#step-3---creating-a-job-template)
+* [Step 1 - Creating Our Playbook](#step-1---creating-our-playbook)
+* [Step 2 - Creating a Job Template](#step-2---creating-a-job-template)
+* [Step 3 - Running the Job Template](#step-3---running-the-job-template)
 * [Step 4 - Running the Job Template](#step-4---running-the-job-template)
 * [Solutions](#solutions)
 
@@ -15,7 +15,7 @@ Now that we have the definitions for our application deployment, we're going to 
 
 The following automation will:
 1. Slurp up the kubeconfig file from our edge device
-2. Create a namespace
+2. Create a namespace for our applications
 3. Push out our definitions
 
 ### Step 1 - Creating Our Playbook
@@ -69,7 +69,7 @@ Return to your code repo and create a new file at `playbooks/deploy-k8s-app.yml`
 
 This playbook handles grabbing the kubeconfig, setting the correct cluster address, then deploys our application.
 
-Remember to push your new playbook up to Gitea.
+Remember to commit and push your new playbook up to the git repo.
 
 ### Step 2 - Creating a Job Template
 
@@ -106,7 +106,7 @@ In the Controller WebUI. under **Resources** > **Templates**, select **Add** > *
   </tr>
   <tr>
     <td>Credentials</td>
-    <td><ul><li>✓ Device Credentials</li></ul></td>
+    <td><li>✓ Device Credentials</li></td>
   </tr>
   <tr>
     <td>Limit</td>
@@ -118,7 +118,7 @@ Remember to click **Save**.
 
 ### Step 3 - Running the Job Template
 
-Now that the job template has been created, click on the rocket ship to launch the job template and enter your device name when prompted for the limit. Monitor the output for any errors or issues, however hopefully the job executes successfully.
+Now that the job template has been created, click the **Launch** button if you are still within the _Deploy K8s Application_ Job Template. Otherwise, click on the rocket ship on the Templates page to launch the job template. Enter your device name when prompted on the limits page. Monitor the output for any errors or issues. However, hopefully the job executes successfully.
 
 As a reminder, the output of jobs can be reviewed on the **Jobs** tab.
 
@@ -126,8 +126,8 @@ As a reminder, the output of jobs can be reviewed on the **Jobs** tab.
 
 For some extra practice, an additional step must be taken to access the application.
 
-1. Since we did not set up a route (or DNS), add a route definition, adjust the deployment playbook, re-run it, and configure your personal device's DNS settings (you could just toss a line in `/etc/hosts`), then attempt to access the application.
-2. Use the `oc` CLI utility to port-forward and test connectivity.
+1. Since we did not set up an OpenShift Route (or DNS), add a Route definition, adjust the deployment playbook, re-run it, and configure your personal device's DNS settings (one option is to add a line in `/etc/hosts`), then attempt to access the application.
+2. Use the `oc` CLI utility and the `port-forward` subcommand to create a tunnel to the application and test connectivity.
 
 
 ### Solutions
@@ -137,6 +137,6 @@ For some extra practice, an additional step must be taken to access the applicat
 ---
 **Navigation**
 
-[Previous Exercise](../0.1-upgrade-rhde) | [Next Exercise](../5.4-deploy-containerized-app)
+[Previous Exercise](../6.4-app-definitions)
 
 [Click here to return to the Workshop Homepage](../README.md)
