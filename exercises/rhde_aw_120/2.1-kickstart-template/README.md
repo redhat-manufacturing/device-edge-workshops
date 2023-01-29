@@ -237,7 +237,7 @@ reboot
 text
 user --name {{ kickstart_user_username }} --groups=wheel --password={{ kickstart_user_password }}
 services --enabled=ostree-remount
-ostreesetup --nogpg --url={{ ostree_repo_protocol }}://{{ ostree_host }}:{{ ostree_repo_port }}/{{ ostree_path }} --osname={{ ostree_os_name }} --ref={{ ostree_ref }}
+ostreesetup --nogpg --url={{ ostree_repo_protocol }}://{{ ostree_repo_host }}:{{ ostree_repo_port }}/{{ ostree_repo_path }} --osname={{ ostree_os_name }} --ref={{ ostree_ref }}
 
 %post
 # create playbook for controller registration
