@@ -29,7 +29,7 @@ Return to the code repo via however you were editing files (VSCode, VIM, etc), a
     - name: push templated kickstart file
       ansible.builtin.template:
         src: templates/kickstart.ks.j2
-        dest: "/var/www/html/student{{ student_number }}-kickstart.ks"
+        dest: "/var/www/html/student(your-student-number)-kickstart.ks"
         owner: apache
         group: apache
         mode: '0755'
