@@ -60,6 +60,9 @@
 - name: compose images
   ansible.builtin.import_playbook: compose-images.yml
 
+- name: import backup sync playbook
+  ansible.builtin.import_playbook: sync-to-backup.yml
+
 - name: import playbook to set active image
   ansible.builtin.import_playbook: set-active-image.yml
   vars:
