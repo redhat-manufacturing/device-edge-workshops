@@ -6,23 +6,23 @@
 * [Step 1 - Introduction to the Workload](#step-1---introduction-to-the-workload)
 * [Step 2 - The MQTT Broker](#step-2---the-mqtt-broker)
 * [Step 3 - The Simulator](#step-3---the-simulator)
-* [Step 4 - The Controller](#step4---the-controller)
+* [Step 4 - The Controller](#step-4---the-controller)
 * [Step 5 - The WebUI](#step-5---the-webui)
-* [Step 6 - The Assembled Application](#step-1---the-assembled-application)
+* [Step 6 - The Assembled Application](#step-6---the-assembled-application)
 
 
 ## Objective
 
 In this exercise, we are going to investigate the workload we'll be deploying to the edge device in various deployment configurations: baremetal, in containers on top of podman, and then on top of microshift.
 
-This exercise will cover
+This exercise will cover:
 
 * The components of the application and their functions
 * The required communication between the components
 
 ### Step 1 - Introduction to the Workload
 
-For our workshop we'll be running a brew kettle simulator comprised of four components:
+For our workshop, we'll be running a brew kettle simulator comprised of four components:
 
 1. A lightweight MQTT broker - we'll be using [Eclipse Mosquitto](https://mosquitto.org/)
 2. A simulator for the tank, heater, and temperature sensor
@@ -73,7 +73,7 @@ Finally, this component provides a web interface, allowing for the interaction w
 
 ### Step 6 - The Assembled Application
 
-Should all components of the application be functioning and communicating, visiting the web interface should present an interface where the setpoint of the tank can be adjusted up or down, and a few metrics will be displated as the controller attempts to bring the system to that set point:
+Should all components of the application be functioning and communicating, visiting the web interface should present an interface where the setpoint of the tank can be adjusted up or down, and a few metrics will be displated as the controller attempts to bring the system to the sedired set point:
 
 ![WebUI Dashboard](https://github.com/jjaswanson4/process-demo-ui/blob/master/ui.png?raw=true)
 

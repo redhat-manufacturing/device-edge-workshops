@@ -14,15 +14,15 @@ For a reminder on the application we're deploying, review [exercise 1.5](../1.5-
 
 > Note:
 >
-> Portions of Device Edge are in tech preview. Because of this, a few steps are necessary before starting microshift, and the kubernetes functionality will not work on devices that only have a wireless connection. If you have a physical device on wifi, consult with your instructor for next steps.
+> Portions of Device Edge are in tech preview. Because of this, a few steps are necessary before starting microshift. In addition, the kubernetes functionality will not work on devices that only have a wireless connection. If you have a physical device on wifi, consult with your instructor for next steps.
 
 ### Step 1 - Reviewing the Requirements for the Application
 
-We're now going to deploy a kubernetes-based application to our edge devices. To accomplish this, we'll need to add a very small footprint kubernetes build to our devices to enable running of k8s-based applications.
+We're now going to deploy a Kubernetes-based application to our edge devices. To accomplish this, we'll need to add a very small footprint Kubernetes build to our devices to enable the running of k8s-based applications.
 
-A quick note: This was perviously referred to as [Microshift](https://github.com/openshift/microshift), and is in tech preview. Because of this, we'll need to take a few additional steps to get things going that should be cleaned up before the GA date.
+A quick note: This was perviously referred to as [Microshift](https://github.com/openshift/microshift), and is in tech preview. Because of this, we'll need to take a few additional steps to get things going to address concerns that should be cleaned up before the GA date.
 
-In the interest of time, this has been done for you and will be made available by the instructor. This image was composed using the [infra.osbuild](https://github.com/redhat-cop/infra.osbuild) Ansible collection, which takes a common set of variables and completely automates interactions with Image Builder.
+In the interest of time, thesse steps have been completed for you and will be made available by the instructor. This image was composed using the [infra.osbuild](https://github.com/redhat-cop/infra.osbuild) Ansible collection, which takes a common set of variables and completely automates interactions with Image Builder.
 
 Specifically, this image was customized with the following variables:
 {% raw %}

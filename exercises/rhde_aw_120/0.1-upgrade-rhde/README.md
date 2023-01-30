@@ -11,7 +11,7 @@
 
 ## Objective
 
-The purpose of this exercise is to review how RHDE is updated, and then automate the process. Once finished, you should be able to run a job template in Ansible Controller, specify what version of an image you'd like, and then let Ansible handle the rest.
+The purpose of this exercise is to review how RHDE is updated, and then automate this process. Once finished, you should be able to run a job template in Ansible Controller, specify the version of an image you'd like, and then let Ansible handle the rest.
 
 > Note:
 >
@@ -21,7 +21,7 @@ The purpose of this exercise is to review how RHDE is updated, and then automate
 
 Red Hat Device Edge is rpm-ostree based, and so upgrades are handled differently than traditional Red Hat Enterprise Linux.
 
-The `rpm-ostree status` command will print out information about the running image. On this system, I have a newer image deployed to the system, but it isn't the current running instance, as denoted by the star in front of the image labeled `Version: 1.0.0`.
+The `rpm-ostree status` command will print out information about the running image. On this system, a newer image is deployed and available, but it isn't the current running instance, as denoted by the star in front of the image labeled `Version: 1.0.0`.
 ```
 [root@Colossus ~]# rpm-ostree status
 State: idle
@@ -62,7 +62,7 @@ The flow of the playbook will be as follows:
 
 For this workshop, we're controlling access to new image versions at the repo level, so our playbook can be more simplistic.
 
-Return to your code repo and open back up your favorite editor. In the `playbooks/` directory, create a new playbook called `upgrade-rhde.yml`.
+Return to your code repo and open your favorite editor. In the `playbooks/` directory, create a new playbook called `upgrade-rhde.yml`.
 ```yaml
 ---
 
@@ -82,9 +82,9 @@ Return to your code repo and open back up your favorite editor. In the `playbook
         - rhde_upgraded.changed
 ```
 
-The `ansible.posix.rpm_ostree_upgrade` command will handle checking for a new image version, and if one is available, upgrading the system.
+The `ansible.posix.rpm_ostree_upgrade` command will handle checking for a new image version, and if one is available, upgrade the system.
 
-Once you've finished your playbook, push it up into your code repository.
+Once you've finished creating playbook, commit and push it up into your code repository.
 
 ### Step 3 - Creating a Job Template for our Upgrade Playbook
 
@@ -92,7 +92,7 @@ Once you've finished your playbook, push it up into your code repository.
 >
 > Ensure you've synced your project before attempting to create a job template.
 
-Now that we have a playbook, we can create a job template to run our playbook.
+Now that we have a playbook available in our code reop, we can create a job template to run our playbook.
 
 Under **Resources** > **Templates**, select **Add** > **Add job template** and enter the following information:
 
@@ -139,7 +139,7 @@ Remember to click **Save**.
 
 ### Step 4 - Running The Upgrade Job
 
-On the **Templates** page, click on the rocket ship to launch our newly created job template. A pop-up should appear in your browser asking for you to input the limit for the job.
+Click the **Launch** button if the _Upgrade Device Edge_ Job Template is already open. Otherwise, on the **Templates** page, click on the rocket ship to launch our newly created job template. A pop-up should appear in your browser asking for you to input the limit for the job.
 
 Enter the name of your edge device, for example: `edge-525400433c01`, then hit **Next**. Ensure your limit looks correct on the next screen, then hit the **Launch** button.
 
@@ -165,6 +165,6 @@ Confirm Input:
 ---
 **Navigation**
 
-[Continue to 4.3](../4.3-bare-metal-app-automation) | [Continue to 5.3](../5.3-containerized-app-automation | [Continue to 6.3](../6.3-startup-k8s)
+[Continue to 4.3](../4.3-bare-metal-app-automation) | [Continue to 5.3](../5.3-containerized-app-automation) | [Continue to 6.3](../6.3-startup-k8s)
 
 [Click here to return to the Workshop Homepage](../README.md)

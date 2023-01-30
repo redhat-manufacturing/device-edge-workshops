@@ -12,8 +12,8 @@
 In this exercise, we're going to create a playbook that does some simple initial configuration of our edge devices. This will get consumed later by a workflow so our devices are automatically configured correctly when they call home.
 
 Our tasks in the playbook will be:
-1. Set the hostname to what the device called home to Ansible Controller with
-2. Set a resolver line in /etc/hosts
+1. Set the hostname to what the device identified itself as when calling home to Ansible Controller
+2. Set a resolver line in the `/etc/hosts` file
 
 
 ### Step 1 - Writing Our Initial Device Configuration Playbook
@@ -36,7 +36,7 @@ Return to your code repository and create a new playbook in the `playbooks` dire
 
 ```
 
-Once complete, push your new playbook up into Gitea.
+Once complete, commit and push your new playbook up into Gitea.
 
 ### Step 2 - Creating a Job Template
 
@@ -87,7 +87,7 @@ In the Controller WebUI. under **Resources** > **Templates**, select **Add** > *
 
 Remember to click **Save**.
 
-We're not going to run this job now, instead we'll leverage it in the next exercise.
+We're not going to run this job right now, but instead leverage it in the next exercise.
 
 ### Solutions
 

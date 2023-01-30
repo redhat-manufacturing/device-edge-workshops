@@ -11,7 +11,7 @@
 
 ## Objective
 
-In this exercise, we're going to leverage the [custom credential types](https://docs.ansible.com/ansible-tower/latest/html/userguide/credential_types.html) feature of Ansible Controller to securely store some information that'll be templated into our kickstart files.
+In this exercise, we're going to leverage the [custom credential types](https://docs.ansible.com/ansible-tower/latest/html/userguide/credential_types.html) feature of Ansible Controller to securely store some information that'll be templated into our kickstart file.
 
 This gives us some additional functionality because:
 1. Sensitive information will be stored in Ansible Controller securely
@@ -19,7 +19,7 @@ This gives us some additional functionality because:
 
 ## Quick Review
 
-In the [previous exercise](../2.2-kickstart-template/), we set up our kickstart template with some variables, specifically for the following information:
+In the [previous exercise](../2.1-kickstart-template/), we set up our kickstart template with some variables. These variables relate to the following details:
 
 For the user created during kickstart:
 <table>
@@ -37,7 +37,7 @@ For the user created during kickstart:
   </tr>
 </table>
 
-For the ostree repo containing where to pull the commit from:
+For the ostree repo containing the location of where to pull the commit from:
 <table>
   <tr>
     <th>Variable</th>
@@ -107,7 +107,7 @@ Optionally, if using wifi for physical devices:
 
 ### Step 1 - Reviewing Created Custom Credential Types
 
-Under the **Administration** tab, select **Credential Types** to view the available custom credential types. There should be three available corresponding to the information above in the [review](#quick-review) section:
+Under the **Administration** tab, select **Credential Types** to view the available custom credential types. There should be five available in total and three corresponding to the information above in the [review](#quick-review) section:
 
 ![Custom Credential Types](../images/custom-credential-types.png)
 
@@ -116,16 +116,16 @@ Select the **Kickstart User** credential type to view more information:
 ![Kickstart User Credential Type](../images/kickstart-user-credential-type.png)
 
 Custom credential types are composed to two main concepts: Inputs and Injectors.
-- Inputs are how information is retrieved from the user when creating a credential from this credential type. Fields can be selection based or free-form text entry, and can be marked as secret so their value isn't displayed again after entering it.
-- Injectors are how the inputs are translated into actual Ansible variables for use during execution. Here, we're injecting the entered information as extra variables, meaning they behave exactly like doing `--extra-vars` on the command line.
+- _Inputs_ are how information is retrieved from the user when creating a credential from this credential type. Fields can be selection based or free-form text entry, and can be marked as secret so their value cannot be displayed again after entering it.
+- _Injectors_ are how the inputs are translated into actual Ansible variables for use during execution. Here, we're injecting the entered information as extra variables, meaning they behave exactly like specifying `--extra-vars` on the command line.
 
 Review all three types for familiarity.
 
 ### Step 2 - Creating Credentials from Custom Credential Types
 
-Custom credential types behave exactly like other credential types, meaning we simply need to create a new credential and select the type we want.
+Custom credential types behave exactly like other credential types; meaning we simply need to create a new credential and select the type we want to use.
 
-First, let's create a credential for our kickstart user info. Under **Resources**, select **Credentials**, and clock the **Add** button at the top of the page.
+First, let's create a credential for our kickstart user info. Under **Resources**, select **Credentials**, and click the **Add** button at the top of the page.
 
 Enter the following information to create a new credential:
 <table>
@@ -157,7 +157,7 @@ Enter the following information to create a new credential:
 
 Once complete, click **Save**
 
-Repeat the process for OSTree info:
+Repeat the process for OSTree info by creating a new credential with the following details:
 <table>
   <tr>
     <th>Parameter</th>
@@ -203,7 +203,7 @@ Repeat the process for OSTree info:
 
 Remember to click **Save**.
 
-And again for authenticating to the Ansible Controller API:
+To authenticate to the Ansible Controller API, create the following Credential:
 <table>
   <tr>
     <th>Parameter</th>
@@ -270,7 +270,7 @@ Remember to click **Save**.
 
 ### Step 3 - Creating a Machine Credential
 
-Finally, we'll want to create one last credential that Ansible will use to authenticate to the device once it's provisioned. This should match the credential inputs of the **Kickstart User Info** above.
+Finally, we'll want to create one last credential that Ansible will use to authenticate to the device once it's provisioned. This should match the credential inputs of the **Kickstart User Info** previously.
 
 Enter the following information:
 

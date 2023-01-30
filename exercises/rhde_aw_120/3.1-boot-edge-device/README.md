@@ -3,8 +3,8 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Writing the ISO to a USB Device](#step-1---grabbing-the-rhel-boot-iso)
-* [Step 2 - Creating Customized Boot Options](#step-2---creating-a-job-template-for-our-playbook)
+* [Step 1 - Writing the ISO to a USB Device](#step-1---writing-the-iso-to-a-usb-device)
+* [Step 2 - Booting Your Edge Device](#step-2---booting-your-edge-device)
 * [Step 3 - Creating Our Customized ISO](#step-3---creating-our-customized-iso)
 * [Solutions](#solutions)
 
@@ -12,24 +12,24 @@
 
 In this exercise, we're going to use our customized ISO to provision our edge devices.
 
-If you have a monitor/keyboard available at your station, feel free to use them. If not, connect with the instructor for more information.
+If you have a monitor/keyboard available at your station, feel free to use them. If not, contact with the instructor for more information.
 
 > Note:
 >
-> This exercise is for students with physical devices. If you do not have one and are instead virtualizing an edge device, proceed to the [next exercise](../3.2-create-cockpit-vm).
+> This exercise is for students with physical devices. If you do not have one and are instead virtualizing an edge device, proceed to the [next exercise](../3.2-boot-edge-vm).
 
-### Step 1 - Writting the ISO to a USB Device
+### Step 1 - Writing the ISO to a USB Device
 
-There are multiple ways and applications that will get the iso onto a flash drive. On linux, the easiest way is to use the `dd` command to copy the ISO onto your USB device, however other applications such as Fedora Media Writer can also be used. For Windows, I'd recommend rufus.
+There are multiple ways and utilities that can be used to copy an ISO onto a flash drive. On linux, the easiest way is to use the `dd` command to copy the ISO onto your USB device. However, other applications including Fedora Media Writer can also be used. For Windows, [Rufus](https://rufus.ie) is one such utility.
 
-On a linux system, using `dd`:
+On your linux system, use the `dd` command to copy the ISO to the USB device:
 ```
 dd if=~/generate-iso/rhde-ztp.iso of=/dev/sdz
 ```
 
 > Note:
 > 
-> This operation does require root, and ensure that you're pointing at the correct device in the `of` parameter. More information can be found in the [RHEL Documentation](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/performing_a_standard_rhel_8_installation/assembly_creating-a-bootable-installation-medium_installing-rhel).
+> This operation does require root, and ensure that you're referencing at the correct device in the `of` parameter. More information can be found in the [RHEL Documentation](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/performing_a_standard_rhel_8_installation/assembly_creating-a-bootable-installation-medium_installing-rhel).
 
 ### Step 2 - Booting Your Edge Device
 
@@ -40,7 +40,8 @@ For Intel Devices, the boot menu option key is `DEL`.
 
 ### Step 3 - Creating Our Customized ISO
 
-First, ensure the following files are present in your directory:
+First, ensure the following files are present in the `~/generate-iso/` directory which were created in earlier exercies:
+
 ```
 .
 ├── grub.cfg
@@ -103,9 +104,9 @@ rm -rf "$tmp"
 chown $(stat -c '%U:%G' .) ./rhde-ztp.iso
 ```
 
-Once pasted in, make the script executable and then run it via sudo: `chmod ug+x recook.sh && sudo ./recook.sh`
+Once the file has been created, make the script executable and then run it the script via sudo: `chmod ug+x recook.sh && sudo ./recook.sh`
 
-After the script finishes, you should have a new iso called `rhde-ztp.iso` in your directory.
+After the script completes, you should have a new ISO called `rhde-ztp.iso` within this directory.
 
 > Note:
 >
@@ -117,6 +118,6 @@ After the script finishes, you should have a new iso called `rhde-ztp.iso` in yo
 ---
 **Navigation**
 
-[Previous Exercise](../2.4-kickstart-playbook) | [Next Exercise](../3.1-boot-edge-device)
+[Previous Exercise](../2.6-provisioning-workflow) | [Next Exercise](../3.2-boot-edge-vm)
 
 [Click here to return to the Workshop Homepage](../README.md)

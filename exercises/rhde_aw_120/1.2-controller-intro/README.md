@@ -33,9 +33,9 @@ After entering the URL in a browser, you will be greeted with the Ansible Contro
  
 ### Step 2 - Your Controller Organization
 
-An organization has been created for you in Ansible Controller, and you have been given administrative permissions over it. This means you can create, edit, modify, and run any of the resources assigned to your organization. It also means that when authenticating to the Ansible Controller API, you'll only see your resources and not those of another student.
+An organization has been created for you in Ansible Controller, and you have been given administrative permissions over it. This means you can create, edit, modify, and run any of the resources assigned to your organization. It also means that when authenticating to the Ansible Controller API, you'll only see your resources and not those of another students.
 
-Ensure you can view the details and access information of your organization under Organizations > $(Your_Organization) > Details/Access tabs:
+Ensure you can view the details and access information of your organization under Organizations > $(your_student_number) Organization > Details/Access tabs:
 
 ![Organization Details](../images/org-details.png)
 
@@ -75,7 +75,7 @@ A sample job template has been created that can be used to test connectivity to 
 
 ### Step 7 - Execution Environments
 
-An execution environment has been created that has all the necessary collections and python libraries built in. This EE is globally available so all students can leverage it.
+An execution environment has been created that has all the necessary dependencies, including collections and python libraries built in. This EE is globally available so all students can leverage it.
 
 ![Execution Environments](../images/ee.png)
 

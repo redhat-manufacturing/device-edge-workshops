@@ -1,4 +1,4 @@
-# Workshop Exercise 3.4 - Red Hat Device Edge OS Investigation
+# Workshop Exercise 4.1 - Updating Image for a Bare Metal Application
 
 ## Table of Contents
 
@@ -14,7 +14,7 @@ For a reminder on the application we're deploying, review [exercise 1.5](../1.5-
 
 > Note:
 >
-> We will be purposefully configuring the device incorrectly in this exercise, do not do these things in production. While running applications is perfectable fine on RHDE and can be secured, this lab focuses on RHDE and not SELinux/fapolicyd/etc. In addition, this reinforces that migrating containers helps simplify the securing of appliccations. In addition, EPEL is not supported by Red Hat.
+> We will be purposefully configuring the device incorrectly in this exercise. It is important to avoid performing these same configurations in production environments. While running applications is suitable on RHDE and can be secured approperately, this lab focuses on RHDE and not SELinux/fapolicyd/etc. In addition, this reinforces that migrating to containers helps simplify the securing of appliccations. In addition, EPEL is not supported by Red Hat.
 
 ### Step 1 - Reviewing the Requirements for the Application
 
@@ -42,11 +42,11 @@ Specifically, this image was customized with the following variables:
       - ansible-core
 ```
 
-Here we can see that we've added `ELEL` are a repository for Image Builder, and `mosquitto` and `nodejs` images are added to the image.
+Here we can see that we've added `ELEL` as a repository for Image Builder, and `mosquitto` and `nodejs` packages are added to the image.
 
 ### Step 2 - Automated Device Update
 
-Proceed to [this exercise](../0.1-update-rhde/) for next steps on how to get your device updated to the correct image version.
+Proceed to [this exercise](../0.1-upgrade-rhde/) for next steps on how to get your device updated to the correct image version.
 
 ---
 **Navigation**

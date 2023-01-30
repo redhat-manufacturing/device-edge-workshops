@@ -1,4 +1,4 @@
-# Workshop Exercise 3.4 - Red Hat Device Edge OS Investigation
+# Workshop Exercise 4.3 - Create Automation to Deploy Application
 
 ## Table of Contents
 
@@ -14,11 +14,11 @@
 
 In this exercise, we'll be creating automation to deploy the 4 components of our application. Since our application is 4 individual parts, we'll set up a role to deploy the various components in the correct order.
 
-Reminder: We are going to do things to get this application going THAT YOU SHOULD NOT DO IN PRODUCTION. This is being done to prove a point: bare metal applications can be run on device edge, however ensure the proper steps are taken to secure the application and device.
+Reminder: We are going to do things to get this application going THAT YOU SHOULD NOT DO IN PRODUCTION. This is being done with a specific purpose: bare metal applications can be run on device edge, however ensure the proper steps are taken to secure the application and device.
 
 ### Step 1 - Setting up a Role
 
-Return to your code repo and create the following directories: `roles/deploy_bare_metal_app/[tasks,files]`. Within the `tasks` directory, we'll create `main.yml` and use that to include other task files:
+Return to your code repo and create the following directories: `roles/deploy_bare_metal_app/[tasks,files]`. Within the `tasks` directory, create a file called `main.yml` that will be used that to include other task files:
 
 ```yaml
 ---
@@ -39,7 +39,7 @@ Return to your code repo and create the following directories: `roles/deploy_bar
 
 ### Step 2 - Setting Up the MQTT Service
 
-The MQTT broker is already deployed to the system as part of the image, but is not configured and isn't enabled. We'll need to push a configuration, then enable and start the service.
+The MQTT broker is already deployed to the system as it was included as part of the image. However, it was not configured and isn't currently enabled. We'll need to push a configuration, then enable and start the service.
 
 In the `roles/deploy_bare_metal_app/tasks` directory, create a file called `mqtt.yml` with the following contents:
 ```yaml
@@ -66,17 +66,17 @@ In the `roles/deploy_bare_metal_app/tasks` directory, create a file called `mqtt
 
 ```
 
-In the `files` directory of our role, create a file called `mosquitto.conf` with the following configuration lines:
+In the `files` directory of the `deploy_bare_metal_app` role, create a file called `mosquitto.conf` with the following content:
 ```
 listener 1883
 allow_anonymous true
 ```
 
-These steps will get our MQTT broker up and ready.
+These steps should get our MQTT broker up and ready.
 
 ### Step 3 - Setting Up The Simulator Service
 
-The Simulator requires a few packages that are not included in the image. While the correct thing to do here is compose a new image with these packages, we can also install packages "out-of-band" via rpm-ostree. We'll add tasks to do this to our role.
+The Simulator requires a few packages that are not included in the image. While the recommended approach would be to compose a new image with these packages included, we can also install packages "out-of-band" via `rpm-ostree`. Add the following tasks to a file called `simulator.yml` within the `tasks` directory to perform this action within our role.
 
 ```yaml
 ---
@@ -144,7 +144,7 @@ The Simulator requires a few packages that are not included in the image. While 
     enabled: true
 ```
 
-In the `files/` directory of our role, add the following to a file named `simulator.service`:
+In the `files/` directory of our `deploy_bare_metal_app` role, add the following to a file named `simulator.service`:
 ```
 [Unit]
 Description=Run Simulator service
@@ -159,19 +159,19 @@ ExecStart=/usr/bin/node dist/tank.js
 WantedBy=multi-user.target
 ```
 
-There are quite a few tasks involved here: we have to grab the code, install dependencies, and manually set up a systemd file.
+There are quite a few tasks that we have configured within this role previous: we have to grab the code, install dependencies, and manually set up a systemd file.
 
-Assuming these tasks run successfully, the simulate portion of our application will be up and running.
+Assuming these tasks run successfully, the simulate portion of our application will be up and running when the role is executed.
 
 > Note:
 >
-> Above we install packages onto the system "out of band", meaning we pulled them directly to the system and had rpm-ostree add them to the deployed image. This functionality exists and is useful for testing, but this is not a recommended practice. The proper flow is to add the packages to the image using Image Builer.
+> Previously, we installed packages onto the system "out of band", meaning that we pulled them directly to the system and had rpm-ostree apply them to the deployed image. This functionality exists and is useful for testing, such as in development environments; but, this is not a recommended practice. The proper flow is to add the packages to the image using Image Builder.
 
 ### Step 4 - Setting Up The Control Service
 
-The Control service also relies on a package we previously installed, and also brings its own complications to the equation. We'll take a few additional not-advised steps to get this service running.
+The Control service also relies on a package we previously installed, and also brings its own complications to the equation. We'll take a few additional, not-advised steps, to get this service running.
 
-In the `tasks/` directory of your role, create a file called `control.yml` and enter the following:
+In the `tasks/` directory of our `deploy_bare_metal_app` role, create a file called `control.yml` and enter the following:
 ```yaml
 ---
 
@@ -226,7 +226,7 @@ In the `tasks/` directory of your role, create a file called `control.yml` and e
     enabled: true
 ```
 
-Same as above, we'll need a service file. Create a file in the `files/` directory of your role called `control.service` and paste in the following:
+Similar to the Simulator service created previously, we'll also need a service file. Create a file in the `files/` directory of our `deploy_bare_metal_app` role called `control.service` and paste in the following:
 ```
 [Unit]
 Description=Run Control service
@@ -244,7 +244,7 @@ WantedBy=multi-user.target
 
 ### Step 5 - Setting Up the UI Service
 
-Finally, we'll perform a similar setup for our UI serice. Same as above, create a file called `ui.yml` in the `tasks/` directory of your role:
+Finally, we'll perform a similar setup for our UI serice. Create a file called `ui.yml` in the `tasks/` directory of your role:
 ```yaml
 ---
 
@@ -302,7 +302,7 @@ Finally, we'll perform a similar setup for our UI serice. Same as above, create 
     immediate: true
 ```
 
-And the service file named `ui.service` in `files/`:
+And the service file named `ui.service` in `files/` directory:
 ```
 [Unit]
 Description=Run Simulator service
@@ -319,15 +319,15 @@ WantedBy=multi-user.target
 
 ### Conclusion
 
-Our role is now complete. Remember to commit and push what we've created here.
+Our role is now complete. Remember to commit and push what we've created here to the code repo.
 
 It's important to reiterate a few of the egregious security violations we've committed to get this app running, most notably:
-- Set SELinux to permissive
+- SELinux was set to permissive
 - Running services as root
 
 These are unacceptable in a production setting.
 
-In the next session we'll create a playbook for this role and run it against our devices via Ansible Controller.
+In the next section, we'll create a playbook for this role and run it against our devices via Ansible Controller.
 
 ---
 **Navigation**
