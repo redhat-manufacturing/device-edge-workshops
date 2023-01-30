@@ -3,7 +3,6 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Stem]
 * [Step 1 - Adding Credentials to the Existing Job Template](#step-1---adding-credentials-to-the-existing-job-template)
 * [Step 2 - Creating a Workflow](#step-2---creating-a-workflow)
 * [Step 3 - Adding Workflow Nodes](#step-3---adding-workflow-nodes)
@@ -26,7 +25,9 @@ This enables new applications for Ansible automation controller: different Job T
 
 A job template has been created by the provisioner with an example playbook that tests connectivity to devices. This job template can be found on the **Templates** page under **Resources**.
 
-Click on the job template name, then select **Edit** at the bottom of the page. Click the mangnifying glass icon next to **Credentials**. In the **Select Credentials** box, ensure **Selected Category** is set to **Machine**, and then select the **Device Credentials** created earler in [exercise 2.2](../2.2-kickstart-creds/). This will allow this job template to authenticate to your edge devices as they're provisioned.
+Click on the job template name, then select **Edit** at the bottom of the page. Click the magnifying glass icon next to **Credentials**. In the **Select Credentials** box, ensure **Selected Category** is set to **Machine**, and then select the **Device Credentials** created earler in [exercise 2.2](../2.2-kickstart-creds/). This will allow this job template to authenticate to your edge devices as they're provisioned.
+
+Click **Save** after this change.
 
 ### Step 2 - Creating a Workflow
 
