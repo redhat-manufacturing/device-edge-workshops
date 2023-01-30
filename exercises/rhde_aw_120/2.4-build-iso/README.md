@@ -10,13 +10,13 @@
 
 ## Objective
 
-In this exercise, we're going to create a customized ISO that contains our kickstart. This will allow for zero touch provisioning of devices because all information should be provided.
+In this exercise, we're going to create a customized ISO that contains our kickstart. This will allow for zero touch provisioning of devices because all information needed for deployment will be provided.
 
 Ideally, once this ISO is built, the following should happen:
 - Device boots from flash drive
-- Install happens without input
+- Install happens without user input
 - Device reboots
-- Devive waits for networking
+- Device waits for networking
 - Device runs Ansible playbook to call home
 - Ansible Controller finishes provisioning the device
 
@@ -32,7 +32,7 @@ It's recommended to execute these steps either on your laptop if you have a phys
 
 If an edge hypervisor has been provisioned for you, then the RHEL Boot ISO is available on the system under `/opt/student-resources`. Copy it from that directory to somewhere in your home directory, such as `~/generate-iso/`.
 
-Visit the [customer portal](https://access.redhat.com/downloads/content/479/ver=/rhel---8/8.7/x86_64/product-software) and download the RHEL8.7 boot ISO. We won't need the full installation image, the boot ISO has everything necessary for provisioning our edge devices.
+Otherwise visit the [customer portal](https://access.redhat.com/downloads/content/479/ver=/rhel---8/8.7/x86_64/product-software) and download the RHEL8.7 boot ISO. We won't need the full installation image, the boot ISO has everything necessary for provisioning our edge devices.
 
 ### Step 2 - Creating Customized Boot Options
 
