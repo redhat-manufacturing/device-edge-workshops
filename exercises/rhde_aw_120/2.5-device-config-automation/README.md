@@ -9,7 +9,7 @@
 
 ## Objective
 
-In this exercise, we're going to create a playbook that does some simple initial configuration of our edge devices. This will get comsumed later by a workflow so our devices are automatically configured correctly when they call home.
+In this exercise, we're going to create a playbook that does some simple initial configuration of our edge devices. This will get consumed later by a workflow so our devices are automatically configured correctly when they call home.
 
 Our tasks in the playbook will be:
 1. Set the hostname to what the device called home to Ansible Controller with
