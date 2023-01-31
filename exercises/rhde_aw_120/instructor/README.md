@@ -15,20 +15,20 @@ Repeat this process according to the following:
     <th>Active Image Version</th>
   </tr>
   <tr>
-    <td>[Exercise 3.1/2](3.1-boot-edge-device)</td>
-    <td>`1.0.0`</td>
+    <td>Exercise 3.1</td>
+    <td>1.0.0</td>
   </tr>
   <tr>
-    <td>[Exercise 4.1](4.1-bare-metal-image)</td>
-    <td>`2.0.0`</td>
+    <td>Exercise 4.1</td>
+    <td>2.0.0</td>
   </tr>
   <tr>
-    <td>[Exercise 5.1](5.1-containerized-image)</td>
-    <td>`1.0.0`</td>
+    <td>Exercise 5.1</td>
+    <td>3.0.0</td>
   </tr>
   <tr>
-    <td>[Exercise 6.1](6.1-add-k8s)</td>
-    <td>`1.0.0`</td>
+    <td>Exercise 6.1</td>
+    <td>4.0.0</td>
   </tr>
 </table>
 
