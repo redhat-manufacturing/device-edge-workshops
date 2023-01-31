@@ -42,7 +42,7 @@ Specifically, this image was customized with the following variables:
       - ansible-core
 ```
 
-Here we can see that we've added `ELEL` as a repository for Image Builder, and `mosquitto` and `nodejs` packages are added to the image.
+Here we can see that we've added `EPEL` as a repository for Image Builder, and `mosquitto` and `nodejs` packages are added to the image.
 
 ### Step 2 - Automated Device Update
 
