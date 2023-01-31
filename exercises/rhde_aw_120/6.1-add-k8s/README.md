@@ -20,12 +20,12 @@ For a reminder on the application we're deploying, review [exercise 1.5](../1.5-
 
 We're now going to deploy a Kubernetes-based application to our edge devices. To accomplish this, we'll need to add a very small footprint Kubernetes build to our devices to enable the running of k8s-based applications.
 
-A quick note: This was perviously referred to as [Microshift](https://github.com/openshift/microshift), and is in tech preview. Because of this, we'll need to take a few additional steps to get things going to address concerns that should be cleaned up before the GA date.
+A quick note: This was previously referred to as [Microshift](https://github.com/openshift/microshift), and is in tech preview. Because of this, we'll need to take a few additional steps to get things going to address concerns that should be cleared up before the GA date.
 
-In the interest of time, thesse steps have been completed for you and will be made available by the instructor. This image was composed using the [infra.osbuild](https://github.com/redhat-cop/infra.osbuild) Ansible collection, which takes a common set of variables and completely automates interactions with Image Builder.
+In the interest of time, these steps have been completed for you and will be made available by the instructor. This image was composed using the [infra.osbuild](https://github.com/redhat-cop/infra.osbuild) Ansible collection, which takes a common set of variables and completely automates interactions with Image Builder.
 
 Specifically, this image was customized with the following variables:
-{% raw %}
+
 ```yaml
 - version: 4.0.0
   type: edge-commit
@@ -53,7 +53,7 @@ Specifically, this image was customized with the following variables:
     - NetworkManager-wifi
     - ansible-core
 ```
-{% endraw %}
+
 
 ### Step 2 - Automated Device Update
 
