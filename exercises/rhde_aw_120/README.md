@@ -91,3 +91,6 @@ Having said that, this workshop is built to take roughly 2 hours.
 ## Supplamental Resources
 * [infra.osbuild](https://github.com/redhat-cop/infra.osbuild)
 * [redhat_cop.controller_configuration](https://github.com/redhat-cop/controller_configuration)
+
+## Instructor Resources
+* [Instructor Page](INSTRUCTOR.md)
