@@ -145,16 +145,34 @@ all:
     edge_management:
       hosts:
         edge-manager-local:
-          ansible_host: 10.1.3.70
-          ansible_user: ansible
-          ansible_password: your-password
-          ansible_become_password: your-password
+          ansible_host: 192.168.200.10
     controller:
       hosts:
         edge-manager-local:
+          ansible_host: 192.168.200.10
     local:
       hosts:
         edge-manager-local:
+          ansible_host: 192.168.200.10
+      children:
+        dns:
+          hosts:
+            edge-manager-local:
+              ansible_host: 192.168.200.10
+          vars:
+            local_domains:
+              controller:
+                domain: "controller.your-workshop-domain.lcl"
+              cockpit:
+                domain: "cockpit.your-workshop-domain.lcl"
+              gitea:
+                domain:  "gitea.your-workshop-domain.lcl"
+              edge_manager:
+                domain: "edge-manager.your-workshop-domain.lcl"
+  vars:
+    ansible_user: ansible
+    ansible_password: your-password
+    ansible_become_password: your-password
 ```
 
 The provisioner can build the workshop in aws, locally, or both if desired. Running in both can help avoid issues with networking not under the control of the instructor (think terribad hotel wifi) by having two distinct yet identical systems to run the lab from.
