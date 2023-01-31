@@ -10,7 +10,7 @@
 
 ## Objective
 
-In this exercise, we'll create a playbook to run our role, create a job template for it in Ansible Controller, and deploying the application -- all via automtion.
+In this exercise, we'll create a playbook to run our role, create a job template for it in Ansible Controller, and deploying the application -- all via automation.
 
 ### Step 1 - Creating a Playbook
 
