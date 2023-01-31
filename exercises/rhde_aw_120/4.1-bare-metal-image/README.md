@@ -51,6 +51,6 @@ Proceed to [this exercise](../0.1-upgrade-rhde/) for next steps on how to get yo
 ---
 **Navigation**
 
-[Previous Exercise](../3.3-ztp-intro) | [Next Exercise](../4.1-bare-metal-image)
+[Previous Exercise](../3.3-ztp-intro) | [Next Exercise](../4.3-bare-metal-app-automation)
 
 [Click here to return to the Workshop Homepage](../README.md)
