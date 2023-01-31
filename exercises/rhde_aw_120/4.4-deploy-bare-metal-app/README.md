@@ -10,7 +10,7 @@
 
 ## Objective
 
-In this exercise, we'll create a playbook to run our role, creating a job template for it in Ansible Controller, and deploying the application; all via automtion.
+In this exercise, we'll create a playbook to run our role, creating a job template for it in Ansible Controller, and deploying the application; all via automation.
 
 ### Step 1 - Creating a Playbook
 
@@ -87,6 +87,8 @@ Once the playbook completes, visit http://$(your-device-ip-address):1881/ui to v
 > Note:
 >
 > For virtualized edge devices, you'll need to use SSH tunneling or just curl the port to check for a response.
+> Something like the following might do the trick:
+> ssh -L 1881:ip-address-of-the-virtual-edge:1881 student{your-number}@edge-manager.tech-exchange.emea.redhat-workshops.com
 
 Further thoughts: The deployment of the application could be added to the end of our provisioning workflow as soon as a device calls home to simplify the setup and configuration process.
 
