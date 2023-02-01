@@ -136,7 +136,7 @@ Remember to click **Save**.
 
 ### Step 3 - Running the Job Template
 
-Now that the job template has been created, click that **Launch** button if still within the _Cleanup Bare Metal Application_ Job Template. Otherwise, click the rocket ship to launch the job template from the _Templates_ page. Enter your device name when prompted witih the limit dialog. Monitor the output for any errors or issues. Hopefully the job executes successfully.
+Now that the job template has been created, click that **Launch** button if still within the _Cleanup Bare Metal Application_ Job Template. Otherwise, click the rocket ship to launch the job template from the _Templates_ page. Enter your device name when prompted within the limit dialog. Monitor the output for any errors or issues. Hopefully the job executes successfully.
 
 As a reminder, the output of jobs can be reviewed on the **Jobs** tab.
 
