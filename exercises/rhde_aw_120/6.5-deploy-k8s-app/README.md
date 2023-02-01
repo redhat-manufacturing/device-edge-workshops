@@ -71,11 +71,14 @@ This playbook handles grabbing the kubeconfig, setting the correct cluster addre
 
 Remember to commit and push your new playbook up to the git repo.
 
+
+
 ### Step 2 - Creating a Job Template
 
 > Note:
 >
 > Be sure to sync your project in Controller before attempting to create this job template.
+> Make sure also to disable edge device firewall to allow calling k8s apis
 
 In the Controller WebUI. under **Resources** > **Templates**, select **Add** > **Add job template** and enter the following information:
 
