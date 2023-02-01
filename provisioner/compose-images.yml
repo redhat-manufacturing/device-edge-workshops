@@ -29,7 +29,7 @@
       vars:
         builder_compose_type: "{{ image.type }}"
         builder_compose_pkgs: "{{ image.packages }}"
-        builder_custom_repos: "{{ image.repos }}"
+        builder_custom_repos: "{{ image.repos | default(omit) }}"
         builder_blueprint_distro: "{{ image.distro | default(omit) }}"
       loop: "{{ images_to_compose }}"
       loop_control:
