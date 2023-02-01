@@ -16,7 +16,7 @@ In this exercise, we'll be leveraging the [play kube](https://docs.podman.io/en/
 
 Return to your code repo and create a new role called `deploy_containerized_app`. First, start by creating the following directories: `roles/deploy_containerized_app/[tasks,templates]`. Within the `templates` directory, create a file called `process-control.yaml.j2` to contain a templatized YAML manifest.
 
-While this will look and feel like Kubernetes YAML, we'll also get to leverage the Ansible's jinja2 templating engine for more flexibility. This would allow for host or group specific variables, such as configuration custom specific environments including industrial sites or different geogrpahical locations.
+While this will look and feel like Kubernetes YAML, we'll also get to leverage the Ansible's jinja2 templating engine for more flexibility. This would allow for host or group specific variables, such as configuration custom specific environments including industrial sites or different geographical locations.
 
 Our application has been broken up into four containers which are pre-built for us. However, if you're interested, the Dockerfiles are available under the [Solutions](#solutions) section of this exercise.
 
@@ -50,7 +50,7 @@ In addition, in contrast to the bare metal deployment, these containers will not
 ### Step 2 - Finishing Out Our Ansible Role
 
 Similar to our previous automation, we'll need a few tasks to get our application deployed to the system. Create a file in the `tasks/` directory of the `deploy_containerized_app` role named `main.yml` with the following:
-{% raw %}
+
 ```yaml
 ---
 
@@ -88,7 +88,6 @@ Similar to our previous automation, we'll need a few tasks to get our applicatio
   become: true
 
 ```
-{% endraw %}
 
 Remember to commit and push these new files to your git repository.
 
@@ -96,7 +95,7 @@ Remember to commit and push these new files to your git repository.
 
 It should be noted that this deployment methodology is infinitly more secure and simple, and is generally a better way to deploy an application.
 
-Not all applications are ready to be containerized, so bare metal deployments are still perfectly acceptable. However ,remember to take the necessary steps to secure them, and when possible, attempt to containerize them when possible.
+Not all applications are ready to be containerized, so bare metal deployments are still perfectly acceptable. However,remember to take the necessary steps to secure them, and when possible, attempt to containerize them.
 
 ### Bonus Steps
 
