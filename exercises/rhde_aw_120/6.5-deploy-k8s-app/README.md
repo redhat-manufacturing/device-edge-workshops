@@ -6,7 +6,8 @@
 * [Step 1 - Creating Our Playbook](#step-1---creating-our-playbook)
 * [Step 2 - Creating a Job Template](#step-2---creating-a-job-template)
 * [Step 3 - Running the Job Template](#step-3---running-the-job-template)
-* [Step 4 - Running the Job Template](#step-4---running-the-job-template)
+* [Step 4 - Manual Verification](#step-4---manual-verification)
+* [Bonus Steps](#bonus-steps)
 * [Solutions](#solutions)
 
 ## Objective
@@ -43,6 +44,15 @@ Return to your code repo and create a new file at `playbooks/deploy-k8s-app.yml`
       ansible.builtin.copy:
         content: "{{ (kubeconfig_raw['content'] | b64decode).replace('127.0.0.1', ansible_host) }}"
         dest: /tmp/kubeconfig
+      delegate_to: localhost
+    - name: allow API access
+      ansible.posix.firewalld:
+        port: 6443/tcp
+        zone: public
+        state: enabled
+        immediate: true
+        permanent: true
+      become: true
   tasks:
     - name: make calls from localhost
       delegate_to: localhost
@@ -126,13 +136,26 @@ Now that the job template has been created, click the **Launch** button if you a
 
 As a reminder, the output of jobs can be reviewed on the **Jobs** tab.
 
+### Step 4 - Manual Verification
+
+In lieu of completing the [Bonus Steps](#bonus-steps) below, a few manual steps can be taken to verify the application is up and functioning:
+1. SSH to the edge system using the IP address from the `ansible_host` variable in Ansible Controller
+2. Copy the kubeconfig to the user's home directory: `sudo cp /var/lib/microshift/resources/kubeadmin/kubeconfig .kubeconfig`
+3. Download the `oc` cli tool: `curl https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/openshift-client-linux.tar.gz --output openshift-client-linux.tar.gz`
+4. Extract the `oc` CLI tool: `tar -xzvf openshift-client-linux.tar.gz`
+5. Set the kubeconfig env var: `export KUBECONFIG=~/.kubeconfig`
+6. Check deployments: `./oc get deployments`
+
+Assuming everything is working, 4 deployments should exist within the `process-control` namespace.
+
+In addition, the playbook above could be modified to include these steps or similar steps to get the status of the deployed application.
+
 ### Bonus Steps
 
 For some extra practice, an additional step must be taken to access the application.
 
 1. Since we did not set up an OpenShift Route (or DNS), add a Route definition, adjust the deployment playbook, re-run it, and configure your personal device's DNS settings (one option is to add a line in `/etc/hosts`), then attempt to access the application.
 2. Use the `oc` CLI utility and the `port-forward` subcommand to create a tunnel to the application and test connectivity.
-
 
 ### Solutions
 
