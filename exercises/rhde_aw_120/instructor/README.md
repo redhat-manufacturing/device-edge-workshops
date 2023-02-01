@@ -37,6 +37,18 @@ The provisioner generates an SSH keypair and an inventory file for you within th
 ansible-playbook provisioner/set-active-image.yml --inventory /path/to/workshop/inventory.ini --inventory /path/to/local/inventory.yml --extra-vars "desired_image_version=2.0.0"
 ```
 
+## Checking On Workshop Services
+There's a few different services involved in this workshop. They all should be up and available after provisioning, but if they need convincing use the information below. Remember to connect to the approriate node when attempting to interact with services.
+- Ansible Controller: `sudo automation-controller-service restart`
+- rpm-ostree Web Server: `sudo systemctl restrt httpd`
+- Gitea: `podman pod start gitea`
+- Signup Page: `systemctl restart nginx php-fpm`
+- dnsmasq: `systemctl restart dnsmasq`
+
+Gitea is not running as root, it runs as whatever user Ansible authenticates to the system as, so you don't need sudo.
+
+dnsmasq likes to think it's running, but won't pick up on interface changes, so if you connect to a wireless network/new ethernet connection, restart the service.
+
 ## Useful Resources
 
 After the workshop is up and running, a list of students currently signed in will be available at `ec2_name_prefix.workshop_dns_zone/list.php`. Enter the `admin_password` to view the list.
