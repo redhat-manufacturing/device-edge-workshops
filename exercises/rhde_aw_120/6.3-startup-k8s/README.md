@@ -54,7 +54,7 @@ pause_image = "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:dd96c7e645b
 The `network_dir` option ensures the appropriate configurations are picked up when starting the network provider.
 
 Next, create a new playbook at `playbooks/bootstrap-kubernetes.yml` with the following contents:
-{% raw %}
+
 ```yaml
 ---
 
@@ -83,7 +83,7 @@ Next, create a new playbook at `playbooks/bootstrap-kubernetes.yml` with the fol
         state: started
         enabled: true
 ```
-{% endraw %}
+ 
 
 Here, we can see tasks to accomplish the goals of pushing out a corrected CRI-O config file, our pull secret, and fixing a bug. Once those have been completed, we can then start up microshift.
 
@@ -160,11 +160,12 @@ In the Controller WebUI. under **Resources** > **Templates**, select **Add** > *
   </tr>
   <tr>
     <td>Playbook</td>
-    <td>playbooks/start-kubernetes.yml</td>
+    <td>playbooks/bootstrap-kubernetes.yml</td>
   </tr>
   <tr>
     <td>Credentials</td>
     <td><li>✓ Device Credentials</li></td>
+    <td><li>✓ Pull Secret</li></td>
   </tr>
   <tr>
     <td>Limit</td>
@@ -172,7 +173,7 @@ In the Controller WebUI. under **Resources** > **Templates**, select **Add** > *
   </tr>
    <tr>
     <td>Options</td>
-    <td><li>✓ Privilege Escalation</li><li>✓ Pull Secret</li></td>
+    <td><li>✓ Privilege Escalation</li></td>
   </tr> 
 </table>
 
