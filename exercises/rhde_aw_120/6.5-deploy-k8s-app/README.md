@@ -21,7 +21,7 @@ The following automation will:
 ### Step 1 - Creating Our Playbook
 
 Return to your code repo and create a new file at `playbooks/deploy-k8s-app.yml` with the following contents:
-{% raw %}
+
 ```yaml
 ---
 
@@ -39,6 +39,7 @@ Return to your code repo and create a new file at `playbooks/deploy-k8s-app.yml`
       register: kubeconfig_raw
       become: true
     - name: create kubeconfig
+      delegate_to: localhost
       ansible.builtin.copy:
         content: "{{ (kubeconfig_raw['content'] | b64decode).replace('127.0.0.1', ansible_host) }}"
         dest: /tmp/kubeconfig
@@ -65,7 +66,7 @@ Return to your code repo and create a new file at `playbooks/deploy-k8s-app.yml`
           loop_control:
             loop_var: yaml_file
 ```
-{% endraw %}
+
 
 This playbook handles grabbing the kubeconfig, setting the correct cluster address, then deploys our application.
 
