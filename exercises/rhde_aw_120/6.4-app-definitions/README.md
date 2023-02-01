@@ -108,7 +108,7 @@ spec:
 
 ### Step 4 - UI Service and Deployment
 
-Finally, we'll get the UI running and accessable.
+Finally, we'll get the UI running and accessible.
 
 First, create a file at `playbooks/files/ui-service.yaml` with the following contents for the service:
 ```yaml
@@ -126,7 +126,7 @@ spec:
   type: NodePort
 ```
 
-And a second at `files/playbooks/ui-deployment.yaml` with the the following:
+And a second at `playbooks/files/ui-deployment.yaml` with the the following:
 ```yaml
 apiVersion: apps/v1 
 kind: Deployment
