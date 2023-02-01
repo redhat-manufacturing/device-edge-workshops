@@ -42,8 +42,8 @@ There's a few different services involved in this workshop. They all should be u
 - Ansible Controller: `sudo automation-controller-service restart`
 - rpm-ostree Web Server: `sudo systemctl restrt httpd`
 - Gitea: `podman pod start gitea`
-- Signup Page: `systemctl restart nginx php-fpm`
-- dnsmasq: `systemctl restart dnsmasq`
+- Signup Page: `sudo systemctl restart nginx php-fpm`
+- dnsmasq: `sudo systemctl restart dnsmasq`
 
 Gitea is not running as root, it runs as whatever user Ansible authenticates to the system as, so you don't need sudo.
 
