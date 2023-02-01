@@ -57,7 +57,7 @@ Specifically, this image was customized with the following variables:
 
 ### Step 2 - Automated Device Update
 
-Proceed to [this exercise](../0.1-update-rhde/) for next steps on how to get your device updated to the correct image version.
+Proceed to [this exercise](../0.1-update-rhde) for next steps on how to get your device updated to the correct image version.
 
 ---
 **Navigation**
