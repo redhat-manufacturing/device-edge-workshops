@@ -64,6 +64,13 @@ For example:
 ansible-navigator run provisioner/provision_lab.yml -e @provisioner/extra_vars.yml
 ```
 
+```
+ansible-playbook provisioner/provision_lab.yml -e @provisioner/extra_vars.yml
+```
+
+You can also run the provision_lab playbook using ansible-playbook command, provided you have installed all the required collections.
+Also make sure in this case to have enabled passwordless sudo on your local user.
+
 ### Setup (per workshop)
 
 * Define the following variables in a file passed in using `-e @extra_vars.yml`
