@@ -58,6 +58,11 @@ To make environment variables permanent and persistent you can set this to your 
 
 You must run from the project root rather than the `/provisioner` folder.  This is so all the files in the Git project are mounted, not just the provisioner folder.  This is also best practice because it matches the behavior in Automation controller.
 
+Make sure to install the prerequired collections by running:
+```
+ansible-galaxy  install -r execution-environment/requirements.yml
+```
+
 For example:
 
 ```
