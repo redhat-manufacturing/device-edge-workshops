@@ -285,14 +285,14 @@ function display_student($student) {
   {% if workshop_type == 'rhde_aw_120'%} 
   
   print '<div id="section_title"> General Information</div>
-  Link to workshop exercises: Insert link from provisioner here<br>
+  Link to workshop exercises: <a href="https://redhat-manufacturing.github.io/device-edge-workshops/exercises/rhde_aw_120/">https://redhat-manufacturing.github.io/device-edge-workshops/exercises/rhde_aw_120/</a><br>
   <br>
   
   If using AWS resources, use the following network information to kickstart:
   <table>
     <tr>
         <td>IP Address:</td>
-        <td>{{ hostvars['edge-manager-aws']['ansible_host'] }}</td> 
+        <td>{{ hostvars['edge-manager-aws']['ansible_host'] }}</td>  
     </tr>
     <tr>
         <td>DNS Hostname:</td>
