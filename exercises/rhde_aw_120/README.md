@@ -75,7 +75,7 @@ Having said that, this workshop is built to take roughly 2 hours.
 ## Section 5 - Deploying a Containerized Workload
 
 * [Exercise 5.1 - Updating the Image for Deploying a Containerized Application](5.1-containerized-image)
-* [Exercise 5.2 - Automated Device Update](0.1-update-device)
+* [Exercise 5.2 - Automated Device Update](0.1-upgrade-rhde)
 * [Exercise 5.3 - Creating Automation to Deploy a Containerized Application](5.3-containerized-app-automation)
 * [Exercise 5.4 - Deploy Containerized Application](5.4-deploy-containerized-app)
 * [Exercise 5.5 - Cleaning Up the Containerized Application](5.5-cleanup-containerized-app)
@@ -83,7 +83,7 @@ Having said that, this workshop is built to take roughly 2 hours.
 ## Section 6 - Deploying a Kubernetes Native Application
 
 * [Exercise 6.1 - Adding Kubernetes to the Image](6.1-add-k8s)
-* [Exercise 6.2 - Preparing to Add Kubernetes Functionality](0.1-update-device)
+* [Exercise 6.2 - Preparing to Add Kubernetes Functionality](0.1-upgrade-rhde)
 * [Exercise 6.3 - Starting Up Kubernetes on Device Edge](6.3-startup-k8s)
 * [Exercise 6.4 - Create Application Definitions](6.4-app-definitions)
 * [Exercise 6.5 - Deploy Application](6.5-deploy-k8s-app)
