@@ -51,8 +51,7 @@ Let's take a look at these options:
 
 The above is just an example. We'll need to modify this section slightly for our purposes. First, create a new directory in your source control repo: `playbooks/templates`. Within the newly created directory, create a file named `student(your-student-number).ks.j2`, for example: `student10.ks.j2`. Open the file with your editor of choice and add some ansible variables:
 
-{% raw %}
-```
+```yaml
 keyboard --xlayouts='us'
 lang en_US.UTF-8
 timezone UTC
@@ -65,7 +64,6 @@ user --name={{ kickstart_user_username }} --groups=wheel --password={{ kickstart
 services --enabled=ostree-remount
 ostreesetup --nogpg --url={{ ostree_repo_protocol }}://{{ ostree_repo_host }}:{{ ostree_repo_port }}/{{ ostree_repo_path }} --osname={{ ostree_os_name }} --ref={{ ostree_ref }}
 ```
-{% endraw %}
 
 Here we've converted a few lines to be more dynamic so this template can be re-usable. Some of these changes are to enable the ability to store as variables in Controller, while others, we'll create a custom credential type and credential so that the values can be stored securely.
 
@@ -77,26 +75,24 @@ If wired networking and DHCP is available, then most likely things will just wor
 
 Wifi connections are not supported in the `network` line of a kickstart, so we'll establish the connection using `nmcli` in the `%pre` section of the kickstart. Additionally, we'll conditionalize this via jinja `if/endif` statements, so this section is only present if wireless credentials have been provided. Add the following to the beginning of the kickstart file.
 
-{% raw %}
-```
+```yaml
 {% if wifi_network is defined and wifi_password is defined %}
 %pre
 nmcli dev wifi connect "{{ wifi_network }}" password "{{ wifi_password }}"
 %end
 {% endif %}
 ```
-{% endraw %}
+
 NetworkManager should automatically select the correct device for us to connect to a wireless network.
 
 We'll also add the following for wired connections immediately below the previously added content:
 
-{% raw %}
-```
+```yaml
 {% if wifi_network is not defined  %}
 network --bootproto=dhcp --onboot=true
 {% endif %}
 ```
-{% endraw %}
+
 Take note that this is not part of `%pre` declaration, but it goes in the same section as the rest of of the kickstart options. Check the [solutions](#solutions) section for more info.
 
 ### Step 4 - Creating a Call Home Playbook
@@ -114,8 +110,7 @@ We'll also be leveraging the `raw` capibilities of jinja as enclosed by `{% raw 
 
 Add the following to the bottom of the kickstart file:
 
-{% raw %}
-```
+```yaml
 %post
 # create playbook for controller registration
 cat > /var/tmp/aap-auto-registration.yml <<EOF
@@ -134,7 +129,7 @@ cat > /var/tmp/aap-auto-registration.yml <<EOF
       password: "{{ controller_api_password }}"
       force_basic_auth: yes
       validate_certs: no
-# Ensure you use the raw option here
+{% raw %}
   tasks:
     - name: find the id of {{ controller_inventory }}
       ansible.builtin.uri:
@@ -174,10 +169,9 @@ cat > /var/tmp/aap-auto-registration.yml <<EOF
         body_format: json
         body:
           limit: "edge-{{ ansible_default_ipv4.macaddress | replace(':','') }}"
-# End your raw here
+{% endraw %}
 EOF
 ```
-{% endraw %}
 ### Step 5 - Using Systemd to Run the Playbook on First Boot
 
 Finally, we'll use systemd to run the playbook once the system boots up the first time. There's a few conditions to running this playbook that we can specify in our systemd-service file:
@@ -219,7 +213,7 @@ systemctl enable aap-auto-registration.service
 
 The finished kickstart should look be similar to the following:
 
-```
+```yaml
 {% if wifi_network is defined and wifi_password is defined %}
 %pre
 nmcli dev wifi connect "{{ wifi_network }}" password "{{ wifi_password }}"
@@ -329,7 +323,6 @@ EOF
 systemctl enable aap-auto-registration.service
 %end
 ```
-{% endraw %}
 
 Once you've assembled your kickstart template, be sure to commit and push it into your git repo.
 
