@@ -136,8 +136,9 @@ cat > /var/tmp/aap-auto-registration.yml <<EOF
       password: "{{ controller_api_password }}"
       force_basic_auth: yes
       validate_certs: no
-
+{% endraw %}
 {{ "{% raw " }}%}
+{% raw %}
   tasks:
     - name: find the id of {{ controller_inventory }}
       ansible.builtin.uri:
