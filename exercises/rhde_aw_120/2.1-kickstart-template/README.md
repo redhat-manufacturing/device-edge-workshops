@@ -87,3 +87,133 @@ nmcli dev wifi connect "{{ wifi_network }}" password "{{ wifi_password }}"
 ```
 {% endraw %}
 
+NetworkManager should automatically select the correct device for us to connect to a wireless network.
+
+We'll also add the following for wired connections immediately below the previously added content:
+
+{% raw %}
+```yaml
+{% if wifi_network is not defined  %}
+network --bootproto=dhcp --onboot=true
+{% endif %}
+```
+{% endraw %}
+
+Take note that this is not part of `%pre` declaration, but it goes in the same section as the rest of of the kickstart options. Check the [solutions](#solutions) section for more info.
+
+## Step 4 - Creating a Call Home Playbook
+
+Our kickstart file will install an operating system, but it does not yet include everything we would like it to contain. After devices boot up the first time, we want them to attempt to call home and register themselves with Ansible Controller so that they can be automated.
+
+To accomplish this, we'll use the `%post` section of our kickstart, along with some additional jinja templating that will lay down an Ansible playbook performing the following:
+
+1. Obtain the inventory ID of the inventory for our edge devices
+2. Create a new host in that inventory for itself with current connectivity information
+3. Obtain the ID of the provisioning workflow we created
+4. Kick off the provisioning workflow with a _limit_ of "just itself"
+
+We'll also be leveraging the `raw` capibilities of jinja as enclosed by `raw` and `endraw` so Ansible doesn't attempt to template out vars in the playbook `tasks`, but we do want the variables in `vars` and `module_defaults` instantiated.
+
+Add the following to the bottom of the kickstart file:
+
+{% raw %}
+```yaml
+%post
+# create playbook for controller registration
+cat > /var/tmp/aap-auto-registration.yml <<EOF
+---
+- name: register a r4e system to ansible controller
+  hosts:
+    - localhost
+  vars:
+    ansible_connection: local
+    controller_url: https://{{ controller_host }}/api/v2
+    controller_inventory: Edge Systems
+    provisioning_template: Provision Edge Device
+  module_defaults:
+    ansible.builtin.uri:
+      user: "{{ controller_api_username }}"
+      password: "{{ controller_api_password }}"
+      force_basic_auth: yes
+      validate_certs: no
+
+{{ "{% raw " }}%}
+  tasks:
+    - name: find the id of {{ controller_inventory }}
+      ansible.builtin.uri:
+        url: "{{ controller_url }}/inventories?name={{ controller_inventory | regex_replace(' ', '%20') }}"
+      register: controller_inventory_lookup
+    - name: set inventory id fact
+      ansible.builtin.set_fact:
+        controller_inventory_id: "{{ controller_inventory_lookup.json.results[0].id }}"
+    - name: create host in inventory {{ controller_inventory }}
+      ansible.builtin.uri:
+        url: "{{ controller_url }}/inventories/{{ controller_inventory_id }}/hosts/"
+        method: POST
+        body_format: json
+        body:
+          name: "edge-{{ ansible_default_ipv4.macaddress | replace(':','') }}"
+          variables:
+            'ansible_host: {{ ansible_default_ipv4.address }}'
+      register: create_host
+      changed_when:
+        - create_host.status | int == 201
+      failed_when:
+        - create_host.status | int != 201
+        - "'already exists' not in create_host.content"
+    - name: find the id of {{ provisioning_template }}
+      ansible.builtin.uri:
+        url: "{{ controller_url }}/workflow_job_templates?name={{ provisioning_template | regex_replace(' ', '%20') }}"
+      register: job_template_lookup
+    - name: set the id of {{ provisioning_template }}
+      ansible.builtin.set_fact:
+        job_template_id: "{{ job_template_lookup.json.results[0].id }}"
+    - name: trigger {{ provisioning_template }}
+      ansible.builtin.uri:
+        url: "{{ controller_url }}/workflow_job_templates/{{ job_template_id }}/launch/"
+        method: POST
+        status_code:
+          - 201
+        body_format: json
+        body:
+          limit: "edge-{{ ansible_default_ipv4.macaddress | replace(':','') }}"
+{{ "{% endraw " }}%}
+EOF
+```
+{% endraw %}
+### Step 5 - Using Systemd to Run the Playbook on First Boot
+
+Finally, we'll use systemd to run the playbook once the system boots up the first time. There's a few conditions to running this playbook that we can specify in our systemd-service file:
+
+- Ensure local filesystems are available
+- Ensure networking is up
+- If successful, leave behind a "cookie" denoting success
+- If that cookie is present, do not run again
+
+These conditions can be handled using options in the `Unit` and `Service` sections of the systemd service file:
+```
+# create systemd runonce file to trigger playbook
+cat > /etc/systemd/system/aap-auto-registration.service <<EOF
+[Unit]
+Description=Ansible Automation Platform Auto-Registration
+After=local-fs.target
+After=network.target
+ConditionPathExists=!/var/tmp/post-installed
+
+[Service]
+ExecStartPre=/usr/bin/sleep 20
+ExecStart=/usr/bin/ansible-playbook /var/tmp/aap-auto-registration.yml
+ExecStartPost=/usr/bin/touch /var/tmp/post-installed
+User=root
+RemainAfterExit=true
+Type=oneshot
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Enable the service
+systemctl enable aap-auto-registration.service
+%end
+
+```
