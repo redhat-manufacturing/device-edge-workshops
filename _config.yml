@@ -9,7 +9,6 @@ exclude:
   - "provisioner/inventory"
   - "provisioner/tests"
   - "legacy-assets"
-  - "exercises/rhde_aw_120/2.1-kickstart-template/README.md"
 kramdown:
   syntax_highlighter_opts:
     disable: true

@@ -51,6 +51,7 @@ Let's take a look at these options:
 
 The above is just an example. We'll need to modify this section slightly for our purposes. First, create a new directory in your source control repo: `playbooks/templates`. Within the newly created directory, create a file named `student(your-student-number).ks.j2`, for example: `student10.ks.j2`. Open the file with your editor of choice and add some ansible variables:
 
+{% raw %}
 ```yaml
 keyboard --xlayouts='us'
 lang en_US.UTF-8
@@ -64,6 +65,7 @@ user --name={{ kickstart_user_username }} --groups=wheel --password={{ kickstart
 services --enabled=ostree-remount
 ostreesetup --nogpg --url={{ ostree_repo_protocol }}://{{ ostree_repo_host }}:{{ ostree_repo_port }}/{{ ostree_repo_path }} --osname={{ ostree_os_name }} --ref={{ ostree_ref }}
 ```
+{% endraw %}
 
 Here we've converted a few lines to be more dynamic so this template can be re-usable. Some of these changes are to enable the ability to store as variables in Controller, while others, we'll create a custom credential type and credential so that the values can be stored securely.
 
@@ -75,7 +77,7 @@ If wired networking and DHCP is available, then most likely things will just wor
 
 Wifi connections are not supported in the `network` line of a kickstart, so we'll establish the connection using `nmcli` in the `%pre` section of the kickstart. Additionally, we'll conditionalize this via jinja `if/endif` statements, so this section is only present if wireless credentials have been provided. Add the following to the beginning of the kickstart file.
 
-{% comment %}
+{% raw %}
 ```yaml
 {% if wifi_network is defined and wifi_password is defined %}
 %pre
@@ -83,4 +85,5 @@ nmcli dev wifi connect "{{ wifi_network }}" password "{{ wifi_password }}"
 %end
 {% endif %}
 ```
-{% endcomment %}
+{% endraw %}
+
