@@ -220,3 +220,132 @@ systemctl enable aap-auto-registration.service
 %end
 
 ```
+### Solutions
+
+The finished kickstart should look be similar to the following:
+
+{% raw %}
+```yaml
+{% if wifi_network is defined and wifi_password is defined %}
+%pre
+nmcli dev wifi connect "{{ wifi_network }}" password "{{ wifi_password }}"
+%end
+{% endif %}
+{% if wifi_network is not defined  %}
+network --bootproto=dhcp --onboot=true
+{% endif %}
+keyboard --xlayouts='us'
+lang en_US.UTF-8
+timezone UTC
+zerombr
+clearpart --all --initlabel
+autopart --type=plain --fstype=xfs --nohome
+reboot
+text
+user --name {{ kickstart_user_username }} --groups=wheel --password={{ kickstart_user_password }}
+services --enabled=ostree-remount
+ostreesetup --nogpg --url={{ ostree_repo_protocol }}://{{ ostree_repo_host }}:{{ ostree_repo_port }}/{{ ostree_repo_path }} --osname={{ ostree_os_name }} --ref={{ ostree_ref }}
+
+%post
+# create playbook for controller registration
+cat > /var/tmp/aap-auto-registration.yml <<EOF
+---
+- name: register a r4e system to ansible controller
+  hosts:
+    - localhost
+  vars:
+    ansible_connection: local
+    controller_url: https://{{ controller_host }}/api/v2
+    controller_inventory: Edge Systems
+    provisioning_template: Provision Edge Device
+  module_defaults:
+    ansible.builtin.uri:
+      user: "{{ controller_api_username }}"
+      password: "{{ controller_api_password }}"
+      force_basic_auth: yes
+      validate_certs: no
+# Ensure you start your raw here
+{% endraw %}
+{{ "{% raw " }}%}
+{% raw %}
+
+  tasks:
+    - name: find the id of {{ controller_inventory }}
+      ansible.builtin.uri:
+        url: "{{ controller_url }}/inventories?name={{ controller_inventory | regex_replace(' ', '%20') }}"
+      register: controller_inventory_lookup
+    - name: set inventory id fact
+      ansible.builtin.set_fact:
+        controller_inventory_id: "{{ controller_inventory_lookup.json.results[0].id }}"
+    - name: create host in inventory {{ controller_inventory }}
+      ansible.builtin.uri:
+        url: "{{ controller_url }}/inventories/{{ controller_inventory_id }}/hosts/"
+        method: POST
+        body_format: json
+        body:
+          name: "edge-{{ ansible_default_ipv4.macaddress | replace(':','') }}"
+          variables:
+            'ansible_host: {{ ansible_default_ipv4.address }}'
+      register: create_host
+      changed_when:
+        - create_host.status | int == 201
+      failed_when:
+        - create_host.status | int != 201
+        - "'already exists' not in create_host.content"
+    - name: find the id of {{ provisioning_template }}
+      ansible.builtin.uri:
+        url: "{{ controller_url }}/workflow_job_templates?name={{ provisioning_template | regex_replace(' ', '%20') }}"
+      register: job_template_lookup
+    - name: set the id of {{ provisioning_template }}
+      ansible.builtin.set_fact:
+        job_template_id: "{{ job_template_lookup.json.results[0].id }}"
+    - name: trigger {{ provisioning_template }}
+      ansible.builtin.uri:
+        url: "{{ controller_url }}/workflow_job_templates/{{ job_template_id }}/launch/"
+        method: POST
+        status_code:
+          - 201
+        body_format: json
+        body:
+          limit: "edge-{{ ansible_default_ipv4.macaddress | replace(':','') }}"
+# End your raw here
+{% endraw %}
+{{ "{% endraw " }}%}
+{% raw %}
+
+EOF
+
+# create systemd runonce file to trigger playbook
+cat > /etc/systemd/system/aap-auto-registration.service <<EOF
+[Unit]
+Description=Ansible Automation Platform Auto-Registration
+After=local-fs.target
+After=network.target
+ConditionPathExists=!/var/tmp/post-installed
+
+[Service]
+ExecStartPre=/usr/bin/sleep 20
+ExecStart=/usr/bin/ansible-playbook /var/tmp/aap-auto-registration.yml
+ExecStartPost=/usr/bin/touch /var/tmp/post-installed
+User=root
+RemainAfterExit=true
+Type=oneshot
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Enable the service
+systemctl enable aap-auto-registration.service
+%end
+```
+{% endraw %}
+
+Once you've assembled your kickstart template, be sure to commit and push it into your git repo.
+
+---
+**Navigation**
+
+[Previous Exercise](../1.7-coding-intro) | [Next Exercise](../2.2-kickstart-creds)
+
+[Click here to return to the Workshop Homepage](../README.md)
