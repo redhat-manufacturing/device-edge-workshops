@@ -218,7 +218,7 @@ systemctl enable aap-auto-registration.service
 ### Solutions
 
 The finished kickstart should look be similar to the following:
-{% raw %}
+
 ```
 {% if wifi_network is defined and wifi_password is defined %}
 %pre
@@ -259,6 +259,8 @@ cat > /var/tmp/aap-auto-registration.yml <<EOF
       force_basic_auth: yes
       validate_certs: no
 # Ensure you start your raw here
+{% raw %}
+
   tasks:
     - name: find the id of {{ controller_inventory }}
       ansible.builtin.uri:
@@ -299,6 +301,8 @@ cat > /var/tmp/aap-auto-registration.yml <<EOF
         body:
           limit: "edge-{{ ansible_default_ipv4.macaddress | replace(':','') }}"
 # End your raw here
+{% endraw %}
+
 EOF
 
 # create systemd runonce file to trigger playbook
