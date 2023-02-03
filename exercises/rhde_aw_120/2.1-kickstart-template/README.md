@@ -178,7 +178,9 @@ cat > /var/tmp/aap-auto-registration.yml <<EOF
         body_format: json
         body:
           limit: "edge-{{ ansible_default_ipv4.macaddress | replace(':','') }}"
+{% endraw %}
 {{ "{% endraw " }}%}
+{% raw %}
 EOF
 ```
 {% endraw %}
