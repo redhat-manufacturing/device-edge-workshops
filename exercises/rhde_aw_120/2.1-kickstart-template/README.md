@@ -106,7 +106,7 @@ To accomplish this, we'll use the `%post` section of our kickstart, along with s
 3. Obtain the ID of the provisioning workflow we created
 4. Kick off the provisioning workflow with a _limit_ of "just itself"
 
-We'll also be leveraging the `raw` capibilities of jinja as enclosed by `{% raw %}` and `{% endraw %}` so Ansible doesn't attempt to template out vars in the playbook `tasks`, but we do want the variables in `vars` and `module_defaults` instantiated.
+We'll also be leveraging the `raw` capibilities of jinja as enclosed by `raw` and `endraw` so Ansible doesn't attempt to template out vars in the playbook `tasks`, but we do want the variables in `vars` and `module_defaults` instantiated.
 
 Add the following to the bottom of the kickstart file:
 
