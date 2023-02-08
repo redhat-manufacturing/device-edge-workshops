@@ -1,8 +1,5 @@
 ---
 
-- debug:
-    var: run_locally
-
 - name: define vars for attendance site
   ansible.builtin.set_fact:
     local_edge_manager:
