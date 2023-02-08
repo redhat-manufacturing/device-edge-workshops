@@ -62,10 +62,15 @@ autopart --type=plain --fstype=xfs --nohome
 reboot
 text
 user --name={{ kickstart_user_username }} --groups=wheel --password={{ kickstart_user_password }}
+rootpw --plaintext --lock {{ kickstart_user_password }}
 services --enabled=ostree-remount
 ostreesetup --nogpg --url={{ ostree_repo_protocol }}://{{ ostree_repo_host }}:{{ ostree_repo_port }}/{{ ostree_repo_path }} --osname={{ ostree_os_name }} --ref={{ ostree_ref }}
 ```
 {% endraw %}
+
+> Note:
+>
+> We are setting a root password due to a bug in RHEL, however we are locking the acocunt.
 
 Here we've converted a few lines to be more dynamic so this template can be re-usable. Some of these changes are to enable the ability to store as variables in Controller, while others, we'll create a custom credential type and credential so that the values can be stored securely.
 
@@ -243,6 +248,7 @@ autopart --type=plain --fstype=xfs --nohome
 reboot
 text
 user --name {{ kickstart_user_username }} --groups=wheel --password={{ kickstart_user_password }}
+rootpw --plaintext --lock {{ kickstart_user_password }}
 services --enabled=ostree-remount
 ostreesetup --nogpg --url={{ ostree_repo_protocol }}://{{ ostree_repo_host }}:{{ ostree_repo_port }}/{{ ostree_repo_path }} --osname={{ ostree_os_name }} --ref={{ ostree_ref }}
 
