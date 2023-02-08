@@ -23,6 +23,7 @@ The following automation will:
 
 Return to your code repo and create a new file at `playbooks/deploy-k8s-app.yml` with the following contents:
 
+{% raw %}
 ```yaml
 ---
 
@@ -76,7 +77,7 @@ Return to your code repo and create a new file at `playbooks/deploy-k8s-app.yml`
           loop_control:
             loop_var: yaml_file
 ```
-
+{% endraw %}
 
 This playbook handles grabbing the kubeconfig, setting the correct cluster address, then deploys our application.
 
