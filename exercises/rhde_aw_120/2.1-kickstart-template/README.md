@@ -106,7 +106,7 @@ network --bootproto=dhcp --onboot=true
 
 Take note that this is not part of `%pre` declaration, but it goes in the same section as the rest of of the kickstart options. Check the [solutions](#solutions) section for more info.
 
-## Step 4 - Creating a Call Home Playbook
+### Step 4 - Creating a Call Home Playbook
 
 Our kickstart file will install an operating system, but it does not yet include everything we would like it to contain. After devices boot up the first time, we want them to attempt to call home and register themselves with Ansible Controller so that they can be automated.
 
