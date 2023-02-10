@@ -105,7 +105,8 @@ student_total: 10
 # Can be accessed at https://access.redhat.com/management/api
 offline_token: "your-token-here"
 
-# Required for podman authentication to registry.redhat.io
+# Required for RHSM registration and registry.redhat.io pulls - needs to be your full RHN username and password
+# https://www.redhat.com/wapps/ugc/register.html
 redhat_username: your-username
 redhat_password: your-password
 
