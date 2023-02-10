@@ -40,7 +40,7 @@ Once complete, commit and push your new playbook up into Gitea.
 
 ### Step 2 - Creating a Job Template
 
-> Note:
+> **Note**
 >
 > Be sure to sync your project in Controller before attempting to create this job template.
 

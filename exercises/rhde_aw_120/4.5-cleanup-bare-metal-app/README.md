@@ -87,7 +87,7 @@ Remember to commit and push your code up to Gitea when finished crafting this pl
 
 ### Step 2 - Creating a Job Template
 
-> Note:
+> **Note**
 >
 > Be sure to sync your project in Controller before attempting to create this job template.
 

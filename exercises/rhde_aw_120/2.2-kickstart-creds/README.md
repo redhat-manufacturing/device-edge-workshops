@@ -329,7 +329,7 @@ Machine credential:
 
 ![Machine Credential](../images/machine-credential.png)
 
-> Note:
+> **Note**
 >
 > Some values may be different, depending on the lab environment. Refer any questions to the lab instructor.
 

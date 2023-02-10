@@ -87,7 +87,7 @@ Next, create a new playbook at `playbooks/bootstrap-kubernetes.yml` with the fol
 
 Here, we can see tasks to accomplish the goals of pushing out a corrected CRI-O config file, our pull secret, and fixing a bug. Once those have been completed, we can then start up microshift.
 
-> Note:
+> **Note**
 >
 > Our pull secret will be stored securely in Ansible Controller instead of being committed to our repo.
 
@@ -125,13 +125,13 @@ In the **Create New Credential** form, enter the following information:
 
 Remember to hit **Save**.
 
-> Note:
+> **Note**
 >
 > Your pull secret can be downloaded from [console.redhat.com](https://console.redhat.com/openshift/downloads).
 
 ### Step 3 - Creating a Job Template
 
-> Note:
+> **Note**
 >
 > Be sure to sync your project in Controller before attempting to create this job template.
 

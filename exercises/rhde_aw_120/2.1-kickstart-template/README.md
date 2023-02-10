@@ -68,7 +68,7 @@ ostreesetup --nogpg --url={{ ostree_repo_protocol }}://{{ ostree_repo_host }}:{{
 ```
 {% endraw %}
 
-> Note:
+> **Note**
 >
 > We are setting a root password due to a bug in RHEL, however we are locking the acocunt.
 

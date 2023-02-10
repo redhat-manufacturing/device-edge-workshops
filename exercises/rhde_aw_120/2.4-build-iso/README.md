@@ -22,7 +22,7 @@ Ideally, once this ISO is built, the following should occur:
 
 The steps in this exercise are based on [this KB article](https://access.redhat.com/solutions/60959), which we'll walk through for reference. However, in the interest of time, we'll be using a script to generate the ISO.
 
-> Note:
+> **Note**
 >
 > A special thanks to Mr. James Harmison for the ISO generation script. Be sure to give him a hearty thank you the next time you see him.
 
@@ -85,7 +85,7 @@ First, ensure the following files are present in your directory:
 └── rhel-8.7-x86_64-boot.iso
 ```
 
-> Note:
+> **Note**
 >
 >  The filename containing the boot ISO will be called `rhel-8-boot.iso` if it was provided for you. Rename the file to match the name of the file in the directory structure shown above.
 
@@ -148,7 +148,7 @@ Once pasted in, make the script executable and then run it via sudo: `chmod ug+x
 
 After the script finishes, you should have a new iso called `rhde-ztp.iso` in your directory.
 
-> Note:
+> **Note**
 >
 > If the `mkisofs`, `isohybrid`, and `implantisomd5` commands aren't available, you may need to install the `genisoimage`, `syslinux`, and `isomd5sum` packages.
 

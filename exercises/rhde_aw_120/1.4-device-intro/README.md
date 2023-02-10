@@ -39,7 +39,9 @@ An edge hypervisor may have been set up for this workshop to allow for a complet
 
 We'll be leveraging KVM and Cockpit on top of Red Hat Enterprise Linux to run our virtual edge devices. The URL and login information can be found on your student page.
 
-> Note: The URL will contain a port number (typically `:9090`). Ensure you include it when attempting to access the Cockpit WebUI from a browser.
+> **Note**
+>
+> The URL will contain a port number (typically `:9090`). Ensure you include it when attempting to access the Cockpit WebUI from a browser.
 
 After accessing the URL, you should be presented with the Cockpit login screen:
 
@@ -53,7 +55,9 @@ Ensure you can access the virtual machines tab:
 
 ![Cockpit Machines](../images/cockpit-machines.png)
 
-> Note: You have been given sudo access to this machine, so take caution when performing tasks on the hypervisor.
+> **Note**
+>
+> You have been given sudo access to this machine, so take caution when performing tasks on the hypervisor.
 
 ---
 **Navigation**

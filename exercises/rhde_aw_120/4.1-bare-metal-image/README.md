@@ -12,7 +12,7 @@ In this exercise, we'll review creating a new image via automation to host our b
 
 For a reminder on the application we're deploying, review [exercise 1.5](../1.5-application-intro).
 
-> Note:
+> **Note**
 >
 > We will be purposefully configuring the device incorrectly in this exercise. It is important to avoid performing these same configurations in production environments. While running applications is suitable on RHDE and can be secured approperately, this lab focuses on RHDE and not SELinux/fapolicyd/etc. In addition, this reinforces that migrating to containers helps simplify the securing of appliccations. In addition, EPEL is not supported by Red Hat.
 

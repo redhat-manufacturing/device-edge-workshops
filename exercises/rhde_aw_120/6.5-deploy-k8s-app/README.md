@@ -87,7 +87,7 @@ Remember to commit and push your new playbook up to the git repo.
 
 ### Step 2 - Creating a Job Template
 
-> Note:
+> **Note**
 >
 > Be sure to sync your project in Controller before attempting to create this job template.
 > Make sure also to disable edge device firewall to allow calling k8s apis

@@ -15,7 +15,7 @@ This exercise will cover:
 * Understanding where the repo is located
 * Cloning the git repo
 
-> Note:
+> **Note**
 >
 > This section is a bit ambiguous by design: feel free to use your laptop, SSH into the hypervisor node (if available), use your favorite IDE, sling code on the command line via VIM (which is better than Nano)... you're free to use whatever you're comfortable with. [VSCode](https://code.visualstudio.com/docs/setup/linux) + the [Ansible extension](https://marketplace.visualstudio.com/items?itemName=redhat.ansible) is a suggested approach.
 
