@@ -2,6 +2,7 @@
 
 - name: run from localhost
   delegate_to: localhost
+  become: false
   run_once: true
   block:
     - name: Generating an access token
