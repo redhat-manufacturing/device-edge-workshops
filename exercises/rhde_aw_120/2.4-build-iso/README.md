@@ -22,10 +22,6 @@ Ideally, once this ISO is built, the following should occur:
 
 The steps in this exercise are based on [this KB article](https://access.redhat.com/solutions/60959), which we'll walk through for reference. However, in the interest of time, we'll be using a script to generate the ISO.
 
-> **Note**
->
-> A special thanks to Mr. James Harmison for the ISO generation script. Be sure to give him a hearty thank you the next time you see him.
-
 It's recommended to execute these steps either on your laptop if you have a physical device, or on the edge hypervisor if available, as those are the places where we'll need the customized ISO.
 
 ### Step 1 - Grabbing the RHEL Boot ISO
