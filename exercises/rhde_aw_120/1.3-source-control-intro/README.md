@@ -38,7 +38,7 @@ Gitea features a lightweight dashboard that shows an activity stream and lists y
 
 ### Step 3 - The Device Edge Codebase Repo
 
-On the right-hand side of the Gitea dashboard is a link to a repository called `device-edge-codebase` which will be used to contain code for this workshop. Take a look at the pre-populated playbook in the `playbooks/` directory, and denote the http(s)/git addresses used to push and pull from this repository as it will be needed later on.
+On the right-hand side of the Gitea dashboard is a link to a repository called `device-edge-codebase` which will be used to contain code for this workshop. Take a look at the pre-populated playbook in the `playbooks/` directory, and take note of the http(s)/git addresses used to push and pull from this repository in the top right of the repository landing page.
 
 ![Device Edge Repo](../images/repo.png)
 
