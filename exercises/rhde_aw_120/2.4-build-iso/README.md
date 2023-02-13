@@ -22,10 +22,6 @@ Ideally, once this ISO is built, the following should occur:
 
 The steps in this exercise are based on [this KB article](https://access.redhat.com/solutions/60959), which we'll walk through for reference. However, in the interest of time, we'll be using a script to generate the ISO.
 
-> Note:
->
-> A special thanks to Mr. James Harmison for the ISO generation script. Be sure to give him a hearty thank you the next time you see him.
-
 It's recommended to execute these steps either on your laptop if you have a physical device, or on the edge hypervisor if available, as those are the places where we'll need the customized ISO.
 
 ### Step 1 - Grabbing the RHEL Boot ISO
@@ -33,6 +29,10 @@ It's recommended to execute these steps either on your laptop if you have a phys
 Depending on the provisioned lab environment, the RHEL Boot ISO has already been provided for you. Otherwise, you will need to download the ISO from the Red Hat Customer Portal.
 
 If an edge hypervisor has been provisioned for you, then the RHEL Boot ISO is available on the system under `/opt/student-resources`. Copy it from that directory to somewhere in your home directory, such as `~/generate-iso/`.
+
+> **Note**
+>
+> You can either SSH to the edge hypervisor or access the terminal in the Cockpit UI to run your `cp` command.
 
 Otherwise, visit the [customer portal](https://access.redhat.com/downloads/content/479/ver=/rhel---8/8.7/x86_64/product-software) and download the RHEL8.7 boot ISO. We won't need the full installation image as the boot ISO has everything necessary for provisioning our edge devices.
 
@@ -85,7 +85,7 @@ First, ensure the following files are present in your directory:
 └── rhel-8.7-x86_64-boot.iso
 ```
 
-> Note:
+> **Note**
 >
 >  The filename containing the boot ISO will be called `rhel-8-boot.iso` if it was provided for you. Rename the file to match the name of the file in the directory structure shown above.
 
@@ -148,7 +148,7 @@ Once pasted in, make the script executable and then run it via sudo: `chmod ug+x
 
 After the script finishes, you should have a new iso called `rhde-ztp.iso` in your directory.
 
-> Note:
+> **Note**
 >
 > If the `mkisofs`, `isohybrid`, and `implantisomd5` commands aren't available, you may need to install the `genisoimage`, `syslinux`, and `isomd5sum` packages.
 

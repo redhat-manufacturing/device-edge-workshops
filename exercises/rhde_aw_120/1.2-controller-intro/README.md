@@ -23,9 +23,13 @@ This exercise will cover
 
 ### Step 1 - Logging In
 
-> Note: If you are using an edge device on-site: your instructor will provide the IP address/DNS entry of the controller instance that will be running locally. Optionally, more information can be found on your student page.
+> **Note**
+>
+> If you are using an edge device on-site: your instructor will provide the IP address/DNS entry of the controller instance that will be running locally. Optionally, more information can be found on your student page.
 
-> Note: If you are using Controller in AWS: the login information can be found on your student page.
+> **Note**
+>
+> If you are using Controller in AWS: the login information can be found on your student page.
 
 After entering the URL in a browser, you will be greeted with the Ansible Controller login page. To log in, the username will be "student$(your_student_number)", such as `student1`, and the password is located on your student page.
 
@@ -45,11 +49,13 @@ Ensure you can view the details and access information of your organization unde
 
 Two credentials have been created for you:
 1. Gitea Credentials - to be used to sync projects from our code repository. These match the credentials used to log in to the Gitea web interface, which can be found on your student page. More information on Gitea will be provided in the next exercise.
-2. Device Credentials - a default set of credentials for connecting to edge devices. These default to `ansible:$(ssh_password)` found on your student page.
+2. Edge Manager SSH Credentials - to be used to access the hypervisor for managing our virtual machines. These are configured to use an SSH private key that was part of workshop setup.
 
 ![Credentials](../images/credentials.png)
 
-> Note: Be sure to save/remember the Device Credentials above, as they've been pre-baked into the edge images used throughout the lab for SSH access.
+> **Note**
+>
+> The screenshot here doesn't exactly reflect what you should be seeing. The "Device Credentials" will come later.
 
 ### Step 4 - Project
 
@@ -63,7 +69,9 @@ Two inventories have been created for you:
 1. Edge Utilities - systems used to support managing edge devices, and may also contain an edge hypervisor if one is provisioned for this workshop.
 2. Edge Systems - where our edge systems will live.
 
-> Note: The Edge Systems inventory is empty right now (Total Hosts = 0), because we haven't built anything yet. During the provisioning process, edge devices should appear in this inventory.
+> **Note**
+>
+> The Edge Systems inventory is empty right now (Total Hosts = 0), because we haven't built anything yet. During the provisioning process, edge devices should appear in this inventory.
 
 ![Inventories](../images/inventories.png)
 
@@ -79,7 +87,9 @@ An execution environment has been created that has all the necessary dependencie
 
 ![Execution Environments](../images/ee.png)
 
-> Note: The details of this execution environment can be found in the [code repository](https://github.com/redhat-manufacturing/device-edge-workshops/tree/main/execution-environment) for device edge workshops, and are built using [Ansible Builder](https://www.ansible.com/blog/introduction-to-ansible-builder).
+> **Note**
+>
+> The details of this execution environment can be found in the [code repository](https://github.com/redhat-manufacturing/device-edge-workshops/tree/main/execution-environment) for device edge workshops, and are built using [Ansible Builder](https://www.ansible.com/blog/introduction-to-ansible-builder).
 
 ---
 **Navigation**

@@ -45,7 +45,6 @@ Return to your code repo and create a new file at `playbooks/deploy-k8s-app.yml`
       ansible.builtin.copy:
         content: "{{ (kubeconfig_raw['content'] | b64decode).replace('127.0.0.1', ansible_host) }}"
         dest: /tmp/kubeconfig
-      delegate_to: localhost
     - name: allow API access
       ansible.posix.firewalld:
         port: 6443/tcp
@@ -87,7 +86,7 @@ Remember to commit and push your new playbook up to the git repo.
 
 ### Step 2 - Creating a Job Template
 
-> Note:
+> **Note**
 >
 > Be sure to sync your project in Controller before attempting to create this job template.
 > Make sure also to disable edge device firewall to allow calling k8s apis

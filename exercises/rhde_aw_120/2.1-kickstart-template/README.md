@@ -18,6 +18,10 @@ We're writing this as a jinja2 template so that:
 1. Our kickstarts are fundamentally code, kept in source control, etc.
 2. We can use Ansible to push them out to anywhere.
 
+> **Note**
+>
+> Ensure you're building this template inside your project repository using whatever means you've decided to do that. Convention for an Ansible repository is that you place the template adjacent to your playbook in the `templates` directory, if you're not using a role - so consider creating that directory and placing it there.
+
 ### Step 1 - Kickstart Basics
 
 The most basic kickstart for Device Edge contains the following:
@@ -68,7 +72,7 @@ ostreesetup --nogpg --url={{ ostree_repo_protocol }}://{{ ostree_repo_host }}:{{
 ```
 {% endraw %}
 
-> Note:
+> **Note**
 >
 > We are setting a root password due to a bug in RHEL, however we are locking the acocunt.
 
@@ -106,7 +110,7 @@ network --bootproto=dhcp --onboot=true
 
 Take note that this is not part of `%pre` declaration, but it goes in the same section as the rest of of the kickstart options. Check the [solutions](#solutions) section for more info.
 
-## Step 4 - Creating a Call Home Playbook
+### Step 4 - Creating a Call Home Playbook
 
 Our kickstart file will install an operating system, but it does not yet include everything we would like it to contain. After devices boot up the first time, we want them to attempt to call home and register themselves with Ansible Controller so that they can be automated.
 

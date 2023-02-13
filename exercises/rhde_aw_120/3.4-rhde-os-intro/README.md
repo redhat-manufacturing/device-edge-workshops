@@ -23,7 +23,7 @@ Because of this, the operating system is more suited to edge deployments, and ca
 
 The exercise is optional, but if you wish, you can SSH into the edge device like any other system.
 
-> Note:
+> **Note**
 >
 > For virtualized edge devices, connect to the hypervisor over SSH. Then, attempt to access the edge devices using the IP address discovered in the Ansible Controller inventory variable. Their networking doesn't extend beyond the hypervisor.
 

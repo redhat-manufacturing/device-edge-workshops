@@ -30,7 +30,9 @@ In this lab, you work in a pre-configured lab environment and will have access t
 
 Since this is a shortened lab, the Image Builder related steps have already been completed, and images are hosted and ready for consumption.
 
-> Note: If you need more information on new Ansible Automation Platform components, bookmark this landing page [https://red.ht/AAP-20](https://red.ht/AAP-20)
+> **Note**
+>
+> If you need more information on new Ansible Automation Platform components, bookmark this landing page [https://red.ht/AAP-20](https://red.ht/AAP-20)
 
 ### Step 1 - Edge Device vs Virtual Device
 
@@ -44,7 +46,7 @@ Since this is a shortened lab, the Image Builder related steps have already been
 
 ### Step 3 - Accessing the Virtual Device Host
 
-A baremetal instance has been created in RHPDS that will host virtual instances meant to represent an edge device. Ask the lab instructor to provide login and authentication details along with any steps that you may need to complete.
+A baremetal instance has been created in RHPDS that will host virtual instances meant to represent an edge device. Your "Workbench Information" page that lists credentials to the various services includes a link to the Image Builder Cockpit interface. This is the machine on which your VMs are hosted. You can, alternatively, SSH to the instance using the Edge Manager SSH Access and interact with your VMs using traditional command line tooling, virt-manager with a remote connection configured on your host, or any other access method you might prefer.
 
 It is highly encouraged that the Cockpit web interface be used to complete the workshop exercises. Cockpit provides:
 - An easy to access interface to managing virtual machines running on RHEL
@@ -52,10 +54,6 @@ It is highly encouraged that the Cockpit web interface be used to complete the w
 - A web based console for bootstraping and troubleshooting
 
 For more information on Cockpit, check out [Intro to Cockpit](https://www.redhat.com/sysadmin/intro-cockpit)
-
-> Note:
->
-> SSH access may be available as a backup, which provides access to the underlying tooling (such as virsh).
 
 ---
 **Navigation**

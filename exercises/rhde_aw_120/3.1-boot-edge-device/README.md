@@ -14,7 +14,7 @@ In this exercise, we're going to use our customized ISO to provision our edge de
 
 If you have a monitor/keyboard available at your station, feel free to use them. If not, contact with the instructor for more information.
 
-> Note:
+> **Note**
 >
 > This exercise is for students with physical devices. If you do not have one and are instead virtualizing an edge device, proceed to the [next exercise](../3.2-boot-edge-vm).
 
@@ -27,7 +27,7 @@ On your linux system, use the `dd` command to copy the ISO to the USB device:
 dd if=~/generate-iso/rhde-ztp.iso of=/dev/sdz
 ```
 
-> Note:
+> **Note**
 > 
 > This operation does require root, and ensure that you're referencing at the correct device in the `of` parameter. More information can be found in the [RHEL Documentation](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/performing_a_standard_rhel_8_installation/assembly_creating-a-bootable-installation-medium_installing-rhel).
 
@@ -108,7 +108,7 @@ Once the file has been created, make the script executable and then run it the s
 
 After the script completes, you should have a new ISO called `rhde-ztp.iso` within this directory.
 
-> Note:
+> **Note**
 >
 > If the `mkisofs`, `isohybrid`, and `implantisomd5` commands aren't available, you may need to install the `genisoimage`, `syslinux`, and `isomd5sum` packages.
 

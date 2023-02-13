@@ -46,7 +46,7 @@ Once your playbook is constructed, push it up into your git repo.
 
 ### Step 2 - Creating a Job Template for our Playbook
 
-> Note:
+> **Note**
 >
 > Be sure to sync your project in Controller before attempting to create this job template.
 > To sync the project, navigate to **Resources** > **Project** and click on the sync icon for the only project available
@@ -96,7 +96,7 @@ On the **Resources** > **Templates** page, select **Add** > **Add job template**
 
 Remember to click **Save**.
 
-> Note:
+> **Note**
 >
 > If you're not planning to kickstart over wifi, then the `Wireless Network Info` credential is not needed.
 

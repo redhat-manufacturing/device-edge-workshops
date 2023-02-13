@@ -28,7 +28,7 @@ Once complete, be sure to commit push your changes up to the git server.
 
 ### Step 2 - Creating a Job Template
 
-> Note:
+> **Note**
 >
 > Be sure to sync your project in Controller before attempting to create this job template.
 
@@ -79,7 +79,7 @@ As a reminder, the output of jobs can be reviewed on the **Jobs** tab.
 
 Once the playbook completes, visit http://$(your-device-ip-address):1881/ui to view the running application.
 
-> Note:
+> **Note**
 >
 > For virtualized edge devices, you'll need to use SSH tunneling or just curl the port to check for a response.
 

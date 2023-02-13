@@ -54,7 +54,7 @@ This playbook not only stops and removes our application deployment, but also cl
 
 ### Step 2 - Creating a Job Template
 
-> Note:
+> **Note**
 >
 > Be sure to sync your project in Controller before attempting to create this job template.
 

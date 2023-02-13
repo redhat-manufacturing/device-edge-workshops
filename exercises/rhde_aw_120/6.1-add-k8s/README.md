@@ -12,15 +12,15 @@ In this exercise, we'll review creating a new image via automation to host a kub
 
 For a reminder on the application we're deploying, review [exercise 1.5](../1.5-application-intro).
 
-> Note:
+> **Note**
 >
-> Portions of Device Edge are in tech preview. Because of this, a few steps are necessary before starting microshift. In addition, the kubernetes functionality will not work on devices that only have a wireless connection. If you have a physical device on wifi, consult with your instructor for next steps.
+> Kubernetes functionality will not work on devices that only have a wireless connection. If you have a physical device on WiFi, consult with your instructor for next steps.
 
 ### Step 1 - Reviewing the Requirements for the Application
 
 We're now going to deploy a Kubernetes-based application to our edge devices. To accomplish this, we'll need to add a very small footprint Kubernetes build to our devices to enable the running of k8s-based applications.
 
-A quick note: This was previously referred to as [Microshift](https://github.com/openshift/microshift), and is in tech preview. Because of this, we'll need to take a few additional steps to get things going to address concerns that should be cleared up before the GA date.
+A quick note: This is referred to in the upstream simply as [MicroShift](https://github.com/openshift/microshift). The workshops are not yet updated to leverage the 4.12 official releases of the Red Hat Build of MicroShift, supported by the Red Hat Device Edge SKU. Because of this, some functionality may be incomplete.
 
 In the interest of time, these steps have been completed for you and will be made available by the instructor. This image was composed using the [infra.osbuild](https://github.com/redhat-cop/infra.osbuild) Ansible collection, which takes a common set of variables and completely automates interactions with Image Builder.
 

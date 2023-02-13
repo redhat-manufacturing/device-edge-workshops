@@ -163,7 +163,7 @@ There are quite a few tasks that we have configured within this role previous: w
 
 Assuming these tasks run successfully, the simulate portion of our application will be up and running when the role is executed.
 
-> Note:
+> **Note**
 >
 > Previously, we installed packages onto the system "out of band", meaning that we pulled them directly to the system and had rpm-ostree apply them to the deployed image. This functionality exists and is useful for testing, such as in development environments; but, this is not a recommended practice. The proper flow is to add the packages to the image using Image Builder.
 
