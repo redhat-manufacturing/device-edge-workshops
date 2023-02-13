@@ -13,7 +13,7 @@
 
 ## Objective
 
-In this exercise, we are going to investigate the workload we'll be deploying to the edge device in various deployment configurations: baremetal, in containers on top of podman, and then on top of microshift.
+In this exercise, we are going to investigate the workload we'll be deploying to the edge device in various deployment configurations: installed directly into the Operating System, in containers managed with podman, and then on top of MicroShift.
 
 This exercise will cover:
 
