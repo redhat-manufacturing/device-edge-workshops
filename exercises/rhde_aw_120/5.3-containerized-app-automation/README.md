@@ -18,7 +18,7 @@ Return to your code repo and create a new role called `deploy_containerized_app`
 
 While this will look and feel like Kubernetes YAML, we'll also get to leverage the Ansible's jinja2 templating engine for more flexibility. This would allow for host or group specific variables, such as configuration custom specific environments including industrial sites or different geographical locations.
 
-Our application has been broken up into four containers which are pre-built for us. However, if you're interested, the Dockerfiles are available under the [Solutions](#solutions) section of this exercise.
+Our application has been broken up into four containers which are pre-built for us.
 
 Populate the contents of `process-control.yaml.j2` file within the `templates/` directory of the `deploy_containerized_app` role with the following
 
