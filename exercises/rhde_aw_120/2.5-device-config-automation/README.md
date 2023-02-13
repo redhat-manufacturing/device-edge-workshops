@@ -19,9 +19,10 @@ Our tasks in the playbook will be:
 ### Step 1 - Writing Our Initial Device Configuration Playbook
 
 Return to your code repository and create a new playbook in the `playbooks` directory called `initial-device-config.yml`. Enter the following contents:
+
+{% raw %}
 ```yaml
 ---
-
 - name: do initial device setup
   hosts: all
   tasks:
@@ -35,6 +36,7 @@ Return to your code repository and create a new playbook in the `playbooks` dire
         insertafter: EOF
 
 ```
+{% endraw %}
 
 Once complete, commit and push your new playbook up into Gitea.
 
