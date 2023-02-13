@@ -165,6 +165,6 @@ Confirm Input:
 ---
 **Navigation**
 
-[Continue to 4.3](../4.3-bare-metal-app-automation) | [Continue to 5.3](../5.3-containerized-app-automation) | [Continue to 6.3](../6.3-startup-k8s)
+[Continue to deploy on the OS](../4.3-bare-metal-app-automation) | [Continue to deploy containerized](../5.3-containerized-app-automation) | [Continue to deploy on MicroShift](../6.3-startup-k8s)
 
 [Click here to return to the Workshop Homepage](../README.md)
