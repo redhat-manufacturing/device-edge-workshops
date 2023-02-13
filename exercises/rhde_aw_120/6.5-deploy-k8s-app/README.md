@@ -45,7 +45,6 @@ Return to your code repo and create a new file at `playbooks/deploy-k8s-app.yml`
       ansible.builtin.copy:
         content: "{{ (kubeconfig_raw['content'] | b64decode).replace('127.0.0.1', ansible_host) }}"
         dest: /tmp/kubeconfig
-      delegate_to: localhost
     - name: allow API access
       ansible.posix.firewalld:
         port: 6443/tcp
