@@ -103,9 +103,11 @@ Another highly recommended task to complete when deploying applications is to le
 
 [This documentation](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html-single/building_running_and_managing_containers/index#assembly_porting-containers-to-systemd-using-podman_building-running-and-managing-containers) includes more information on this topic.
 
-In addition, podman can generate systemd unit files. In this workshop, running `podman generate systemd --name process-control` will generate the files needed.
+Podman can generate systemd unit files. On your edge device, running `podman generate systemd --name process-control` will generate the files needed to stdout.
 
 If you have extra time, add automation around this process: after the pod is up and running, have podman generate the systemd unit files, capture the output of that command, then create the unit files and enable the newly created systemd service.
+
+Also consider that Kubernetes YAML can be directly paired with a systemd unit template in podman to rapidly define `podman play kube` systemd units. See [this blog post](https://www.redhat.com/sysadmin/kubernetes-workloads-podman-systemd) for more details.
 
 ---
 **Navigation**
