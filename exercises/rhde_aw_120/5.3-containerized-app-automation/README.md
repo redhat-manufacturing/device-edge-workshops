@@ -45,7 +45,7 @@ spec:
 
 Here, we can see the four individual containers that will be run together in a pod. In addition, all traffic is kept internal to the pod except for accessing the WebUI on the UI service.
 
-In addition, in contrast to the bare metal deployment, these containers will not be running as root. Here, we've set them to run as the same user Ansible is using. However, this also can be customized.
+In addition, in contrast to the bare metal deployment, these containers will not be running as root. Here, we're going to set them to run as the same user Ansible is using. However, this also can be customized.
 
 ### Step 2 - Finishing Out Our Ansible Role
 
