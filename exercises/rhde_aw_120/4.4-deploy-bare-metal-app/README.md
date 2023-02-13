@@ -90,7 +90,7 @@ Once the playbook completes, visit http://$(your-device-ip-address):1881/ui to v
 > Something like the following might do the trick:
 > ssh -L 1881:ip-address-of-the-virtual-edge:1881 student{your-number}@edge-manager.tech-exchange.emea.redhat-workshops.com
 
-Further thoughts: The deployment of the application could be added to the end of our provisioning workflow as soon as a device calls home to simplify the setup and configuration process.
+Further thoughts: The deployment of the application could be added to the end of our provisioning workflow as soon as a device calls home to simplify the setup and configuration process. We're not going to do that here, since we're about to tear it down and reprovision using a better methodology.
 
 ### Solutions
 
