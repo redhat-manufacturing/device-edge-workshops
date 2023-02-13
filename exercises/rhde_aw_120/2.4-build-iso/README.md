@@ -30,6 +30,10 @@ Depending on the provisioned lab environment, the RHEL Boot ISO has already been
 
 If an edge hypervisor has been provisioned for you, then the RHEL Boot ISO is available on the system under `/opt/student-resources`. Copy it from that directory to somewhere in your home directory, such as `~/generate-iso/`.
 
+> **Note**
+>
+> You can either SSH to the edge hypervisor or access the terminal in the Cockpit UI to run your `cp` command.
+
 Otherwise, visit the [customer portal](https://access.redhat.com/downloads/content/479/ver=/rhel---8/8.7/x86_64/product-software) and download the RHEL8.7 boot ISO. We won't need the full installation image as the boot ISO has everything necessary for provisioning our edge devices.
 
 ### Step 2 - Creating Customized Boot Options
