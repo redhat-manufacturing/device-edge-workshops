@@ -93,7 +93,7 @@ Remember to commit and push these new files to your git repository.
 
 ### Conclusion
 
-It should be noted that this deployment methodology is infinitly more secure and simple, and is generally a better way to deploy an application.
+It should be noted that this deployment methodology is infinitely more secure and simple, and is generally a better way to deploy an application.
 
 Not all applications are ready to be containerized, so bare metal deployments are still perfectly acceptable. However,remember to take the necessary steps to secure them, and when possible, attempt to containerize them.
 
