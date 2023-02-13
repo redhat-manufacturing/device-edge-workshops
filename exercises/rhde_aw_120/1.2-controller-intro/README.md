@@ -49,13 +49,13 @@ Ensure you can view the details and access information of your organization unde
 
 Two credentials have been created for you:
 1. Gitea Credentials - to be used to sync projects from our code repository. These match the credentials used to log in to the Gitea web interface, which can be found on your student page. More information on Gitea will be provided in the next exercise.
-2. Device Credentials - a default set of credentials for connecting to edge devices. These default to `ansible:$(ssh_password)` found on your student page.
+2. Edge Manager SSH Credentials - to be used to access the hypervisor for managing our virtual machines. These are configured to use an SSH private key that was part of workshop setup.
 
 ![Credentials](../images/credentials.png)
 
 > **Note**
 >
-> Be sure to save/remember the Device Credentials above, as they've been pre-baked into the edge images used throughout the lab for SSH access.
+> The screenshot here doesn't exactly reflect what you should be seeing. The "Device Credentials" will come later.
 
 ### Step 4 - Project
 
