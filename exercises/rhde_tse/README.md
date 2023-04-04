@@ -54,14 +54,15 @@ Having said that, this workshop is built to take roughly 4 hours.
 
 THE BELOW ARE NOT DONE YET
 
-## Section 3 - Kickstarting a Device
+## Section 3 - Creating an Image via the infra.osbuild Collection
 
-* [Exercise 3.1 - Booting an Edge Device](3.1-boot-edge-device)
-* [Exercise 3.2 - Booting an Edge Virtual Machine](3.2-boot-edge-vm)
-* [Exercise 3.3 - Observing Zero Touch Provisioning](3.3-ztp-intro)
-* [Exercise 3.4 - Red Hat Device Edge OS Investigation](3.4-rhde-os-intro)
+* [Exercise 3.1 - Reviewing Execution Environments]()
+* [Exercise 3.2 - Defining Our Image]()
+* [Exercise 3.3 - Calling the Collection from a Playbook]()
+* [Exercise 3.4 - Configuring Controller to Run Our Playbook]()
+* [Exercise 3.5 - Validating in the Image Builder WebUI]()
 
-## Section 4 - Deploying a Bare Metal Workload
+## Section 4 - Provisioning an Edge Device
 
 * [Exercise 4.1 - Updating Image for a Bare Metal Application](4.1-bare-metal-image)
 * [Exercise 4.2 - Automated Device Upgrade](0.1-upgrade-rhde)
@@ -77,7 +78,7 @@ THE BELOW ARE NOT DONE YET
 * [Exercise 5.4 - Deploy Containerized Application](5.4-deploy-containerized-app)
 * [Exercise 5.5 - Cleaning Up the Containerized Application](5.5-cleanup-containerized-app)
 
-## Section 6 - Deploying a Kubernetes Native Application
+## Section 6 - Leveraging the community.cip Collection
 
 * [Exercise 6.1 - Adding Kubernetes to the Image](6.1-add-k8s)
 * [Exercise 6.2 - Preparing to Add Kubernetes Functionality](0.1-upgrade-rhde)
