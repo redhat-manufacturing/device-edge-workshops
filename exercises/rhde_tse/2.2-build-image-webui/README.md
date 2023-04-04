@@ -142,6 +142,7 @@ Step 2 - Starting The Image Creation
 ![Image Creation](../images/create-image.png)
 
 Step 3 - Leaving the OSTree Settings Empty
+
 ![Empty OSTree Settings](../images/empty-ostree-settings.png)
 
 Step 4 - Customizing the System Hostname
@@ -162,7 +163,12 @@ Step 7 - Reviewing the Details and Starting the Build
 
 Step 8 - Validating the Build Started
 
+Build queued pop-up:
+
 ![Build In Queue](../images/build-in-queue.png)
+
+Build in queue/running:
+
 ![Build Started](../images/build-running.png)
 
 ---
