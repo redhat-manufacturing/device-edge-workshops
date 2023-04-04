@@ -45,16 +45,14 @@ Having said that, this workshop is built to take roughly 4 hours.
 * [Exercise 1.5 - Investigating the Example Workload](1.5-application-intro)
 * [Exercise 1.6 - Gathering Networking Information](1.6-network-info)
 * [Exercise 1.7 - Cloning Your Code Repository](1.7-coding-intro)
-* [Exercise 1.8 - Getting Logged Into the Image Builder WebUI](1.7-image-builder-intro)
+* [Exercise 1.8 - Getting Logged Into the Image Builder WebUI](1.8-image-builder-intro)
 
 ## Section 2 - Creating an Image with Image Builder WebUI
 
-* [Exercise 2.1 - Creating a Kickstart Template](2.1-kickstart-template)
-* [Exercise 2.2 - Creating Custom Credentials for Kickstart Template](2.2-kickstart-creds)
-* [Exercise 2.3 - Templating Out Our Kickstart](2.3-kickstart-playbook)
-* [Exercise 2.4 - Creating a Customized ISO](2.4-build-iso)
-* [Exercise 2.5 - Initial Device Configuration Automation](2.5-device-config-automation)
-* [Exercise 2.6 - Creating a Provisioning Workflow](2.6-provisioning-workflow)
+* [Exercise 2.1 - Reviewing the Workflow to Build Images](2.1-image-builder-workflow)
+* [Exercise 2.2 - Building an Image via the WebUI](2.2-build-image-webui)
+
+THE BELOW ARE NOT DONE YET
 
 ## Section 3 - Kickstarting a Device
 
