@@ -1,0 +1,30 @@
+domain-needed
+bogus-priv
+local=/{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/
+{% for server in template.vars.upstream_dns_servers %}
+server={{ server }}
+{% endfor %}
+expand-hosts
+domain={{ ec2_name_prefix }}.{{ workshop_dns_zone }}
+addn-hosts=/etc/dnsmasq.hosts
+interface={{ internal_connection }}
+
+dhcp-range={{ template.vars.dhcp_range_start }},{{ template.vars.dhcp_range_end }},{{ template.vars.dhcp_lease_time }}
+dhcp-option=option:router,{{ template.vars.internal_address }}
+dhcp-option=option:dns-server,{{ template.vars.internal_address }}
+dhcp-authoritative
+
+# enable logging
+log-queries
+log-dhcp
+
+# set tag "ENH" if request comes from iPXE ("iPXE" user class)
+dhcp-userclass=set:ENH,iPXE
+
+# alternative way, look for option 175
+#dhcp-match=set:ENH,175
+
+# if request comes from iPXE, direct it to boot from workshop.pxe
+dhcp-boot=tag:ENH,https://ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/workshop.pxe
+
+dhcp-no-override
