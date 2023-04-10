@@ -1,6 +1,6 @@
 ---
 
-- name: template out challenge recourd
+- name: template out challenge record
   ansible.builtin.set_fact:
     _acme_challenge_dns_record: "{{ domain_name }}"
 
@@ -9,10 +9,13 @@
   community.aws.route53:
     state: "{{ s3_state }}"
     zone: "{{ workshop_dns_zone }}"
-    record: "_acme-challenge.{{ domain_name }}"
+    record: "{{ _challenge_data_dns.key }}"
     type: TXT
     overwrite: true
-    value: "{{ dns_challenge.challenge_data[_acme_challenge_dns_record]['dns-01'].resource_value | regex_replace('^(.*)$', '\"\\1\"') }}"
+    value: "{{ _challenge_data_dns.value.0 | regex_replace('^(.*)$', '\"\\1\"') }}"
     wait: true
   delegate_to: localhost
   register: route53_status
+  loop: "{{ lookup('ansible.builtin.dict', dns_challenge.challenge_data_dns, wantlist=True) }}"
+  loop_control:
+    loop_var: _challenge_data_dns
