@@ -1,0 +1,164 @@
+---
+
+local_services:
+  - name: dnsmasq
+    privileged: true
+    templates:
+      - src: dnsmasq.conf.j2
+        dest: dnsmasq.conf
+        vars:
+          upstream_dns_servers:
+            - 8.8.8.8
+            - 8.8.4.4
+          internal_address: 192.168.0.1
+          internal_netmask: 24
+          dhcp_range_start: 192.168.0.20
+          dhcp_range_end: 192.168.0.240
+          dhcp_lease_time: 12h
+      - src: dnsmasq.hosts.j2
+        dest: dnsmasq.hosts
+        vars:
+          dns_entries:
+            - record: "ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+              address: 192.168.0.1
+            - record: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+              address: 192.168.0.1
+            - record: "image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+              address: 192.168.0.1
+            - record: "gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+              address: 192.168.0.1
+            - record: "attendance.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+              address: 192.168.0.1
+            - record: "eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+              address: 192.168.0.1
+    containerfile: dnsmasq-containerfile
+  - name: gitea
+    templates:
+      - src: app.ini.j2
+        dest: app.ini
+    containerfile: gitea-containerfile
+  - name: eda
+    containerfile: eda-containerfile
+    templates:
+      - src: eda-run-workflow.yml.j2
+        dest: run-workflow.yml
+    files:
+      - src: eda-rulebook.yml
+        dest: rulebook.yml
+      - src: eda-inventory.yml
+        dest: inventory.yml
+      - src: eda-ansible.cfg
+        dest: ansible.cfg
+  - name: reverse-proxy
+    containerfile: reverse-proxy-containerfile
+    pre_tasks:
+      - reverse-proxy-copy-certs.yml
+    templates:
+      - src: reverse-proxy-nginx.conf.j2
+        dest: nginx.conf
+        vars:
+          proxied_services:
+            - name: eda
+              proxy_pass: "http://localhost:5000/"
+            - name: ipxe
+              proxy_pass: "http://localhost:8081/"
+            - name: controller
+              proxy_pass: "https://localhost:10443/"
+              proxy_advanced_options:
+                - proxy_ssl_verify off
+            - name: image-builder
+              proxy_pass: "https://localhost:9090/"
+              proxy_advanced_options:
+                - proxy_ssl_verify off
+            - name: gitea
+              proxy_pass: "https://localhost:3000/"
+            - name: attendance
+              proxy_pass: "https://localhost:8082/"
+            - name: ostree-repo
+              proxy_pass: "https://localhost:8080/"
+  - name: ipxe
+    containerfile: ipxe-containerfile
+    pre_tasks:
+      - ipxe-get-boot-iso.yml
+      - ipxe-student-kickstarts.yml
+    post_tasks:
+      - ipxe-cleanup-boot-iso.yml
+    templates:
+      - src: workshop.ipxe.j2
+        dest: workshop.ipxe
+    files:
+      - src: ipxe-nginx.conf
+        dest: nginx.conf
+  - name: database
+    containerfile: database-containerfile
+    templates:
+      - src: database-postgresql.conf.j2
+        dest: postgresql.conf
+      - src: database-start.sh.j2
+        dest: start.sh
+        vars:
+          databases:
+            - name: gitea
+              username: gitea
+              password: gitea
+            - name: attendance
+              username: attendance
+              password: attendance
+
+
+volumes:
+  - name: workshop-rhde_tse-database
+
+pods:
+  - name: workshop-rhde_tse-priv
+    privileged: true
+    definition:
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        annotations:
+          io.podman.annotations.autoremove/workshop-rhde_tse-priv: "FALSE"
+          io.podman.annotations.init/workshop-rhde_tse-priv: "FALSE"
+          io.podman.annotations.privileged/workshop-rhde_tse-priv: "TRUE"
+          io.podman.annotations.publish-all/workshop-rhde_tse-priv: "FALSE"
+        labels:
+          app: workshop-rhde_tse-priv
+        name: workshop-rhde_tse-priv
+      spec:
+        hostNetwork: true
+        containers:
+          - name: dnsmasq
+            image: dnsmasq:latest
+            securityContext:
+              privileged: true
+  - name: workshop-rhde_tse
+    definition:
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        annotations:
+          io.podman.annotations.autoremove/workshop-rhde_tse: "FALSE"
+          io.podman.annotations.init/workshop-rhde_tse: "FALSE"
+          io.podman.annotations.privileged/workshop-rhde_tse: "FALSE"
+          io.podman.annotations.publish-all/workshop-rhde_tse: "FALSE"
+        labels:
+          app: workshop-rhde_tse
+        name: workshop-rhde_tse
+      spec:
+        hostNetwork: true
+        containers:
+          - name: reverse-proxy
+            image: reverse-proxy:latest
+          - name: eda
+            image: eda:latest
+          - name: ipxe
+            image: ipxe:latest
+          - name: database
+            image: database:latest
+            volumeMounts:
+              - mountPath: /var/lib/nginx/tmp
+                name: database-data
+        volumes:
+          - name: database-data
+            persistentVolumeClaim:
+              claimName: workshop-rhde_tse-database
