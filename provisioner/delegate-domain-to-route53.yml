@@ -1,0 +1,34 @@
+---
+
+- name: delegate dns domain to route53
+  hosts:
+    - localhost
+  gather_facts: false
+  connection: local
+  pre_tasks:
+    - name: print warning
+      ansible.builtin.debug:
+        msg: "This is for a specific setup: if your base domain is in cloudflare and you want to use route53 for DNS, this will help"
+  tasks:
+    - name: create zone in route53
+      amazon.aws.route53_zone:
+        zone: "{{ workshop_dns_zone }}"
+      register: _zone_creation
+    - name: get nameservers
+      amazon.aws.route53:
+        state: get
+        zone: "{{ workshop_dns_zone }}"
+        record: "{{ workshop_dns_zone }}"
+        type: NS
+      register: _route53_zone_nameservers
+    - name: setup PTRs in cloudflare
+      community.general.cloudflare_dns:
+        zone: "{{ base_zone }}"
+        type: NS
+        record: "{{ sub_domain }}"
+        value: "{{ nameserver | replace('\\.$', '') }}"
+        account_email: "{{ cloudflare.email }}"
+        api_token: "{{ cloudflare.token }}"
+      loop: "{{ _route53_zone_nameservers.set.ResourceRecords | json_query('[*].Value') }}"
+      loop_control:
+        loop_var: nameserver
