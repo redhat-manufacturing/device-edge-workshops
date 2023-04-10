@@ -1,0 +1,25 @@
+---
+
+- name: set wan link to external zone
+  community.general.nmcli:
+    conn_name: "{{ external_connection }}"
+    zone: external
+    state: present
+  notify:
+    - restart_nm
+
+- name: add nm conn for workshop
+  community.general.nmcli:
+    conn_name: "{{ workshop_type }}-workshop"
+    type: ethernet
+    ifname: "{{ internal_connection }}"
+    ip4:
+      - "{{ internal_address }}/ {{ internal_netmask }}"
+    dns4:
+      - "{{ internal_address }}"
+    dns4_search:
+      - "{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+    zone: trusted
+    state: present
+  notify:
+    - restart_nm
