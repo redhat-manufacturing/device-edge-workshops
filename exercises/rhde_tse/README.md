@@ -47,7 +47,7 @@ Having said that, this workshop is built to take roughly 4 hours.
 * [Exercise 1.7 - Cloning Your Code Repository](1.7-coding-intro)
 * [Exercise 1.8 - Getting Logged Into the Image Builder WebUI](1.8-image-builder-intro)
 
-## Section 2 - Creating an Image with Image Builder WebUI
+## Section 2 - Creating an Image via tha Image Builder WebUI
 
 * [Exercise 2.1 - Reviewing the Workflow to Build Images](2.1-image-builder-workflow)
 * [Exercise 2.2 - Building an Image via the WebUI](2.2-build-image-webui)
@@ -56,8 +56,8 @@ THE BELOW ARE NOT DONE YET
 
 ## Section 3 - Creating an Image via the infra.osbuild Collection
 
-* [Exercise 3.1 - Reviewing Execution Environments]()
-* [Exercise 3.2 - Defining Our Image]()
+* [Exercise 3.1 - Reviewing Execution Environments](3.1-execution-environment-review)
+* [Exercise 3.2 - Converting Our Image Definition to Code](3.2-image-definition-in-code)
 * [Exercise 3.3 - Calling the Collection from a Playbook]()
 * [Exercise 3.4 - Configuring Controller to Run Our Playbook]()
 * [Exercise 3.5 - Validating in the Image Builder WebUI]()
