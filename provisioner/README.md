@@ -101,6 +101,9 @@ workshop_type: rhde_aw_120
 # Set the number of student slots
 student_total: 10
 
+# If using wifi or ethernet locally
+local_connection_type: wifi
+
 # Generate offline token to authenticate the calls to Red Hat's APIs
 # Can be accessed at https://access.redhat.com/management/api
 offline_token: "your-token-here"
