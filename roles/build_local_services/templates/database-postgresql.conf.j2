@@ -1,0 +1,8 @@
+max_wal_size = 1GB
+min_wal_size = 80MB
+log_timezone = 'Etc/UTC'
+datestyle = 'iso, mdy'
+timezone = 'Etc/UTC'
+default_text_search_config = 'pg_catalog.english'
+listen_addresses = '0.0.0.0'
+port = {{ db_port | default('15432') }}
