@@ -1,0 +1,13 @@
+---
+- name: restart NetworkManager
+  ansible.builtin.systemd:
+    name: NetworkManager
+    state: restarted
+  listen:
+    - restart_nm
+
+- name: wait for device to come back online
+  ansible.builtin.wait_for_connection:
+    timeout: 300
+  listen:
+    - restart_nm
