@@ -1,0 +1,11 @@
+---
+
+- name: push out pod yaml
+  ansible.builtin.copy:
+    content: "{{ pod.definition }}"
+    dest: "{{ pod_dir }}/{{ pod.name }}.yml"
+
+- name: play yaml
+  containers.podman.podman_play:
+    kube_file: "{{ pod_dir }}/{{ pod.name }}.yml"
+    state: "{{ pod_state }}"
