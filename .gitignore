@@ -20,3 +20,5 @@ provisioner/on-ocp.yml
 roles/setup_gitea/templates/Containerfile.j2
 roles/setup_gitea/templates/docker-compose.yml
 roles/source_control
+tmp*
+restart.sh
