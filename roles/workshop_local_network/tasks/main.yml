@@ -1,0 +1,8 @@
+---
+
+- name: include tasks to setup connections
+  ansible.builtin.include_tasks:
+    file: setup-connection.yml
+  when:
+    - teardown is not defined or
+      not (teardown)
