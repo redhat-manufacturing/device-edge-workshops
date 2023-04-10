@@ -16,12 +16,11 @@
         edge_management_node_ami: >
           {{ amis.images | selectattr('name', 'defined') | sort(attribute='name') | last }}
 
-# this will need an update for RHEL9 (since 9.1 > 8.6, but 1 ! >= 6)
 - name: common tasks
   block:
-    - name: ensure at least RHEL8.6+
+    - name: ensure at least RHEL9.1+
       ansible.builtin.assert:
         that:
-          - edge_management_node_ami.name[5] | int >= 8
-          - edge_management_node_ami.name[7] | int >= 6
-        msg: "Please use RHEL8.6 or later"
+          - edge_management_node_ami.name[5] | int >= 9
+          - edge_management_node_ami.name[7] | int >= 1
+        msg: "Please use RHEL9.1 or later"
