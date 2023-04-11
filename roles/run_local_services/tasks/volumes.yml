@@ -1,0 +1,9 @@
+---
+
+- name: manage volumes
+  containers.podman.podman_volume:
+    name: "{{ volume.name }}"
+    state: "{{ state | default('present') }}"
+  loop: "{{ volumes }}"
+  loop_control:
+    loop_var: volume
