@@ -1,0 +1,12 @@
+---
+
+- name: setup local connection via NM
+  hosts:
+    - 'edge_management:&local'
+  become: true
+  tasks:
+    - name: run connection config role
+      ansible.builtin.include_role:
+        name: ../roles/workshop_local_network
+      when:
+        - workshop_type == 'rhde_tse'
