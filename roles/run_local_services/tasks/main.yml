@@ -1,0 +1,17 @@
+---
+
+- name: create directory for yaml
+  ansible.builtin.file:
+    path: "{{ pod_dir }}"
+    state: directory
+
+- name: manage pvcs
+  ansible.builtin.include_tasks:
+    file: volumes.yml
+  when:
+    - volumes is defined
+
+- name: run pod
+  ansible.builtin.import_tasks:
+    file: run-pod.yml
+  
