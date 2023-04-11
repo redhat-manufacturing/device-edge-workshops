@@ -1,0 +1,4 @@
+---
+
+pod_dir: "/home/{{ ansible_user }}/workshop-pod"
+pod_state: started
