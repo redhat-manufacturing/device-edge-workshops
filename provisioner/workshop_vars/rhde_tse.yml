@@ -32,11 +32,6 @@ local_services:
             - record: "eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: 192.168.0.1
     containerfile: dnsmasq-containerfile
-  - name: gitea
-    templates:
-      - src: app.ini.j2
-        dest: app.ini
-    containerfile: gitea-containerfile
   - name: eda
     containerfile: eda-containerfile
     templates:
@@ -94,8 +89,8 @@ local_services:
     templates:
       - src: database-postgresql.conf.j2
         dest: postgresql.conf
-      - src: database-start.sh.j2
-        dest: start.sh
+      - src: database-db-start.sh.j2
+        dest: db-start.sh
         vars:
           databases:
             - name: gitea
@@ -104,6 +99,11 @@ local_services:
             - name: attendance
               username: attendance
               password: attendance
+  - name: gitea
+    containerfile: gitea-containerfile
+    templates:
+      - src: gitea-app.ini.j2
+        dest: app.ini
 
 
 volumes:
@@ -156,8 +156,10 @@ pods:
           - name: database
             image: database:latest
             volumeMounts:
-              - mountPath: /var/lib/nginx/tmp
+              - mountPath: /var/lib/pgsql/data
                 name: database-data
+          - name: gitea
+            image: gitea:latest
         volumes:
           - name: database-data
             persistentVolumeClaim:
