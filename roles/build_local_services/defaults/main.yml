@@ -1,0 +1,5 @@
+---
+
+build_dir: "/home/{{ ansible_user }}/workshop-build"
+
+rhel_boot_iso_sha256: 71020b8e86246b6626fcc4d5a13ddd9fffdb031446c07c903591764c61a3be70
