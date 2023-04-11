@@ -1,0 +1,23 @@
+---
+
+# List of local services
+#  - dhcp
+#  - dns
+#  - gitea
+#  - eda
+# 
+
+- name: create build dir
+  ansible.builtin.file:
+    path: "{{ build_dir }}"
+    state: directory
+
+- name: loop through builds
+  ansible.builtin.include_tasks:
+    file: build-container.yml
+    apply:
+      become: "{{ service.privileged | default('false') }}"
+  loop: "{{ local_services }}"
+  loop_control:
+    loop_var: service
+    
