@@ -5,13 +5,34 @@
     path: "{{ pod_dir }}"
     state: directory
 
-- name: manage pvcs
-  ansible.builtin.include_tasks:
-    file: volumes.yml
+- name: flow if state == present
   when:
-    - volumes is defined
+    - state is not defined or
+      (state is defined and state != 'absent')
+  block:
+    - name: create volumes
+      ansible.builtin.include_tasks:
+        file: volumes.yml
+      when:
+        - pod.spec.volumes is defined
 
-- name: run pod
-  ansible.builtin.import_tasks:
-    file: run-pod.yml
+    - name: run pod
+      ansible.builtin.include_tasks:
+        file: run-pod.yml
+
+- name: flow if state == absent
+  when:
+    - state is defined
+    - state == 'absent'
+  block:
+    - name: stop the pods
+      ansible.builtin.include_tasks:
+        file: run-pod.yml 
+    - name: create volumes
+      ansible.builtin.include_tasks:
+        file: volumes.yml
+      when:
+        - pod.spec.volumes is defined
+
+
   
