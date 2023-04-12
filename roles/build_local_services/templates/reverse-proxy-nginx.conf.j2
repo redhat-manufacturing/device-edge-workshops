@@ -34,7 +34,22 @@ http {
 
     server_names_hash_bucket_size 128;
 
-    # 301 all http requests
+{% if 'ipxe' in (template.vars | json_query('proxied_services[*].name') | list) %}
+    server {
+        listen 80;
+        server_name ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }};
+
+        location / {
+            proxy_pass http://localhost:8081;
+            proxy_redirect off;
+            proxy_set_header Host             $http_host;
+            proxy_set_header X-Forwarded-For  $proxy_add_x_forwarded_for;
+            proxy_set_header X-Real-IP        $remote_addr;
+        }
+    }
+{% endif %}
+
+    # 301 all non-ipxe http requests
     server {
         listen 80 default_server;
         server_name _;
