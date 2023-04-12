@@ -4,6 +4,14 @@
   ansible.builtin.copy:
     content: "{{ pod.definition }}"
     dest: "{{ pod_dir }}/{{ pod.name }}.yml"
+    owner: "{{ ansible_user }}"
+
+- name: override state for 'absent'
+  ansible.builtin.set_fact:
+    pod_state: absent
+  when:
+    - state is defined
+    - state == 'absent'
 
 - name: play yaml
   containers.podman.podman_play:
