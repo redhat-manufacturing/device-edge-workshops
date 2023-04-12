@@ -2,8 +2,8 @@
 
 - name: manage volumes
   containers.podman.podman_volume:
-    name: "{{ volume.name }}"
-    state: "{{ state | default('present') }}"
-  loop: "{{ volumes }}"
+    name: "{{ volume.persistentVolumeClaim.claimName }}"
+    state: "{{ state }}"
+  loop: "{{ pod.spec.volumes }}"
   loop_control:
     loop_var: volume
