@@ -20,17 +20,19 @@ local_services:
         vars:
           dns_entries:
             - record: "ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: 192.168.0.1
+              address: "{{ internal_address }}"
             - record: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: 192.168.0.1
+              address: "{{ internal_address }}"
             - record: "image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: 192.168.0.1
+              address: "{{ internal_address }}"
             - record: "gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: 192.168.0.1
+              address: "{{ internal_address }}"
             - record: "attendance.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: 192.168.0.1
+              address: "{{ internal_address }}"
             - record: "eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: 192.168.0.1
+              address: "{{ internal_address }}"
+            - record: "ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+              address: "{{ internal_address }}"
     containerfile: dnsmasq-containerfile
   - name: eda
     containerfile: eda-containerfile
@@ -66,11 +68,11 @@ local_services:
               proxy_advanced_options:
                 - proxy_ssl_verify off
             - name: gitea
-              proxy_pass: "https://localhost:3000/"
+              proxy_pass: "http://localhost:3000/"
             - name: attendance
               proxy_pass: "https://localhost:8082/"
             - name: ostree-repo
-              proxy_pass: "https://localhost:8080/"
+              proxy_pass: "http://localhost:8080/"
   - name: ipxe
     containerfile: ipxe-containerfile
     pre_tasks:
@@ -104,10 +106,19 @@ local_services:
     templates:
       - src: gitea-app.ini.j2
         dest: app.ini
+  - name: tftp
+    containerfile: tftp-containerfile
+    pre_tasks:
+      - download-chainload-files.yml
+      # add selinux thing here
+  - name: ostree-repo
+    containerfile: ostree-repo-containerfile
+    pre_tasks:
+      - ostree-repo-copy-repo.yml
+    files:
+      - src: ostree-repo-nginx.conf
+        dest: nginx.conf
 
-
-volumes:
-  - name: workshop-rhde_tse-database
 
 pods:
   - name: workshop-rhde_tse-priv
@@ -160,7 +171,24 @@ pods:
                 name: database-data
           - name: gitea
             image: gitea:latest
+          - name: tftp
+            image: tftp:latest
+          - name: ostree-repo
+            image: ostree-repo:latest
         volumes:
           - name: database-data
             persistentVolumeClaim:
               claimName: workshop-rhde_tse-database
+
+builder_blueprint_name: rhde-image
+images_to_compose:
+  - version: 1.0.0
+    type: edge-commit
+    packages:
+      - vim-enhanced
+      - git
+      - nano
+      - NetworkManager-wifi
+      - podman
+
+skip_builder_services: true
