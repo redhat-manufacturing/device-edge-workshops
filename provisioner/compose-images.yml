@@ -35,4 +35,14 @@
       loop_control:
         loop_var: image
       when:
-        - ansible_distribution_major_version|int == 8
+        - ansible_distribution_major_version|int == 8 or
+          ansible_distribution_major_version|int == 9
+  post_tasks:
+    - name: stop/disable installed services
+      ansible.builtin.systemd:
+        name: httpd
+        state: stopped
+        enabled: false
+      when:
+        - skip_builder_services is defined
+        - skip_builder_services
