@@ -22,9 +22,12 @@ log-dhcp
 dhcp-userclass=set:ENH,iPXE
 
 # alternative way, look for option 175
-#dhcp-match=set:ENH,175
+dhcp-match=set:ENH,175
+
+# chainload ipxe via tftp
+dhcp-boot=tag:!ENH,undionly.kpxe,{{ internal_address }}
 
 # if request comes from iPXE, direct it to boot from workshop.pxe
-dhcp-boot=tag:ENH,https://ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/workshop.pxe
+dhcp-boot=tag:ENH,http://ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/workshop.ipxe
 
 dhcp-no-override
