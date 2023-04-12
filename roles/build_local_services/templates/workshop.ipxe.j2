@@ -1,12 +1,5 @@
 #!ipxe
 set sleeptime 60
-item --gap -- --- System Information ---
-item
-item --gap -- NIC Info: net0: ${net0/mac} - ${net0/bustype} ${net0/busloc:busdevfn} ${pci/${net0/busloc}.0.2}:${pci/net0/busloc}.2.2} ${net0/chip}
-item
-item --gap -- iPXE version: ${version}
-item
-:student_number_menu
 menu Boot Selection
 item --gap -- --- Select Student Number to Build Edge Device ---
 item
@@ -19,20 +12,15 @@ item --key r reboot (R)eboot computer
 item --key x exit E(x)it and continue BIOS boot order
 item
 choose student
+goto ${student}
 
-echo Provisioning student${student_number} edge device...
-echo
-echo Attempting DHCP...
-dhcp net0 || goto dhcp_fail
-echo
-echo IP Address: ${net0/ip}
-echo
-echo Initiating Boot File Download, please wait...
-echo
-
-kernel https://ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/pxeboot/image/pxeboot/vmlinuz inst.stage2=http://ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/pxeboot quiet None inst.ks=http://ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/kickstarts/${student}.ks None initrd=initrd.img || goto download_fail
-initrd https://ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/pxeboot/initrd.img || goto download_fail
+{% for student_number in (range(1, (student_total+1), 1)|list) %}
+:student{{ student_number }}
+kernel http://ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/pxeboot/vmlinuz inst.stage2=http://ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/pxeboot quiet None inst.ks=http://ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/kickstarts/student{{ student_number }}.ks None initrd=initrd.img || goto download_fail
+initrd http://ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/pxeboot/initrd.img || goto download_fail
 boot && exit 0 || goto boot_fail
+{% endfor %}
+
 :download_fail
 echo
 echo Download Failure
