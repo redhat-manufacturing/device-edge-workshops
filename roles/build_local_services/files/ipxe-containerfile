@@ -10,8 +10,9 @@ RUN mkdir -p /var/www/html/kickstarts
 COPY workshop.ipxe /var/www/html/
 COPY kickstarts/* /var/www/html/kickstarts/
 
-COPY boot_iso/images/install.img /var/www/html/pxeboot/
-COPY boot_iso/images/pxeboot /var/www/html/pxeboot/images/
+COPY boot_iso/images/install.img /var/www/html/pxeboot/images/
+COPY boot_iso/images/pxeboot/initrd.img /var/www/html/pxeboot/
+COPY boot_iso/images/pxeboot/vmlinuz /var/www/html/pxeboot/
 
 RUN chown -R nginx:nginx /var/lib/nginx
 RUN chown -R nginx:nginx /var/www/html
