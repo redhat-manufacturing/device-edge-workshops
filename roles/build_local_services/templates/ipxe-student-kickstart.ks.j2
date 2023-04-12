@@ -17,4 +17,4 @@ text
 user --name=ansible --groups=wheel --password='{{ admin_password }}'
 rootpw --plaintext --lock '{{ admin_password }}'
 services --enabled=ostree-remount
-ostreesetup --nogpg --url=https://ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}:443/repo --osname=rhel --ref=rhel/9/x86_64/edge
+ostreesetup --nogpg --url=http://ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/repo --osname=rhel --ref=rhel/9/x86_64/edge
