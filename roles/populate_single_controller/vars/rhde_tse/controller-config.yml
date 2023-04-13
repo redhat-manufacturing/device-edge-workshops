@@ -1,0 +1,152 @@
+---
+
+# These are configured for global use
+controller_execution_environments:
+  - name: Device Edge Workshops Execution Environment
+    image: quay.io/device-edge-workshops/provisioner-execution-environment:latest
+    pull: missing
+
+controller_credential_types:
+  - name: Ansible Controller Credentials
+    kind: cloud
+    inputs:
+      fields:
+        - id: controller_username
+          type: string
+          label: Controller API Username
+        - id: controller_password
+          type: string
+          label: Controller API Password
+          secret: true
+    injectors:
+      extra_vars:
+        controller_hostname: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+        controller_username: "{  { controller_username }}"
+        controller_password: "{  { controller_password }}"
+        controller_validate_certs: false
+
+# These can be templated out for all students
+controller_organizations_yaml: |-
+  {% for student_number in range(1, student_total + 1) %}
+  - name: "Student{{ student_number }} Organization"
+  {% endfor %}
+
+controller_users_yaml: |-
+  {% for student_number in range(1, student_total + 1) %}
+  - username: "student{{ student_number }}"
+    password: "{{ admin_password }}"
+    email: "student{{ student_number }}@dont-email.me"
+    organization: "Student{{ student_number }} Organization"
+  {% endfor %}
+
+controller_roles_yaml: |-
+  {% for student_number in range(1, student_total + 1) %}
+  - user: "student{{ student_number }}"
+    organization: "Student{{ student_number }} Organization"
+    role: admin
+  {% endfor %}
+
+controller_inventories_yaml: |-
+  {% for student_number in range(1, student_total + 1) %}
+  - name: Edge Devices
+    organization: "Student{{ student_number }} Organization"
+    variables:
+      student_number: "{{ student_number }}"
+  - name: Edge Utilities
+    organization: "Student{{ student_number }} Organization"
+    variables:
+      student_number: "{{ student_number }}"
+  - name: Local Actions
+    organization: "Student{{ student_number }} Organization"
+    variables:
+      student_number: "{{ student_number }}"
+  {% endfor %}
+
+# These are student specific because we must query the API for credentials under the student user so we only see that student's credentials
+# Loop over these by student number, which is slower but not bad
+controller_hosts:
+  - name: localhost
+    inventory: Local Actions
+    variables:
+      ansible_connection: local
+      ansible_python_interpreter: "{  { ansible_playbook_python }}"
+
+controller_credentials:
+  - name: Gitea Credentials
+    organization: "Student{{ student_number }} Organization"
+    credential_type: Source Control
+    inputs:
+      username: "student{{ student_number }}"
+      password: "{{ admin_password }}"
+  - name: Device Credentials
+    organization: "Student{{ student_number }} Organization"
+    credential_type: Machine
+    inputs:
+      username: ansible
+      password: "{{ admin_password }}"
+      become_password: "{{ admin_password }}"
+  - name: Controller API Credentials
+    organization: "Student{{ student_number }} Organization"
+    credential_type: Contrller API Credentials
+    inputs:
+      controller_username: "student{{ student_number }}"
+      controller_password: "{{ admin_password }}"
+
+controller_projects:
+  - name: Device Edge Codebase
+    organization: "Student{{ student_number }} Organization"
+    scm_type: git
+    scm_branch: main
+    scm_url: https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-codebase.git
+    credential: Gitea Credentials
+
+controller_templates:
+  - name: Create Host in Inventory
+    organization: "Student{{ student_number }} Organization"
+    inventory: Local Actions
+    ask_variables_on_launch: true
+    playbook: manage-host-in-controller.yml
+    credentials:
+      - Controller API Credentials
+  - name: Test Device Connectivity
+    organization: "Student{{ student_number }} Organization"
+    inventory: Edge Systems
+    project: Device Edge Codebase
+    playbook: playbooks/hello-world.yml
+    credentials:
+      - Device Credentials
+  - name: Initial Device Configuration
+    organization: "Student{{ student_number }} Organization"
+    inventory: Edge Systems
+    project: Device Edge Codebase
+    playbook: playbooks/inital-configuration.yml
+    credentials:
+      - Device Credentials
+
+controller_workflows:
+  - name: Provision Edge Device
+    organization: "Student{{ student_number }} Organization"
+    state: "{{ controller_state | default('present') }}"
+    allow_simultaneous: true
+    survey_enabled: false
+    ask_variables_on_launch: true
+    simplified_workflow_nodes:
+      - identifier: Run Demo Provisioner Workflow
+        unified_job_template: Run Demo Provisioner Workflow
+        credentials:
+          - Demo Provisioner Controller Credentials
+        success_nodes:
+          - Remove Demo Inventory
+        extra_data:
+          wait_for_workflow: yes
+      - identifier: Remove Demo Inventory
+        unified_job_template: Remove Demo Inventory
+        credentials:
+          - Demo Provisioner Controller Credentials
+
+
+# controller_hosts:
+#   - name: edge_manager
+#     inventory: Edge Utilities
+#     variables:
+#       ansible_host: "{{ edge_manager_host }}"
