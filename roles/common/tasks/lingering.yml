@@ -1,0 +1,8 @@
+---
+
+- name: enable lingering for {{ ansible_user }}
+  ansible.builtin.shell:
+    cmd: loginctl enable-linger {{ ansible_user }}
+  args:
+    creates: "/var/lib/systemd/linger/{{ ansible_user }}"
+  become: true
