@@ -2,6 +2,9 @@
 
 build_dir: ~/build
 source_control_tmp_dir: /tmp
+install_gitea: true
+configure_gitea: true
+gitea_container: gitea-gitea
 
 firewall_ports:
   - port: 2222/tcp
