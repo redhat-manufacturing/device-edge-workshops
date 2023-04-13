@@ -22,3 +22,4 @@ roles/setup_gitea/templates/docker-compose.yml
 roles/source_control
 tmp*
 restart.sh
+roles/containerized_eda
