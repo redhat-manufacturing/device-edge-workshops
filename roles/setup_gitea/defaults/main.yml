@@ -5,6 +5,7 @@ source_control_tmp_dir: /tmp
 install_gitea: true
 configure_gitea: true
 gitea_container: gitea-gitea
+source_control_hostname: "https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
 
 firewall_ports:
   - port: 2222/tcp
