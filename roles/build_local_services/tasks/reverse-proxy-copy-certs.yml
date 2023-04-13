@@ -2,7 +2,7 @@
 
 - name: copy cert to correct location
   ansible.builtin.copy:
-    src: ~/workshop-certs/{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/{{ ec2_name_prefix }}.crt
+    src: ~/workshop-certs/{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/{{ ec2_name_prefix }}-fullchain.crt
     dest: "{{ build_dir }}/reverse-proxy/server.crt"
     remote_src: true
 
