@@ -2,7 +2,7 @@
 
 - name: create student users in gitea
   ansible.builtin.uri:
-    url: "http://{{ ansible_host }}:3000/api/v1/admin/users"
+    url: "gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/api/v1/admin/users"
     user: lab-instructor
     password: '{{ admin_password }}'
     force_basic_auth: true
