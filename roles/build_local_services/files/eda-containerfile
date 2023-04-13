@@ -22,6 +22,8 @@ RUN pip install ansible ansible-rulebook
 
 RUN ansible-galaxy collection install ansible.eda redhat_cop.controller_configuration -p $VIRTUAL_ENV/collections
 
+RUN ansible-galaxy collection install redhat_cop.controller_configuration
+
 COPY rulebook.yml .
 
 COPY inventory.yml .
@@ -29,10 +31,6 @@ COPY inventory.yml .
 COPY run-workflow.yml .
 
 COPY ansible.cfg .
-
-RUN pwd
-
-RUN ls -lsa
 
 EXPOSE 5000
 
