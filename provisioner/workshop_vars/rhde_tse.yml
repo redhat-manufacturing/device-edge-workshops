@@ -192,3 +192,15 @@ images_to_compose:
       - podman
 
 skip_builder_services: true
+
+install_gitea: false
+gitea_container: workshop-rhde_tse-gitea
+repo_files:
+  - src: templates/README.md.j2
+    dest: README.md
+  - src: templates/hello-world.yml.j2
+    dest: playbooks/hello-world.yml
+  - src: templates/rhde_tse/manage-hosts-in-controller.yml.j2
+    dest: playbooks/manage-hosts-in-controller.yml
+  - src: templates/rhde_tse/initial-configuration.yml.j2
+    dest: playbooks/inital-configuration.yml
