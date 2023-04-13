@@ -11,3 +11,6 @@
 
 - name: import firewalld tasks
   ansible.builtin.import_tasks: firewalld.yml
+
+- name: import lingering tasks
+  ansible.builtin.import_tasks: lingering.yml
