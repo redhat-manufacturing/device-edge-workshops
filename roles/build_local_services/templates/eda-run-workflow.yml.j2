@@ -12,9 +12,12 @@
     controller_workflow_launch_jobs:
       - name: Provision Edge Device
         wait: true
-        extra_vars:{% raw %}
-          mac_address: {{ mac_address }}
-          ip_address: {{ ip_address }}
+{% raw %}
+        organization: "student{{ student }}"
+        extra_vars:
+          student: "{{ student }}"
+          mac_address: "{{ mac_address }}"
+          ip_address: "{{ ip_address }}"
 {% endraw %}
   roles:
     - redhat_cop.controller_configuration.workflow_launch

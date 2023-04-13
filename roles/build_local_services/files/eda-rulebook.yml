@@ -9,7 +9,7 @@
 
   rules:
     - name: Trigger provisioning workflow
-      condition: event.payload.provision and event.payload.mac_address is defined and event.payload.ip_address is defined
+      condition: event.payload.provision and event.payload.mac_address is defined and event.payload.ip_address is defined and event.payload.student is defined
 
       action:
         run_playbook:
@@ -17,3 +17,4 @@
           extra_vars:
             mac_address: "{{ event.payload.mac_address }}"
             ip_address: "{{ event.payload.ip_address }}"
+            student: "{{ event.payload.student }}"
