@@ -33,6 +33,8 @@ local_services:
               address: "{{ internal_address }}"
             - record: "ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
+    post_tasks:
+      - dnsmasq-update-etc-hosts.yml
     containerfile: dnsmasq-containerfile
   - name: eda
     containerfile: eda-containerfile
@@ -203,4 +205,5 @@ repo_files:
   - src: templates/rhde_tse/manage-hosts-in-controller.yml.j2
     dest: playbooks/manage-hosts-in-controller.yml
   - src: templates/rhde_tse/initial-configuration.yml.j2
-    dest: playbooks/inital-configuration.yml
+    dest: playbooks/initial-configuration.yml
+
