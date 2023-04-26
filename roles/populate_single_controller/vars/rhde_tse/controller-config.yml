@@ -1,5 +1,8 @@
 ---
 
+controller_hostname: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+controller_configuration_credentials_secure_logging: false
+
 # These are configured for global use
 controller_execution_environments:
   - name: Device Edge Workshops Execution Environment
@@ -7,7 +10,7 @@ controller_execution_environments:
     pull: missing
 
 controller_credential_types:
-  - name: Ansible Controller Credentials
+  - name: Contrller API Credentials
     kind: cloud
     inputs:
       fields:
@@ -23,7 +26,7 @@ controller_credential_types:
         controller_hostname: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
         controller_username: "{  { controller_username }}"
         controller_password: "{  { controller_password }}"
-        controller_validate_certs: false
+        controller_validate_certs: 'false'
 
 # These can be templated out for all students
 controller_organizations_yaml: |-
@@ -101,27 +104,28 @@ controller_projects:
     credential: Gitea Credentials
 
 controller_templates:
-  - name: Create Host in Inventory
-    organization: "Student{{ student_number }} Organization"
-    inventory: Local Actions
-    ask_variables_on_launch: true
-    playbook: manage-host-in-controller.yml
-    credentials:
-      - Controller API Credentials
   - name: Test Device Connectivity
     organization: "Student{{ student_number }} Organization"
-    inventory: Edge Systems
+    inventory: Edge Devices
     project: Device Edge Codebase
     playbook: playbooks/hello-world.yml
     credentials:
       - Device Credentials
   - name: Initial Device Configuration
     organization: "Student{{ student_number }} Organization"
-    inventory: Edge Systems
+    inventory: Edge Devices
     project: Device Edge Codebase
-    playbook: playbooks/inital-configuration.yml
+    playbook: playbooks/initial-configuration.yml
     credentials:
       - Device Credentials
+  - name: Create Host in Controller Inventory
+    organization: "Student{{ student_number }} Organization"
+    inventory: Edge Devices
+    project: Device Edge Codebase
+    playbook: playbooks/manage-hosts-in-controller.yml
+    credentials:
+      - Controller API Credentials
+    ask_variables_on_launch: true
 
 controller_workflows:
   - name: Provision Edge Device
@@ -131,22 +135,9 @@ controller_workflows:
     survey_enabled: false
     ask_variables_on_launch: true
     simplified_workflow_nodes:
-      - identifier: Run Demo Provisioner Workflow
-        unified_job_template: Run Demo Provisioner Workflow
-        credentials:
-          - Demo Provisioner Controller Credentials
+      - identifier: Test Device Connectivity
+        unified_job_template: Test Device Connectivity
         success_nodes:
-          - Remove Demo Inventory
-        extra_data:
-          wait_for_workflow: yes
-      - identifier: Remove Demo Inventory
-        unified_job_template: Remove Demo Inventory
-        credentials:
-          - Demo Provisioner Controller Credentials
-
-
-# controller_hosts:
-#   - name: edge_manager
-#     inventory: Edge Utilities
-#     variables:
-#       ansible_host: "{{ edge_manager_host }}"
+          - Initial Device Configuration
+      - identifier: Initial Device Configuration
+        unified_job_template: Initial Device Configuration
