@@ -4,18 +4,21 @@
   ansible.builtin.file:
     path: "{{ pod_dir }}"
     state: directory
+    owner: "{{ ansible_user }}"
 
 - name: flow if state == present
   when:
     - state is not defined or
       (state is defined and state != 'absent')
   block:
+    - name: run pre-flight tasks
+      ansible.builtin.include_tasks:
+        file: pre-flight.yml
     - name: create volumes
       ansible.builtin.include_tasks:
         file: volumes.yml
       when:
         - pod.spec.volumes is defined
-
     - name: run pod
       ansible.builtin.include_tasks:
         file: run-pod.yml
