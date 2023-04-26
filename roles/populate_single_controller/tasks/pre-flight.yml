@@ -27,3 +27,10 @@
           password: "{{ ansible_password }}"
           become_password: "{{ ansible_become_password }}"        
         source_control_hostname: "{{ ansible_host }}"
+
+- name: push license
+  ansible.builtin.include_role:
+    name: redhat_cop.controller_configuration.license
+  vars:
+    controller_license:
+      manifest_content: "{{ base64_manifest }}"
