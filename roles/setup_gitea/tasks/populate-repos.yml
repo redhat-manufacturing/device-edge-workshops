@@ -49,6 +49,7 @@
         chdir: "{{ repo_root_path }}"
     - name: push repos into local source control
       ansible.builtin.shell:
-        cmd: "git push --set-upstream http://student{{ student_number }}:'{{ admin_password }}'@{{ ansible_host }}:3000/student{{ student_number }}/{{ repo_name }}.git main"
+        cmd: "git push --set-upstream https://student{{ student_number }}:'{{ admin_password }}'@gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/{{ repo_name }}.git main"
         chdir: "{{ repo_root_path }}"
       register: code_push
+      #ignore_errors: true
