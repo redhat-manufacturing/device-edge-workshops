@@ -1,0 +1,11 @@
+---
+
+- name: run these tasks as root
+  become: true
+  block:
+    - name: allow non-root to bind to low ports
+      ansible.builtin.shell:
+        cmd: sysctl net.ipv4.ip_unprivileged_port_start=10
+    - name: allow cgroup config modification
+      ansible.builtin.shell:
+        cmd: setsebool -P container_manage_cgroup true
