@@ -10,20 +10,14 @@
 - name: include cross-organization config
   ansible.builtin.include_tasks:
     file: cross-organization.yml
-    apply:
-      delegate_to: localhost
 
 - name: include organization-specific config
   ansible.builtin.include_tasks:
     file: organization-specific.yml
-    apply:
-      delegate_to: localhost
 
 - name: include tasks to configure controller | user level
   ansible.builtin.include_tasks:
     file: user-specific.yml
-    apply:
-      delegate_to: localhost
   vars:
     controller_username: "student{{ student_number }}"
   loop: "{{ (range(1, (student_total + 1), 1)|list) }}"
