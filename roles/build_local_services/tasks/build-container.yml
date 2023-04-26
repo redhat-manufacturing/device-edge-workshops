@@ -43,3 +43,12 @@
   containers.podman.podman_image:
     name: "{{ service.name }}"
     path: "{{ build_dir }}/{{ service.name }}/"
+
+- name: run post tasks if needed
+  ansible.builtin.include_tasks:
+    file: "{{ task_file }}"
+  loop: "{{ service.post_tasks }}"
+  loop_control:
+    loop_var: task_file
+  when:
+    - service.post_tasks is defined
