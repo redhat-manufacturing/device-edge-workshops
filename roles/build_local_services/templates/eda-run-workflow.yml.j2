@@ -13,11 +13,10 @@
       - name: Provision Edge Device
         wait: true
 {% raw %}
-        organization: "student{{ student }}"
+        organization: "Student{{ student }} Organization"
         extra_vars:
           student: "{{ student }}"
-          mac_address: "{{ mac_address }}"
           ip_address: "{{ ip_address }}"
 {% endraw %}
   roles:
-    - redhat_cop.controller_configuration.workflow_launch
+    - /opt/eda/collections/ansible_collections/redhat_cop/controller_configuration/roles/workflow_launch
