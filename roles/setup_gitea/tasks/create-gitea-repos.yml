@@ -2,7 +2,7 @@
 
 - name: create repos
   ansible.builtin.uri:
-    url: "http://{{ ansible_host }}:3000/api/v1/admin/users/student{{ student_number }}/repos"
+    url: "https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/api/v1/admin/users/student{{ student_number }}/repos"
     user: lab-instructor
     password: '{{ admin_password }}'
     force_basic_auth: true
@@ -17,4 +17,3 @@
   loop: "{{ range(1, (student_total + 1), 1)|list }}"
   loop_control:
     loop_var: student_number
-  delegate_to: localhost
