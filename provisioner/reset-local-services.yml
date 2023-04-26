@@ -25,3 +25,11 @@
       loop: "{{ local_services }}"
       loop_control:
         loop_var: image
+    - name: dump the volumes
+      containers.podman.podman_volume:
+        name: workshop-rhde_tse-database
+        state: absent
+    - name: dump the code repo dirs
+      ansible.builtin.file:
+        path: "/tmp/{{ ansible_host }}"
+        state: absent
