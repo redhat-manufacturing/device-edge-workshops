@@ -10,10 +10,10 @@ local_services:
           upstream_dns_servers:
             - 8.8.8.8
             - 8.8.4.4
-          internal_address: 192.168.0.1
-          internal_netmask: 24
-          dhcp_range_start: 192.168.0.20
-          dhcp_range_end: 192.168.0.240
+          internal_address: 192.168.1.1
+          internal_netmask: 22
+          dhcp_range_start: 192.168.2.1
+          dhcp_range_end: 192.168.2.254
           dhcp_lease_time: 12h
       - src: dnsmasq.hosts.j2
         dest: dnsmasq.hosts
