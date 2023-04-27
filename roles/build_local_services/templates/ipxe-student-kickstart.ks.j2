@@ -32,6 +32,7 @@ Type=oneshot
 ExecStartPre=/usr/bin/nmcli radio wifi on
 ExecStartPre=/usr/bin/sleep 5
 ExecStartPre=/usr/bin/nmcli dev wifi rescan
+ExecStartPre=/usr/bin/sleep 5
 ExecStartPre=/usr/bin/nmcli dev wifi list
 ExecStart=/usr/bin/nmcli dev wifi connect {{ lab_wifi_network.ssid }} password '{{ lab_wifi_network.password }}'
 ExecStopPost=/usr/bin/touch /var/tmp/wifi-connected
@@ -43,11 +44,13 @@ EOF
 cat > /var/tmp/aap-auto-registration.sh <<EOF
 #!/bin/bash
 IP_ADDRESS=\$(nmcli conn show {{ lab_wifi_network.ssid }} | grep ip_address | awk '{print \$4}')
+MAC_ADDRESS=\$(ip addr | grep wlp -A 1 | grep link | awk '{print \$2}' | sed 's/://g')
 STUDENT='{{ student_number }}'
 
 JSON="{\
 \"ip_address\": \"\$IP_ADDRESS\", \
-\"student\": \"\$STUDENT\" \
+\"student\": \"\$STUDENT\", \
+\"mac_address\": \"\$MAC_ADDRESS\" \
 }"
 
 /usr/bin/curl -H 'Content-Type: application/json' --data "\$JSON" https://eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/endpoint
