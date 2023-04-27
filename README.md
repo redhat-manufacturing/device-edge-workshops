@@ -22,7 +22,7 @@ The Red Hat Ansible Automation Workshops project is intended for effectively dem
 
 | Workshop   | Public Deck | Red Hat Internal  | Exercises  | Workshop Type Var   |
 |---|---|---|---|---|
-| **[Red Hat Device Edge - Trade Show Edition](./exercises/rhde_tse)** <br> A polished experience with device edge  | [PDF](./decks/rhde_tse.pdf) | [Google Source](https://docs.google.com/presentation/d/1RZTqdKSXVhbguuidvNMx3fkR77lD4cM41N7S95Xb7HA) | [Exercises](./exercises/rhde_tse)  | `workshop_type: rhde_fts`
+| **[Red Hat Device Edge - Trade Show Edition](./exercises/rhde_tse)** <br> A polished experience with device edge  | [PDF](./decks/rhde_tse.pdf) | [Google Source](https://docs.google.com/presentation/d/1RZTqdKSXVhbguuidvNMx3fkR77lD4cM41N7S95Xb7HA) | [Exercises](./exercises/rhde_tse)  | `workshop_type: rhde_tse`
 
 ---
 ### Special Thanks
