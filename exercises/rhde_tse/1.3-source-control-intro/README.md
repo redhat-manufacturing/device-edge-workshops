@@ -44,10 +44,6 @@ On the right-hand side of the Gitea dashboard is a link to a repository called `
 
 > **Note**
 >
-> The external SSH port for Gitea is `2222`. Be sure to append the correct port to `git` commands if using git over SSH instead of over http(s). For example `git clone ssh://git@g${gitea_server}:2222/student${your_student_number}/device-edge-codebase.git`
-
-> **Note**
->
 > If you are not comfortable with git, feel free to use Gitea's web interface to add and modify files without needing to use a CLI or IDE.
 
 ---
