@@ -32,6 +32,6 @@ For most, simply running `git clone` into a directory of your choosing will suff
 ---
 **Navigation**
 
-[Previous Exercise](../1.6-network-info) | [Next Exercise](../2.1-kickstart-template)
+[Previous Exercise](../1.6-network-info) | [Next Exercise](../1.8-image-builder-intro)
 
 [Click here to return to the Workshop Homepage](../README.md)
