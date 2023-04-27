@@ -28,7 +28,7 @@ For edge devices being virtualized in AWS, the "edge manager" node is the same a
 
 > **Note**
 >
-> A quick reminder: your Ansible Controller information can be found on your student page.
+> A quick reminder: Ansible Controller information can be found on your student page.
 
 ### Step 3 - Saving the Information
 
