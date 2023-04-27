@@ -111,6 +111,7 @@ controller_templates:
     playbook: playbooks/hello-world.yml
     credentials:
       - Device Credentials
+    execution_environment: Device Edge Workshops Execution Environment
   - name: Initial Device Configuration
     organization: "Student{{ student_number }} Organization"
     inventory: Edge Devices
@@ -118,23 +119,30 @@ controller_templates:
     playbook: playbooks/initial-configuration.yml
     credentials:
       - Device Credentials
+    execution_environment: Device Edge Workshops Execution Environment
   - name: Create Host in Controller Inventory
     organization: "Student{{ student_number }} Organization"
-    inventory: Edge Devices
+    inventory: Local Actions
     project: Device Edge Codebase
     playbook: playbooks/manage-hosts-in-controller.yml
     credentials:
       - Controller API Credentials
     ask_variables_on_launch: true
+    execution_environment: Device Edge Workshops Execution Environment
+    become_enabled: true
 
 controller_workflows:
   - name: Provision Edge Device
     organization: "Student{{ student_number }} Organization"
-    state: "{{ controller_state | default('present') }}"
+    state: present
     allow_simultaneous: true
     survey_enabled: false
     ask_variables_on_launch: true
     simplified_workflow_nodes:
+      - identifier: Create Host in Controller Inventory
+        unified_job_template: Create Host in Controller Inventory
+        success_nodes:
+          - Test Device Connectivity
       - identifier: Test Device Connectivity
         unified_job_template: Test Device Connectivity
         success_nodes:
