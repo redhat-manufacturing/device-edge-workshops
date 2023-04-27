@@ -23,3 +23,4 @@ roles/source_control
 tmp*
 restart.sh
 roles/containerized_eda
+*.extra-vars.yml
