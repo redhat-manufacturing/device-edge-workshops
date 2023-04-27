@@ -174,6 +174,6 @@ Build in queue/running:
 ---
 **Navigation**
 
-[Previous Exercise](../2.1-image-build-workflow) | [Next Exercise](../3.1-fixme)
+[Previous Exercise](../2.1-image-build-workflow) | [Next Exercise](../3.1-execution-environment-review)
 
 [Click here to return to the Workshop Homepage](../README.md)

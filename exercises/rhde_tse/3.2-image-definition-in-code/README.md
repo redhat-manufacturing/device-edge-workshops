@@ -94,6 +94,6 @@ builder_compose_customizations:
 ---
 **Navigation**
 
-[Previous Exercise](../2.1-image-build-workflow) | [Next Exercise](../3.1-fixme)
+[Previous Exercise](../3.1-execution-environment-review) | [Next Exercise](../3.4-aap-image-build)
 
 [Click here to return to the Workshop Homepage](../README.md)

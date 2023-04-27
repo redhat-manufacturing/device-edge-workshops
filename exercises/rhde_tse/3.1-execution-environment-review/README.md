@@ -70,6 +70,6 @@ For more information on Ansible Builder, check out [this blog post](https://www.
 ---
 **Navigation**
 
-[Previous Exercise](../2.2-build-image-webui) | [Next Exercise](../3.2-fix-me)
+[Previous Exercise](../2.2-build-image-webui) | [Next Exercise](../3.2-image-definition-in-code)
 
 [Click here to return to the Workshop Homepage](../README.md)
