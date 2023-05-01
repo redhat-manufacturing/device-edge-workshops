@@ -3,7 +3,7 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Reviewing the infra.osbuild Collection](#step-1---reviewing-the-infraosbuild-collection)
+* [Step 1 - Including a Vars File in a Playbook](#step-1---including-a-vars-file-in-a-playbook)
 * [Step 2 - Converting Our Image Definition to Code](#step-2---converting-our-image-definition-to-code)
 * [Solutions](#solutions)
 
@@ -61,6 +61,6 @@ A fully composed playbook at `playbooks/compose-image.yml`:
 ---
 **Navigation**
 
-[Previous Exercise](../3.2-image-definition-in-code) | [Next Exercise](../3.4-fixme)
+[Previous Exercise](../3.2-image-definition-in-code) | [Next Exercise](../3.4-aap-image-build)
 
 [Click here to return to the Workshop Homepage](../README.md)
