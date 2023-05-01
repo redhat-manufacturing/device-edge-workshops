@@ -76,6 +76,7 @@ Take these customizations and create a file at `playbooks/files/image-definition
 
 A fully populated `playbooks/files/image-definition.yml`:
 ```yaml
+---
 builder_blueprint_name: student1-blueprint-ansible
 compose_type: edge-commit
 builder_compose_pkgs:
