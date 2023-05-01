@@ -52,15 +52,12 @@ Having said that, this workshop is built to take roughly 4 hours.
 * [Exercise 2.1 - Reviewing the Workflow to Build Images](2.1-image-builder-workflow)
 * [Exercise 2.2 - Building an Image via the WebUI](2.2-build-image-webui)
 
-THE BELOW ARE NOT DONE YET
-
 ## Section 3 - Creating an Image via the infra.osbuild Collection
 
 * [Exercise 3.1 - Reviewing Execution Environments](3.1-execution-environment-review)
 * [Exercise 3.2 - Converting Our Image Definition to Code](3.2-image-definition-in-code)
-* [Exercise 3.3 - Calling the Collection from a Playbook]()
-* [Exercise 3.4 - Configuring Controller to Run Our Playbook]()
-* [Exercise 3.5 - Validating in the Image Builder WebUI]()
+* [Exercise 3.3 - Using the infra.osbuild Collection in a Playbook](3.3-using-collection-in-playbook)
+* [Exercise 3.4 - Running Our Playbook through Controller](3.4-aap-image-build)
 
 ## Section 4 - Provisioning an Edge Device
 
@@ -70,10 +67,8 @@ THE BELOW ARE NOT DONE YET
 * [Exercise 4.4 - Deploy Bare Metal Application](4.4-deploy-bare-metal-app)
 * [Exercise 4.5 - Cleaning Up after the Bare Metal Application](4.5-cleanup-bare-metal-app)
 
-## Section 5 - Deploying a Containerized Workload
+## Section 5 - Deploying a Workload
 
-* [Exercise 5.1 - Updating the Image for Deploying a Containerized Application](5.1-containerized-image)
-* [Exercise 5.2 - Automated Device Update](0.1-upgrade-rhde)
 * [Exercise 5.3 - Creating Automation to Deploy a Containerized Application](5.3-containerized-app-automation)
 * [Exercise 5.4 - Deploy Containerized Application](5.4-deploy-containerized-app)
 * [Exercise 5.5 - Cleaning Up the Containerized Application](5.5-cleanup-containerized-app)
