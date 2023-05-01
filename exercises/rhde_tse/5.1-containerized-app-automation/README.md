@@ -163,6 +163,6 @@ Again, feel free to get this playbook into to your code repo however you'd like:
 ---
 **Navigation**
 
-[Previous Exercise](../0.1-upgrade-rhde) | [Next Exercise](../5.4-deploy-containerized-app)
+[Previous Exercise](../4.2-initial-call-home) | [Next Exercise](../5.2-configuring-controller)
 
 [Click here to return to the Workshop Homepage](../README.md)
