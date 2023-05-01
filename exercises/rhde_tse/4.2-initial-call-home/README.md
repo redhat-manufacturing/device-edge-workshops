@@ -132,7 +132,7 @@ For example, here's the rulebook for the workshop, which instructs EDA on how to
   rules:
     - name: Trigger provisioning workflow
       condition: event.payload.ip_address is defined and event.payload.mac_address is defined and event.payload.student is defined
-
+{% raw %}
       action:
         run_playbook:
           name: run-workflow.yml
@@ -140,6 +140,7 @@ For example, here's the rulebook for the workshop, which instructs EDA on how to
             ip_address: "{{ event.payload.ip_address }}"
             student: "{{ event.payload.student }}"
             mac_address: "{{ event.payload.mac_address }}"
+{% endraw %}
 ```
 
 This roughly translates into "if a web call is made to port 5000, and has a student number, ip address, and mac address, it's an edge device". The action is to run a playbook locally that triggers a workflow run in Ansible Controller.
