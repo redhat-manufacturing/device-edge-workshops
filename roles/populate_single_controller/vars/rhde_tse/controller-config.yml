@@ -73,6 +73,10 @@ controller_hosts:
     variables:
       ansible_connection: local
       ansible_python_interpreter: "{  { ansible_playbook_python }}"
+  - name: "image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+    inventory: Edge Utilities
+    variables:
+      ansible_host: "{{ ansible_host }}"
 
 controller_credentials:
   - name: Gitea Credentials
@@ -94,6 +98,13 @@ controller_credentials:
     inputs:
       controller_username: "student{{ student_number }}"
       controller_password: "{{ admin_password }}"
+  - name: Image Builder Credentials
+    organization: "Student{{ student_number }} Organization"
+    credential_type: Machine
+    inputs:
+      username: "{{ ansible_user }}"
+      password: "{{ admin_password }}"
+      become_password: "{{ admin_password }}"
 
 controller_projects:
   - name: Device Edge Codebase
