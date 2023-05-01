@@ -66,9 +66,9 @@ Having said that, this workshop is built to take roughly 4 hours.
 
 ## Section 5 - Deploying a Workload
 
-* [Exercise 5.3 - Creating Automation to Deploy a Containerized Application](5.3-containerized-app-automation)
-* [Exercise 5.4 - Deploy Containerized Application](5.4-deploy-containerized-app)
-* [Exercise 5.5 - Cleaning Up the Containerized Application](5.5-cleanup-containerized-app)
+* [Exercise 5.1 - Creating Automation to Deploy a Containerized Application](5.1-containerized-app-automation)
+* [Exercise 5.2 - Configuring Controller to Run our Automation](5.2-configuring-controller)
+* [Exercise 5.3 - Running the Automation and Validating the Application Deployment](5.3-running-the-automation)
 
 ## Section 6 - Leveraging the community.cip Collection
 
