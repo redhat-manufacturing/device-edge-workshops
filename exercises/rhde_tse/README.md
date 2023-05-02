@@ -13,7 +13,7 @@ This workshop focuses on providing a polished experience with Device Edge. Stude
   - [Section 2 - Creating an Image with Image Builder WebUI](#section-2---setting-up-for-zero-touch-provisioning)
   - [Section 3 - Creating an Image with infra.osbuild](#section-3---kickstarting-a-device)
   - [Section 4 - Kickstarting a Device](#section-4---deploying-a-bare-metal-workload)
-  - [Section 5 - Deploying a Containerized Workload](#section-5---deploying-a-containerized-workload)
+  - [Section 5 - Deploying an Application](#section-5---deploying-an-application)
   - [Section 6 - Optional - Ansible and CIP](#section-6---deploying-a-kubernetes-native-application)
 
 ## Presentations
@@ -64,7 +64,7 @@ Having said that, this workshop is built to take roughly 4 hours.
 * [Exercise 4.1 - Network Provisioning an Edge Device](4.1-network-provision)
 * [Exercise 4.2 - Initial Call Home](4.2-initial-call-home)
 
-## Section 5 - Deploying a Workload
+## Section 5 - Deploying an Application
 
 * [Exercise 5.1 - Creating Automation to Deploy a Containerized Application](5.1-containerized-app-automation)
 * [Exercise 5.2 - Deploying the Application via Ansible Controller](5.2-deploying-the-app)
