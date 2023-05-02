@@ -74,7 +74,11 @@ Similar to the bare metal deployment of the application, the automation could be
 
 ### Solutions
 
+Deploy Application job template:
+
 ![Deploy Application Job Template](../images/deploy-app-job-template.png)
+
+Application running:
 
 ![App Running](../images/app-running.png)
 
