@@ -3,7 +3,7 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Creating a Playbook](#step-1---creating-a-playbook)
+* [Step 1 -Syncing Our Project](#step-1---syncing-our-project)
 * [Step 2 - Creating a Job Tempate](#step-2---creating-a-job-template)
 * [Step 3 - Running the Job Template](#step-3---running-the-job-template)
 * [Solutions](#solutions)
