@@ -84,8 +84,8 @@ These two steps could be considered "prerequisities" to running the application.
 ```yaml
 {% raw %}
 - name: push out yaml
-  ansible.builtin.template:
-    src: templates/process-control.yaml.j2
+  ansible.builtin.copy:
+    src: files/app-definition.yml
     dest: "/home/{{ ansible_user }}/process-control.yaml"
 
 - name: podman play kube
@@ -113,7 +113,7 @@ This is included to address the startup time for the application. Since containe
 
 ### Step 4 - Putting It All Together
 
-With the pieces above, we can put together a playbook to use to deploy our application:
+With the pieces above, we can put together a playbook to use to deploy our application. Copy the following to a file at `playbooks/deploy-app.yml`:
 ```yaml
 ---
 
