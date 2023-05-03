@@ -85,6 +85,5 @@ Application running:
 ---
 **Navigation**
 
-[Previous Exercise](../5.3-containerized-app-automation) | [Next Exercise](../5.5-cleanup-containerized-app)
-
+[Previous Exercise](../5.1-containerized-app-automation) | [Next Exercise](../6.1-cip-intro)
 [Click here to return to the Workshop Homepage](../README.md)
