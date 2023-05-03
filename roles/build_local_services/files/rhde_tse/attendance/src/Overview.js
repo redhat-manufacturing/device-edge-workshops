@@ -23,9 +23,9 @@ import { useEffect } from "react";
 import './App.css'
 
 var pg = require('pg')
-var connectionString = "postgres://userName:password@serverName/ip:port/nameOfDatabase";
+var connectionString = "postgres://attendance:attendance@attendance/localhost:15432/attendance";
 var pgClient = new pg.Client(connectionString)
-pgClient.connect();
+pgClient.connect(); 
 
 
 const boxVariant = {
