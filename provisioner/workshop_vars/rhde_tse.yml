@@ -33,6 +33,8 @@ local_services:
               address: "{{ internal_address }}"
             - record: "ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
+            - record: "attendance.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+              address: "{{ internal_address }}"
     post_tasks:
       - dnsmasq-update-etc-hosts.yml
     containerfile: dnsmasq-containerfile
@@ -70,11 +72,13 @@ local_services:
               proxy_advanced_options:
                 - proxy_ssl_verify off
             - name: gitea
-              proxy_pass: "http://localhost:3000/"
+              proxy_pass: "http://localhost:3001/"
             - name: attendance
               proxy_pass: "https://localhost:8082/"
             - name: ostree-repo
               proxy_pass: "http://localhost:8080/"
+            - name: attendance
+              proxy_pass: "http://localhost:3000/"
   - name: ipxe
     containerfile: ipxe-containerfile
     pre_tasks:
@@ -111,8 +115,7 @@ local_services:
   - name: tftp
     containerfile: tftp-containerfile
     pre_tasks:
-      - download-chainload-files.yml
-      # add selinux thing here
+      - tftp-download-chainload-files.yml
   - name: ostree-repo
     containerfile: ostree-repo-containerfile
     pre_tasks:
@@ -120,6 +123,11 @@ local_services:
     files:
       - src: ostree-repo-nginx.conf
         dest: nginx.conf
+  - name: attendance
+    containerfile: attendance-containerfile
+    files:
+      - src: attendance
+        dest: ./
 
 
 pods:
@@ -177,6 +185,8 @@ pods:
             image: tftp:latest
           - name: ostree-repo
             image: ostree-repo:latest
+          - name: attendance
+            image: attendance:latest
         volumes:
           - name: database-data
             persistentVolumeClaim:
