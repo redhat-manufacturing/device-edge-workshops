@@ -1,0 +1,15 @@
+FROM ubi9/nodejs-16
+
+RUN mkdir /opt/attendance
+
+WORKDIR /opt/attendance
+
+USER 10000
+
+COPY attendance /opt/attendance
+
+RUN npm install
+
+EXPOSE 3000
+
+CMD npm start

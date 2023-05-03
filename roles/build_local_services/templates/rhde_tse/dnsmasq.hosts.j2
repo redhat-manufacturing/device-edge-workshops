@@ -1,0 +1,3 @@
+{% for dns_entry in template.vars.dns_entries %}
+{{ dns_entry.address }} {{ dns_entry.record }}
+{% endfor %}

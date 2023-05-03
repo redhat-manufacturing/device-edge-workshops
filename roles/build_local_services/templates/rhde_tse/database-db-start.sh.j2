@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# database must be initialized
+if [ ! -f /var/lib/pgsql/data/PG_VERSION ]; then
+    initdb -d /var/lib/pgsql/data
+    cp -f /opt/db-config/postgresql.conf /var/lib/pgsql/data/postgresql.conf
+fi
+
+# create databases before normal startup
+if [ ! -f /var/lib/pgsql/data/.db-init.complete ]; then
+    pg_ctl start -D /var/lib/pgsql/data
+
+    # wait for DB to be ready
+    while [ ! pg_isready ]; do
+        sleep 1
+    done
+{% for database in template.vars.databases %}
+    psql --port {{ db_port | default('15432') }} -c "CREATE ROLE {{ database.username }} WITH LOGIN PASSWORD '{{ database.password }}'"
+    psql --port {{ db_port | default('15432') }} -c "CREATE DATABASE {{ database.name }} WITH OWNER {{ database.username }} TEMPLATE template0 ENCODING UTF8 LC_COLLATE 'en_US.UTF-8' LC_CTYPE 'en_US.UTF-8';"
+{% endfor %}
+    pg_ctl stop -D /var/lib/pgsql/data
+    touch /var/lib/pgsql/data/.db-init.complete
+fi
+
+postgres -D /var/lib/pgsql/data
