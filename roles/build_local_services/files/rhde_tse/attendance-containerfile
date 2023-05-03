@@ -8,6 +8,8 @@ RUN pwd
 
 RUN npm install
 
+RUN npm install pg
+
 EXPOSE 3000
 
 CMD ["npm", "start"]
