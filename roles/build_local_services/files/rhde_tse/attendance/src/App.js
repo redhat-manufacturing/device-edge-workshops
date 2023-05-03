@@ -4,61 +4,23 @@ import "@patternfly/patternfly/patternfly.css"
 
 import {
   Button,
-  Card,
-  CardBody,
   Flex,
   FlexItem,
-  Grid,
-  Page,
-  Masthead,
-  MastheadToggle,
-  MastheadMain,
-  MastheadBrand,
-  MastheadContent,
-  PageSidebar,
-  PageSection,
-  PageSectionVariants,
-  PageToggleButton,
-  Pagination,
-  Title,
-  TitleSizes,
-  Toolbar,
-  ToolbarContent,
-  ToolbarGroup,
-  ToolbarItem,
-  Stack,
-  StackItem,
   Tabs,
   Tab,
   TabContent,
   TabTitleText,
-  Tooltip,
-  CardTitle,
-  CardFooter,
-  Gallery,
   Split,
-  GalleryItem,
-  GridItem,
   SplitItem,
-  Bullseye,
-  EmptyStatePrimary,
-  Level,
-  LevelItem,
   BackgroundImage,
 } from '@patternfly/react-core'
 
 import Overview from './Overview';
 import Homepage from './Homepage';
-//import Collections from './Collections';
 
-import {
-  TimesIcon
-} from '@patternfly/react-icons';
-import BarsIcon from '@patternfly/react-icons/dist/esm/icons/bars-icon';
+
 import GithubIcon from '@patternfly/react-icons/dist/esm/icons/github-icon'; 
 import AnisbleIcon from '@patternfly/react-icons/dist/esm/icons/ansible-tower-icon'; 
-import logo from './logo.svg';
-//import redHatRuntimeLogo from './images/red-hat-runtime-logo.svg';
 import Background from './images/pfbg_1200.jpg';
 import './App.css';
 
@@ -68,7 +30,7 @@ class SeparateTabs extends React.Component {
     this.state = {
       activeKey: 0,
       homeHidden: false,
-      overviewHidden: true
+      overviewHidden: true 
     };
 
     this.contentRef1 = React.createRef();
