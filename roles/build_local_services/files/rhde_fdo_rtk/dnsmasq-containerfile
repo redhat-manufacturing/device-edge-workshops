@@ -1,0 +1,9 @@
+FROM registry.access.redhat.com/ubi9/ubi:latest
+
+RUN dnf -y install dnsmasq
+
+COPY dnsmasq.conf /etc/dnsmasq.conf
+COPY dnsmasq.hosts /etc/dnsmasq.hosts
+
+ENTRYPOINT ["/bin/sh"]
+CMD ["-c", "/usr/sbin/dnsmasq --log-facility=- --log-dhcp --log-async=0 -d"]

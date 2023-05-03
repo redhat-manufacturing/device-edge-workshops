@@ -1,0 +1,23 @@
+---
+service_info:
+  initial_user:
+    username: fdo-init
+    sshkeys:
+      - ''
+  files:
+  - path: /root/resolv.conf
+    source_path: /etc/resolv.conf
+  commands: ~
+  diskencryption_clevis:
+  - disk_label: /dev/sda4
+    binding:
+      pin: tpm2
+      config: "{}"
+    reencrypt: true
+  additional_serviceinfo: ~
+bind: "0.0.0.0:8083"
+service_info_auth_token: S7RLRqSQeAi2c6qJItyHsnq+9no968D7k6tReMbWI2E=
+admin_auth_token: sYYWHXSCC5hiE9fpo7/oMA+2EBuP7+LoLWfoU7JkI+4=
+device_specific_store_driver:
+  Directory:
+    path: /etc/fdo/aio/stores/serviceinfo_api_devices

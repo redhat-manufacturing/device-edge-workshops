@@ -1,0 +1,12 @@
+FROM ubi9
+
+USER root
+
+RUN dnf -y install fdo-admin-cli
+RUN /usr/bin/fdo-admin-tool aio --directory /etc/fdo/aio --binary-path /usr/libexec/fdo generate-configs-and-keys
+
+COPY serviceinfo_api_server.yml /etc/fdo/aio/configs/serviceinfo_api_server.yml
+
+EXPOSE 8080 8081 8082 8083
+
+CMD /usr/bin/fdo-admin-tool aio --directory /etc/fdo/aio --binary-path /usr/libexec/fdo
