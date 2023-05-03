@@ -1,15 +1,13 @@
 FROM ubi9/nodejs-16
 
-RUN mkdir /opt/attendance
+COPY attendance/ .
 
-WORKDIR /opt/attendance
+RUN ls
 
-USER 10000
-
-COPY attendance /opt/attendance
+RUN pwd
 
 RUN npm install
 
 EXPOSE 3000
 
-CMD npm start
+CMD ["npm", "start"]
