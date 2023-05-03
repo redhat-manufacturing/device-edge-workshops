@@ -7,7 +7,7 @@
 
 - name: run pretasks if needed
   ansible.builtin.include_tasks:
-    file: "{{ task_file }}"
+    file: "{{ workshop_type }}/{{ task_file }}"
   loop: "{{ service.pre_tasks }}"
   loop_control:
     loop_var: task_file
@@ -16,7 +16,7 @@
 
 - name: copy out static files
   ansible.builtin.copy:
-    src: "files/{{ file.src }}"
+    src: "files/{{ workshop_type }}/{{ file.src }}"
     dest: "{{ build_dir }}/{{ service.name }}/{{ file.dest }}"
   loop: "{{ service.files }}"
   loop_control:
@@ -26,7 +26,7 @@
 
 - name: template out templates
   ansible.builtin.template:
-    src: templates/{{ template.src }}
+    src: templates/{{ workshop_type }}/{{ template.src }}
     dest: "{{ build_dir }}/{{ service.name }}/{{ template.dest }}"
   loop: "{{ service.templates }}"
   loop_control:
@@ -36,7 +36,7 @@
 
 - name: copy Containerfile
   ansible.builtin.copy:
-    src: "files/{{ service.containerfile }}"
+    src: "files/{{ workshop_type }}/{{ service.containerfile }}"
     dest: "{{ build_dir }}/{{ service.name }}/Containerfile"
 
 - name: build container
@@ -46,7 +46,7 @@
 
 - name: run post tasks if needed
   ansible.builtin.include_tasks:
-    file: "{{ task_file }}"
+    file: "{{ workshop_type }}/{{ task_file }}"
   loop: "{{ service.post_tasks }}"
   loop_control:
     loop_var: task_file
