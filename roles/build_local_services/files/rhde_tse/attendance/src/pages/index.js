@@ -19,7 +19,7 @@ import RedHat from '../images/Logo-Red_Hat-B-Reverse-RGB.png'
 
 
 
-const Homepage = () => {
+const Homepage = () => { 
   return (
     <div>
       <BackgroundImage src={Background} />

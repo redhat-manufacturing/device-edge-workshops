@@ -96,7 +96,7 @@
 } 
 
 .Overview-card {
-  height: 40vh;
+  height: 60vh;
   /* Centering children vertically and horizontally */
   display: flex;
   justify-content: center;
@@ -219,6 +219,8 @@
 .image {
   height: 250px;
   width: 388px;
+  justify-content: center;
+  align-items: center; 
 }
 
 .Flex-options{
