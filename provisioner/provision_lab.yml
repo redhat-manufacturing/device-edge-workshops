@@ -24,49 +24,64 @@
 - name: import aws setup playbook
   ansible.builtin.import_playbook: aws-setup.yml
 
-- name: import connectivity playbook
-  ansible.builtin.import_playbook: ensure-connectivity.yml
+# - name: import connectivity playbook
+#   ansible.builtin.import_playbook: ensure-connectivity.yml
 
-- name: import rhsm playbook
-  ansible.builtin.import_playbook: rhsm.yml
+# - name: import rhsm playbook
+#   ansible.builtin.import_playbook: rhsm.yml
 
-- name: import common roles playbook
-  ansible.builtin.import_playbook: common.yml
+# - name: import common roles playbook
+#   ansible.builtin.import_playbook: common.yml
 
-- name: import local dns playbook
-  ansible.builtin.import_playbook: local-dns.yml
+# - name: compose images
+#   ansible.builtin.import_playbook: compose-images.yml
 
-- name: import cockpit playbook
-  ansible.builtin.import_playbook: cockpit.yml
+# - name: setup local connection
+#   ansible.builtin.import_playbook: local-connection.yml
 
-- name: import hypervisor playbook
-  ansible.builtin.import_playbook: hypervisor.yml
+# - name: setup wildcard cert
+#   ansible.builtin.import_playbook: wildcard-cert.yml
 
-- name: import edge manager playbook
-  ansible.builtin.import_playbook: edge-management.yml
+# - name: build local services
+#   ansible.builtin.import_playbook: build-local-services.yml
 
-- name: import install controller playbook
-  ansible.builtin.import_playbook: install-controller.yml
+# - name: run local services
+#   ansible.builtin.import_playbook: run-local-services.yml
+
+# - name: import local dns playbook
+#   ansible.builtin.import_playbook: local-dns.yml
+
+# - name: import cockpit playbook
+#   ansible.builtin.import_playbook: cockpit.yml
+
+# - name: import hypervisor playbook
+#   ansible.builtin.import_playbook: hypervisor.yml
+
+# - name: import edge manager playbook
+#   ansible.builtin.import_playbook: edge-management.yml
+
+# - name: import install controller playbook
+#   ansible.builtin.import_playbook: install-controller.yml
 
 - name: import gitea playbook
   ansible.builtin.import_playbook: gitea.yml
 
-- name: import populate controller playbook
-  ansible.builtin.import_playbook: populate-controller.yml
+# - name: import populate controller playbook
+#   ansible.builtin.import_playbook: populate-controller.yml
 
-- name: setup attendance host
-  ansible.builtin.import_playbook: attendance.yml
+# - name: setup attendance host
+#   ansible.builtin.import_playbook: attendance.yml
 
-- name: compose images
-  ansible.builtin.import_playbook: compose-images.yml
+# - name: compose images
+#   ansible.builtin.import_playbook: compose-images.yml
 
-- name: import backup sync playbook
-  ansible.builtin.import_playbook: sync-to-backup.yml
+# - name: import backup sync playbook
+#   ansible.builtin.import_playbook: sync-to-backup.yml
 
-- name: import playbook to set active image
-  ansible.builtin.import_playbook: set-active-image.yml
-  vars:
-    desired_image_version: '1.0.0'
+# - name: import playbook to set active image
+#   ansible.builtin.import_playbook: set-active-image.yml
+#   vars:
+#     desired_image_version: '1.0.0'
 
-- name: import random task playbook
-  ansible.builtin.import_playbook: random-task.yml
+# - name: import random task playbook
+#   ansible.builtin.import_playbook: random-task.yml

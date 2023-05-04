@@ -62,8 +62,8 @@ Having said that, this workshop is built to take roughly 4 hours.
 
 ## Section 4 - Creating an Edge Simplified Installer Image via the Composer CLI
 
-* [Exercise 4.1 - Network Provisioning an Edge Device](4.1-network-provision)
-* [Exercise 4.2 - Initial Call Home](4.2-initial-call-home)
+* [Exercise 4.1 - Building a Blueprint](4.1-network-provision)
+* [Exercise 4.2 - Starting a Compose via the Composer CLI](4.2-initial-call-home)
 
 ## Section 5 - Initial Imaging of Edge Devices
 

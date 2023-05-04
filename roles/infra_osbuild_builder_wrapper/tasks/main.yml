@@ -21,6 +21,9 @@
       ansible.builtin.set_fact:
         available_images: "{{ available_images_raw['content'] | b64decode | from_yaml }}" 
 
+- debug:
+    msg: "{{ builder_rhsm_repos | default('') }}"
+
 - name: run infra.osbuild.builder role and capture the output
   when:
     - not composes_file.stat.exists or

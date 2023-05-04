@@ -7,6 +7,9 @@
     - "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
   become: true
   pre_tasks:
+    - name: print out images to compose
+      ansible.builtin.debug:
+        msg: "{{ images_to_compose }}"
     - name: rhel8 tasks
       when:
         - ansible_distribution_major_version|int == 8

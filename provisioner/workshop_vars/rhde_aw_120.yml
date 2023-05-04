@@ -58,23 +58,23 @@ images_to_compose:
       - skopeo
       - NetworkManager-wifi
       - ansible-core
-  - version: 4.0.0
-    type: edge-commit
-    repos:
-      - name: microshift
-        base_url: https://mirror.openshift.com/pub/openshift-v4/x86_64/microshift/ocp-dev-preview/latest-4.12/el8/os/
-        type: yum-baseurl
-        check_ssl: true
-        check_gpg: false
-      - name: microshift-deps
-        base_url: https://download.copr.fedorainfracloud.org/results/@redhat-et/microshift-testing/epel-8-x86_64/
-        type: yum-baseurl
-        check_ssl: true
-        check_gpg: false
-    packages:
-      - vim-enhanced
-      - git
-      - nano
-      - microshift
-      - NetworkManager-wifi
-      - ansible-core
+  # - version: 4.0.0
+  #   type: edge-commit
+  #   repos:
+  #     - name: microshift
+  #       base_url: https://mirror.openshift.com/pub/openshift-v4/x86_64/microshift/ocp-dev-preview/latest-4.12/el8/os/
+  #       type: yum-baseurl
+  #       check_ssl: true
+  #       check_gpg: false
+  #     - name: microshift-deps
+  #       base_url: https://download.copr.fedorainfracloud.org/results/@redhat-et/microshift-testing/epel-8-x86_64/
+  #       type: yum-baseurl
+  #       check_ssl: true
+  #       check_gpg: false
+    # packages:
+    #   - vim-enhanced
+    #   - git
+    #   - nano
+    #   - microshift
+    #   - NetworkManager-wifi
+    #   - ansible-core

@@ -4,7 +4,7 @@ This workshop focuses on providing a polished experience with Device Edge. Stude
 
 ## Table of Contents
 
-- [Red Hat Device Edge Workshop - Any Workload, 120 Minutes Edition](#red-hat-device-edge-workshop---any-workload,-120-minutes-edition)
+- [Red Hat Device Edge Workshop - Trade Show Edition](#red-hat-device-edge-workshop---trade-show-edition)
   - [Table of Contents](#table-of-contents)
   - [Presentations](#presentations)
   - [Time planning](#time-planning)

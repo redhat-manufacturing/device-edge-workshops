@@ -38,7 +38,7 @@ Once the command completes, everything will be available under `/etc/fdo/aio`.
 The two main configuration files we'll review today are the `aio_configuration` and the `serviceinfo_api_server.yml`.
 
 First, `aio_configuration` defines the overall configuration of the AIO installation:
-```
+```yaml
 ---
 cert_organization: FDO AIO
 cert_country: US
