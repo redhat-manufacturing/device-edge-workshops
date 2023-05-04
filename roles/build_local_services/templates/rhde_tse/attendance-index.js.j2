@@ -19,7 +19,7 @@ import RedHat from '../images/Logo-Red_Hat-B-Reverse-RGB.png'
 
 
 
-const Homepage = () => { 
+const Homepage = () => {
   return (
     <div>
       <BackgroundImage src={Background} />
@@ -36,13 +36,9 @@ const Homepage = () => {
             <h2 className='h2'>Please click the button correspoding to your student number below</h2>
             </StackItem>
             <StackItem is filled>
-              <Link className='button' to="/Student"><Button >Student</Button></Link> 
-              <Link className='button' to="/Student"><Button>Student</Button></Link>
-              <Link className='button' to="/Student"><Button>Student</Button></Link>
-              <Link className='button' to="/Student"><Button>Student</Button></Link>
-              <Link className='button' to="/Student"><Button>Student</Button></Link>
-              <Link className='button' to="/Student"><Button>Student</Button></Link>
-              <Link className='button' to="/Student"><Button>Student</Button></Link>
+{% for student_number in (range(1, (student_total+1), 1)|list) %}
+              <Link className='button' to="/Student"><Button>Student</Button></Link> 
+{% endfor %}
             </StackItem>
           </Stack>
         </Flex>
@@ -53,4 +49,3 @@ const Homepage = () => {
 };
 
 export default Homepage;
-
