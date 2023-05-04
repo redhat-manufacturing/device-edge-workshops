@@ -2,13 +2,15 @@ FROM ubi9/nodejs-16
 
 COPY attendance/ .
 
+COPY student-pages/ src/
+
 RUN ls
 
 RUN pwd
 
 RUN npm install
 
-RUN npm install pg
+RUN npm install react-router
 
 EXPOSE 3000
 
