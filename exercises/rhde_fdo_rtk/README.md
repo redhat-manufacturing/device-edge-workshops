@@ -75,11 +75,11 @@ Having said that, this workshop is built to take roughly 4 hours.
 
 ## Section 7 - Deploying an Application that Requires Deterministic Compute
 
-* [Exercise 6.1 - Introduction to the community.cip Collection](6.1-cip-intro)
-* [Exercise 6.2 - Adding an Inventory for CIP Devices](6.2-inventory-and-host)
-* [Exercise 6.3 - Creating a Playbook to Modify Tags](6.3-tags-playbook)
-* [Exercise 6.4 - Creating a Job Template for the CIP Playbook](6.4-cip-job-template)
-* [Exercise 6.5 - Running the CIP Job Template](6.5-run-cip-automation)
+* [Exercise 7.1 - Introduction to the community.cip Collection](6.1-cip-intro)
+* [Exercise 7.2 - Adding an Inventory for CIP Devices](6.2-inventory-and-host)
+* [Exercise 7.3 - Creating a Playbook to Modify Tags](6.3-tags-playbook)
+* [Exercise 7.4 - Creating a Job Template for the CIP Playbook](6.4-cip-job-template)
+* [Exercise 7.5 - Running the CIP Job Template](6.5-run-cip-automation)
 
 ## Supplamental Resources
 * [infra.osbuild](https://github.com/redhat-cop/infra.osbuild)
