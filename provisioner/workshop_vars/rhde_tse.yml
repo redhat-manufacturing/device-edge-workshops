@@ -125,9 +125,17 @@ local_services:
         dest: nginx.conf
   - name: attendance
     containerfile: attendance-containerfile
+    pre_tasks:
+      - attendance-student-pages.yml
     files:
       - src: attendance
         dest: ./
+    templates:
+      - src: attendance-App.js.j2
+        dest: attendance/src/App.js
+      - src: attendance-index.js.j2
+        dest: attendance/src/pages/index.js
+      
 
 
 pods:
