@@ -127,9 +127,7 @@ local_services:
     containerfile: attendance-containerfile
     pre_tasks:
       - attendance-student-pages.yml
-    files:
-      - src: attendance
-        dest: ./
+      - attendance-rsync-site.yml
     templates:
       - src: attendance-App.js.j2
         dest: attendance/src/App.js
