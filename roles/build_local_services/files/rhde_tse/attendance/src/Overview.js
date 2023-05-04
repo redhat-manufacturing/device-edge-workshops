@@ -22,6 +22,7 @@ import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import './App.css'
+import RedHat from './images/Logo-Red_Hat-B-Reverse-RGB.png'
 
 
 const boxVariant = {
@@ -76,44 +77,58 @@ class Overview extends React.Component {
   render() {
     return (
       <div>
-      <BackgroundImage src={Background}/>
-      <Flex className="Overview-container" direction={{ default: "columnn" }}>
-        <div className='Overview-top-spacing'></div>
-        <Box>
-          <Title headingLevel='h1' size={TitleSizes['4xl']}>General Information</Title>
-          <Card isCompact isRounded className='Overview-card' alignSelf={{ default: 'alignSelfCenter' }}>
-            <DescriptionList  isVertical columnModifier={{ lg: '2Col' }} termWidth="10ch">
-              <Card component="div">
-                <CardTitle>Anisble Controller</CardTitle>
-                <CardBody>
-                  <DescriptionListTerm className='Description-list'>IP Address:</DescriptionListTerm>
-                  <DescriptionListDescription className ><a href="https://google.com">*insert varaible here with link to the resource*</a></DescriptionListDescription>
-                  <DescriptionListTerm className='Description-list'>DNS Hostname:</DescriptionListTerm>
-                  <DescriptionListDescription className ><a href="https://google.com">*insert varaible here with link to the resource*</a></DescriptionListDescription>
-                </CardBody>
-              </Card>
-              <Card component="div">
-                <CardTitle>Gitea (Source Control)</CardTitle>
-                <CardBody>
-                  <DescriptionListTerm className='Description-list'>IP Address:</DescriptionListTerm>
-                  <DescriptionListDescription className ><a href="https://google.com">*insert varaible here with link to the resource*</a></DescriptionListDescription>
-                  <DescriptionListTerm className='Description-list'>DNS Hostname:</DescriptionListTerm>
-                  <DescriptionListDescription className ><a href="https://google.com">*insert varaible here with link to the resource*</a></DescriptionListDescription>
-                </CardBody>
-              </Card>
-              <Card component="div">
-                <CardTitle>Image Builder</CardTitle>
-                <CardBody>
-                  <DescriptionListTerm className='Description-list'>IP Address:</DescriptionListTerm>
-                  <DescriptionListDescription className ><a href="https://google.com">*insert varaible here with link to the resource*</a></DescriptionListDescription>
-                  <DescriptionListTerm className='Description-list'>DNS Hostname:</DescriptionListTerm>
-                  <DescriptionListDescription className ><a href="https://google.com">*insert varaible here with link to the resource*</a></DescriptionListDescription>
-                </CardBody>
-              </Card>
-            </DescriptionList> 
-          </Card>
-        </Box>
-      </Flex >
+        <BackgroundImage src={Background} />
+        
+        <Flex className="Overview-container" direction={{ default: "columnn" }}>
+          <div className='Overview-top-spacing'></div>
+          
+          <Box>
+            <Title headingLevel='h1' size={TitleSizes['4xl']}>General Information</Title>
+            <Card isCompact isRounded className='Overview-card' alignSelf={{ default: 'alignSelfCenter' }}>
+              <DescriptionList isVertical columnModifier={{ lg: '2Col' }} termWidth="10ch">
+                <Card component="div">
+                  <CardTitle>Anisble Controller</CardTitle>
+                  <CardBody>
+                    <DescriptionListTerm className='Description-list'>Username:</DescriptionListTerm>
+                    <DescriptionListDescription className >*Username here*</DescriptionListDescription>
+                    <DescriptionListTerm className='Description-list'>Password:</DescriptionListTerm>
+                    <DescriptionListDescription className >*Password here*</DescriptionListDescription>
+                    <DescriptionListTerm className='Description-list'>IP Address:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="https://google.com">*insert varaible here with link to the resource*</a></DescriptionListDescription>
+                    <DescriptionListTerm className='Description-list'>DNS Hostname:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="https://google.com">*insert varaible here with link to the resource*</a></DescriptionListDescription>
+                  </CardBody>
+                </Card>
+                <Card component="div">
+                  <CardTitle>Gitea (Source Control)</CardTitle>
+                  <CardBody>
+                  <DescriptionListTerm className='Description-list'>Username:</DescriptionListTerm>
+                    <DescriptionListDescription className >*Username here*</DescriptionListDescription>
+                    <DescriptionListTerm className='Description-list'>Password:</DescriptionListTerm>
+                    <DescriptionListDescription className >*Password here*</DescriptionListDescription>
+                    <DescriptionListTerm className='Description-list'>IP Address:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="https://google.com">*insert varaible here with link to the resource*</a></DescriptionListDescription>
+                    <DescriptionListTerm className='Description-list'>DNS Hostname:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="https://google.com">*insert varaible here with link to the resource*</a></DescriptionListDescription>
+                  </CardBody>
+                </Card>
+                <Card component="div">
+                  <CardTitle>Image Builder</CardTitle>
+                  <CardBody>
+                  <DescriptionListTerm className='Description-list'>Username:</DescriptionListTerm>
+                    <DescriptionListDescription className >*Username here*</DescriptionListDescription>
+                    <DescriptionListTerm className='Description-list'>Password:</DescriptionListTerm>
+                    <DescriptionListDescription className >*Password here*</DescriptionListDescription>
+                    <DescriptionListTerm className='Description-list'>IP Address:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="https://google.com">*insert varaible here with link to the resource*</a></DescriptionListDescription>
+                    <DescriptionListTerm className='Description-list'>DNS Hostname:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="https://google.com">*insert varaible here with link to the resource*</a></DescriptionListDescription>
+                  </CardBody>
+                </Card>
+              </DescriptionList>
+            </Card>
+          </Box>
+        </Flex >
       </div>
     );
   }
