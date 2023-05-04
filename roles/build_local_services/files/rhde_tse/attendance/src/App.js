@@ -40,7 +40,7 @@ const App = () => {
       <Routes>
         <Route exact path='/' exact element={<Homepage />} />
         <Route path='/Student' element={<Overview />} />
-      </Routes>
+      </Routes> 
     </Router>
   );
 }
