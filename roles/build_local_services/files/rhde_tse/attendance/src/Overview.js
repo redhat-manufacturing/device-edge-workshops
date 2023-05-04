@@ -13,19 +13,15 @@ import {
   Tabs,
   Title,
   TitleSizes,
-  DescriptionList, DescriptionListTerm, DescriptionListGroup, DescriptionListDescription, CardTitle
+  DescriptionList, DescriptionListTerm, DescriptionListGroup, DescriptionListDescription, CardTitle, BackgroundImage
 } from '@patternfly/react-core';
 
 import AnisbleIcon from '@patternfly/react-icons/dist/esm/icons/ansible-tower-icon';
+import Background from './images/pfbg_1200.jpg';
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import './App.css'
-
-var pg = require('pg')
-var connectionString = "postgres://attendance:attendance@attendance/localhost:15432/attendance";
-var pgClient = new pg.Client(connectionString)
-pgClient.connect(); 
 
 
 const boxVariant = {
@@ -79,6 +75,8 @@ class Overview extends React.Component {
 
   render() {
     return (
+      <div>
+      <BackgroundImage src={Background}/>
       <Flex className="Overview-container" direction={{ default: "columnn" }}>
         <div className='Overview-top-spacing'></div>
         <Box>
@@ -203,6 +201,7 @@ class Overview extends React.Component {
         </Box>
 
       </Flex >
+      </div>
     );
   }
 }
