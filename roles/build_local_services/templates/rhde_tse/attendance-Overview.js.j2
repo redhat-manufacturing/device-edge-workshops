@@ -1,3 +1,4 @@
+{% raw %}
 import React from 'react';
 
 import {
@@ -89,40 +90,41 @@ class Overview extends React.Component {
                 <Card component="div">
                   <CardTitle>Anisble Controller</CardTitle>
                   <CardBody>
+{% endraw %}
                     <DescriptionListTerm className='Description-list'>Username:</DescriptionListTerm>
-                    <DescriptionListDescription className >*Username here*</DescriptionListDescription>
+                    <DescriptionListDescription className >student{{ student_number }}</DescriptionListDescription>
                     <DescriptionListTerm className='Description-list'>Password:</DescriptionListTerm>
-                    <DescriptionListDescription className >*Password here*</DescriptionListDescription>
+                    <DescriptionListDescription className >{{ admin_password }}</DescriptionListDescription>
                     <DescriptionListTerm className='Description-list'>IP Address:</DescriptionListTerm>
-                    <DescriptionListDescription className ><a href="https://google.com">*insert varaible here with link to the resource*</a></DescriptionListDescription>
+                    <DescriptionListDescription className ><a href="{{ internal_address }}">{{ internal_address }}</a></DescriptionListDescription>
                     <DescriptionListTerm className='Description-list'>DNS Hostname:</DescriptionListTerm>
-                    <DescriptionListDescription className ><a href="https://google.com">*insert varaible here with link to the resource*</a></DescriptionListDescription>
+                    <DescriptionListDescription className ><a href="https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}">https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}</a></DescriptionListDescription>
                   </CardBody>
                 </Card>
                 <Card component="div">
                   <CardTitle>Gitea (Source Control)</CardTitle>
                   <CardBody>
                   <DescriptionListTerm className='Description-list'>Username:</DescriptionListTerm>
-                    <DescriptionListDescription className >*Username here*</DescriptionListDescription>
+                    <DescriptionListDescription className >student{{ student_number }}</DescriptionListDescription>
                     <DescriptionListTerm className='Description-list'>Password:</DescriptionListTerm>
-                    <DescriptionListDescription className >*Password here*</DescriptionListDescription>
+                    <DescriptionListDescription className >{{ admin_password }}</DescriptionListDescription>
                     <DescriptionListTerm className='Description-list'>IP Address:</DescriptionListTerm>
-                    <DescriptionListDescription className ><a href="https://google.com">*insert varaible here with link to the resource*</a></DescriptionListDescription>
+                    <DescriptionListDescription className ><a href="https://{{ internal_address }}">{{ internal_address }}</a></DescriptionListDescription>
                     <DescriptionListTerm className='Description-list'>DNS Hostname:</DescriptionListTerm>
-                    <DescriptionListDescription className ><a href="https://google.com">*insert varaible here with link to the resource*</a></DescriptionListDescription>
+                    <DescriptionListDescription className ><a href="https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}">https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}</a></DescriptionListDescription>
                   </CardBody>
                 </Card>
                 <Card component="div">
                   <CardTitle>Image Builder</CardTitle>
                   <CardBody>
                   <DescriptionListTerm className='Description-list'>Username:</DescriptionListTerm>
-                    <DescriptionListDescription className >*Username here*</DescriptionListDescription>
+                    <DescriptionListDescription className >student{{ student_number }}</DescriptionListDescription>
                     <DescriptionListTerm className='Description-list'>Password:</DescriptionListTerm>
-                    <DescriptionListDescription className >*Password here*</DescriptionListDescription>
+                    <DescriptionListDescription className >{{ admin_password }}</DescriptionListDescription>
                     <DescriptionListTerm className='Description-list'>IP Address:</DescriptionListTerm>
-                    <DescriptionListDescription className ><a href="https://google.com">*insert varaible here with link to the resource*</a></DescriptionListDescription>
+                    <DescriptionListDescription className ><a href="https://{{ internal_address }}">{{ internal_address }}</a></DescriptionListDescription>
                     <DescriptionListTerm className='Description-list'>DNS Hostname:</DescriptionListTerm>
-                    <DescriptionListDescription className ><a href="https://google.com">*insert varaible here with link to the resource*</a></DescriptionListDescription>
+                    <DescriptionListDescription className ><a href="https://image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}">https://image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}</a></DescriptionListDescription>
                   </CardBody>
                 </Card>
               </DescriptionList>

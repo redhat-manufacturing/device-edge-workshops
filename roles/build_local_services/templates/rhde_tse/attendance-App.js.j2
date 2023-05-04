@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-route
 import Homepage from './pages';
 
 {% for student_number in (range(1, (student_total+1), 1)|list) %}
-import Overview from './Overview{{ student_number }}';
+import Overview{{ student_number }} from './Overview{{ student_number }}';
 {% endfor %}
 
 import GithubIcon from '@patternfly/react-icons/dist/esm/icons/github-icon';
@@ -38,3 +38,5 @@ const App = () => {
     </Router>
   );
 }
+
+export default App
