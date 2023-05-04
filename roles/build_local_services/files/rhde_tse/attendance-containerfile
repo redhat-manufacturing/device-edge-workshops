@@ -1,12 +1,10 @@
 FROM ubi9/nodejs-16
 
+USER 0
+
 COPY attendance/ .
 
 COPY student-pages/ src/
-
-RUN ls
-
-RUN pwd
 
 RUN npm install
 
