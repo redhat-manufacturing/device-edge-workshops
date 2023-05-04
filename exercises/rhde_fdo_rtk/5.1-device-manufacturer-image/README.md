@@ -1,4 +1,4 @@
-# Workshop Exercise 4.1 - Network Provisioning an Edge Device
+# Workshop Exercise 5.1 - Imaging a Device as a Device Manufacturer
 
 ## Table of Contents
 
