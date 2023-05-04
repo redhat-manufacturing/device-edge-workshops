@@ -50,10 +50,10 @@ Having said that, this workshop is built to take roughly 4 hours.
 ## Section 2 - Creating an Image with the Realtime Kernel via the infra.osbuild Collection
 
 * [Exercise 2.1 - Reviewing the Workflow to Build Images](2.1-image-builder-workflow)
-* [Exercise 2.2 - Reviewing Execution Environments](3.1-execution-environment-review)
-* [Exercise 2.3 - Creating an Image Definition](3.2-image-definition-in-code)
-* [Exercise 2.4 - Using the infra.osbuild Collection in a Playbook](3.3-using-collection-in-playbook)
-* [Exercise 2.5 - Running Our Playbook through Controller](3.4-aap-image-build)
+* [Exercise 2.2 - Reviewing Execution Environments](2.2-execution-environment-review)
+* [Exercise 2.3 - Creating an Image Definition](2.3-image-definition-in-code)
+* [Exercise 2.4 - Using the infra.osbuild Collection in a Playbook](2.4-using-collection-in-playbook)
+* [Exercise 2.5 - Running Our Playbook through Controller](2.5-aap-image-build)
 
 ## Section 3 - Installing and Configuring FDO
 
@@ -62,15 +62,16 @@ Having said that, this workshop is built to take roughly 4 hours.
 
 ## Section 4 - Creating an Edge Simplified Installer Image via the Composer CLI
 
-* [Exercise 4.1 - Building a Blueprint](4.1-network-provision)
-* [Exercise 4.2 - Starting a Compose via the Composer CLI](4.2-initial-call-home)
+* [Exercise 4.1 - Building a Blueprint](4.1-build-blueprint)
+* [Exercise 4.2 - Starting a Compose via the Composer CLI](4.2-start-compose-cli)
 
-## Section 5 - Initial Imaging of Edge Devices
+## Section 5 - Imaging a Device as a Device Manufacturer
 
-* [Exercise 5.1 - Creating Automation to Deploy a Containerized Application](5.1-containerized-app-automation)
-* [Exercise 5.2 - Deploying the Application via Ansible Controller](5.2-deploying-the-app)
+* [Exercise 5.1 - Imaging a Device as a Device Manufacturer](5.1-device-manufacturer-image)
 
 ## Section 6 - Finishing Device Installation at their Final Destination
+
+* [Exercise 6.1 - Finishing the Process at the Device Destination](6.1-finish-install)
 
 ## Section 7 - Deploying an Application that Requires Deterministic Compute
 
