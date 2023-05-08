@@ -190,10 +190,10 @@
 }
 
 .button{
-  padding-left: 5px;
-  padding-right: 5px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 /* keep the navbar at the top of the page when scrolling */
