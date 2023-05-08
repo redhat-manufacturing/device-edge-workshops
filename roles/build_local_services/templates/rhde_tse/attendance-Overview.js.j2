@@ -127,6 +127,15 @@ class Overview extends React.Component {
                     <DescriptionListDescription className ><a href="https://image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}">https://image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}</a></DescriptionListDescription>
                   </CardBody>
                 </Card>
+                <Card component="div">
+                  <CardTitle>Wifi Information</CardTitle>
+                  <CardBody>
+                    <DescriptionListTerm className='Description-list'>Netowrk Name:</DescriptionListTerm>
+                    <DescriptionListDescription className >{{ lab_wifi_network.ssid }}</DescriptionListDescription>
+                    <DescriptionListTerm className='Description-list'>Password:</DescriptionListTerm>
+                    <DescriptionListDescription className >{{ lab_wifi_network.password }}</DescriptionListDescription>
+                  </CardBody>
+                </Card>
               </DescriptionList>
             </Card>
           </Box>
