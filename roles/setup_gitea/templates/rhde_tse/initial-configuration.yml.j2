@@ -2,6 +2,7 @@
 {% raw %}
 - name: do initial device setup
   hosts: all
+  become: true
   tasks:
     - name: set the system hostname
       ansible.builtin.hostname:
