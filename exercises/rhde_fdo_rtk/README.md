@@ -72,12 +72,12 @@ Having said that, this workshop is built to take roughly 4 hours.
 ## Section 6 - Finishing Device Installation at their Final Destination
 
 * [Exercise 6.1 - Finishing the Process at the Device Destination](6.1-finish-install)
+* [Exercise 6.1 - Adding out Host to an Inventory](6.2-add-host-to-inventory)
 
 ## Section 7 - Deploying an Application that Requires Deterministic Compute
 
-* [Exercise 7.1 - Creating a Host in Ansible Controller](6.1-cip-intro)
-* [Exercise 7.2 - Creating Automation to Deploy a Containerized Application](5.1-containerized-app-automation)
-* [Exercise 7.3 - Deploying the Application via Ansible Controller](5.2-deploying-the-app)
+* [Exercise 7.2 - Creating Automation to Deploy a Containerized Application](7.1-containerized-app-automation)
+* [Exercise 7.3 - Deploying the Application via Ansible Controller](7.2-deploying-the-app)
 
 ## Supplamental Resources
 * [infra.osbuild](https://github.com/redhat-cop/infra.osbuild)
