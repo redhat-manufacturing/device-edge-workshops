@@ -61,6 +61,6 @@ A fully composed playbook at `playbooks/compose-image.yml`:
 ---
 **Navigation**
 
-[Previous Exercise](../3.2-image-definition-in-code) | [Next Exercise](../3.4-aap-image-build)
+[Previous Exercise](../2.3-image-definition-in-code) | [Next Exercise](../2.5-aap-image-build)
 
 [Click here to return to the Workshop Homepage](../README.md)
