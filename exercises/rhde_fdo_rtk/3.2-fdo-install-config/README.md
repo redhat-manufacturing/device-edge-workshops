@@ -116,6 +116,6 @@ Once complete, FDO will be ready to onboard our devices.
 ---
 **Navigation**
 
-[Previous Exercise](../4.1-network-provision) | [Next Exercise](../5.1-fixme)
+[Previous Exercise](../3.1-fdo-intro) | [Next Exercise](../4.1-build-blueprint)
 
 [Click here to return to the Workshop Homepage](../README.md)
