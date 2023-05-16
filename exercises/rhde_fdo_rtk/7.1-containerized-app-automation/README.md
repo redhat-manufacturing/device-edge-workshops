@@ -1,4 +1,4 @@
-# Workshop Exercise 5.1 - Creating Automation to Deploy a Containerized Application
+# Workshop Exercise 7.1 - Creating Automation to Deploy a Containerized Application
 
 ## Table of Contents
 
@@ -163,6 +163,6 @@ Again, feel free to get this playbook into to your code repo however you'd like:
 ---
 **Navigation**
 
-[Previous Exercise](../4.2-initial-call-home) | [Next Exercise](../5.2-configuring-controller)
+[Previous Exercise](../6.2-add-host-to-inventory) | [Next Exercise](../7.2-deploying-the-app)
 
 [Click here to return to the Workshop Homepage](../README.md)
