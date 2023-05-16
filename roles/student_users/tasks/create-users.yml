@@ -14,6 +14,11 @@
   loop_control:
     loop_var: student_number
 
+- name: ensure generated key exists
+  ansible.builtin.stat:
+    path: "{{ public_key_path }}"
+  register: _public_key_stat
+
 - name: push generated key for login
   ansible.posix.authorized_key:
     user: "student{{ student_number }}"
@@ -22,3 +27,5 @@
   loop: "{{ range(1, (student_total + 1), 1)|list }}"
   loop_control:
     loop_var: student_number
+  when:
+    - _public_key_stat.exists
