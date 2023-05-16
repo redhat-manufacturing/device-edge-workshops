@@ -38,6 +38,6 @@ Once the installation is complete, the device will shut down, signifying that it
 ---
 **Navigation**
 
-[Previous Exercise](../3.4-aap-inage-build) | [Next Exercise](../4.2-initial-call-home)
+[Previous Exercise](../4.2-start-compose-cli) | [Next Exercise](../6.1-finish-install)
 
 [Click here to return to the Workshop Homepage](../README.md)
