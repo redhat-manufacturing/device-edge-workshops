@@ -4,10 +4,13 @@
 
 * [Objective](#objective)
 * [Step 1 - Pushing the Blueprint](#step-1---crafting-the-blueprint)
+* [Step 2 - Building an Installer Image](#step-2---building-an-installer-image)
 
 ## Objective
 
 In this exercise, we'll build a blueprint to build an edge simplified installer off of our realtime image built earlier.
+
+To run these commands, SSH into the edge-manager system using the address and credentials from your student page.
 
 ### Step 1 - Pushing the Blueprint
 
@@ -40,7 +43,7 @@ This will submit your compose to the queue. The progress can be monitiored from 
 ---
 **Navigation**
 
-[Previous Exercise](../4.1-build-blueprint) | [Next Exercise](../5.1-initial-device-image)
+[Previous Exercise](../4.1-build-blueprint) | [Next Exercise](../5.1-device-manufacturer-image)
 
 [Click here to return to the Workshop Homepage](../README.md)
 
