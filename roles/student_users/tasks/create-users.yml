@@ -28,4 +28,4 @@
   loop_control:
     loop_var: student_number
   when:
-    - _public_key_stat.exists
+    - _public_key_stat.stat.exists
