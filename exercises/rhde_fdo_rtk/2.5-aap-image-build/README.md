@@ -1,4 +1,4 @@
-# Workshop Exercise 3.4 - Running Our Playbook through Controller
+# Workshop Exercise 2.5 - Running Our Playbook through Controller
 
 ## Table of Contents
 
@@ -92,6 +92,6 @@ This is a fairly large topic, but Controller is flexible and API driven, so inte
 ---
 **Navigation**
 
-[Previous Exercise](../3.3-using-collection-in-playbook) | [Next Exercise](../4.1-network-provision)
+[Previous Exercise](../2.4-using-collection-in-playbook) | [Next Exercise](../3.1-fdo-intro)
 
 [Click here to return to the Workshop Homepage](../README.md)
