@@ -48,8 +48,20 @@
 - name: run local services
   ansible.builtin.import_playbook: run-local-services.yml
 
+- name: wait for services to start
+  hosts:
+    - edge_management
+  gather_facts: false
+  tasks:
+    - name: wait 30 seconds
+      ansible.builtin.pause:
+        seconds: 30
+
 - name: import gitea playbook
   ansible.builtin.import_playbook: gitea.yml
 
 - name: import populate controller playbook
   ansible.builtin.import_playbook: populate-controller.yml
+
+- name: import student users playbook
+  ansible.builtin.import_playbook: student-users.yml
