@@ -10,11 +10,14 @@ This workshop focuses on building edge devices that feature the realtime kernel 
   - [Time planning](#time-planning)
   - [Lab Diagram](#lab-diagram)
   - [Section 1 - Investigating the Lab Environment](#section-1---investigating-the-lab-environment)
-  - [Section 2 - Creating an Image with Image Builder WebUI](#section-2---setting-up-for-zero-touch-provisioning)
-  - [Section 3 - Creating an Image with infra.osbuild](#section-3---kickstarting-a-device)
-  - [Section 4 - Kickstarting a Device](#section-4---deploying-a-bare-metal-workload)
-  - [Section 5 - Deploying an Application](#section-5---deploying-an-application)
-  - [Section 6 - Optional - Ansible and CIP](#section-6---deploying-a-kubernetes-native-application)
+  - [Section 2 - Creating an Image with the Realtime Kernel via the infra.osbuild Collection](#section-2---creating-an-image-with-the-realtime-kernel-via-the-infraosbuild-collection)
+  - [Section 3 - Installing and Configuring FDO](#section-3---installing-and-configuring-fdo)
+  - [Section 4 - Creating an Edge Simplified Installer Image via the Composer CLI](#section-4---creating-an-edge-simplified-installer-image-via-the-composer-cli)
+  - [Section 5 - Imaging a Device as a Device Manufacturer](#section-5---imaging-a-device-as-a-device-manufacturer)
+  - [Section 6 - Finishing Device Installation at their Final Destination](#section-6---finishing-device-installation-at-their-final-destination)
+  - [Section 7 - Deploying an Application that Requires Deterministic Compute](#section-7---deploying-an-application-that-requires-deterministic-compute)
+  - [Supplamental Resources](#supplamental-resources)
+  - [Instructor Resources](#instructor-resources)
 
 ## Presentations
 
