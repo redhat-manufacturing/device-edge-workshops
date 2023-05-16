@@ -53,13 +53,13 @@ sudo nmcli dev wifi connect $(lab-wifi-ssid) password '$(lab-wifi-network-passwo
 Refer to your student page for the wireless network SSID and password.
 
 
-Once connected, denote the IP address issed to the system **for the wireless connection** by running `ip addr` and looking under the interface named `wlp*`.
+Once connected, denote the IP address issued to the system **for the wireless connection** by running `ip addr` and looking under the interface named `wlp*`.
 
 We'll need this IP address in our next exercise, so keep it in a safe place.
 
 ---
 **Navigation**
 
-[Previous Exercise](../3.4-aap-inage-build) | [Next Exercise](../4.2-initial-call-home)
+[Previous Exercise](../5.1-device-manufacturer-image) | [Next Exercise](../6.2-inventory-and-host)
 
 [Click here to return to the Workshop Homepage](../README.md)
