@@ -208,6 +208,7 @@ images_to_compose:
       - nano
       - NetworkManager-wifi
       - podman
+image_builder_http_port: 11080
 
 skip_builder_services: true
 
