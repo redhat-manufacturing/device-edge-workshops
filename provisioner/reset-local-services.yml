@@ -33,3 +33,23 @@
       ansible.builtin.file:
         path: "/tmp/{{ ansible_host }}"
         state: absent
+    - name: dump dnsmasq | priv
+      containers.podman.podman_image:
+        name: localhost/dnsmasq:latest
+        state: absent
+      become: true
+    - name: umount boot iso
+      ansible.posix.mount:
+        path: "/home/{{ ansible_user }}/workshop-build/ipxe/boot_iso"
+        state: unmounted
+      become: true
+    - name: remove the build directory
+      ansible.builtin.file:
+        path: "/home/{{ ansible_user }}/workshop-build"
+        state: absent
+      become: true
+    - name: dump the nm connection
+      community.general.nmcli:
+        conn_name: "{{ workshop_type }}-workshop"
+        state: absent
+      become: true
