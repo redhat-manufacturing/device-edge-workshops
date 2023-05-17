@@ -1,0 +1,34 @@
+---
+
+- name: check if iso exists
+  ansible.builtin.stat:
+    path: "/home/student{{ student_number }}/student{{ student_number}}-edge-installer.iso"
+  register: _installer_iso
+
+- name: compose and expose
+  when:
+    - not (_installer_iso.stat.exists)
+  block:
+    - name: start compose
+      ansible.builtin.shell:
+        cmd: "composer-cli compose start-ostree fdo-simplified-installer-student{{ student_number }} edge-simplified-installer --url http://localhost:{{ image_builder_http_port }}/rhde-image/repo"
+      register: builder_compose_start_out
+    - name: get compose uuid
+      ansible.builtin.set_fact:
+        compose_uuid: "{{ (builder_compose_start_out.stdout | split)[1] }}"
+    - name: wait for compose
+      ansible.builtin.shell:
+        cmd: "composer-clie compose info {{ compose_uuid }} | grep FINISHED"
+      register: compose_status
+      until: compose_status.rc == 0
+      retries: 60
+      delay: 60
+    - name: Export the compose artifact
+      infra.osbuild.export_compose:
+        compose_id: "{{ compose_uuid }}"
+        dest: "/home/student{{ student_number }}/student{{ student_number}}-edge-installer.iso"
+
+- name: ensure student{{ student_number }} owns ISO
+  ansible.builtin.file:
+    path: "/home/student{{ student_number }}/student{{ student_number}}-edge-installer.iso"
+    owner: "student{{ student_number}}"
