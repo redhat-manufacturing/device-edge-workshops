@@ -1,0 +1,24 @@
+---
+
+- name: run additional roles if needed
+  hosts:
+    - edge_management
+  become: true
+  vars_files:
+    - "workshop_vars/{{ workshop_type }}.yml"
+  pre_tasks:
+    - name: assign extra roles for rhde_fdo_rtk
+      ansible.builtin.set_fact:
+        extra_roles:
+          - ../roles/fdo_installers
+      when:
+        - workshop_type == 'rhde_fdo_rtk'
+  tasks:
+    - name: run extra roles
+      ansible.builtin.include_role:
+        name: "{{ role }}"
+      loop: "{{ extra_roles }}"
+      loop_control:
+        loop_var: role
+      when:
+        - extra_roles is defined
