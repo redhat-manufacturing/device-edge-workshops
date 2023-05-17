@@ -17,7 +17,7 @@
     - name: get wildcard cert if possible
       when:
         - dns_type == 'aws'
-        - workshop_type == 'rhde_tse'
+        - workshop_type == 'rhde_tse' or workshop_type == 'rhde_fdo_rtk'
       block:
         - name: make a directory for cert storage
           ansible.builtin.file:
