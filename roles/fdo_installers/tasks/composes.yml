@@ -9,19 +9,12 @@
   when:
     - not (_installer_iso.stat.exists)
   block:
-    # - name: start compose
-    #   ansible.builtin.shell:
-    #     cmd: "composer-cli compose start-ostree fdo-simplified-installer-student{{ student_number }} edge-simplified-installer --url http://localhost:{{ image_builder_http_port }}/rhde-image/repo"
-    #   register: builder_compose_start_out
     - name: start compose
       infra.osbuild.start_compose:
         blueprint: "fdo-simplified-installer-student{{ student_number }}"
         compose_type: edge-simplified-installer
         ostree_url: "http://localhost:{{ image_builder_http_port }}/rhde-image/repo"
       register: builder_compose_start_out
-    # - name: get compose uuid
-    #   ansible.builtin.set_fact:
-    #     compose_uuid: "{{ (builder_compose_start_out.stdout | split)[1] }}"
     - name: wait for compose
       infra.osbuild.wait_compose:
         compose_id: "{{ builder_compose_start_out['result']['build_id'] }}"
@@ -35,3 +28,4 @@
   ansible.builtin.file:
     path: "/home/student{{ student_number }}/student{{ student_number}}-edge-installer.iso"
     owner: "student{{ student_number}}"
+    mode: '0644'
