@@ -1,0 +1,15 @@
+---
+
+- name: loop through student blueprints
+  ansible.builtin.include_tasks:
+    file: blueprints.yml
+  loop: "{{ (range(1, (student_total + 1), 1)|list) }}"
+  loop_control:
+    loop_var: student_number
+
+- name: loop through student composes
+  ansible.builtin.include_tasks:
+    file: composes.yml
+  loop: "{{ (range(1, (student_total + 1), 1)|list) }}"
+  loop_control:
+    loop_var: student_number
