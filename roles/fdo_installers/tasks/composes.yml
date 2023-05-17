@@ -9,23 +9,26 @@
   when:
     - not (_installer_iso.stat.exists)
   block:
+    # - name: start compose
+    #   ansible.builtin.shell:
+    #     cmd: "composer-cli compose start-ostree fdo-simplified-installer-student{{ student_number }} edge-simplified-installer --url http://localhost:{{ image_builder_http_port }}/rhde-image/repo"
+    #   register: builder_compose_start_out
     - name: start compose
-      ansible.builtin.shell:
-        cmd: "composer-cli compose start-ostree fdo-simplified-installer-student{{ student_number }} edge-simplified-installer --url http://localhost:{{ image_builder_http_port }}/rhde-image/repo"
+      infra.osbuild.start_compose:
+        blueprint: "fdo-simplified-installer-student{{ student_number }}"
+        compose_type: edge-simplified-installer
+        ostree_url: "http://localhost:{{ image_builder_http_port }}/rhde-image/repo"
       register: builder_compose_start_out
-    - name: get compose uuid
-      ansible.builtin.set_fact:
-        compose_uuid: "{{ (builder_compose_start_out.stdout | split)[1] }}"
+    # - name: get compose uuid
+    #   ansible.builtin.set_fact:
+    #     compose_uuid: "{{ (builder_compose_start_out.stdout | split)[1] }}"
     - name: wait for compose
-      ansible.builtin.shell:
-        cmd: "composer-clie compose info {{ compose_uuid }} | grep FINISHED"
-      register: compose_status
-      until: compose_status.rc == 0
-      retries: 60
-      delay: 60
+      infra.osbuild.wait_compose:
+        compose_id: "{{ builder_compose_start_out['result']['build_id'] }}"
+        timeout: 3600
     - name: Export the compose artifact
       infra.osbuild.export_compose:
-        compose_id: "{{ compose_uuid }}"
+        compose_id: "{{ builder_compose_start_out['result']['build_id'] }}"
         dest: "/home/student{{ student_number }}/student{{ student_number}}-edge-installer.iso"
 
 - name: ensure student{{ student_number }} owns ISO
