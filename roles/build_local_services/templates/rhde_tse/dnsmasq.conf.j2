@@ -35,4 +35,10 @@ dhcp-match=set:ENH,175
 # Boot ipxe
 dhcp-boot=tag:ENH,http://ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/workshop.ipxe
 
+{% if template.vars.dhcp_reservations is defined %}
+{% for dhcp_reservation in template.vars.dhcp_reservations %}
+dhcp-host={{ dhcp_reservation.mac_address }},{{ dhcp_reservation.name }},{{ dhcp_reservation.ip_address }}
+{% endfor %}
+{% endif %}
+
 dhcp-no-override
