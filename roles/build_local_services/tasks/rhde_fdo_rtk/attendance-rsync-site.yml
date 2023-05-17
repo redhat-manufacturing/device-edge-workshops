@@ -1,0 +1,6 @@
+---
+
+- name: rsync is faster
+  ansible.posix.synchronize:
+    src: "files/{{ workshop_type }}/attendance"
+    dest: "{{ build_dir }}/attendance/"

@@ -1,7 +1,0 @@
----
-
-- name: copy installer iso to build location
-  ansible.builtin.copy:
-    src: /var/www/html/rhde-fdo-rtk-empty/images/rhde-fdo-rtk-installer.iso
-    dest: "{{ build_dir }}/ipxe/installer.iso"
-    remote_src: true
