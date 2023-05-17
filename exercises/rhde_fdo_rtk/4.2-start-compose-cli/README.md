@@ -27,11 +27,11 @@ After the command completes, your new blueprint should be visible in the Image B
 
 > **Note:**
 >
-> The infra.osbuild collection automatically hosts `edge-commit` type images on a web server for us, which we can have Image Builder consume to build our installer image. This web server is already set up and listening on port 4080.
+> The infra.osbuild collection automatically hosts `edge-commit` type images on a web server for us, which we can have Image Builder consume to build our installer image. This web server is already set up and listening on port 11080.
 
 To start the build of an `edge-simplified-installer` from the CLI, use the following command:
 ```
-sudo composer-cli compose start-ostree fdo-simplified-installer-student$(your-student-number) edge-simplified-installer --url http://localhost:4080/rhde-fdo-rtk/repo
+sudo composer-cli compose start-ostree fdo-simplified-installer-student$(your-student-number) edge-simplified-installer --url http://localhost:11080/rhde-image/repo
 ```
 
 This will submit your compose to the queue. The progress can be monitiored from the CLI or from the WebUI.
