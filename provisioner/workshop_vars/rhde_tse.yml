@@ -35,6 +35,13 @@ local_services:
               address: "{{ internal_address }}"
             - record: "attendance.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
+          dhcp_reservations:
+            - mac_address: 'e4:90:69:a2:b7:41'
+              ip_address: 192.168.1.141
+              name: plc
+            - mac_address: 'e4:90:69:a2:b7:42'
+              ip_address: 192.168.1.142
+              name: drive
     post_tasks:
       - dnsmasq-update-etc-hosts.yml
     containerfile: dnsmasq-containerfile
