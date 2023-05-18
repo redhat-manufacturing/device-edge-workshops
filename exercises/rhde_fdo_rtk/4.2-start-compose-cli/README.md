@@ -38,7 +38,7 @@ This will submit your compose to the queue. The progress can be monitiored from 
 
 > **Note:**
 >
-> To speed up this workshop, the instructor has already composed this image, and has it ready for you.
+> To speed up this workshop, the instructor has already composed this image, and has it ready for you. Connect to the edge-management system for your workshop via SSH, and in your home directory should be an installer ISO, or a link to the shared ISO for the workshop. For information on connecting to the edge-management server, refer to your student page, or use the web-based terminal.
 
 ---
 **Navigation**
