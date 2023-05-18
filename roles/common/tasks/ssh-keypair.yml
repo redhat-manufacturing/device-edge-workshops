@@ -1,0 +1,13 @@
+---
+
+- name: create directory to house keypair
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user }}/workshop-ssh"
+    state: directory
+    owner: "{{ ansible_user }}"
+
+- name: generate keypair
+  community.crypto.openssh_keypair:
+    path: "/home/{{ ansible_user }}/workshop-ssh/{{ workshop_type }}-{{ ec2_name_prefix }}"
+    type: ed25519
+    owner: "{{ ansible_user }}"

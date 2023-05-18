@@ -14,3 +14,6 @@
 
 - name: import lingering tasks
   ansible.builtin.import_tasks: lingering.yml
+
+- name: import ssh-keypair tasks
+  ansible.builtin.import_tasks: ssh-keypair.yml
