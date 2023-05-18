@@ -1,0 +1,43 @@
+---
+
+- name: replace initial_user line
+  ansible.builtin.lineinfile:
+    path: /etc/fdo/aio/configs/serviceinfo_api_server.yml
+    regexp: '^  initial_user: ~'
+    line: '  initial_user:'
+  notify:
+    - restart_fdo
+
+- name: configure onboarding
+  ansible.builtin.blockinfile:
+    path: /etc/fdo/aio/configs/serviceinfo_api_server.yml
+    insertafter: '^  initial_user:'
+    block: |2
+          username: fdo-init
+          sshkeys:
+            - '{{ lookup('file', ssh_key_path) }}'
+    marker: "# {mark} ANSIBLE MANAGED INITIAL_USER BLOCK"
+  notify:
+    - restart_fdo
+
+- name: replace diskencryption_clevis line
+  ansible.builtin.lineinfile:
+    path: /etc/fdo/aio/configs/serviceinfo_api_server.yml
+    regexp: '^  diskencryption_clevis: ~'
+    line: '  diskencryption_clevis:'
+  notify:
+    - restart_fdo
+
+- name: configure disk encryption
+  ansible.builtin.blockinfile:
+    path: /etc/fdo/aio/configs/serviceinfo_api_server.yml
+    insertafter: '^  diskencryption_clevis:'
+    block: |2
+          - disk_label: /dev/sda4
+            binding:
+              pin: tpm2
+              config: "{}"
+            reencrypt: true
+    marker: "# {mark} ANSIBLE MANAGED DISKENCRYPTION_CLEVIS BLOCK"
+  notify:
+    - restart_fdo
