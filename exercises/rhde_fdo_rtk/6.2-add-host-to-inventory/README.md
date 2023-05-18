@@ -8,7 +8,9 @@
 
 ## Objective
 
-In this exercise, we'll add our new host to an inventory in Ansible Controller for further automation tasks.
+Ideally, our onboarding script in the previous exercise should have handled this step for us, however as a backup we'll investigate how this is done manually.
+
+Should your host already exist in Ansible Controller, proceed to the next exercise. If not, we'll add our new host to an inventory in Ansible Controller for further automation tasks.
 
 ### Step 1 - Adding a Host to an Inventory
 
