@@ -15,7 +15,8 @@ exercises/rhde_aw_120/solutions
 provisioner.log
 provision.log
 .DS_Store
-*inventory.yml
+*local-inventory*
+*local.inventory*
 provisioner/on-ocp.yml
 roles/setup_gitea/templates/Containerfile.j2
 roles/setup_gitea/templates/docker-compose.yml
