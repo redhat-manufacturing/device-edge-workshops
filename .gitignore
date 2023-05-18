@@ -27,3 +27,4 @@ roles/containerized_eda
 *.extra-vars.yml
 *node_modules*
 export.yml
+aap-containerized-installer
