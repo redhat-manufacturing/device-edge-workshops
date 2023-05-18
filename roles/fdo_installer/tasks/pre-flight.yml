@@ -1,0 +1,8 @@
+---
+
+- name: create directory for shared student resources
+  ansible.builtin.file:
+    path: /home/students
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: students

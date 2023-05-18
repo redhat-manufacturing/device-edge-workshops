@@ -1,0 +1,13 @@
+---
+
+- name: push blueprint template
+  ansible.builtin.template:
+    src: templates/blueprint.toml.j2
+    dest: /home/students/blueprint.toml
+    owner: "{{ ansible_user }}"
+  vars:
+    student_number: ''
+
+- name: push blueprint into image builder
+  infra.osbuild.push_blueprint:
+    src: /home/students/blueprint.toml
