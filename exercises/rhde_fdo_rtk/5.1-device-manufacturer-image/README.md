@@ -4,7 +4,8 @@
 
 * [Objective](#objective)
 * [Step 1 - Hooking Up Device at an Imaging Station](#step-1---hooking-up-device-at-an-imaging-station)
-* [Step 2 - Booting from a Flashdrive](#step-2---booting-from-the-network)
+* [Step 2 - Ensuring Secure Boot is Enabled](#step-2---ensuring-secure-boot-is-enabled)
+* [Step 3 - Booting from a Flashdrive](#step-3---booting-from-a-flashdrive)
 
 ## Objective
 
@@ -21,7 +22,13 @@ At the imaging station, connect the following to your edge device:
 - Ethernet
 - Bootable USB Flashdrive
 
-### Step 2 - Booting from a Flashdrive
+### Step 2 - Ensuring Secure Boot is Enabled
+
+Since we're focused on securly onboarding devices, we'll want to ensure secure boot is enabled on our device. The setting for this is found in the BIOS of your edge device, typically under a menu called "Administer Secure Boot".
+
+Your instructor will have more info, and can assist during the imaging process.
+
+### Step 3 - Booting from a Flashdrive
 
 Once all appropriate connections to the device are made, power up the device. When the splash screen appears, hit the key to enter the boot menu.
 
