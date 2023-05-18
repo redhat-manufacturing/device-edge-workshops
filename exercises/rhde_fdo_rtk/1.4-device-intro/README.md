@@ -5,7 +5,6 @@
 * [Objective](#objective)
 * [Step 1 - Introduction](#step-1---introduction)
 * [Step 2 - Physical Edge Devices Introduction](#step-2---physical-edge-devices-introduction)
-* [Step 3 - Edge Hypervisor Introduction](#step-3---edge-hypervisor-introduction)
 
 ## Objective
 
@@ -32,32 +31,10 @@ The device at your workstation may or may not match these specifications exactly
 Despite the differences, there will be similiarities to more traditional devices, such as USB ports, ethernet ports, antennas, etc.
 
 Feel free to investigate the hardware at your workstation, and if you have questions, please notify the lab instructor.
- 
-### Step 3 - Edge Hypervisor Introduction
-
-An edge hypervisor may have been set up for this workshop to allow for a completely virtual interaction with the lab while still experiencing the device edge stack.
-
-We'll be leveraging KVM and Cockpit on top of Red Hat Enterprise Linux to run our virtual edge devices. The URL and login information can be found on your student page.
 
 > **Note**
 >
-> The URL will contain a port number (typically `:9090`). Ensure you include it when attempting to access the Cockpit WebUI from a browser.
-
-After accessing the URL, you should be presented with the Cockpit login screen:
-
-![Cockpit Login](../images/cockpit-login.png)
-
-After logging in with your credentials, you should be presented with the cockpit dashboard:
-
-![Cockpit Dashboard](../images/cockpit-dashboard.png)
-
-Ensure you can access the virtual machines tab:
-
-![Cockpit Machines](../images/cockpit-machines.png)
-
-> **Note**
->
-> You have been given sudo access to this machine, so take caution when performing tasks on the hypervisor.
+> You have been given sudo access to components in this lab, so use caution.
 
 ---
 **Navigation**
