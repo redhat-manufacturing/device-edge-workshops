@@ -65,3 +65,6 @@
 
 - name: import student users playbook
   ansible.builtin.import_playbook: student-users.yml
+
+- name: import additional roles playbook
+  ansible.builtin.import_playbook: additional-roles.yml
