@@ -35,6 +35,8 @@ local_services:
               address: "{{ internal_address }}"
             - record: "serviceinfo-api.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
+            - record: onboarding.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+              address: "{{ internal_address }}"
     post_tasks:
       - dnsmasq-update-etc-hosts.yml
     containerfile: dnsmasq-containerfile
@@ -71,6 +73,8 @@ local_services:
               proxy_pass: "http://localhost:8081"
             - name: serviceinfo-api
               proxy_pass: "http://localhost:8083"
+            - name: onboarding
+              proxy_pass: "http://localhost:18000"
   - name: database
     containerfile: database-containerfile
     templates:
@@ -101,11 +105,25 @@ local_services:
         dest: attendance/src/App.js
       - src: attendance-index.js.j2
         dest: attendance/src/pages/index.js
-  - name: fdo-aio
-    containerfile: fdo-containerfile
+  - name: onboarding
+    containerfile: onboarding-containerfile
+    pre_tasks:
+      - onboarding-student-scripts.yml
     files:
-      - src: fdo-serviceinfo_api_server.yml
-        dest: serviceinfo_api_server.yml
+      - src: onboarding-nginx.conf
+        dest: nginx.conf
+  - name: eda
+    containerfile: eda-containerfile
+    templates:
+      - src: eda-run-workflow.yml.j2
+        dest: run-workflow.yml
+    files:
+      - src: eda-rulebook.yml
+        dest: rulebook.yml
+      - src: eda-inventory.yml
+        dest: inventory.yml
+      - src: eda-ansible.cfg
+        dest: ansible.cfg
 
 pods:
   - name: workshop-rhde_fdo_rtf-priv
@@ -156,8 +174,10 @@ pods:
             image: gitea:latest
           - name: attendance
             image: attendance:latest
-          - name: fdo-aio
-            image: fdo-aio:latest
+          - name: onboarding
+            image: onboarding:latest
+          - name: eda
+            image: eda:latest
         volumes:
           - name: database-data
             persistentVolumeClaim:
