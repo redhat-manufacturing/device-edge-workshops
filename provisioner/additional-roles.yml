@@ -10,7 +10,8 @@
     - name: assign extra roles for rhde_fdo_rtk
       ansible.builtin.set_fact:
         extra_roles:
-          - ../roles/fdo_installers
+          - ../roles/setup_fdo
+          - ../roles/fdo_installer
       when:
         - workshop_type == 'rhde_fdo_rtk'
   tasks:
