@@ -1,0 +1,11 @@
+---
+
+- name: install packages
+  ansible.builtin.dnf:
+    name: fdo-admin-cli
+
+- name: start/enable services
+  ansible.builtin.systemd:
+    name: fdo-aio
+    state: started
+    enabled: true
