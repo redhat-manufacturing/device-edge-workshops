@@ -9,4 +9,4 @@ COPY serviceinfo_api_server.yml /etc/fdo/aio/configs/serviceinfo_api_server.yml
 
 EXPOSE 8080 8081 8082 8083
 
-CMD /usr/bin/fdo-admin-tool aio --directory /etc/fdo/aio --binary-path /usr/libexec/fdo
+CMD /usr/bin/fdo-admin-tool --log-level debug aio --directory /etc/fdo/aio --binary-path /usr/libexec/fdo
