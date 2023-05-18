@@ -28,7 +28,7 @@ Once all appropriate connections to the device are made, power up the device. Al
 
 In the background, the device has called out to our "all-in-one" FDO server and onboarded itself, performing the configruation we specified earlier, as well as intriniscially being onboarded securely.
 
-### Step 3 - Confirm Onboarding
+### Step 3 - Confirm FDO Onboarding
 
 Log in to the box on the console using the credentails provided on your student page. Once logged in, run the following command to confirm onboarding:
 ```
@@ -37,25 +37,26 @@ sudo systemctl status fdo-client
 
 Ideally, the output from systemd should show the client as `loaded` and `inactive (dead)`, which are both good: this means the service ran successfully and has finished the work.
 
-### Step 4 - Connect to the Lab WiFi
+### Step 4 - Finish Onboarding
 
 Since these edge devices have wifi capabilities and we have limited imaging stations, we'll connect our onboarded device to the lab wifi so it can be disconnected from the imaging station, allowing the next student to proceed.
 
-Still logged in to the console, run the following commands:
+As shown in the FDO configuration, our devices have a user named `fdo-init` and an SSH keypair for authentication. Use these credentials to connect to the device. As a reminder, the SSH keypair can be found on your student page.
 
+For example:
 ```
-sudo nmcli radio wifi on
-sudo nmcli dev wifi rescan
-sudo nmcli dev wifi list
-sudo nmcli dev wifi connect $(lab-wifi-ssid) password '$(lab-wifi-network-password)'
+ssh -i /path/to/private.key fdo-init@192.168.1.172
 ```
 
-Refer to your student page for the wireless network SSID and password.
+Ensure you replace the path and address above. To determine what address your device recieved, ask your instructor.
 
+From here, a shell script has been prepared for you. Download it to the system and run it:
+```
+curl https://onboarding.summit.redhat-workshops.com/onboard-student1.sh --output onboard-student1.sh
+bash -x ./onboard-student1.sh
+```
 
-Once connected, denote the IP address issued to the system **for the wireless connection** by running `ip addr` and looking under the interface named `wlp*`.
-
-We'll need this IP address in our next exercise, so keep it in a safe place.
+Be sure to replace the student number with your student number, and the URL based on your workshop information.
 
 ---
 **Navigation**
