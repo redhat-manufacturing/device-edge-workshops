@@ -193,13 +193,13 @@ images_to_compose:
       - nano
       - NetworkManager-wifi
       - podman
-    builder_compose_customizations:
-      user:
-        name: ansible
-        password: "{{ admin_password }}"
-        groups:
-          - users
-          - wheel
+builder_compose_customizations:
+  user:
+    name: backup-user
+    password: "{{ admin_password }}"
+    groups:
+      - users
+      - wheel
 image_builder_http_port: 11080
 
 install_gitea: false
