@@ -15,7 +15,7 @@
     block: |2
           username: fdo-init
           sshkeys:
-            - '{{ lookup('file', ssh_key_path) }}'
+            - '{{ _ssh_pub_key }}'
     marker: "# {mark} ANSIBLE MANAGED INITIAL_USER BLOCK"
   notify:
     - restart_fdo
