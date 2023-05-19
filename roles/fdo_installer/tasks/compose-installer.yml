@@ -22,9 +22,9 @@
     - name: Export the compose artifact
       infra.osbuild.export_compose:
         compose_id: "{{ builder_compose_start_out['result']['build_id'] }}"
-        dest: "/home/student{{ student_number }}/student{{ student_number}}-edge-installer.iso"
+        dest: "/home/students/students/fdo-edge-installer.iso"
 
-- name: ensure student{{ student_number }} owns ISO
+- name: ensure {{ ansible_user }} owns ISO
   ansible.builtin.file:
     path: "/home/students/students/fdo-edge-installer.iso"
     owner: "{{ ansible_user }}"
