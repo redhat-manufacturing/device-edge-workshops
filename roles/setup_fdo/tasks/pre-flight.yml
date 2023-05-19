@@ -1,0 +1,10 @@
+---
+
+- name: slurp up ssh pub key
+  ansible.builtin.slurp:
+    src: "{{ ssh_pub_key_path }}"
+  register: _ssh_pub_key_data
+
+- name: set key data
+  ansible.builtin.set_fact:
+    _ssh_pub_key: "{{ (_ssh_pub_key_data['content'] | b64decode | split)[:2] | join(' ') }}"
