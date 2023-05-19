@@ -2,7 +2,7 @@
 
 - name: check if iso exists
   ansible.builtin.stat:
-    path: /home/students/fdo-edge-installer.iso
+    path: /home/students/{{ device.manufacturer }}-edge-installer.iso
   register: _installer_iso
 
 - name: compose and expose
@@ -11,7 +11,7 @@
   block:
     - name: start compose
       infra.osbuild.start_compose:
-        blueprint: "fdo-simplified-installer-student"
+        blueprint: "device-simplified-installer-{{ device.manufacturer }}"
         compose_type: edge-simplified-installer
         ostree_url: "http://localhost:{{ image_builder_http_port }}/rhde-image/repo"
       register: builder_compose_start_out
@@ -26,6 +26,6 @@
 
 - name: ensure {{ ansible_user }} owns ISO
   ansible.builtin.file:
-    path: "/home/students/fdo-edge-installer.iso"
+    path: /home/students/{{ device.manufacturer }}-edge-installer.iso
     owner: "{{ ansible_user }}"
     mode: '0644'

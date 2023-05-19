@@ -1,0 +1,31 @@
+---
+
+- name: check if iso exists
+  ansible.builtin.stat:
+    path: /home/students/fdo-edge-installer.iso
+  register: _installer_iso
+
+- name: compose and expose
+  when:
+    - not (_installer_iso.stat.exists)
+  block:
+    - name: start compose
+      infra.osbuild.start_compose:
+        blueprint: "fdo-simplified-installer-students"
+        compose_type: edge-simplified-installer
+        ostree_url: "http://localhost:{{ image_builder_http_port }}/rhde-image/repo"
+      register: builder_compose_start_out
+    - name: wait for compose
+      infra.osbuild.wait_compose:
+        compose_id: "{{ builder_compose_start_out['result']['build_id'] }}"
+        timeout: 3600
+    - name: Export the compose artifact
+      infra.osbuild.export_compose:
+        compose_id: "{{ builder_compose_start_out['result']['build_id'] }}"
+        dest: "/home/students/fdo-edge-installer.iso"
+
+- name: ensure {{ ansible_user }} owns ISO
+  ansible.builtin.file:
+    path: "/home/students/fdo-edge-installer.iso"
+    owner: "{{ ansible_user }}"
+    mode: '0644'

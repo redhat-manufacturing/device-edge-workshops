@@ -6,7 +6,7 @@
     dest: /home/students/blueprint.toml
     owner: "{{ ansible_user }}"
   vars:
-    student_number: ''
+    student_number: 's'
 
 - name: push blueprint into image builder
   infra.osbuild.push_blueprint:

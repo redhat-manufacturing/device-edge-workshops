@@ -1,0 +1,13 @@
+---
+
+ssh_pub_key_path: "/home/{{ ansible_user }}/workshop-ssh/{{ workshop_type }}-{{ ec2_name_prefix }}.pub"
+
+devices:
+  - manufacturer: onlogic
+    install_disk: /dev/sda
+  - manufacturer: intel_nuc
+    install_disk: /dev/nvme0n1
+  - manufacturer: avantek
+    install_disk: /dev/sda
+
+create_install_user: true

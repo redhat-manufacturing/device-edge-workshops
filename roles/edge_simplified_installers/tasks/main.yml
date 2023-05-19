@@ -1,0 +1,38 @@
+---
+
+- name: import pre-flight tasks
+  ansible.builtin.import_tasks: pre-flight.yml
+
+- name: push generic blueprint
+  ansible.builtin.import_tasks: generic-blueprint.yml
+
+- name: loop through student blueprints
+  ansible.builtin.include_tasks:
+    file: student-blueprints.yml
+  loop: "{{ (range(1, (student_total + 1), 1)|list) }}"
+  loop_control:
+    loop_var: student_number
+
+- name: loop through device blueprints
+  ansible.builtin.include_tasks:
+    file: device-blueprints.yml
+  loop: "{{ devices }}"
+  loop_control:
+    loop_var: device
+
+- name: compose installer image
+  ansible.builtin.import_tasks: compose-generic-installer.yml
+
+- name: compose device images
+  ansible.builtin.include_tasks:
+    file: compose-device-installer.yml
+  loop: "{{ devices }}"
+  loop_control:
+    loop_var: device
+
+- name: link generic installer into student directories
+  ansible.builtin.include_tasks:
+    file: student-composes.yml
+  loop: "{{ (range(1, (student_total + 1), 1)|list) }}"
+  loop_control:
+    loop_var: student_number

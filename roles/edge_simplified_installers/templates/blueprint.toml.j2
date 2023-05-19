@@ -1,0 +1,28 @@
+{% if student_number is defined %}
+name = "fdo-simplified-installer-student{{ student_number }}"
+{% endif %}
+{% if device is defined %}
+name = "device-simplified-installer-{{ device.manufacturer }}"
+{% endif %}
+description = "a simplified installer"
+version = "0.0.1"
+packages = []
+modules = []
+groups = []
+distro = ""
+
+[customizations]
+installation_device = "{{ device.install_disk | default('/dev/sda') }}"
+
+{% if fdo is defined %}
+[customizations.fdo]
+manufacturing_server_url = "{{ fdo.manufacturing_server_url }}:{{ fdo.manufacturing_server_port }}"
+diun_pub_key_insecure = "true"
+{% endif %}
+
+{% if create_install_user is defined %}
+[[customizations.user]]
+name = "backup-user-installer"
+key = "{{ _ssh_pub_key }}"
+groups = ["wheel"]
+{% endif %}

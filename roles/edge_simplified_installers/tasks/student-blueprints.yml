@@ -1,0 +1,15 @@
+---
+
+- name: push blueprint template
+  ansible.builtin.template:
+    src: templates/blueprint.toml.j2
+    dest: "/home/student{{ student_number }}/blueprint.toml"
+    owner: "student{{ student_number }}"
+  vars:
+    fdo:
+      manufacturing_server_url: http://192.168.1.1
+      manufacturing_server_port: 8080
+
+- name: push blueprint into image builder
+  infra.osbuild.push_blueprint:
+    src: "/home/student{{ student_number }}/blueprint.toml"

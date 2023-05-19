@@ -3,9 +3,9 @@
 - name: push blueprint template
   ansible.builtin.template:
     src: templates/blueprint.toml.j2
-    dest: "/home/student{{ student_number }}/blueprint.toml"
-    owner: "student{{ student_number }}"
+    dest: "/home/students/{{ device.manufacturer }}-blueprint.toml"
+    owner: "{{ ansible_user }}"
 
 - name: push blueprint into image builder
   infra.osbuild.push_blueprint:
-    src: "/home/student{{ student_number }}/blueprint.toml"
+    src: "/home/students/{{ device.manufacturer }}-blueprint.toml"
