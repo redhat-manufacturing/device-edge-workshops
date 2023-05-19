@@ -1,5 +1,8 @@
 ---
 
+- name: import pre-flight tasks
+  ansible.builtin.import_tasks: pre-flight.yml
+
 - name: import install tasks
   ansible.builtin.import_tasks: install.yml
 
