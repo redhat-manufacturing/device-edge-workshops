@@ -11,7 +11,7 @@
       ansible.builtin.set_fact:
         extra_roles:
           - ../roles/setup_fdo
-          - ../roles/fdo_installer
+          - ../roles/edge_simplified_installers
       when:
         - workshop_type == 'rhde_fdo_rtk'
   tasks:
