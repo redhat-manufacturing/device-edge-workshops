@@ -1,0 +1,53 @@
+---
+- name: initial check setup
+  hosts: localhost
+  connection: local
+  become: false
+  gather_facts: true
+  pre_tasks:
+    - name: print disclaimer
+      ansible.builtin.debug:
+        msg: |
+          This playbook assumes the workshop has already been built and configured.
+          If any configuration has changed (external_connection, internal_connection), you need to teardown and reprovision.
+          The IP address changing on the external_connection should be fine.
+  tasks:
+    - name: run checks
+      block:
+        - name: run pre-check role to make sure workshop will complete provisioning
+          include_role:
+            name: ../roles/workshop_check_setup
+        - name: run AWS check setup if using AWS
+          include_role:
+            name: ../roles/aws_check_setup
+          when:
+            - run_in_aws is defined
+            - run_in_aws | bool
+      rescue:
+        - name: Error with setup
+          fail:
+            msg: The provisioner has failed during initial check_setup, please scroll up to see exact error.
+
+- name: import connectivity playbook
+  ansible.builtin.import_playbook: ensure-connectivity.yml
+
+- name: setup local connection
+  ansible.builtin.import_playbook: local-connection.yml
+
+- name: stop priv pod
+  containers.podman.podman_pod:
+    name: "workshop-{{ workshop_type }}-priv"
+    state: stopped
+  become: true
+
+- name: stop unpriv pod
+  containers.podman.podman_pod:
+    name: "workshop-{{ workshop_type }}"
+    state: stopped
+
+- name: ensure fdo is stopped
+  ansible.builtin.systemd:
+    name: fdo-aio
+    state: stopped
+  when:
+    - workshop_type == 'rhde_fdo_rtk'
