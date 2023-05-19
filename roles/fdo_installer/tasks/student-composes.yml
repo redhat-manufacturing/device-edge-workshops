@@ -3,7 +3,7 @@
 - name: link into student home dirs
   ansible.builtin.file:
     src: /home/students/fdo-edge-installer.iso
-    dest: "/home/studnet{{ student_number }}/student{{ student_number }}-edge-installer.iso"
+    dest: "/home/student{{ student_number }}/student{{ student_number }}-edge-installer.iso"
     owner: "student{{ student_number }}"
     group: students
     state: link
