@@ -30,7 +30,7 @@
     name: '{{ ee_registry_name }} credential'
     organization: Default
     credential_type: Container Registry
-    controller_host: "https://{{ ansible_host }}"
+    controller_host: "https://{{ ansible_host }}:{{ nginx_https_port }}"
     controller_username: admin
     controller_password: "{{ admin_password }}"
     validate_certs: false
@@ -47,7 +47,7 @@
     credential: "registry.redhat.io credential"
     controller_username: admin
     controller_password: "{{ admin_password }}"
-    controller_host: "https://{{ ansible_host }}"
+    controller_host: "https://{{ ansible_host }}:{{ nginx_https_port }}"
     validate_certs: false
   register: ee_check
   until: ee_check is not failed
