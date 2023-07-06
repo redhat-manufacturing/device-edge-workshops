@@ -193,13 +193,23 @@ images_to_compose:
       - nano
       - NetworkManager-wifi
       - podman
+    repos:
+      - name: rhel-9-for-x86_64-rt-rpms
+        base_url: "file:///opt/repo-mirrors/rhel-9-for-x86_64-rt-rpms/"
+        type: yum-baseurl
+        check_ssl: false
+        check_gpg: false
+        state: present
 builder_compose_customizations:
   user:
-    name: backup-user
+    name: backup-user2
     password: "{{ admin_password }}"
     groups:
       - users
       - wheel
+  kernel:
+    name: kernel-rt
+
 image_builder_http_port: 11080
 
 install_gitea: false
