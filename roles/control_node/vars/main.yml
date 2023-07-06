@@ -1,5 +1,2 @@
 ---
 #Override some vars from the defaults in defaults/main.yml
-
-# Controller install command
-controller_install_command: "./setup.sh -e gpgcheck=0 -e nginx_http_port=81"
