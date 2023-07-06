@@ -48,14 +48,20 @@
 - name: run local services
   ansible.builtin.import_playbook: run-local-services.yml
 
-- name: wait for services to start
-  hosts:
-    - edge_management
-  gather_facts: false
-  tasks:
-    - name: wait 30 seconds
-      ansible.builtin.pause:
-        seconds: 30
+- name: import local dns playbook
+  ansible.builtin.import_playbook: local-dns.yml
+
+- name: import cockpit playbook
+  ansible.builtin.import_playbook: cockpit.yml
+
+- name: import hypervisor playbook
+  ansible.builtin.import_playbook: hypervisor.yml
+
+- name: import edge manager playbook
+  ansible.builtin.import_playbook: edge-management.yml
+
+- name: import install controller playbook
+  ansible.builtin.import_playbook: install-controller.yml
 
 - name: import gitea playbook
   ansible.builtin.import_playbook: gitea.yml
@@ -63,8 +69,19 @@
 - name: import populate controller playbook
   ansible.builtin.import_playbook: populate-controller.yml
 
-- name: import student users playbook
-  ansible.builtin.import_playbook: student-users.yml
+- name: setup attendance host
+  ansible.builtin.import_playbook: attendance.yml
 
-- name: import additional roles playbook
-  ansible.builtin.import_playbook: additional-roles.yml
+- name: compose images
+  ansible.builtin.import_playbook: compose-images.yml
+
+- name: import backup sync playbook
+  ansible.builtin.import_playbook: sync-to-backup.yml
+
+- name: import playbook to set active image
+  ansible.builtin.import_playbook: set-active-image.yml
+  vars:
+    desired_image_version: '1.0.0'
+
+- name: import random task playbook
+  ansible.builtin.import_playbook: random-task.yml
