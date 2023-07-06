@@ -1,5 +1,5 @@
 [automationcontroller]
-{{ ansible_default_ipv4.address }} ansible_connection=local
+edge-manager-local ansible_host=127.0.0.1 ansible_connection=local
 
 [automationhub]
 
@@ -15,7 +15,7 @@ pg_port=''
 
 pg_database='awx'
 pg_username='awx'
-pg_password='{{admin_password}}'
+pg_password='{{ admin_password }}'
 pg_sslmode='prefer'  # set to 'verify-full' for client-side enforced SSL
 
 gpgcheck='{{ gpgcheck | default(1)}}'
@@ -29,3 +29,6 @@ registry_password='{{ redhat_password }}'
 web_server_ssl_cert="/etc/ssl/{{ route53_domains.controller.domain }}/{{ route53_domains.controller.domain.split('.')[0] }}-fullchain.crt"
 web_server_ssl_key="/etc/ssl/{{ route53_domains.controller.domain }}/{{ route53_domains.controller.domain.split('.')[0] }}.pem"
 {% endif %}
+
+nginx_http_port='{{ nginx_http_port }}'
+nginx_https_port='{{ nginx_https_port }}'
