@@ -27,17 +27,17 @@
 - name: import connectivity playbook
   ansible.builtin.import_playbook: ensure-connectivity.yml
 
-# - name: import rhsm playbook
-#   ansible.builtin.import_playbook: rhsm.yml
+- name: import rhsm playbook
+  ansible.builtin.import_playbook: rhsm.yml
 
-# - name: import common roles playbook
-#   ansible.builtin.import_playbook: common.yml
+- name: import common roles playbook
+  ansible.builtin.import_playbook: common.yml
 
-# - name: compose images
-#   ansible.builtin.import_playbook: compose-images.yml
+- name: compose images
+  ansible.builtin.import_playbook: compose-images.yml
 
-# - name: import aap setup playbook
-#   ansible.builtin.import_playbook: install-controller.yml
+- name: import aap setup playbook
+  ansible.builtin.import_playbook: install-controller.yml
 
 - name: setup local connection
   ansible.builtin.import_playbook: local-connection.yml
