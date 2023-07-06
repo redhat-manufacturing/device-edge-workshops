@@ -22,7 +22,8 @@ diun_pub_key_insecure = "true"
 
 {% if create_install_user is defined %}
 [[customizations.user]]
-name = "backup-user-installer"
+name = "ansible"
 key = "{{ _ssh_pub_key }}"
+password = "{{ admin_password }}"
 groups = ["wheel"]
 {% endif %}
