@@ -5,6 +5,8 @@ The `https://github.com/redhat-manufacturing/device-edge-workshops` contains an 
 | Workshop | Workshop Type Var |
 | --- | --- |
 | Red Hat Device Edge - Any Workload, 120 Minutes | `workshop_type: rhde_aw_120`  |
+| Red Hat Device Edge - Trade Show Edition | `workshop_type: rhde_tse`  |
+| Red Hat Device Edge - FDO Secure Onboarding and the Realtime Kernel | `workshop_type: rhde_fdo_rtk`  |
 
 ## Table Of Contents
 
@@ -12,6 +14,7 @@ The `https://github.com/redhat-manufacturing/device-edge-workshops` contains an 
 
 * [Ansible Automation Workshop Provisioner](#ansible-automation-workshop-provisioner)
   * [Table Of Contents](#table-of-contents)
+  * [prerequisites](#prerequisites)
   * [Requirements](#requirements)
   * [Lab Setup](#lab-setup)
   * [Using Ansible-Navigator](#using-ansible-navigator)
@@ -33,175 +36,59 @@ The `https://github.com/redhat-manufacturing/device-edge-workshops` contains an 
   * [More info on what is happening](#more-info-on-what-is-happening)
 <!-- /TOC -->
 
-## Requirements
+## Introduction
 
-* The provisioner has an execution environment available on [quay.io](https://quay.io/repository/device-edge-workshops/provisioner-execution-environment) with all requirements baked in. In addition, `ansible-navigator` is required, which can be installed into a virtual environment locally.
+The provisioner prepares RHDE workshops to be run by an instructor. Generally speaking, workshops take ~30 minutes to provision, however they can take longer depending on the number of students. 
 
-* AWS Account (follow directions in one time setup below)
+## Prerequisites
 
-## Lab Setup
+The provisioner requires a few things to get started:
 
-## Using Ansible-Navigator
+### 1. An Edge Management System
 
-### 1. AWS Creds for Execution Environments
+This can be any system that can run RHEL9 and meets the minimum system requirements for AAP (4cores/16gb ram), and has some disk space available (50gb+). It should also have two available network interfaces, at least one wired connection for the "internal" connection, and a second "external" connection that can be wired or wireless. The external connection requires internet access during provisioning and during the workshop.
 
-You need to set your AWS credentials as environment variables.  This is because the execution environment will not have access to your ~/.aws/credentials file.  This is preferred anyway because it matches the behavior in Automation controller.
+The system should be standard RHEL registered to the customer portal. Minimal installs and workstation installs are both fine. If you choose "Server", be sure to uninstall dnsmasq before attempting to provision a workshop.
 
+### 2. An AWS Account
+
+By default, no infrastructure runs in AWS, the only service leveraged is Route53 for creation of a wildcard certificate for a reverse proxy. If you are a Red Hat associate, a blank open AWS environment requested through RHDPS will work, and comes with a generic DNS domain that can be used.
+
+Ensure you export the AWS credentials before running the provisioner:
 ```
-export AWS_ACCESS_KEY_ID=AKIA6ABLAH1223VBD3W
-export AWS_SECRET_ACCESS_KEY=zh6gFREbvblahblahblahfXIC5nZr51OgdKECaSIMBi9Kc
+export AWS_ACCESS_KEY_ID=YOURACCESSKEYHERE
+export AWS_SECRET_ACCESS_KEY=YouRS3dh4TKEYHeRE
 ```
 
 To make environment variables permanent and persistent you can set this to your `~/.bash_rc`.  See Red Hat Knowledge Base article: [https://access.redhat.com/solutions/157293](https://access.redhat.com/solutions/157293)
 
-### 2. Running Ansible-Navigator from the project root
+### 3. A ZeroSSL Account
 
-You must run from the project root rather than the `/provisioner` folder.  This is so all the files in the Git project are mounted, not just the provisioner folder.  This is also best practice because it matches the behavior in Automation controller.
+This is totally free to set up and allows wildcard certificates to be issued. Once registered, create an API key on the [developer page](https://app.zerossl.com/developer).
 
-Make sure to install the prerequired collections by running:
-```
-ansible-galaxy  install -r execution-environment/requirements.yml
-```
+### 4. A Red Hat Customer Portal Account
 
-For example:
+This account needs to be able to access the container registry and pull images, but does not need any further access.
 
-```
-ansible-navigator run provisioner/provision_lab.yml -e @provisioner/extra_vars.yml
-```
+### 5. A Red Hat Customer Portal Offline Token
 
-```
-ansible-playbook provisioner/provision_lab.yml -e @provisioner/extra_vars.yml
-```
+This token is used to authenticate to the customer portal and download software. It can be generated [here](https://access.redhat.com/management/api).
 
-You can also run the provision_lab playbook using ansible-playbook command, provided you have installed all the required collections.
-Also make sure in this case to have enabled passwordless sudo on your local user.
+### 6. Lab Network Infrastructure
 
-### Setup (per workshop)
+It's highly recommended to provide WiFi for students and student devices so everyone is on the same network without needing cables run to all student spots. Any generic wireless access point will work, as long as it's set to just "access point" mode, meaning no DHCP, DNS, routing, NAT, etc. The Edge Managemnet box will be providing those services, all that needs to be done is for the wireless router to extend the network.
 
-* Define the following variables in a file passed in using `-e @extra_vars.yml`
+### 7. An Imaging Station
 
-```yaml
----
-# where the workshop is being run
-run_in_aws: true
-run_locally: false
+This is just a wired connection into the lab network (such as the ports on a wireless access point), a keyboard, monitor, and a few outlets. The devices provision on the wired network then connect to the wireless network, and can be safely disconnected from the wired network.
 
-# if local hypervisor nodes should be configured
-manage_local_hypervisor: false
+Generally speaking, one imaging station per ten students is a good ratio to keep things moving, but technically you only need one.
 
-# region where the nodes will live
-ec2_region: us-east-2
+### 8. The Ability to Run Ansible Playbooks
 
-# name prefix for all the VMs
-ec2_name_prefix: lab-prefix
+This can be ansible in a venv, or ansible-navigator, either will work.
 
-# Set the right workshop type
-workshop_type: rhde_aw_120
-
-# Set the number of student slots
-student_total: 10
-
-# If using wifi or ethernet locally
-local_connection_type: wifi
-
-# Generate offline token to authenticate the calls to Red Hat's APIs
-# Can be accessed at https://access.redhat.com/management/api
-offline_token: "your-token-here"
-
-# Required for RHSM registration and registry.redhat.io pulls - needs to be your full RHN username and password
-# https://www.redhat.com/wapps/ugc/register.html
-redhat_username: your-username
-redhat_password: your-password
-
-#####OPTIONAL VARIABLES
-
-# turn DNS on for control nodes, and set to type in valid_dns_type
-dns_type: aws
-
-# password for Ansible control node
-admin_password: lab-admin-password
-
-# Sets the Route53 DNS zone to use for Amazon Web Services
-workshop_dns_zone: your-dns-zone-here.com
-
-# Use zeroSSL
-use_zerossl: true
-
-zerossl_account:
-  kid: your
-  key: info
-  alg: here
-
-# automatically installs Tower to control node
-controllerinstall: true
-
-# forces ansible.workshops collection to install latest edits every time
-developer_mode: false
-
-# SHA value of targeted AAP bundle setup files.
-provided_sha_value: e3cd033d6a6f5ddcdeb2f5b91b1382127d29b969fb224f260d0a4f1e495b20e6
-pre_build: false
-
-# Don't need automation hub
-automation_hub: false
-
-builder_pub_key: 'your-key-here'
-
-base64_manifest: your-manifest-here
-```
-
-### The Student Variable
-In normal Ansible workshops, a student number is defined to control how many student slots are provisioned, however to better reflect the edge mantra (and because, ideally, these workshops will be run with edge devices) that var simply controls the number of available signup slots on the attendance host. If no edge devices are available, or if additional capacity is required, the provisioner can fire up a bare metal instance to host virtualized edge devices.
-
-### Building Local Resources
-To demonstrate the capabilities of the device edge stack running in a disconnected environment, the provisioner can also be used to configure a local asset (a laptop, NUC, whatever) to act as the 'edge-manager' box. This behavior is controlled by the `run_locally` variable. In addition to setting the var, you'll also need to set up an inventory, like so:
-```yaml
-all:
-  children:
-    edge_management:
-      hosts:
-        edge-manager-local:
-          ansible_host: 192.168.200.10
-    controller:
-      hosts:
-        edge-manager-local:
-          ansible_host: 192.168.200.10
-    local:
-      hosts:
-        edge-manager-local:
-          ansible_host: 192.168.200.10
-      children:
-        dns:
-          hosts:
-            edge-manager-local:
-              ansible_host: 192.168.200.10
-          vars:
-            local_domains:
-              controller:
-                domain: "controller.your-workshop-domain.lcl"
-              cockpit:
-                domain: "cockpit.your-workshop-domain.lcl"
-              gitea:
-                domain:  "gitea.your-workshop-domain.lcl"
-              edge_manager:
-                domain: "edge-manager.your-workshop-domain.lcl"
-  vars:
-    ansible_user: ansible
-    ansible_password: your-password
-    ansible_become_password: your-password
-```
-
-The provisioner can build the workshop in aws, locally, or both if desired. Running in both can help avoid issues with networking not under the control of the instructor (think terribad hotel wifi) by having two distinct yet identical systems to run the lab from.
-
->**Note**
->
-> ini-formatted inventories are fine, as well as using ssh keys, this is just a standard inventory file. Since the provisioner isn't creating the host (like for aws instances), connection information must be provided.
-
->**Note**
->
-> For local resources, you are responsible for the vast majority of the initial setup, including having RHEL installed, having connectivity, DNS, etc. This provisioner will not manage these elements in the local environment for you.
-
-### Automation controller license
+### 9. An Ansible Controller Manifest
 
 In order to use Automation controller (i.e. `controllerinstall: true`), which is the default behavior (as seen in group_vars/all.yml) you need to have a valid subscription via a `manifest.zip` file.  To retrieve your manifest.zip file you need to download it from access.redhat.com.  
 
@@ -252,36 +139,67 @@ These are the ways to integrate your license file with the workshop:
   manifest_download_url: https://www.example.com/protected/manifest.zip
   manifest_download_user: username
   manifest_download_password: password
-  ```
 
-### Automating the download of aap.tar.gz 
+## Creating An Extra-Vars File and an Inventory File
 
-If you have the aap.tar.gz tarball in a secure URL, you can automate the downloading of it by specifying the following variables.
-Note that the tarball specified in the URL must match the SHA value defined in provided_sha_value
+### Inventory File
 
-  ```
-  aap_download_url: https://www.example.com/protected/aap.tar.gz
-  aap_download_user: username
-  aap_download_password: password
-  ```
-
-### Additional examples
-
-For more extra_vars examples, look at the following:
-
-* [sample-vars-rhel.yml](sample_workshops/sample-vars-rhel.yml) - example for the Ansible RHEL Workshop
-
-* Run the playbook:
-
-```bash
-ansible-playbook provision_lab.yml -e @extra_vars.yml
-```
-
-* Login to the AWS EC2 console and you will see instances being created.  For example:
+You'll need an inventory file to tell ansible about the device that will be used as your Edge Management system. Create a file locally with the following information, substituting where necessary:
 
 ```yaml
-rhde_aw_120-student1-ansible
-````
+all:
+  children:
+    local:
+      children:
+        edge_management:
+          hosts:
+            edge-manager-local:
+  vars:
+    ansible_host: 1.2.3.4
+    ansible_user: ansible
+    ansible_password: ansible
+    ansible_become_password: ansible
+  vars:
+    external_connection: enp0s31f6 # Connection name for the external connection, could be wifi
+    internal_connection: enp2s0 # Interface for the lab network, should be wired
+```
+
+>**Note**
+>
+> ini-formatted inventories are fine, as well as using ssh keys, this is just a standard inventory file. Since the provisioner isn't creating the host (like for aws instances), connection information must be provided.
+
+### Extra-Vars File
+
+Most variables are re-used between workshops, however sometimes there are unique variables. Copy the example extra-vars file for your desired workshop from provisioner/example-extra-vars/$(workshop_var).yml to the root of the project and modify according.
+
+
+## Running the Provisioner
+
+* The provisioner has an execution environment available on [quay.io](https://quay.io/repository/device-edge-workshops/provisioner-execution-environment) with all requirements baked in. In addition, `ansible-navigator` is required, which can be installed into a virtual environment locally.
+
+
+### 1. Using Ansible-Navigator
+
+You must run from the project root rather than the `/provisioner` folder.  This is so all the files in the Git project are mounted, not just the provisioner folder.  This is also best practice because it matches the behavior in Automation controller.
+
+```
+ansible-navigator run provisioner/provision_lab.yml -e @extra_vars.yml -i inventory.yml
+```
+
+### 2. Running Ansible-Playbook from the project root
+
+Make sure to install the prerequired collections by running:
+```
+ansible-galaxy  install -r execution-environment/requirements.yml
+```
+
+Then run the provisioner:
+
+```
+ansible-playbook provisioner/provision_lab.yml -e @extra_vars.yml -i inventory.yml
+```
+
+## IGNORE BELOW
 
 ### Accessing student documentation and slides
 
