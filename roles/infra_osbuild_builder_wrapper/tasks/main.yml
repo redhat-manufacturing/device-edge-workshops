@@ -5,7 +5,7 @@
 
 - name: check if composes.yml exists
   ansible.builtin.stat:
-    path: /var/www/html/composes.yml
+    path: "/var/www/html/{{ builder_blueprint_name }}.yml"
   register: composes_file
 
 - name: attempt to read in composed images
@@ -14,7 +14,7 @@
   block:
     - name: slurp up composes.yml file
       ansible.builtin.slurp:
-        src: /var/www/html/composes.yml
+        src: "/var/www/html/{{ builder_blueprint_name }}.yml"
       register: available_images_raw
       
     - name: set available_images fact
