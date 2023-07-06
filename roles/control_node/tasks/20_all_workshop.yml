@@ -1,9 +1,9 @@
 ---
 - name: make sure .ssh is created
   file:
-    path: "/home/{{ username }}/.ssh/"
-    owner: "{{ username }}"
-    group: "{{ username }}"
+    path: "/home/{{ ansible_user }}/.ssh/"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
     state: directory
 
 - name: Apply patch for runner fix PR759
@@ -19,9 +19,9 @@
 - name: add custom bashrc for student
   template:
     src: bashrc.j2
-    dest: /home/{{ username }}/.bashrc
-    owner: "{{ username }}"
-    group: "{{ username }}"
+    dest: /home/{{ ansible_user }}/.bashrc
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
     mode: 0644
 
 # Login into Red Hat registry
@@ -30,7 +30,7 @@
     username: '{{ redhat_username }}'
     password: '{{ redhat_password }}'
     registry: '{{ ee_registry_name }}'
-  become_user: "{{ username }}"
+  become_user: "{{ ansible_user }}"
   register: login_registry
   until: login_registry is not failed
   retries: 5
@@ -38,7 +38,7 @@
 - name: copy over ssh config file for student
   template:
     src: sshconfig.j2
-    dest: /home/{{ username }}/.ssh/config
-    owner: "{{ username }}"
-    group: "{{ username }}"
+    dest: /home/{{ ansible_user }}/.ssh/config
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
     mode: 0700
