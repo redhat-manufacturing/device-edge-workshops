@@ -11,6 +11,20 @@
     dest: "{{ aap_dir }}/inventory"
   when: create_cluster is defined and create_cluster|bool
 
+- name: allow bind to http port
+  community.general.seport:
+    ports: "{{ nginx_http_port }}"
+    proto: tcp
+    setype: http_port_t
+    state: present
+
+- name: allow bind to https port
+  community.general.seport:
+    ports: "{{ nginx_https_port }}"
+    proto: tcp
+    setype: http_port_t
+    state: present
+
 - name: run the Automation Controller installer
   shell: "{{ controller_install_command }}"
   args:
@@ -20,7 +34,7 @@
 
 - name: wait for Automation Controller to be up
   uri:
-    url: https://localhost/api/v2/ping/
+    url: https://localhost:{{ nginx_https_port | default('443') }}/api/v2/ping/
     method: GET
     user: admin
     password: "{{admin_password}}"
@@ -84,7 +98,7 @@
 
 - name: Post manifest file
   uri:
-    url: https://{{ ansible_host }}/api/v2/config/
+    url: https://{{ ansible_host }}:{{ nginx_https_port | default('443') }}/api/v2/config/
     method: POST
     user: admin
     password: "{{admin_password}}"
