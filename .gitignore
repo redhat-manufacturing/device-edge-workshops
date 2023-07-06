@@ -28,3 +28,4 @@ roles/containerized_eda
 *node_modules*
 export.yml
 aap-containerized-installer
+old-vars-files
