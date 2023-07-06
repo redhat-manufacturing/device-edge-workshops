@@ -19,7 +19,7 @@
 
 - name: check to see if automation controller is already up and running
   uri:
-    url: https://localhost/api/v2/ping/
+    url: "https://localhost:{{ nginx_https_port | default('443') }}/api/v2/ping/"
     method: GET
     user: admin
     password: "{{ admin_password }}"
