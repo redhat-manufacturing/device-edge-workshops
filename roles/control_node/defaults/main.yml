@@ -2,8 +2,7 @@
 
 aap_bundle_sha256_checksum: e3cd033d6a6f5ddcdeb2f5b91b1382127d29b969fb224f260d0a4f1e495b20e6
 
-username: "ec2-user"
-aap_dir: "/home/{{ username }}/aap_install"
+aap_dir: "/home/{{ ansible_user }}/aap_install"
 output_dir: "{{ playbook_dir }}/{{ ec2_name_prefix }}"
 
 # EE registry name used in installer and EE controller credential
@@ -11,11 +10,14 @@ ee_registry_name: "registry.redhat.io"
 
 # List of execution environments to download during controller installation:
 ee_images:
-   - "{{ ee_registry_name }}/ansible-automation-platform-23/ee-29-rhel8:latest"
-   - "{{ ee_registry_name }}/ansible-automation-platform-23/ee-supported-rhel8:latest"
-   - "{{ ee_registry_name }}/ansible-automation-platform-23/ee-minimal-rhel8:latest"
+   - "{{ ee_registry_name }}/ansible-automation-platform-24/ee-29-rhel8:latest"
+   - "{{ ee_registry_name }}/ansible-automation-platform-24/ee-supported-rhel9:latest"
+   - "{{ ee_registry_name }}/ansible-automation-platform-24/ee-minimal-rhel9:latest"
 
 # Default EE that uses the registry credential (Default execution environment)
-ee_default_image: "{{ ee_registry_name }}/ansible-automation-platform-23/ee-supported-rhel8:latest"
+ee_default_image: "{{ ee_registry_name }}/ansible-automation-platform-24/ee-supported-rhel9:latest"
 # Controller install command
 controller_install_command: "./setup.sh -e gpgcheck=0"
+
+nginx_http_port: 10080
+nginx_https_port: 10443
