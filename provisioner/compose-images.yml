@@ -5,6 +5,8 @@
     - edge_management
   vars_files:
     - "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
+  vars:
+    image_builder_http_port: 18080
   become: true
   pre_tasks:
     - name: rhel8 tasks
