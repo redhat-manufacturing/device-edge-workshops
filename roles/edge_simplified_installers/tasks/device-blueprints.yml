@@ -9,3 +9,7 @@
 - name: push blueprint into image builder
   infra.osbuild.push_blueprint:
     src: "/home/students/{{ device.manufacturer }}-blueprint.toml"
+  vars:
+    fdo:
+      manufacturing_server_url: "{{ manufacturing_server_url }}"
+      manufacturing_server_port: "{{ manufacturing_server_port }}"
