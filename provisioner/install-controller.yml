@@ -2,35 +2,8 @@
 
 - name: setup ansible controller
   hosts:
-    - controller
+    - edge_management
   become: true
-  pre_tasks:
-    - name: reset 'username' var
-      ansible.builtin.set_fact:
-        username: "{{ ansible_user }}"
-    - name: setup aws dns/certs for controller
-      when:
-        - route53_domains.controller is defined
-      block:
-        - name: setup dns in route53
-          ansible.builtin.include_role:
-            name: ../roles/aws_dns
-          vars:
-            route53_dns_record: "{{ route53_domains.controller.domain }}"
-        - name: issue certificates
-          ansible.builtin.include_role:
-            name: ../roles/zerossl_cert
-          vars:
-            domain_name: "{{ route53_domains.controller.domain }}"
-    - name: setup local dns for controller
-      when:
-        - local_domains.controller is defined
-      block:
-        - name: setup local dns
-          ansible.builtin.include_role:
-            name: ../roles/local_dns
-          vars:
-            local_dns_record: "{{ local_domains.controller.domain }}"
   tasks:
     - name: setup ansible controller
       ansible.builtin.include_role:
