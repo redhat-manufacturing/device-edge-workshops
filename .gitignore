@@ -29,3 +29,4 @@ roles/containerized_eda
 export.yml
 aap-containerized-installer
 old-vars-files
+.vscode
