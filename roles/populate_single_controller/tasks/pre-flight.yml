@@ -38,3 +38,6 @@
 - name: I have no idea why the installer stopped doing this
   ansible.builtin.shell:
     cmd: podman exec -it automation-controller-web awx-manage register_default_execution_environments --registry-url https://registry.redhat.io --registry-username '{{ redhat_username }}' --registry-password '{{ redhat_password }}' --verify-ssl true
+  when:
+    - controller_install_method is defined
+    - controller_install_method == 'podman'
