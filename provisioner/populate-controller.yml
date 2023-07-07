@@ -2,7 +2,7 @@
 
 - name: populate controller for students
   hosts:
-    - controller
+    - edge_management
   tasks:
     - name: populate controller
       ansible.builtin.include_role:
