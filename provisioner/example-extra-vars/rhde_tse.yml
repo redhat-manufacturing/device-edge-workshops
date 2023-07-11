@@ -70,7 +70,7 @@ controllerinstall: true
 developer_mode: false
 
 # SHA value of targeted AAP bundle setup files.
-provided_sha_value: 72cdff125cbfef9bdda28630a6897d8012a5df71009ee3143e94a34080907779
+provided_sha_value: 879e97e4c63de3727657284eb05a3a9e9897c66bd5059183d804d20f579c75a0
 pre_build: false
 
 # Don't need automation hub
