@@ -160,7 +160,6 @@ all:
     ansible_user: ansible
     ansible_password: ansible
     ansible_become_password: ansible
-  vars:
     external_connection: enp0s31f6 # Connection name for the external connection, could be wifi
     internal_connection: enp2s0 # Interface for the lab network, should be wired
 ```
