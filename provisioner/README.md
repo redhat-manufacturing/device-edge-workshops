@@ -139,6 +139,7 @@ These are the ways to integrate your license file with the workshop:
   manifest_download_url: https://www.example.com/protected/manifest.zip
   manifest_download_user: username
   manifest_download_password: password
+  ```
 
 ## Creating An Extra-Vars File and an Inventory File
 
