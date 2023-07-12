@@ -111,7 +111,7 @@ podman pod restart workshop-rhde_tse
 
 In addition, individual containers can be restarted.
 
-### Provisioning Ahead of Time
+## Provisioning Ahead of Time
 
 If you plan to provision a device then transport it to the workshop location, ensure you re-run the `local-connection.yml` playbook to reconfigure your networking settings, then restart the workshop services.
 
@@ -122,3 +122,7 @@ ansible-playbook provisioner/local-connection.yml --inventory your.inventory.yml
 > Note:
 >
 > The internal interface of the device should be the same. If it is not, the dnsmasq container would need to be rebuilt.
+
+## Instructor Slides
+
+Make a copy of [this presentation](https://docs.google.com/presentation/d/17Of2B_UPQhn2xQxjyuHrzcCHvpY_4yc9q4FeLB4lbyU/edit#slide=id.g206d893ed30_1_739) and modify slides 1 and 9 with the correct information.
