@@ -1,5 +1,5 @@
 ansible-core>=2.11
-boto3==1.21.15
+boto3
 netaddr==0.8.0
 passlib==1.7.4
 requests==2.22.0
