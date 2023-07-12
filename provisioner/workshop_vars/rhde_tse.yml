@@ -27,8 +27,6 @@ local_services:
               address: "{{ internal_address }}"
             - record: "gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
-            - record: "attendance.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
             - record: "eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
             - record: "ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
