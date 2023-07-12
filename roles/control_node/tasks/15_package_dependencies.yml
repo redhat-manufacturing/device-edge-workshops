@@ -1,9 +1,9 @@
 ---
-- name: Install EPEL
-  dnf:
-    name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
-    state: present
-    disable_gpg_check: true
+# - name: Install EPEL
+#   dnf:
+#     name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
+#     state: present
+#     disable_gpg_check: true
 
 - name: Install base packages
   dnf:
@@ -12,17 +12,12 @@
       - git
       - wget
       - nano
-      - tree
       - sshpass
-      - tmux
-      - python3-pip
-      - python3-devel
       - ansible-core
-      - gcc
-      - bind-utils
       - jq
       - net-tools
       - podman
+      - python3-pip
     state: present
   register: dnf_check
   until: dnf_check is not failed
