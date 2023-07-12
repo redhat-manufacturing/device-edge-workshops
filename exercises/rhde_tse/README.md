@@ -10,18 +10,17 @@ This workshop focuses on providing a polished experience with Device Edge. Stude
   - [Time planning](#time-planning)
   - [Lab Diagram](#lab-diagram)
   - [Section 1 - Investigating the Lab Environment](#section-1---investigating-the-lab-environment)
-  - [Section 2 - Creating an Image with Image Builder WebUI](#section-2---setting-up-for-zero-touch-provisioning)
-  - [Section 3 - Creating an Image with infra.osbuild](#section-3---kickstarting-a-device)
-  - [Section 4 - Kickstarting a Device](#section-4---deploying-a-bare-metal-workload)
+  - [Section 2 - Creating an Image via tha Image Builder WebUI](#section-2---creating-an-image-via-tha-image-builder-webui)
+  - [Section 3 - Creating an Image via the infra.osbuild Collection](#section-3---creating-an-image-via-the-infraosbuild-collection)
+  - [Section 4 - Provisioning an Edge Device](#section-4---provisioning-an-edge-device)
   - [Section 5 - Deploying an Application](#section-5---deploying-an-application)
-  - [Section 6 - Optional - Ansible and CIP](#section-6---deploying-a-kubernetes-native-application)
+  - [Section 6 - Optional - Leveraging the community.cip Collection](#section-6---leveraging-the-communitycip-collection)
+  - [Supplamental Resources](#supplamental-resources)
+  - [Instructor Resources](#instructor-resources)
 
 ## Presentations
 
 The exercises are self explanatory and guide the participants through the entire lab. All concepts are explained as they are introduced.
-
-Have a look at a general deck about Red Hat's Edge strategy:
-[Red Hat Edge Compute Platform](../../decks/rh_edge_compute_platform.pdf)
 
 Also, have a look at our Ansible Best Practices Deck:
 [Ansible Best Practices](../../decks/ansible_best_practices.pdf)
