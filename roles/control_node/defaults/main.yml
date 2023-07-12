@@ -1,6 +1,6 @@
 ---
 
-aap_bundle_sha256_checksum: 879e97e4c63de3727657284eb05a3a9e9897c66bd5059183d804d20f579c75a0
+aap_bundle_sha256_checksum: 72cdff125cbfef9bdda28630a6897d8012a5df71009ee3143e94a34080907779
 
 aap_dir: "/home/{{ ansible_user }}/aap_install"
 output_dir: "{{ playbook_dir }}/{{ ec2_name_prefix }}"
