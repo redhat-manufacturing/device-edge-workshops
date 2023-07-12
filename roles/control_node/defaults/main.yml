@@ -1,6 +1,7 @@
 ---
 
 aap_bundle_sha256_checksum: 72cdff125cbfef9bdda28630a6897d8012a5df71009ee3143e94a34080907779
+provided_sha_value: "{{ aap_bundle_sha256_checksum }}"
 
 aap_dir: "/home/{{ ansible_user }}/aap_install"
 output_dir: "{{ playbook_dir }}/{{ ec2_name_prefix }}"
