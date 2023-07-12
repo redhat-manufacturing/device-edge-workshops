@@ -4,7 +4,7 @@
   ansible.builtin.set_fact:
     images_composed:
       - version: "{{ image.version }}"
-        ref: "{{ checksum_output.stdout }}"
+        ref: "{{ builder_checksum_output.stdout }}"
 
 - name: dump compose info to {{ compose_info_file }}
   ansible.builtin.blockinfile:
