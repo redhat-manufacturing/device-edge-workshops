@@ -56,17 +56,37 @@
             - _httpd_config.changed
 
   tasks:
-    - name: build images via builder role
-      ansible.builtin.include_role:
-        name: ../roles/infra_osbuild_builder_wrapper
-      vars:
-        builder_compose_type: "{{ image.type }}"
-        builder_compose_pkgs: "{{ image.packages }}"
-        builder_custom_repos: "{{ image.repos | default('[]') }}"
-        builder_blueprint_distro: "{{ image.distro | default(omit) }}"
-      loop: "{{ images_to_compose }}"
-      loop_control:
-        loop_var: image
-      when:
-        - ansible_distribution_major_version|int == 8 or
-          ansible_distribution_major_version|int == 9
+    - name: handle image builder being image builder
+      block:
+        - name: build images via builder role
+          ansible.builtin.include_role:
+            name: ../roles/infra_osbuild_builder_wrapper
+          vars:
+            builder_compose_type: "{{ image.type }}"
+            builder_compose_pkgs: "{{ image.packages }}"
+            builder_custom_repos: "{{ image.repos | default('[]') }}"
+            builder_blueprint_distro: "{{ image.distro | default(omit) }}"
+          loop: "{{ images_to_compose }}"
+          loop_control:
+            loop_var: image
+          when:
+            - ansible_distribution_major_version|int == 8 or
+              ansible_distribution_major_version|int == 9
+      rescue:
+        - name: try again
+          ansible.builtin.include_role:
+            name: ../roles/infra_osbuild_builder_wrapper
+          vars:
+            builder_compose_type: "{{ image.type }}"
+            builder_compose_pkgs: "{{ image.packages }}"
+            builder_custom_repos: "{{ image.repos | default('[]') }}"
+            builder_blueprint_distro: "{{ image.distro | default(omit) }}"
+          loop: "{{ images_to_compose }}"
+          loop_control:
+            loop_var: image
+          when:
+            - ansible_distribution_major_version|int == 8 or
+              ansible_distribution_major_version|int == 9
+        - name: print warning
+          ansible.builtin.debug:
+            msg: "Ansible block saved Image Buider, confirm images composed correctly"
