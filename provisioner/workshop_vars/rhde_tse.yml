@@ -33,6 +33,8 @@ local_services:
               address: "{{ internal_address }}"
             - record: "attendance.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
+            - record: "exercises.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+              address: "{{ internal_address }}"
           dhcp_reservations:
             - mac_address: 'e4:90:69:a2:b7:41'
               ip_address: 192.168.1.141
@@ -84,6 +86,8 @@ local_services:
             - name: attendance
               proxy_pass: "http://localhost:3000/"
               web_socket: true
+            - name: exercises
+              proxy_pass: https://redhat-manufacturing.github.io/device-edge-workshops/exercises/rhde_tse/
   - name: ipxe
     containerfile: ipxe-containerfile
     pre_tasks:
