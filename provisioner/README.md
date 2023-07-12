@@ -183,7 +183,8 @@ Most variables are re-used between workshops, however sometimes there are unique
 You must run from the project root rather than the `/provisioner` folder.  This is so all the files in the Git project are mounted, not just the provisioner folder.  This is also best practice because it matches the behavior in Automation controller.
 
 ```
-ansible-navigator run provisioner/provision_lab.yml -e @extra_vars.yml -i inventory.yml
+ansible-navigator run provisioner/provision_lab.yml -e @extra_vars.yml -i inventory.yml -m stdout
+
 ```
 
 ### 2. Running Ansible-Playbook from the project root
