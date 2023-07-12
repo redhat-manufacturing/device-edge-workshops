@@ -31,3 +31,4 @@ aap-containerized-installer
 old-vars-files
 .vscode
 test.*
+install-containerized*
