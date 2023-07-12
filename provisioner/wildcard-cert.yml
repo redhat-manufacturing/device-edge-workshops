@@ -10,9 +10,12 @@
         - name: ensure pip is available
           ansible.builtin.dnf:
             name: python3-pip
-        - name: install cryptography library
+        - name: install python libraries
           ansible.builtin.pip:
-            name: cryptography
+            name:
+              - cryptography
+              - botocore
+              - boto3
   tasks:
     - name: get wildcard cert if possible
       when:
