@@ -19,20 +19,20 @@ There's a few different services involved in this workshop. They all should be u
   <tr>
     <td>Cockpit WebUI</td>
     <td>Web interface for system administration, accessing the Image Builder webUI</td>
-    <td>`tcp/9090`</td>
-    <td>`sudo systemctl restart cockpit.socket cockpit.service`</td>
+    <td>tcp/9090</td>
+    <td>sudo systemctl restart cockpit.socket cockpit.service</td>
   </tr>
   <tr>
     <td>rpm-ostree Web Server</td>
-    <td>Apache web server hosting `/var/www/html/rhde-image` ostree repo</td>
-    <td>`tcp/11080`</td>
-    <td>`sudo systemctl restart httpd`</td>
+    <td>Apache web server hosting /var/www/html/rhde-image ostree repo</td>
+    <td>tcp/11080</td>
+    <td>sudo systemctl restart httpd</td>
   </tr>
   <tr>
     <td>Ansible Controller</td>
     <td>Ansible controller for automation against edge devices</td>
-    <td>`tcp/10443`</td>
-    <td>`sudo automation-controller-service restart`</td>
+    <td>tcp/10443</td>
+    <td>sudo automation-controller-service restart</td>
   </tr>
 </table>
 
@@ -47,55 +47,55 @@ There's a few different services involved in this workshop. They all should be u
   <tr>
     <td>Dnsmasq</td>
     <td>Provides DHCP and DNS for the workshop network</td>
-    <td>`udp/53`</td>
+    <td>udp/53</td>
     <td>workshop-rhde_tse-priv</td>
   </tr>
   <tr>
     <td>Reverse Proxy</td>
     <td>Nginx reverse proxy for workshop services with valid wildcard certiticate</td>
-    <td>`tcp/80`,`tcp/443`</td>
+    <td>tcp/80,tcp/443</td>
     <td>workshop-rhde_tse</td>
   </tr>
   <tr>
     <td>Event Driven Ansible</td>
     <td>Simple EDA server for web requests from devices as they provision</td>
-    <td>`tcp/5000`</td>
+    <td>tcp/5000</td>
     <td>workshop-rhde_tse</td>
   </tr>
   <tr>
     <td>iPXE</td>
     <td>Hosts iPXE menu file</td>
-    <td>`tcp/8081`</td>
+    <td>tcp/8081</td>
     <td>workshop-rhde_tse</td>
   </tr>
   <tr>
     <td>Database</td>
     <td>Postgresql database for Gitea</td>
-    <td>`tcp/15432`</td>
+    <td>tcp/15432</td>
     <td>workshop-rhde_tse</td>
   </tr>
   <tr>
     <td>Gitea</td>
     <td>Source control server for students</td>
-    <td>`tcp/3001`</td>
+    <td>tcp/3001</td>
     <td>workshop-rhde_tse</td>
   </tr>
   <tr>
     <td>TFTP</td>
     <td>Hosts the installation environment files</td>
-    <td>`udp/69`</td>
+    <td>udp/69</td>
     <td>workshop-rhde_tse</td>
   </tr>
   <tr>
     <td>OSTree Repo</td>
     <td>Hosts the ostree repo used to provision devices</td>
-    <td>`tcp/8080`</td>
+    <td>tcp/8080</td>
     <td>workshop-rhde_tse</td>
   </tr>
   <tr>
     <td>Attendance</td>
     <td>Nodejs web server with student pages/information</td>
-    <td>`tcp/3000`</td>
+    <td>tcp/3000</td>
     <td>workshop-rhde_tse</td>
   </tr>
 </table>
