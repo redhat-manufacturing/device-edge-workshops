@@ -30,3 +30,4 @@ export.yml
 aap-containerized-installer
 old-vars-files
 .vscode
+test.*
