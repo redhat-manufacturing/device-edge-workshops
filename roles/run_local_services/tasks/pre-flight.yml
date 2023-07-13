@@ -4,8 +4,17 @@
   become: true
   block:
     - name: allow non-root to bind to low ports
-      ansible.builtin.shell:
-        cmd: sysctl net.ipv4.ip_unprivileged_port_start=10
+      ansible.builtin.copy:
+        content: 'net.ipv4.ip_unprivileged_port_start=10'
+        dest: "/etc/sysctl.d/90-workshop-{{ workshop_type }}.conf"
+      notify:
+        - sysctl_reload
+  
     - name: allow cgroup config modification
-      ansible.builtin.shell:
-        cmd: setsebool -P container_manage_cgroup true
+      ansible.posix.seboolean:
+        name: container_manage_cgroup
+        state: true
+        persistent: true
+    
+    - name: Flush handlers
+      ansible.builtin.meta: flush_handlers

@@ -1,0 +1,8 @@
+---
+
+- name: apply kernel params now
+  ansible.builtin.shell:
+    cmd: sysctl -p
+  become: true
+  listen:
+    - sysctl_reload
