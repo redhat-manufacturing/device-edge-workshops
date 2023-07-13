@@ -113,10 +113,10 @@ In addition, individual containers can be restarted.
 
 ## Provisioning Ahead of Time
 
-If you plan to provision a device then transport it to the workshop location, ensure you re-run the `local-connection.yml` playbook to reconfigure your networking settings, then restart the workshop services.
+If you plan to provision a device then transport it to the workshop location, run the `start-workshop.yml` playbook to bring the workshop up after the device has been shutdown and moved:
 
 ```
-ansible-playbook provisioner/local-connection.yml --inventory your.inventory.yml --extra-vars @your.extra-vars.yml -v
+ansible-navigator run provisioner/start_workshop.yml -e @your.extra-vars.yml -i your.local-inventory.yml -m stdout -v
 ```
 
 > Note:
