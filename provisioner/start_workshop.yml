@@ -34,20 +34,31 @@
 - name: setup local connection
   ansible.builtin.import_playbook: local-connection.yml
 
-- name: start priv pod
-  containers.podman.podman_pod:
-    name: "workshop-{{ workshop_type }}-priv"
-    state: started
-  become: true
+- name: reset pods
+  hosts:
+    - edge_management
+  tasks:
+    - name: remove priv pod
+      containers.podman.podman_pod:
+        name: "workshop-{{ workshop_type }}-priv"
+        state: absent
+      become: true
 
-- name: start unpriv pod
-  containers.podman.podman_pod:
-    name: "workshop-{{ workshop_type }}"
-    state: started
+    - name: remove unpriv pod
+      containers.podman.podman_pod:
+        name: "workshop-{{ workshop_type }}"
+        state: absent
 
-- name: ensure fdo is running
-  ansible.builtin.systemd:
-    name: fdo-aio
-    state: started
-  when:
-    - workshop_type == 'rhde_fdo_rtk'
+- name: run local services
+  ansible.builtin.import_playbook: run-local-services.yml
+
+- name: reset pods
+  hosts:
+    - edge_management
+  tasks:
+    - name: ensure fdo is running
+      ansible.builtin.systemd:
+        name: fdo-aio
+        state: started
+      when:
+        - workshop_type == 'rhde_fdo_rtk'
