@@ -9,8 +9,8 @@
       ansible.builtin.debug:
         msg: |
           This playbook assumes the workshop has already been built and configured.
-          If any configuration has changed (external_connection, internal_connection), you need to teardown and reprovision.
-          The IP address changing on the external_connection should be fine.
+          If configuration of the internal interface has changed, you need to teardown and reprovision.
+          The IP address changing on the external_connection is fine.
   tasks:
     - name: run checks
       block:
