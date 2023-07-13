@@ -4,9 +4,9 @@
   become: true
   block:
     - name: allow non-root to bind to low ports
-      ansible.builtin.copy:
-        content: 'net.ipv4.ip_unprivileged_port_start=10'
-        dest: "/etc/sysctl.d/90-workshop-{{ workshop_type }}.conf"
+      ansible.builtin.lineinfile:
+        line: net.ipv4.ip_unprivileged_port_start=10
+        path: /etc/sysctl.conf
       notify:
         - sysctl_reload
   
