@@ -4,5 +4,3 @@ controller_hostname: "{{ ansible_host }}"
 controller_username: admin
 controller_password: "{{ admin_password }}"
 controller_validate_certs: false
-
-controller_configuration_projects_async_retries: 300
