@@ -32,3 +32,4 @@ old-vars-files
 .vscode
 test.*
 install-containerized*
+start_workshop-artifact*
