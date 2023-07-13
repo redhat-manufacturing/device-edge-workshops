@@ -21,6 +21,9 @@
           fail:
             msg: The provisioner has failed during initial check_setup, please scroll up to see exact error.
 
+- name: import workshop validator playbook
+  ansible.builtin.import_playbook: workshop-validator.yml
+
 - name: import aws setup playbook
   ansible.builtin.import_playbook: aws-setup.yml
 
