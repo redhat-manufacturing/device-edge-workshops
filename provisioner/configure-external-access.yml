@@ -1,0 +1,19 @@
+---
+
+- name: allow external access to workshop services
+  hosts:
+    - edge_management
+  vars_files:
+    - "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
+  become: true
+  tasks:
+    - name: allow ports through firewall
+      ansible.posix.firewalld:
+        port: "{{ external_service.port }}/{{ external_service.protocol | default('tcp') }}"
+        zone: external
+        permanent: true
+        immediate: true
+        state: enabled
+      loop: "{{ allowed_external_services }}"
+      loop_control:
+        loop_var: external_service
