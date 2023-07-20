@@ -51,3 +51,5 @@ repo_files:
     dest: README.md
   - src: templates/hello-world.yml.j2
     dest: playbooks/hello-world.yml
+
+_internal_url: https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}
