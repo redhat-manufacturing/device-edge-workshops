@@ -4,6 +4,14 @@
   ansible.builtin.dnf:
     name: "{{ common_packages }}"
 
+- name: install extra packages if requested
+  ansible.builtin.dnf:
+    name: "{{ extra_packages }}"
+    disable_gpg_check: true
+  when:
+    - _install_extra_packages is defined
+    - _install_extra_packages
+
 - name: ensure dnsmasq isn't installed locally
   ansible.builtin.dnf:
     name: dnsmasq
