@@ -54,14 +54,11 @@
 - name: run local services
   ansible.builtin.import_playbook: run-local-services.yml
 
-- name: wait for services to start
-  hosts:
-    - edge_management
-  gather_facts: false
-  tasks:
-    - name: wait 30 seconds
-      ansible.builtin.pause:
-        seconds: 30
+- name: import external services playbook
+  ansible.builtin.import_playbook: configure-external-access.yml
+
+- name: import workshop checker playbook
+  ansible.builtin.import_playbook: check-workshop.yml
 
 - name: import gitea playbook
   ansible.builtin.import_playbook: gitea.yml
@@ -71,9 +68,6 @@
 
 - name: import student users playbook
   ansible.builtin.import_playbook: student-users.yml
-
-- name: import external services playbook
-  ansible.builtin.import_playbook: configure-external-access.yml
 
 - name: import additional roles playbook
   ansible.builtin.import_playbook: additional-roles.yml
