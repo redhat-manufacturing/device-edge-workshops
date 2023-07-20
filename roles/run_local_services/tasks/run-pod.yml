@@ -1,6 +1,6 @@
 ---
 
-- name: push out pod yaml
+- name: push out pod {{ pod.name }} yaml
   ansible.builtin.copy:
     content: "{{ pod.definition }}"
     dest: "{{ pod_dir }}/{{ pod.name }}.yml"
@@ -9,11 +9,12 @@
 - name: override state for 'absent'
   ansible.builtin.set_fact:
     pod_state: absent
+    play_pod_state: absent
   when:
     - state is defined
     - state == 'absent'
 
-- name: play yaml
+- name: play yaml to create pod {{ pod.name }}
   containers.podman.podman_play:
     kube_file: "{{ pod_dir }}/{{ pod.name }}.yml"
-    state: "{{ pod_state }}"
+    state: "{{ play_pod_state }}"

@@ -2,4 +2,5 @@
 
 pod_dir: "/home/{{ ansible_user }}/workshop-pod"
 state: present
+play_pod_state: started
 pod_state: started
