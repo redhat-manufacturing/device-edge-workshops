@@ -21,6 +21,8 @@
           - base64_manifest is defined
           - offline_token is defined
           - admin_password is defined
+          - external_connection is defined
+          - internal_connection is defined
         fail_msg: |
           Ensure necessary vars are set.
           For example extra-vars files, check the provisioner/example-extra-vars directory.
