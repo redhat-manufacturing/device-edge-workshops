@@ -50,6 +50,10 @@ This can be any system that can run RHEL9 and meets the minimum system requireme
 
 The system should be standard RHEL registered to the customer portal. Minimal installs and workstation installs are both fine. If you choose "Server", be sure to uninstall dnsmasq before attempting to provision a workshop.
 
+> Note:
+>
+> If you requested edge devices and would like to use them, sample kickstarts can be found in the [example-kickstarts](./example-kickstarts/) directory.
+
 ### 2. An AWS Account
 
 By default, no infrastructure runs in AWS, the only service leveraged is Route53 for creation of a wildcard certificate for a reverse proxy. If you are a Red Hat associate, a blank open AWS environment requested through RHDPS will work, and comes with a generic DNS domain that can be used.
