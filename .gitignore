@@ -33,3 +33,6 @@ old-vars-files
 test.*
 install-containerized*
 start_workshop-artifact*
+export.json*
+import.json*
+*-artifact*.json
