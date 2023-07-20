@@ -1,6 +1,8 @@
 ---
 
-controller_hostname: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+_internal_controller_hostname: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+controller_hostname: "{{ ansible_host }}:10443"
+controller_validate_certs: false
 controller_configuration_credentials_secure_logging: false
 
 # These are configured for global use

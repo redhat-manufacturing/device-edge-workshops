@@ -3,6 +3,8 @@
 - name: populate controller for students
   hosts:
     - edge_management
+  gather_facts: false
+  connection: local
   pre_tasks:
     - name: enforce var
       ansible.builtin.set_fact:
