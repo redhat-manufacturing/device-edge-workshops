@@ -50,7 +50,7 @@ This can be any system that can run RHEL9 and meets the minimum system requireme
 
 The system should be standard RHEL registered to the customer portal. Minimal installs and workstation installs are both fine. If you choose "Server", be sure to uninstall dnsmasq before attempting to provision a workshop.
 
-> Note:
+>**Note**
 >
 > If you requested edge devices and would like to use them, sample kickstarts can be found in the [example-kickstarts](./example-kickstarts/) directory.
 
@@ -170,7 +170,12 @@ all:
 
 >**Note**
 >
+> Do not use as your ansible_user, use a non-root account that can sudo.
+
+>**Note**
+>
 > ini-formatted inventories are fine, as well as using ssh keys, this is just a standard inventory file. Since the provisioner isn't creating the host (like for aws instances), connection information must be provided.
+
 
 ### Extra-Vars File
 
