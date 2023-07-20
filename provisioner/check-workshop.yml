@@ -1,0 +1,23 @@
+---
+
+- name: check on workshop services
+  hosts:
+    - edge_management
+  tasks:
+    - name: check workshop services
+      block:
+        - name: check ports are open and listening
+          ansible.builtin.wait_for:
+            host: "{{ ansible_host }}"
+            port:  "{{ _service.port }}"
+            timeout: 10
+          loop: "{{ allowed_external_services }}"
+          loop_control:
+            loop_var: _service
+          delegate_to: localhost
+      rescue:
+        - name: print error
+          ansible.builtin.debug:
+            msg: "Not all services available, re-running the provisioner may help"
+        - name: fail out
+          ansible.builtin.fail:
