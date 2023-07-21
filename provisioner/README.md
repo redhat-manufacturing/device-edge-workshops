@@ -192,9 +192,14 @@ Most variables are re-used between workshops, however sometimes there are unique
 You must run from the project root rather than the `/provisioner` folder.  This is so all the files in the Git project are mounted, not just the provisioner folder.  This is also best practice because it matches the behavior in Automation controller.
 
 ```
-ansible-navigator run provisioner/provision_lab.yml -e @extra_vars.yml -i inventory.yml -m stdout
+ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.yml --extra-vars @extra-vars.yml --mode stdout --execution-environment-volume-mounts /path/to/tmpdir:/tmp:Z -v
 
 ```
+
+>**Note**
+>
+> Parts of the provisioner create files locally then push them to the provisioned services. There's no harm in having the provisioner re-template out these files, however to speed things up a volume mount can be used. Ensure your user owns the directory that will be bind mounted.
+
 
 ### 2. Running Ansible-Playbook from the project root
 
