@@ -193,7 +193,6 @@ You must run from the project root rather than the `/provisioner` folder.  This 
 
 ```
 ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.yml --extra-vars @extra-vars.yml --mode stdout --execution-environment-volume-mounts /path/to/tmpdir:/tmp:Z -v
-
 ```
 
 >**Note**
