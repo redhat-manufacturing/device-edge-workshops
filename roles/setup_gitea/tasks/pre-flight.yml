@@ -5,15 +5,17 @@
     name: podman
   become: true
 
-- name: ensure parent {{ build_dir }} exists
-  ansible.builtin.file:
-    path: "{{ build_dir }}"
-    state: directory
-
-- name: create parent {{ source_control_tmp_dir }} exists
-  ansible.builtin.file:
-    path: "{{ source_control_tmp_dir }}"
-    state: directory
+- name: create local holding directories
+  delegate_to: localhost
+  block:
+    - name: ensure parent {{ build_dir }} exists
+      ansible.builtin.file:
+        path: "{{ build_dir }}"
+        state: directory
+    - name: create parent {{ source_control_tmp_dir }} exists
+      ansible.builtin.file:
+        path: "{{ source_control_tmp_dir }}"
+        state: directory
 
 - name: enable lingering for {{ ansible_user }}
   ansible.builtin.shell:
@@ -21,14 +23,3 @@
   args:
     creates: "/var/lib/systemd/linger/{{ ansible_user }}"
   become: true
-
-- name: set git config options for push
-  block:
-    - name: set git user.name
-      ansible.builtin.shell:
-        cmd: git config --global user.name "Workshop Provisioner"
-      changed_when: false
-    - name: set git user.email
-      ansible.builtin.shell:
-        cmd: git config --global user.email "dont@email.me"
-      changed_when: false
