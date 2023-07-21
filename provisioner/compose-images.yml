@@ -66,6 +66,7 @@
             builder_compose_pkgs: "{{ image.packages }}"
             builder_custom_repos: "{{ image.repos | default('[]') }}"
             builder_blueprint_distro: "{{ image.distro | default(omit) }}"
+            builder_request_timeout: 300
           loop: "{{ images_to_compose }}"
           loop_control:
             loop_var: image
@@ -81,6 +82,7 @@
             builder_compose_pkgs: "{{ image.packages }}"
             builder_custom_repos: "{{ image.repos | default('[]') }}"
             builder_blueprint_distro: "{{ image.distro | default(omit) }}"
+            builder_request_timeout: 600
           loop: "{{ images_to_compose }}"
           loop_control:
             loop_var: image
