@@ -1,12 +1,7 @@
 ---
-# - name: Install EPEL
-#   dnf:
-#     name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
-#     state: present
-#     disable_gpg_check: true
 
 - name: Install base packages
-  dnf:
+  ansible.builtin.dnf:
     name:
       - vim
       - git
@@ -25,9 +20,13 @@
   delay: 5
 
 - name: install community collection
-  shell: "ansible-galaxy collection install {{ item }} --force-with-deps "
+  ansible.builtin.shell:
+    cmd: "ansible-galaxy collection install {{ collection.name }} --force-with-deps"
+  args:
+    creates: "{{ collection.path }}"
   register: controlnode
-  loop:
-    - community.general
+  loop: "{{ _installation_collections }}"
+  loop_control:
+    loop_var: collection
   until: controlnode is not failed
   retries: 5

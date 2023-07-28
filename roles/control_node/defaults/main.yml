@@ -22,3 +22,7 @@ controller_install_command: "./setup.sh -e gpgcheck=0"
 
 nginx_http_port: 10080
 nginx_https_port: 10443
+
+_installation_collections:
+  - name: community.general
+    path: /root/.ansible/collections/ansible_collections/community/general
