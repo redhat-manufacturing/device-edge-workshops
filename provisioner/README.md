@@ -179,7 +179,7 @@ all:
 
 ### Extra-Vars File
 
-Most variables are re-used between workshops, however sometimes there are unique variables. Copy the example extra-vars file for your desired workshop from `provisioner/example-extra-vars/$(workshop_var).yml` to the root of the project and modify according.
+Most variables are re-used between workshops, however sometimes there are unique variables. Copy the example extra-vars file for your desired workshop from `provisioner/example-extra-vars/$(workshop_var).yml` to the root of the project and modify accordingly.
 
 
 ## Running the Provisioner
