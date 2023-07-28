@@ -46,7 +46,7 @@ Having said that, this workshop is built to take roughly 4 hours.
 * [Exercise 1.7 - Cloning Your Code Repository](1.7-coding-intro)
 * [Exercise 1.8 - Getting Logged Into the Image Builder WebUI](1.8-image-builder-intro)
 
-## Section 2 - Creating an Image via tha Image Builder WebUI
+## Section 2 - Creating an Image via the Image Builder WebUI
 
 * [Exercise 2.1 - Reviewing the Workflow to Build Images](2.1-image-builder-workflow)
 * [Exercise 2.2 - Building an Image via the WebUI](2.2-build-image-webui)
