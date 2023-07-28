@@ -71,4 +71,8 @@ The Red Hat Edge team would like to offer special thanks to the following people
     <td>Andrew Block</td>
     <td>Red Hat</td>
   </tr>
+   <tr>
+    <td>Hendrik van Niekerk</td>
+    <td>Red Hat</td>
+  </tr>
 </table>
