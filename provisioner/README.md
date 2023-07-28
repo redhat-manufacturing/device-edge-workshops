@@ -170,7 +170,7 @@ all:
 
 >**Note**
 >
-> Do not use as your ansible_user, use a non-root account that can sudo.
+> Do not use `root` as your ansible_user, use a non-root account that can sudo.
 
 >**Note**
 >
@@ -179,7 +179,7 @@ all:
 
 ### Extra-Vars File
 
-Most variables are re-used between workshops, however sometimes there are unique variables. Copy the example extra-vars file for your desired workshop from provisioner/example-extra-vars/$(workshop_var).yml to the root of the project and modify according.
+Most variables are re-used between workshops, however sometimes there are unique variables. Copy the example extra-vars file for your desired workshop from `provisioner/example-extra-vars/$(workshop_var).yml` to the root of the project and modify according.
 
 
 ## Running the Provisioner
@@ -203,11 +203,18 @@ ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.
 ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.yml --extra-vars @extra-vars.yml --mode stdout --execution-environment-volume-mounts /path/to/tmpdir:/tmp:Z -v
 ```
 
-### 2. Running Ansible-Playbook from the project root
+### 2. Using Ansible-Playbook
+
+It's recommended to create a [virtual environment](https://docs.python.org/3/library/venv.html) to house the python libraries required for the provisioner.
+
+Make sure to install the prerequired python libraries by running:
+```
+pip install -r execution-environment/requirements.txt
+```
 
 Make sure to install the prerequired collections by running:
 ```
-ansible-galaxy  install -r execution-environment/requirements.yml
+ansible-galaxy install -r execution-environment/requirements.yml
 ```
 
 Then run the provisioner:
