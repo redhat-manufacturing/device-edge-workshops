@@ -9,4 +9,4 @@
       ansible.builtin.include_role:
         name: ../roles/workshop_local_network
       when:
-        - workshop_type == 'rhde_tse' or workshop_type == 'rhde_fdo_rtk'
+        - workshop_type == 'rhde_tse' or workshop_type == 'rhde_fdo_rtk' or demo_type == 'summit_connect_2023'
