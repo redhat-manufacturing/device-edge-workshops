@@ -1,0 +1,14 @@
+---
+
+- name: create dir for onboarding scripts
+  ansible.builtin.file:
+    path: "{{ build_dir }}/onboarding/onboarding-scripts"
+    state: directory
+
+- name: template out onbaording scripts
+  ansible.builtin.template:
+    src: "templates/{{ workshop_type }}/onboarding-onboard.sh.j2"
+    dest: "{{ build_dir }}/onboarding/onboarding-scripts/onboard-student{{ student_number }}.sh"
+  loop: "{{ range(1, (student_total + 1), 1)|list }}"
+  loop_control:
+    loop_var: student_number
