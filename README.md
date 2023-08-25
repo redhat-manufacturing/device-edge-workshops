@@ -12,6 +12,16 @@ The Red Hat Ansible Automation Workshops project is intended for effectively dem
 >
 >Google Source will only work for Red Hat employees.  PDFs are provided for public consumption.
 
+### Demos:
+
+| Demo | Public Deck | Red Hat Internal  | Outline | Workshop Type Var |
+|---|---|---|---|---|
+| **[Summit Connect 2023](./exercises/summit_connect_2023)** <br> A demo walkthrough of the ACP and DCN architecture, with FDO and Greenboot highlighted  | [PDF](./decks/rhde_aw_120.pdf) | [Google Source](https://docs.google.com/presentation/d/1RZTqdKSXVhbguuidvNMx3fkR77lD4cM41N7S95Xb7HA) | [Exercises](./exercises/rhde_aw_120)  | `workshop_type: summit_connect_2023`
+
+>**Note**
+>
+>Demos will be made into workshops...eventually.
+
 ### 2 hour workshops:
 
 | Workshop   | Public Deck | Red Hat Internal  | Exercises  | Workshop Type Var   |
@@ -75,4 +85,12 @@ The Red Hat Edge team would like to offer special thanks to the following people
     <td>Hendrik van Niekerk</td>
     <td>Red Hat</td>
   </tr>
+   <tr>
+    <td>Rob Chavez</td>
+    <td>Intel</td>
+  </tr>
+   <tr>
+    <td>Jeremy Ouillette</td>
+    <td>Intel</td>
+  </tr>  
 </table>
