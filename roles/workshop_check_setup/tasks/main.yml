@@ -5,12 +5,27 @@
       - ansible_version.major >= 2
       - ansible_version.minor >= 11
 
+- name: assume workshop if not specified
+  ansible.builtin.set_fact:
+    workshop_or_demo: workshop
+  when:
+    - workshop_or_demo is not defined
+
 - name: make sure workshop_type is set to a correct value
   assert:
     that:
       - workshop_type is defined
       - workshop_type in valid_workshop_types
     msg: "workshop_type must be defined and be one of: {{ valid_workshop_types }}"
+  when:
+    - workshop_or_demo == 'workshop'
+
+- name: make sure demo_type is set to a correct value
+  assert:
+    that:
+      - demo_type is defined
+      - demo_type in valid_demo_types
+    msg: "demo_type must be defined and be one of: {{ valid_demo_types }}"
 
 - name: make sure dns_type is set to a correct value
   assert:
