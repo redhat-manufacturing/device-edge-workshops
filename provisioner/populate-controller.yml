@@ -6,6 +6,9 @@
   gather_facts: false
   connection: local
   pre_tasks:
+    - name: attempt to load in vars for workshop
+      ansible.builtin.include_vars:
+        file: "{{ workshop_or_demo | default('workshop') }}_vars/{{ workshop_type }}.yml"
     - name: enforce var
       ansible.builtin.set_fact:
         controller_configuration_projects_async_retries: 300
