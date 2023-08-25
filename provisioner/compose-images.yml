@@ -25,36 +25,6 @@
       ansible.builtin.include_role:
         name: infra.osbuild.setup_server
 
-    - name: adjust for non-standard port
-      when:
-        - image_builder_http_port is defined
-      block:
-        - name: adjust the standard listening port
-          ansible.builtin.lineinfile:
-            path: /etc/httpd/conf/httpd.conf
-            regexp: '^Listen'
-            line: 'Listen {{ image_builder_http_port }}'
-          register: _httpd_config
-        - name: allow bind to new port
-          ansible.builtin.shell:
-            cmd: "semanage port -a -t http_port_t -p tcp {{ image_builder_http_port }}"
-          when:
-            - _httpd_config.changed is defined
-            - _httpd_config.changed
-        - name: allow port through firewalld
-          ansible.posix.firewalld:
-            permanent: true
-            immediate: true
-            port: "{{ image_builder_http_port }}/tcp"
-            state: enabled
-        - name: restart httpd
-          ansible.builtin.systemd:
-            name: httpd
-            state: restarted
-          when:
-            - _httpd_config.changed is defined
-            - _httpd_config.changed
-
   tasks:
     - name: handle image builder being image builder
       block:
@@ -92,3 +62,34 @@
         - name: print warning
           ansible.builtin.debug:
             msg: "Ansible block saved Image Buider, confirm images composed correctly"
+
+  post_tasks:
+    - name: adjust for non-standard port
+      when:
+        - image_builder_http_port is defined
+      block:
+        - name: adjust the standard listening port
+          ansible.builtin.lineinfile:
+            path: /etc/httpd/conf/httpd.conf
+            regexp: '^Listen'
+            line: 'Listen {{ image_builder_http_port }}'
+          register: _httpd_config
+        - name: allow bind to new port
+          community.general.seport:
+            ports: "{{ image_builder_http_port }}"
+            proto: tcp
+            setype: http_port_t
+            state: present
+        - name: allow port through firewalld
+          ansible.posix.firewalld:
+            permanent: true
+            immediate: true
+            port: "{{ image_builder_http_port }}/tcp"
+            state: enabled
+        - name: restart httpd
+          ansible.builtin.systemd:
+            name: httpd
+            state: restarted
+          when:
+            - _httpd_config.changed is defined
+            - _httpd_config.changed
