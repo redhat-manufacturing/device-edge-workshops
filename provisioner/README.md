@@ -6,6 +6,7 @@ The `https://github.com/redhat-manufacturing/device-edge-workshops` contains an 
 | --- | --- |
 | Red Hat Device Edge - Any Workload, 120 Minutes | `workshop_type: rhde_aw_120`  |
 | Red Hat Device Edge - Trade Show Edition | `workshop_type: rhde_tse`  |
+| Red Hat Device Edge - GitOps | `workshop_type: rhde_gitops`  |
 | Red Hat Device Edge - FDO Secure Onboarding and the Realtime Kernel | `workshop_type: rhde_fdo_rtk`  |
 
 ## Table Of Contents

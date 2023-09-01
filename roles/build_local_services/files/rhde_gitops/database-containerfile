@@ -1,0 +1,22 @@
+FROM ubi9
+
+USER root
+
+RUN dnf -y install postgresql-server glibc-langpack-en
+RUN mkdir /opt/db-config
+
+COPY postgresql.conf /opt/db-config/postgresql.conf
+COPY db-start.sh /usr/local/bin/
+
+RUN	chown -R postgres:postgres /var/lib/pgsql
+RUN chown postgres /opt/db-config/postgresql.conf
+RUN chmod +x /usr/local/bin/db-start.sh
+
+VOLUME /var/lib/pgsql/data
+EXPOSE 15432
+
+STOPSIGNAL SIGINT
+
+USER postgres
+
+ENTRYPOINT db-start.sh

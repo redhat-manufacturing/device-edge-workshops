@@ -1,0 +1,15 @@
+---
+{% raw %}
+- name: do initial device setup
+  hosts: all
+  become: true
+  tasks:
+    - name: set the system hostname
+      ansible.builtin.hostname:
+        name: "{{ inventory_hostname }}"
+    - name: insert line into /etc/hosts
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        line: '{{ ansible_default_ipv4.address }} {{ inventory_hostname }} {{ inventory_hostname }}.lcl'
+        insertafter: EOF
+{% endraw %}

@@ -26,6 +26,8 @@
       - demo_type is defined
       - demo_type in valid_demo_types
     msg: "demo_type must be defined and be one of: {{ valid_demo_types }}"
+  when:
+    - workshop_type is not defined
 
 - name: make sure dns_type is set to a correct value
   assert:
