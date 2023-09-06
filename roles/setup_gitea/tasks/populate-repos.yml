@@ -19,6 +19,14 @@
       ansible.builtin.file:
         path: "{{ repo_root_path }}/playbooks/files"
         state: directory
+    - name: create device-images dir
+      ansible.builtin.file:
+        path: "{{ repo_root_path }}/device-images"
+        state: directory
+    - name: create device-configs dir
+      ansible.builtin.file:
+        path: "{{ repo_root_path }}/device-configs"
+        state: directory
     - name: template out files to push into repo
       ansible.builtin.template:
         src: "{{ file.src }}"

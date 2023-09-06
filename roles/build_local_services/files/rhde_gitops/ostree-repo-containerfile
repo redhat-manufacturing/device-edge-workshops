@@ -10,6 +10,8 @@ COPY repo /var/www/html/repo
 RUN chown -R nginx:nginx /var/lib/nginx
 RUN chown -R nginx:nginx /var/www/html
 
+VOLUME /var/www/html/student-repos
+
 EXPOSE 8080
 USER 0
 

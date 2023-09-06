@@ -219,12 +219,18 @@ pods:
             image: tftp:latest
           - name: ostree-repo
             image: ostree-repo:latest
+            volumeMounts:
+              - mountPath: /var/www/html/student-repos
+                name: student-repos
           - name: attendance
             image: attendance:latest
         volumes:
           - name: database-data
             persistentVolumeClaim:
               claimName: workshop-rhde_gitops-database
+          - name: student-repos
+            hostPath:
+              path: /var/www/html/student-repos
 
 builder_blueprint_name: rhde-image
 images_to_compose:
@@ -261,15 +267,15 @@ repo_files:
   - src: templates/rhde_gitops/update-devices.yml.j2
     dest: playbooks/update-devices.yml
   - src: templates/rhde_gitops/production-blueprint-v1.yml.j2
-    dest: playbooks/files/production-image-definition.yml
+    dest: device-images/production-image-definition.yml
   - src: templates/rhde_gitops/production-image-deploy.yml.j2
-    dest: playbooks/files/production-image-deploy.yml
+    dest: device-images/production-image-deploy.yml
   - src: templates/rhde_gitops/production-blueprint-v1.yml.j2
-    dest: playbooks/files/production-blueprint-v1.yml
+    dest: device-images/files/production-blueprint-v1.yml
   - src: templates/rhde_gitops/production-blueprint-v2.yml.j2
-    dest: playbooks/files/production-blueprint-v2.yml
+    dest: device-images/files/production-blueprint-v2.yml
   - src: templates/rhde_gitops/production-blueprint-v3.yml.j2
-    dest: playbooks/files/production-blueprint-v3.yml
+    dest: device-images/files/production-blueprint-v3.yml
 
 
 allowed_external_services:
