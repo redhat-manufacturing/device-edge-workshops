@@ -15,6 +15,10 @@
       ansible.builtin.file:
         path: "{{ repo_root_path }}/playbooks"
         state: directory
+    - name: create files dir in student repo
+      ansible.builtin.file:
+        path: "{{ repo_root_path }}/playbooks/files"
+        state: directory
     - name: template out files to push into repo
       ansible.builtin.template:
         src: "{{ file.src }}"

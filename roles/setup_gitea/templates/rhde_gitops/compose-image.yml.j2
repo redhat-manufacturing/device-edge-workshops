@@ -1,0 +1,12 @@
+---
+{% raw %}
+- name: compose an image via Image Builder
+  hosts:
+    - all
+  vars_files:
+    - files/production-image-definition.yml
+  tasks:
+    - name: run the image builder role
+      ansible.builtin.include_role:
+        name: infra.osbuild.builder
+{% endraw %}

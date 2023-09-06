@@ -66,6 +66,9 @@
 - name: import populate controller playbook
   ansible.builtin.import_playbook: populate-controller.yml
 
+#- name: import populate controller from builder
+#  ansible.builtin.import_playbook: populate-controller-from-builder.yml
+
 - name: import student users playbook
   ansible.builtin.import_playbook: student-users.yml
 

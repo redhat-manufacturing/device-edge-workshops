@@ -1,0 +1,24 @@
+
+---
+builder_blueprint_name: factory-blueprint-student{{ student_number }}
+builder_request_timeout: 300
+builder_wait_compose_timeout: 2400
+builder_compose_type: edge-commit
+builder_blueprint_ref: "rhel/9/x86_64/factory/prod"
+builder_skip_repo: true
+builder_compose_pkgs:
+  - podman
+  - vim-enhanced
+  - NetworkManager-wifi
+  - "fuse-overlayfs"
+  - "setroubleshoot-server"
+  - "slirp4netns"
+  - "net-tools"
+  - "git"
+builder_compose_customizations:
+  user:
+    name: ansible
+    password: "{{ admin_password }}"
+    groups:
+      - users
+      - wheel

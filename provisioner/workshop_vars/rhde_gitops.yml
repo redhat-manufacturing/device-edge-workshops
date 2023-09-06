@@ -13,7 +13,7 @@ local_services:
           internal_address: 192.168.1.1
           internal_netmask: 24
           dhcp_range_start: 192.168.1.5
-          dhcp_range_end: 192.168.1.254
+          dhcp_range_end: 192.168.1.253
           dhcp_lease_time: 12h
       - src: dnsmasq.hosts.j2
         dest: dnsmasq.hosts
@@ -60,6 +60,8 @@ local_services:
         dest: inventory.yml
       - src: eda-ansible.cfg
         dest: ansible.cfg
+
+        
   - name: reverse-proxy
     containerfile: reverse-proxy-containerfile
     pre_tasks:
@@ -183,7 +185,7 @@ pods:
             image: dnsmasq:latest
             securityContext:
               privileged: true
-              
+
   - name: workshop-rhde_gitops
     definition:
       apiVersion: v1
@@ -224,17 +226,20 @@ pods:
             persistentVolumeClaim:
               claimName: workshop-rhde_gitops-database
 
-builder_blueprint_name: rhde-image
-images_to_compose:
-  - version: 1.0.0
-    type: edge-commit
-    packages:
-      - vim-enhanced
-      - git
-      - nano
-      - NetworkManager-wifi
-      - podman
+#builder_blueprint_name: rhde-image
+#images_to_compose:
+#  - version: 1.0.0
+#    type: edge-commit
+#    packages:
+#      - vim-enhanced
+#      - git
+#      - nano
+#      - NetworkManager-wifi
+#      - podman
 image_builder_http_port: 11080
+
+#builder_populate_aap: true
+
 
 skip_builder_services: true
 
@@ -249,6 +254,20 @@ repo_files:
     dest: playbooks/manage-hosts-in-controller.yml
   - src: templates/rhde_gitops/initial-configuration.yml.j2
     dest: playbooks/initial-configuration.yml
+  - src: templates/rhde_gitops/compose-image.yml.j2
+    dest: playbooks/compose-image.yml
+  - src: templates/rhde_gitops/publish-image.yml.j2
+    dest: playbooks/publish-image.yml
+  - src: templates/rhde_gitops/update-devices.yml.j2
+    dest: playbooks/update-devices.yml
+  - src: templates/rhde_gitops/production-blueprint-v1.yml.j2
+    dest: playbooks/files/production-image-definition.yml
+  - src: templates/rhde_gitops/production-blueprint-v1.yml.j2
+    dest: playbooks/files/production-blueprint-v1.yml
+  - src: templates/rhde_gitops/production-blueprint-v2.yml.j2
+    dest: playbooks/files/production-blueprint-v2.yml
+  - src: templates/rhde_gitops/production-blueprint-v3.yml.j2
+    dest: playbooks/files/production-blueprint-v3.yml
 
 allowed_external_services:
   - port: 5000

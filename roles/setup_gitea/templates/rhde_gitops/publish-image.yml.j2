@@ -1,0 +1,148 @@
+---
+{% raw %}
+- name: compose an image via Image Builder
+  hosts:
+    - all
+  vars_files:
+    - files/production-image-deploy.yml
+    - files/production-image-definition.yml
+  tasks:
+
+    - ansible.builtin.debug:
+        msg: "Selected version: {{ production_image_version }}"
+
+
+    - name: Export the compose artifact
+      infra.osbuild.get_all_finished_images:
+      register: all_images
+
+
+    - name: Get version number if version = latest
+      block:
+        - name: Get all image versions from blueprint {{ builder_blueprint_name }}
+          set_fact:
+            all_image_versions_blueprint: "{{ all_images|json_query(blueprint_query) }}"
+          vars:
+            blueprint_query: "result.finished[?blueprint =='{{ builder_blueprint_name }}'].version"
+
+
+        - name: Get latest image versions from blueprint {{ builder_blueprint_name }}
+          set_fact:
+            latest_image_versio_blueprint: "{{ all_image_versions_blueprint | max}}"
+
+
+        - ansible.builtin.debug:
+            msg: "Latest image version for blueprint {{ builder_blueprint_name }} is: {{ latest_image_versio_blueprint }}"
+
+        - name: Set version number
+          set_fact:
+            production_image_version: "{{ latest_image_versio_blueprint }}"
+
+      when: production_image_version == "latest"
+
+
+    - set_fact:
+        all_image_from_blueprint: "{{ all_images|json_query(blueprint_query) }}"
+      vars:
+        blueprint_query: "result.finished[?blueprint =='{{ builder_blueprint_name }}']"
+
+
+    - set_fact:
+        image_id:  "{{ all_image_from_blueprint|json_query(id_query) | join(',')  }}"
+      vars:
+        id_query: "[?version =='{{ production_image_version }}'].id"
+
+    - debug:
+        msg:  "Selected image id: {{ image_id }}"
+
+
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path:  /tmp/student{{ student_number }}
+        state: directory
+
+    - name: Export the compose artifact
+      infra.osbuild.export_compose:
+        compose_id: "{{ image_id }}"
+        dest: "/tmp/student{{ student_number }}/student{{ student_number }}-image_{{ image_id }}.tar"
+
+    - name: Untar artifact
+      ansible.builtin.unarchive:
+        src: /tmp/student{{ student_number }}/student{{ student_number }}-image_{{ image_id }}.tar
+        dest: /tmp/student{{ student_number }}/
+        remote_src: true
+
+
+########################################################################################################
+# 
+## AT THIS MOMENT THE OSTREE REPOSITORY CANNOT BE UPGRADED IN THE WAY THAT THE COLLECTION IS DOING IT
+## BECAUSE THERE IS A BUG IN RPM-OSTREE THAT DOES NOT ALLOW TO RUN COMMANDS SUCH AS rpm-ostree upgrade --check
+## OR rpm-ostree upgrade --preview THIS IS THE ERROR THAT YOU WILL GET:
+#
+# error: Bus owner changed, aborting. This likely means the daemon crashed; check logs with `journalctl -xe`
+#
+# https://github.com/coreos/rpm-ostree/issues/4280
+#
+####################################################
+
+{% raw %}
+#    - shell: ostree refs --repo=/tmp/student{{ student_number }}/repo
+#      register: builder_blueprint_ref
+
+#    - name: Get checksum from artifact
+#      become: true
+#      ansible.builtin.command:
+#        cmd: "/usr/bin/ostree --repo=/tmp/student{{ student_number }}/repo rev-parse {{ builder_blueprint_ref.stdout  }}"
+#      register: checksum_output
+#      changed_when: false
+
+#    - name: Pull commit from artifact
+#      become: true
+#      ansible.builtin.command:
+#        cmd: "/usr/bin/ostree --repo=/var/www/html/student{{ student_number }}/repo pull-local /tmp/student{{ student_number }}/repo {{ checksum_output['stdout'] }}"
+#      changed_when: true
+
+#    - name: Commit changes to repository
+#      become: true
+#      ansible.builtin.command:
+#        cmd: "/usr/bin/ostree --repo=/var/www/html/student{{ student_number }}/repo commit -b {{ builder_blueprint_ref.stdout  }} -s 'Release {{ image_version }}' --add-metadata-string=version={{ image_version }} --tree=ref={{ checksum_output['stdout'] }}"
+#      changed_when: true
+{% endraw %}
+
+
+## IN ORDER TO WORKAROUND WHILE THAT'S FIXED WE CAN JUST COPY THE NEW FILES IN THE HTTP SERVER
+
+
+    - name: Remove old repo directory
+      ansible.builtin.file:
+        path: /var/www/html/student{{ student_number }}/repo
+        state: absent
+
+    - name: Copy the new repo
+      ansible.builtin.copy:
+        remote_src: true
+        src: /tmp/student{{ student_number }}/repo
+        dest: /var/www/html/student{{ student_number }}
+
+
+    - name: Remove tar file
+      ansible.builtin.file:
+        path: "/tmp/student{{ student_number }}/student{{ student_number }}-image_{{ image_id }}.tar"
+        state: absent
+
+    - name: Remove tmp directory
+      ansible.builtin.file:
+        path: "/tmp/student{{ student_number }}"
+        state: absent
+
+    - name: Restore context on blueprint directory
+      ansible.builtin.command: "restorecon -R /var/www/html/student{{ student_number }}"
+      changed_when: true
+
+
+{% endraw %}
+
+
+
+
+

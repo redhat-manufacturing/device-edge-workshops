@@ -144,6 +144,26 @@ controller_templates:
     execution_environment: Device Edge Workshops Execution Environment
     become_enabled: true
 
+  - name: Compose Image
+    organization: "Student{{ student_number }} Organization"
+    inventory: Edge Utilities
+    project: Device Edge Codebase
+    playbook: playbooks/compose-image.yml
+    credentials:
+      - Image Builder Credentials
+    execution_environment: Device Edge Workshops Execution Environment
+    become_enabled: true
+
+  - name: Publish Image
+    organization: "Student{{ student_number }} Organization"
+    inventory: Edge Utilities
+    project: Device Edge Codebase
+    playbook: playbooks/publish-image.yml
+    credentials:
+      - Image Builder Credentials
+    execution_environment: Device Edge Workshops Execution Environment
+    become_enabled: true
+
 controller_workflows:
   - name: Provision Edge Device
     organization: "Student{{ student_number }} Organization"

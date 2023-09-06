@@ -1,0 +1,10 @@
+---
+- name: hello world testing playbook
+  hosts:
+    - all
+  gather_facts: false
+  tasks:
+    - debug:
+            msg: "Hello student{{ student_number }}"
+
+
