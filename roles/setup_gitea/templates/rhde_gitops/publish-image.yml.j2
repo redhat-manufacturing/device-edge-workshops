@@ -56,20 +56,20 @@
         msg:  "Selected image id: {{ image_id }}"
 
 
-    - name: Create a directory if it does not exist
+    - name: Create a tmp directory if it does not exist
       ansible.builtin.file:
-        path:  /tmp/student{{ student_number }}
+        path:  /tmp/repos/student{{ student_number }}
         state: directory
 
     - name: Export the compose artifact
       infra.osbuild.export_compose:
         compose_id: "{{ image_id }}"
-        dest: "/tmp/student{{ student_number }}/student{{ student_number }}-image_{{ image_id }}.tar"
+        dest: "/tmp/repos/student{{ student_number }}/student{{ student_number }}-image_{{ image_id }}.tar"
 
     - name: Untar artifact
       ansible.builtin.unarchive:
-        src: /tmp/student{{ student_number }}/student{{ student_number }}-image_{{ image_id }}.tar
-        dest: /tmp/student{{ student_number }}/
+        src: /tmp/repos/student{{ student_number }}/student{{ student_number }}-image_{{ image_id }}.tar
+        dest: /tmp/repos/student{{ student_number }}/
         remote_src: true
 
 
@@ -86,26 +86,26 @@
 ####################################################
 
 
-#    - shell: ostree refs --repo=/tmp/student{{ student_number }}/repo
+#    - shell: ostree refs --repo=/tmp/repos/student{{ student_number }}/repo
 #      register: builder_blueprint_ref
 
 #    - name: Get checksum from artifact
 #      become: true
 #      ansible.builtin.command:
-#        cmd: "/usr/bin/ostree --repo=/tmp/student{{ student_number }}/repo rev-parse {{ builder_blueprint_ref.stdout  }}"
+#        cmd: "/usr/bin/ostree --repo=/tmp/repos/student{{ student_number }}/repo rev-parse {{ builder_blueprint_ref.stdout  }}"
 #      register: checksum_output
 #      changed_when: false
 
 #    - name: Pull commit from artifact
 #      become: true
 #      ansible.builtin.command:
-#        cmd: "/usr/bin/ostree --repo=/var/www/html/student{{ student_number }}/repo pull-local /tmp/student{{ student_number }}/repo {{ checksum_output['stdout'] }}"
+#        cmd: "/usr/bin/ostree --repo=/var/www/html/repos/student{{ student_number }}/repo pull-local /tmp/repos/student{{ student_number }}/repo {{ checksum_output['stdout'] }}"
 #      changed_when: true
 
 #    - name: Commit changes to repository
 #      become: true
 #      ansible.builtin.command:
-#        cmd: "/usr/bin/ostree --repo=/var/www/html/student{{ student_number }}/repo commit -b {{ builder_blueprint_ref.stdout  }} -s 'Release {{ image_version }}' --add-metadata-string=version={{ image_version }} --tree=ref={{ checksum_output['stdout'] }}"
+#        cmd: "/usr/bin/ostree --repo=/var/www/html/repos/student{{ student_number }}/repo commit -b {{ builder_blueprint_ref.stdout  }} -s 'Release {{ image_version }}' --add-metadata-string=version={{ image_version }} --tree=ref={{ checksum_output['stdout'] }}"
 #      changed_when: true
 
 
@@ -113,30 +113,35 @@
 ## IN ORDER TO WORKAROUND WHILE THAT'S FIXED WE CAN JUST COPY THE NEW FILES IN THE HTTP SERVER
 
 
-    - name: Remove old repo directory
+    - name: Create webserver directory if it does not exist
       ansible.builtin.file:
-        path: /var/www/html/student{{ student_number }}/repo
+        path:  /var/www/html/repos/student{{ student_number }}
+        state: directory
+
+    - name: Remove old repo directory if it existed
+      ansible.builtin.file:
+        path: /var/www/html/repos/student{{ student_number }}/repo
         state: absent
 
     - name: Copy the new repo
       ansible.builtin.copy:
         remote_src: true
-        src: /tmp/student{{ student_number }}/repo
-        dest: /var/www/html/student{{ student_number }}
+        src: /tmp/repos/student{{ student_number }}/repo
+        dest: /var/www/html/repos/student{{ student_number }}
 
 
     - name: Remove tar file
       ansible.builtin.file:
-        path: "/tmp/student{{ student_number }}/student{{ student_number }}-image_{{ image_id }}.tar"
+        path: "/tmp/repos/student{{ student_number }}/student{{ student_number }}-image_{{ image_id }}.tar"
         state: absent
 
     - name: Remove tmp directory
       ansible.builtin.file:
-        path: "/tmp/student{{ student_number }}"
+        path: "/tmp/repos/student{{ student_number }}"
         state: absent
 
     - name: Restore context on blueprint directory
-      ansible.builtin.command: "restorecon -R /var/www/html/student{{ student_number }}"
+      ansible.builtin.command: "restorecon -R /var/www/html/repos/student{{ student_number }}"
       changed_when: true
 
 

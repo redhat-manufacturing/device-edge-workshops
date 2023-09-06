@@ -262,12 +262,15 @@ repo_files:
     dest: playbooks/update-devices.yml
   - src: templates/rhde_gitops/production-blueprint-v1.yml.j2
     dest: playbooks/files/production-image-definition.yml
+  - src: templates/rhde_gitops/production-image-deploy.yml.j2
+    dest: playbooks/files/production-image-deploy.yml
   - src: templates/rhde_gitops/production-blueprint-v1.yml.j2
     dest: playbooks/files/production-blueprint-v1.yml
   - src: templates/rhde_gitops/production-blueprint-v2.yml.j2
     dest: playbooks/files/production-blueprint-v2.yml
   - src: templates/rhde_gitops/production-blueprint-v3.yml.j2
     dest: playbooks/files/production-blueprint-v3.yml
+
 
 allowed_external_services:
   - port: 5000
