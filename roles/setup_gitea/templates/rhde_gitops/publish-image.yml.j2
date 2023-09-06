@@ -85,7 +85,7 @@
 #
 ####################################################
 
-{% raw %}
+
 #    - shell: ostree refs --repo=/tmp/student{{ student_number }}/repo
 #      register: builder_blueprint_ref
 
@@ -107,7 +107,7 @@
 #      ansible.builtin.command:
 #        cmd: "/usr/bin/ostree --repo=/var/www/html/student{{ student_number }}/repo commit -b {{ builder_blueprint_ref.stdout  }} -s 'Release {{ image_version }}' --add-metadata-string=version={{ image_version }} --tree=ref={{ checksum_output['stdout'] }}"
 #      changed_when: true
-{% endraw %}
+
 
 
 ## IN ORDER TO WORKAROUND WHILE THAT'S FIXED WE CAN JUST COPY THE NEW FILES IN THE HTTP SERVER

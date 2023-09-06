@@ -226,16 +226,16 @@ pods:
             persistentVolumeClaim:
               claimName: workshop-rhde_gitops-database
 
-#builder_blueprint_name: rhde-image
-#images_to_compose:
-#  - version: 1.0.0
-#    type: edge-commit
-#    packages:
-#      - vim-enhanced
-#      - git
-#      - nano
-#      - NetworkManager-wifi
-#      - podman
+builder_blueprint_name: rhde-image
+images_to_compose:
+  - version: 1.0.0
+    type: edge-commit
+    packages:
+      - vim-enhanced
+      - git
+      - nano
+      - NetworkManager-wifi
+      - podman
 image_builder_http_port: 11080
 
 #builder_populate_aap: true
