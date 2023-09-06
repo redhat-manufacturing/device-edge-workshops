@@ -107,6 +107,11 @@ controller_credentials:
       username: "{{ ansible_user }}"
       password: "{{ admin_password }}"
       become_password: "{{ admin_password }}"
+  - name: Webhook Credential
+    organization: "Student{{ student_number }} Organization"
+    credential_type: "GitHub Personal Access Token"
+    inputs:
+      token: "WaPsycuWjU7s9HAJYIbGpl55HQaOINgV2xgQSIcZyaaYR1FNfD"
 
 controller_projects:
   - name: Device Edge Codebase
@@ -153,6 +158,8 @@ controller_templates:
       - Image Builder Credentials
     execution_environment: Device Edge Workshops Execution Environment
     become_enabled: true
+    webhook_service: github
+    webhook_credential: "Webhook Credential"
 
   - name: Publish Image
     organization: "Student{{ student_number }} Organization"
@@ -163,6 +170,9 @@ controller_templates:
       - Image Builder Credentials
     execution_environment: Device Edge Workshops Execution Environment
     become_enabled: true
+    webhook_service: github
+    webhook_credential: "Webhook Credential"
+    notification_templates_success: ""
 
 controller_workflows:
   - name: Provision Edge Device
@@ -182,3 +192,28 @@ controller_workflows:
           - Initial Device Configuration
       - identifier: Initial Device Configuration
         unified_job_template: Initial Device Configuration
+    notification_templates_success: ""
+
+
+  - name: New Edge Device image
+    organization: "Student{{ student_number }} Organization"
+    state: present
+    allow_simultaneous: false
+    survey_enabled: false
+    simplified_workflow_nodes:
+      - identifier: Compose Image
+        unified_job_template: Compose Image
+        success_nodes:
+          - Publish Image Approval
+      - identifier: Publish Image Approval
+        approval_node:
+          name: Approve the new Image
+          description: Approve this to proceed in workflow
+          timeout: 0
+        success_nodes:
+          - Publish Image
+      - identifier: Publish Image
+        unified_job_template: Publish Image
+    webhook_service: github
+    webhook_credential: "Webhook Credential"
+    notification_templates_approvals: ""
