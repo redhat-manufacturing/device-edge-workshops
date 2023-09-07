@@ -12,11 +12,10 @@
     body:
       branch_filter: "main"
       type: "gitea"
-      config: "{ \"url\": \"{{ item[1].webhook }}\" , \"content_type\": \"json\" }"
+      config: "{ \"url\": \"{{ item[1].webhook }}\" , \"content_type\": \"json\" , \"secret\": \"{{ webhook_token }}\" }"
       events: 
         - push
       active: true
-      secret: "{{ webhook_token }}" 
     status_code:
       - 201
       - 409
