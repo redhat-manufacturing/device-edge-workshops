@@ -111,14 +111,14 @@ controller_credentials:
     organization: "Student{{ student_number }} Organization"
     credential_type: "GitHub Personal Access Token"
     inputs:
-      token: "WaPsycuWjU7s9HAJYIbGpl55HQaOINgV2xgQSIcZyaaYR1FNfD"
+      token: "{{ webhook_token }}"
 
 controller_projects:
   - name: Device Edge Codebase
     organization: "Student{{ student_number }} Organization"
     scm_type: git
     scm_branch: main
-    scm_url: https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-codebase.git
+    scm_url: https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/{{ repo_name }}.git
     credential: Gitea Credentials
 
 controller_templates:
@@ -158,8 +158,6 @@ controller_templates:
       - Image Builder Credentials
     execution_environment: Device Edge Workshops Execution Environment
     become_enabled: true
-    webhook_service: github
-    webhook_credential: "Webhook Credential"
 
   - name: Publish Image
     organization: "Student{{ student_number }} Organization"
@@ -170,9 +168,7 @@ controller_templates:
       - Image Builder Credentials
     execution_environment: Device Edge Workshops Execution Environment
     become_enabled: true
-    webhook_service: github
-    webhook_credential: "Webhook Credential"
-    notification_templates_success: ""
+    notification_templates_success: "Slack Notification"
 
 controller_workflows:
   - name: Provision Edge Device
@@ -192,10 +188,11 @@ controller_workflows:
           - Initial Device Configuration
       - identifier: Initial Device Configuration
         unified_job_template: Initial Device Configuration
-    notification_templates_success: ""
+    notification_templates_success: "Slack Notification"
 
 
-  - name: New Edge Device image
+
+  - name: New Edge Device Image
     organization: "Student{{ student_number }} Organization"
     state: present
     allow_simultaneous: false
@@ -216,4 +213,16 @@ controller_workflows:
         unified_job_template: Publish Image
     webhook_service: github
     webhook_credential: "Webhook Credential"
-    notification_templates_approvals: ""
+    notification_templates_approvals: "Slack Notification"
+    notification_templates_success: "Slack Notification"
+
+
+controller_notifications:
+  - name: Slack Notification
+    description: "Notification to Slack channel #general"
+    organization: "Student{{ student_number }} Organization"
+    notification_type: slack
+    notification_configuration:
+      token: "{{ slack_app_token }}" 
+      channels:
+      - "#general"

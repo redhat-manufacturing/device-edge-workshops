@@ -1,0 +1,82 @@
+---
+
+    - name: set repo root dir
+      ansible.builtin.set_fact:
+        repo_root_path: "{{ source_control_tmp_dir }}/{{ ansible_host }}/student{{ student_number }}-{{ additional_repo.name }}"
+
+    - name: setup files
+      delegate_to: localhost
+      block:
+        - name: create dir for student{{ student_number }}
+          ansible.builtin.file:
+            path: "{{ repo_root_path }}"
+            state: directory
+        - name: template out directories to push into additional repo
+          ansible.builtin.file:
+            path: "{{ repo_root_path }}/{{ dir }}"
+            state: directory
+          loop: "{{ additional_repo.directories }}"
+          loop_control:
+            loop_var: dir
+          when: additional_repo.directories is defined
+        - name: template out files to push into additional repo
+          ansible.builtin.template:
+            src: "{{ file.src }}"
+            dest: "{{ repo_root_path }}/{{ file.dest }}"
+          loop: "{{ additional_repo.files }}"
+          loop_control:
+            loop_var: file
+          when: additional_repo.files is defined
+
+    - name: check for existing git config
+      ansible.builtin.stat:
+        path: "{{ repo_root_path }}/.git"
+      register: git_dir
+      delegate_to: localhost
+
+    - name: push code into repo
+      delegate_to: localhost
+      when:
+        - not git_dir.stat.exists
+      block:
+        - name: initialize git
+          ansible.builtin.shell:
+            cmd: git init
+            chdir: "{{ repo_root_path }}"
+        - name: set git user.name
+          ansible.builtin.shell:
+            cmd: git config user.name "Workshop Provisioner"
+            chdir: "{{ repo_root_path }}"
+          changed_when: false
+        - name: set git user.email
+          ansible.builtin.shell:
+            cmd: git config user.email "dont@email.me"
+            chdir: "{{ repo_root_path }}"
+          changed_when: false
+        - name: checkout main branch
+          ansible.builtin.shell:
+            cmd: git checkout -b main
+            chdir: "{{ repo_root_path }}"
+        - name: add all files for push
+          ansible.builtin.shell:
+            cmd: git add *
+            chdir: "{{ repo_root_path }}"
+        - name: commit new files
+          ansible.builtin.shell:
+            cmd: git commit -m "initial commit by provisioner"
+            chdir: "{{ repo_root_path }}"
+
+    - name: push repos into local source control
+      ansible.builtin.shell:
+        cmd: "git push --set-upstream http://student{{ student_number }}:'{{ admin_password }}'@{{ ansible_host }}:3001/student{{ student_number }}/{{ additional_repo.name }}.git main"
+        chdir: "{{ repo_root_path }}"
+      register: code_push
+      delegate_to: localhost
+      changed_when:
+        - code_push.rc == 0
+      failed_when:
+        - code_push.rc != 0
+        - "'not have locally' not in code_push.stderr"
+
+
+    

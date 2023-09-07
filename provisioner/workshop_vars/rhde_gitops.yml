@@ -246,11 +246,14 @@ image_builder_http_port: 11080
 
 #builder_populate_aap: true
 
+webhook_token: "WaPsycuWjU7s9HAJYIbGpl55HQaOINgV2xgQSIcZyaaYR1FNfD"
 
 skip_builder_services: true
-
 install_gitea: false
 gitea_container: workshop-rhde_gitops-gitea
+
+repo_name: device-edge-automation
+
 repo_files:
   - src: templates/README.md.j2
     dest: README.md
@@ -266,16 +269,32 @@ repo_files:
     dest: playbooks/publish-image.yml
   - src: templates/rhde_gitops/update-devices.yml.j2
     dest: playbooks/update-devices.yml
-  - src: templates/rhde_gitops/production-blueprint-v1.yml.j2
-    dest: device-images/production-image-definition.yml
-  - src: templates/rhde_gitops/production-image-deploy.yml.j2
-    dest: device-images/production-image-deploy.yml
-  - src: templates/rhde_gitops/production-blueprint-v1.yml.j2
-    dest: device-images/files/production-blueprint-v1.yml
-  - src: templates/rhde_gitops/production-blueprint-v2.yml.j2
-    dest: device-images/files/production-blueprint-v2.yml
-  - src: templates/rhde_gitops/production-blueprint-v3.yml.j2
-    dest: device-images/files/production-blueprint-v3.yml
+
+additional_repos:
+  - name: device-edge-images
+    private: true
+    webhook: "https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/api/v2/workflow_job_templates/15/github/"
+    directories:
+      - examples
+    files: 
+      - src: templates/rhde_gitops/production-blueprint-v1.yml.j2
+        dest: production-image-definition.yml
+      - src: templates/rhde_gitops/production-image-deploy.yml.j2
+        dest: production-image-deploy.yml
+      - src: templates/rhde_gitops/production-blueprint-v1.yml.j2
+        dest: examples/production-blueprint-v1.yml
+      - src: templates/rhde_gitops/production-blueprint-v2.yml.j2
+        dest: examples/production-blueprint-v2.yml
+      - src: templates/rhde_gitops/production-blueprint-v3.yml.j2
+        dest: examples/production-blueprint-v3.yml
+  - name: device-edge-configs
+    private: true
+    webhook: "https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/api/v2/workflow_job_templates/16/github/"
+    directories:
+      - etc/ssh
+    files: 
+      - src: templates/rhde_gitops/ssh_config.j2
+        dest: etc/ssh/ssh_config
 
 
 allowed_external_services:
@@ -288,3 +307,5 @@ allowed_external_services:
   - port: 3000
   - port: 80
   - port: 443
+
+

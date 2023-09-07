@@ -19,3 +19,25 @@
   loop_control:
     loop_var: student_number
   delegate_to: localhost
+
+
+- name: create additional repos
+  ansible.builtin.uri:
+    url: "http://{{ ansible_host }}:3001/api/v1/admin/users/student{{ item[0] }}/repos"
+    validate_certs: false
+    user: lab-instructor
+    password: '{{ admin_password }}'
+    force_basic_auth: true
+    body_format: json
+    method: POST
+    body:
+      name: "{{ item[1].name }}"
+      private: "{{ item[1].private | default('true') }}"
+    status_code:
+      - 201
+      - 409
+  with_nested: 
+    - "{{ range(1, (student_total + 1), 1)|list }}"
+    - "{{ additional_repos }}"
+  delegate_to: localhost
+  when: additional_repos is defined

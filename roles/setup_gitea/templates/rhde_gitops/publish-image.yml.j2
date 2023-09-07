@@ -4,9 +4,43 @@
   hosts:
     - all
   vars_files:
-    - ../device-images/production-image-deploy.yml
-    - ../device-images/production-image-definition.yml
+    images_repo: "edge-device-images"
+    image_definition_file: "production-image-definition.yml"
+    image_deploy_file: "production-image-deploy.yml"
   tasks:
+
+    - name: Import Image definition variables from remote file
+      block:
+
+            - name: Create a tmp directory if it does not exist 
+              ansible.builtin.file:
+                path: /tmp/{{ ansible_host }}/repos/student{{ student_number }}"
+                state: directory
+
+            - name: Clone repo 
+              ansible.builtin.shell:            
+                cmd: "git clone http://student{{ student_number }}:'{{ admin_password }}'@{{ ansible_host }}:3001/student{{ student_number }}/device-edge-images.git /tmp/{{ ansible_host }}/repos/student{{ student_number }}/images"
+                #chdir: "/tmp/{{ ansible_host }}/repos/student{{ student_number }}"
+
+            - name: Import image definition
+              ansible.builtin.include_vars:
+                file: "/tmp/{{ ansible_host }}/repos/student{{ student_number }}/images/{{ image_definition_file }}"
+
+            - name: Import version to deploy
+              ansible.builtin.include_vars:
+                file: "/tmp/{{ ansible_host }}/repos/student{{ student_number }}/images/{{ image_deploy_file }}"
+
+            - name: Remove tmp directory
+              ansible.builtin.file:
+                path: "/tmp/{{ ansible_host }}/repo/student{{ student_number }}"
+                state: absent
+
+      delegate_to: localhost
+
+
+
+
+
 
     - ansible.builtin.debug:
         msg: "Selected version: {{ production_image_version }}"

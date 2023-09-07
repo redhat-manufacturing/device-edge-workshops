@@ -55,6 +55,7 @@
         - initial-gitea-config.yml
         - create-gitea-users.yml
         - create-gitea-repos.yml
+        - create-gitea-webhooks.yml
       loop_control:
         loop_var: tasks_file
 
