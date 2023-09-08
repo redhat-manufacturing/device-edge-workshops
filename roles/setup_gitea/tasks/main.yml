@@ -5,7 +5,7 @@
 
 - name: include install tasks
   when:
-    - install_gitea | bool
+    - install_gitea | bool and (post_controller is not defined or not post_controller)
   block:
 
     - name: include firewall tasks
@@ -44,9 +44,10 @@
         loop_var: kube_spec
       loop: "{{ podman_kube_specs }}"
 
+
 - name: tasks to configure gitea
   when:
-    - configure_gitea | bool
+    - configure_gitea | bool and (post_controller is not defined or not post_controller)
   block:
     - name: include config/users/repos tasks
       ansible.builtin.include_tasks:
@@ -55,7 +56,6 @@
         - initial-gitea-config.yml
         - create-gitea-users.yml
         - create-gitea-repos.yml
-        - create-gitea-webhooks.yml
       loop_control:
         loop_var: tasks_file
 
@@ -65,3 +65,17 @@
       loop: "{{ range(1, (student_total + 1), 1)|list }}"
       loop_control:
         loop_var: student_number
+
+
+- name: tasks to configure gitea after controller
+  when:
+    - configure_gitea | bool and post_controller is defined and post_controller
+  block:
+    - name: include config/users/repos tasks
+      ansible.builtin.include_tasks:
+        file: "{{ tasks_file }}"   
+      loop:
+        - create-gitea-webhooks.yml
+      loop_control:
+        loop_var: tasks_file
+  
