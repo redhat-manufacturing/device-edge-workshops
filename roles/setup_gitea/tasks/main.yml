@@ -2,6 +2,8 @@
 
 - name: import pre-flight tasks
   ansible.builtin.import_tasks: pre-flight.yml
+  when:
+    - post_controller is not defined or not post_controller
 
 - name: include install tasks
   when:

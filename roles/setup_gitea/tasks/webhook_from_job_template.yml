@@ -67,14 +67,13 @@
         }
         EOF
 
-        TOKEN=$(curl -k -X POST \
-          -H "Content-Type: application/json" \
-          -u "${USERNAME}:${PASSWORD}" \
-          -d "@/tmp/token_request.json" \
-          "${ANSIBLE_CONTROLLER_URL}/api/v2/tokens/" | jq -r .token)
-        
-        echo "$TOKEN"
+        response=$(curl -k -X POST -H "Content-Type: application/json" -u "${USERNAME}:${PASSWORD}" -d "@/tmp/token_request.json" "${ANSIBLE_CONTROLLER_URL}/api/v2/tokens/")
+
+        token=$(echo "$response" | grep -o '"token": *"[^"]*"' | awk -F'"' '{print $4}')
+
+        echo "$token"
       register: token_output
+      delegate_to: localhost
 
     - name: Set Token as Ansible Variable
       set_fact:
@@ -89,6 +88,7 @@
           -H "Authorization: Bearer ${AUTH_TOKEN}" \
           -H "Content-Type: application/json"
       register: job_templates
+      delegate_to: localhost
 
 
     - name: Set Job Template ID
@@ -124,6 +124,7 @@
           -H "Authorization: Bearer ${AUTH_TOKEN}" \
           -H "Content-Type: application/json"
       register: webhook_secret
+      delegate_to: localhost
 
 
 
@@ -141,6 +142,7 @@
         return_content: yes
       register: existing_webhooks
       changed_when: false
+      delegate_to: localhost
 
     - set_fact:
         existing_webhooks_json: "{{ existing_webhooks.content  | from_json }}"
@@ -190,3 +192,4 @@
           - 201
           - 409
       when: not webhook_exists or webhook_exists is undefined
+      delegate_to: localhost

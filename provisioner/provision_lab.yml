@@ -69,7 +69,7 @@
 #- name: import populate controller from builder
 #  ansible.builtin.import_playbook: populate-controller-from-builder.yml
 
-- name: import populate controller playbook
+- name: import populate Gitea with post-controller deployment info playbook
   ansible.builtin.import_playbook: populate-gitea.yml
 
 - name: import student users playbook
