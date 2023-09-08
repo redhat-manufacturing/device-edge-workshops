@@ -4,4 +4,3 @@ controller_hostname: "{{ ansible_host }}"
 controller_username: admin
 controller_password: "{{ admin_password }}"
 controller_validate_certs: false
-webhook_token: "WaPsycuWjU7s9HAJYIbGpl55HQaOINgV2xgQSIcZyaaYR1FNfD"

@@ -1,10 +1,10 @@
 ---
-{% raw %}
+
 - name: compose an image via Image Builder
   hosts:
     - all
   vars:
-    images_repo: "edge-device-images"
+    images_repo: "device-edge-images"
     image_definition_file: "production-image-definition.yml"
   tasks:
 
@@ -18,11 +18,11 @@
 
             - name: Clone repo 
               ansible.builtin.shell:            
-                cmd: "git clone http://student{{ student_number }}:'{{ admin_password }}'@{{ ansible_host }}:3001/student{{ student_number }}/{{ images_repo }}.git /tmp/{{ ansible_host }}/repos/student{{ student_number }}/images"
+                cmd: "git clone http://student{{ student_number }}:'{{ admin_password }}'@{{ ansible_host }}:3001/student{{ student_number }}/{% raw %}{{ images_repo }}{% endraw %}.git /tmp/{{ ansible_host }}/repos/student{{ student_number }}/images"
                 #chdir: "/tmp/{{ ansible_host }}/repos/student{{ student_number }}"
 
             - ansible.builtin.include_vars:
-                file: "/tmp/{{ ansible_host }}/repos/student{{ student_number }}/images/{{ image_definition_file }}"
+                file: "/tmp/{{ ansible_host }}/repos/student{{ student_number }}/images/{% raw %}{{ image_definition_file }}{% endraw %}"
 
             - name: Remove tmp directory
               ansible.builtin.file:
@@ -35,4 +35,4 @@
       ansible.builtin.include_role:
         name: infra.osbuild.builder
 
-{% endraw %}
+

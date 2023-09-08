@@ -107,11 +107,7 @@ controller_credentials:
       username: "{{ ansible_user }}"
       password: "{{ admin_password }}"
       become_password: "{{ admin_password }}"
-  - name: Webhook Credential
-    organization: "Student{{ student_number }} Organization"
-    credential_type: "GitHub Personal Access Token"
-    inputs:
-      token: "{{ webhook_token }}"
+
 
 controller_projects:
   - name: Device Edge Codebase
@@ -212,7 +208,6 @@ controller_workflows:
       - identifier: Publish Image
         unified_job_template: Publish Image
     webhook_service: github
-    webhook_credential: "Webhook Credential"
     notification_templates_approvals: "Slack Notification"
     notification_templates_success: "Slack Notification"
 

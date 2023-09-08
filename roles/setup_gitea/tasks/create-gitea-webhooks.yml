@@ -1,28 +1,39 @@
 ---
-
-- name: Create webhook in additional repos
-  ansible.builtin.uri:
-    url: "http://{{ ansible_host }}:3001/api/v1/repos/student{{ item[0] }}/{{ item[1].name  }}/hooks"
-    validate_certs: false
-    user: student{{ item[0] }}
-    password: '{{ admin_password }}'
-    force_basic_auth: true
-    body_format: json
-    method: POST
-    body:
-      branch_filter: "main"
-      type: "gitea"
-      config: "{ \"url\": \"{{ item[1].webhook }}\" , \"content_type\": \"json\" , \"secret\": \"{{ webhook_token }}\" }"
-      events: 
-        - push
-      active: true
-    status_code:
-      - 201
-      - 409
+- name: "Create webhooks"
+  ansible.builtin.include_tasks:
+    file: webhook_from_job_template.yml     
   with_nested: 
     - "{{ range(1, (student_total + 1), 1)|list }}"
     - "{{ additional_repos }}"
-  delegate_to: localhost
   when: additional_repos is defined
+
+
+
+
+
+#- name: Create webhook in additional repos
+#  ansible.builtin.ansible.builtin.uri:
+#    url: "http://{{ ansible_host }}:3001/api/v1/repos/student{{ item[0] }}/{{ item[1].name  }}/hooks"
+#    validate_certs: false
+#    user: student{{ item[0] }}
+#    password: '{{ admin_password }}'
+#    force_basic_auth: true
+#    body_format: json
+#    method: POST
+#    body:
+#      branch_filter: "main"
+#      type: "gitea"
+#      config: "{ \"url\": \"{{ item[1].webhook }}\" , \"content_type\": \"json\" , \"secret\": \"{{ webhook_token }}\" }"
+#      events: 
+#        - push
+#      active: true
+#    status_code:
+#      - 201
+#      - 409
+#  with_nested: 
+#    - "{{ range(1, (student_total + 1), 1)|list }}"
+#    - "{{ additional_repos }}"
+#  delegate_to: localhost
+#  when: additional_repos is defined
 
 
