@@ -142,17 +142,21 @@
       register: existing_webhooks
       changed_when: false
 
-    - name: Set Webhook URL
-      set_fact:
-        webhook_url: "https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/api/v1/repos/student{{ item[0] }}/{{ item[1].name  }}/hooks/"
-
     - set_fact:
         existing_webhooks_json: "{{ existing_webhooks.content  | from_json }}"
+
+    - name: Set AAP webhook URL
+      set_fact:
+        aap_webhook_url: "https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/api/v2/workflow_job_templates/{{ job_template_id }}/github/"
+
+    - name: Set Webhook URL
+      set_fact:
+        gitea_webhook_url: "https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/api/v1/repos/student{{ item[0] }}/{{ item[1].name  }}/hooks/"
 
 
     - name: Check if webhook exists
       set_fact:
-        webhook_exists: "{{ webhook_url in existing_webhooks_json[0].config.url }}"
+        webhook_exists: "{{ aap_webhook_url in existing_webhooks_json[0].config.url }}"
       when: existing_webhooks.content is defined and existing_webhooks.content | length > 3
 
 
@@ -161,24 +165,14 @@
         webhook_exists: false
       when: existing_webhooks.content is not defined or existing_webhooks.content | length < 4
 
-    - name: Set AAP webhook URL
-      set_fact:
-        aap_webhook_url: "https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/api/v2/workflow_job_templates/{{ job_template_id }}/github/"
-
-
-
     - name: Set Webhook key
       set_fact:
         webhook_key: "{{webhook_secret.stdout | from_json | json_query('webhook_key') }}"
 
 
-
-    - debug:
-        msg: "{{ webhook_key }}"
-
     - name: Create Webhook
       ansible.builtin.uri:
-        url: "{{ webhook_url }}"
+        url: "{{ gitea_webhook_url }}"
         validate_certs: false
         user: "student{{ item[0] }}"
         password: "{{ admin_password }}"
