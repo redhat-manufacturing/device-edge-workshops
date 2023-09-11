@@ -56,6 +56,8 @@
 
     - name: Create Personal Access Token
       shell: |
+        set -x
+        hostname
         ANSIBLE_CONTROLLER_URL="https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
         USERNAME="student{{ item[0] }}"
         PASSWORD="{{ admin_password }}"

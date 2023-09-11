@@ -9,18 +9,18 @@
     - name: attempt to load in vars for workshop
       ansible.builtin.include_vars:
         file: "{{ workshop_or_demo | default('workshop') }}_vars/{{ workshop_type }}.yml"
-    # - name: set source_control_host dns name and setup record | aws
-    #   when:
-    #     - route53_domains.gitea is defined
-    #   block:
-    #     - name: set var for gitea role
-    #       ansible.builtin.set_fact:
-    #         source_control_hostname: "{{ route53_domains.gitea.domain }}"
-    #     - name: setup dns in route53
-    #       ansible.builtin.include_role:
-    #         name: ../roles/aws_dns
-    #       vars:
-    #         route53_dns_record: "{{ route53_domains.gitea.domain }}"
+    - name: set source_control_host dns name and setup record | aws
+      when:
+        - route53_domains.gitea is defined
+      block:
+        - name: set var for gitea role
+          ansible.builtin.set_fact:
+            source_control_hostname: "{{ route53_domains.gitea.domain }}"
+        - name: setup dns in route53
+          ansible.builtin.include_role:
+            name: ../roles/aws_dns
+          vars:
+            route53_dns_record: "{{ route53_domains.gitea.domain }}"
 
     # - name: set source_control_host dns name and setup record | local
     #   when:

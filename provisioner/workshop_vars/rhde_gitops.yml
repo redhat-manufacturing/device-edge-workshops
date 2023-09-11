@@ -1,5 +1,17 @@
 ---
 
+bridge_vm: true
+
+route53_domains:
+  - name: "controller"
+    domain: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+    host: " {{ bridge_vm_ip | default('{{ edge_management_ext_ip }}')}} "
+  - name: "gitea"
+    domain: "gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+    host: " {{ bridge_vm_ip  | default('{{ edge_management_ext_ip }}')}} "
+
+edge_management_ext_ip: "192.168.1.1"
+
 local_services:
   - name: dnsmasq
     privileged: true

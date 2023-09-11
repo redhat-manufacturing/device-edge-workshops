@@ -15,6 +15,7 @@
             name: ../roles/aws_dns
           vars:
             route53_dns_record: "{{ route53_domains.cockpit.domain }}"
+            route53_dns_host: "{{ route53_domains.cockpit.host }}"
         - name: issue certificates
           ansible.builtin.include_role:
             name: ../roles/zerossl_cert
