@@ -4,9 +4,13 @@
   hosts:
     - 'edge_management:&local'
   become: true
+  pre_tasks:
+    - name: attempt to load in vars for workshop
+      ansible.builtin.include_vars:
+        file: "{{ workshop_or_demo | default('workshop') }}_vars/{{ workshop_type }}.yml"
   tasks:
     - name: run connection config role
       ansible.builtin.include_role:
         name: ../roles/workshop_local_network
       when:
-        - workshop_type == 'rhde_tse' or workshop_type == 'rhde_fdo_rtk' or demo_type == 'summit_connect_2023'
+        - workshop_type == 'rhde_tse' or workshop_type == 'rhde_fdo_rtk' or workshop_type == 'rhde_gitops' or demo_type == 'summit_connect_2023'

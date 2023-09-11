@@ -1,0 +1,15 @@
+FROM ubi9/nodejs-16
+
+USER 0
+
+COPY attendance/ .
+
+COPY student-pages/ src/
+
+RUN npm install
+
+RUN npm install react-router
+
+EXPOSE 3000
+
+CMD ["npm", "start"]

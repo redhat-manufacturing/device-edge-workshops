@@ -1,0 +1,182 @@
+---
+
+- name: compose an image via Image Builder
+  hosts:
+    - all
+  vars:
+    images_repo: "device-edge-images"
+    image_definition_file: "production-image-definition.yml"
+    image_deploy_file: "production-image-deploy.yml"
+  tasks:
+
+    - name: Import Image definition variables from remote file
+      block:
+
+            - name: Create a tmp directory if it does not exist 
+              ansible.builtin.file:
+                path: /tmp/{{ ansible_host }}/repos/student{{ student_number }}"
+                state: directory
+
+            - name: Clone repo 
+              ansible.builtin.shell:            
+                cmd: "git clone http://student{{ student_number }}:'{{ admin_password }}'@{{ ansible_host }}:3001/student{{ student_number }}/{% raw %}{{ images_repo }}{% endraw %}.git /tmp/{{ ansible_host }}/repos/student{{ student_number }}/images"
+                #chdir: "/tmp/{{ ansible_host }}/repos/student{{ student_number }}"
+
+            - name: Import image definition
+              ansible.builtin.include_vars:
+                file: "/tmp/{{ ansible_host }}/repos/student{{ student_number }}/images/{% raw %}{{ image_definition_file }}{% endraw %}"
+
+            - name: Import version to deploy
+              ansible.builtin.include_vars:
+                file: "/tmp/{{ ansible_host }}/repos/student{{ student_number }}/images/{% raw %}{{ image_deploy_file }}{% endraw %}"
+
+            - name: Remove tmp directory
+              ansible.builtin.file:
+                path: "/tmp/{{ ansible_host }}/repo/student{{ student_number }}"
+                state: absent
+
+      delegate_to: localhost
+
+
+
+{% raw %}
+    - ansible.builtin.debug:
+        msg: "Selected version: {{ production_image_version }}"
+
+
+    - name: Export the compose artifact
+      infra.osbuild.get_all_finished_images:
+      register: all_images
+
+
+    - name: Get version number if version = latest
+      block:
+        - name: Get all image versions from blueprint {{ builder_blueprint_name }}
+          set_fact:
+            all_image_versions_blueprint: "{{ all_images|json_query(blueprint_query) }}"
+          vars:
+            blueprint_query: "result.finished[?blueprint =='{{ builder_blueprint_name }}'].version"
+
+
+        - name: Get latest image versions from blueprint {{ builder_blueprint_name }}
+          set_fact:
+            latest_image_version_blueprint: "{{ all_image_versions_blueprint | max}}"
+
+
+        - ansible.builtin.debug:
+            msg: "Latest image version for blueprint {{ builder_blueprint_name }} is: {{ latest_image_version_blueprint }}"
+
+        - name: Set version number
+          set_fact:
+            production_image_version: "{{ latest_image_version_blueprint }}"
+
+      when: production_image_version == "latest"
+
+
+    - set_fact:
+        all_image_from_blueprint: "{{ all_images|json_query(blueprint_query) }}"
+      vars:
+        blueprint_query: "result.finished[?blueprint =='{{ builder_blueprint_name }}']"
+
+
+    - set_fact:
+        image_id:  "{{ all_image_from_blueprint|json_query(id_query) | join(',')  }}"
+      vars:
+        id_query: "[?version =='{{ production_image_version }}'].id"
+
+    - debug:
+        msg:  "Selected image id: {{ image_id }}"
+
+{% endraw %}
+
+
+    - name: Create a tmp directory if it does not exist
+      ansible.builtin.file:
+        path:  /tmp/student-repos/student{{ student_number }}
+        state: directory
+
+    - name: Export the compose artifact
+      infra.osbuild.export_compose:
+        compose_id: "{% raw %}{{ image_id }}{% endraw %}"
+        dest: "/tmp/student-repos/student{{ student_number }}/student{{ student_number }}-image_{% raw %}{{ image_id }}{% endraw %}.tar"
+
+    - name: Untar artifact
+      ansible.builtin.unarchive:
+        src: /tmp/student-repos/student{{ student_number }}/student{{ student_number }}-image_{% raw %}{{ image_id }}{% endraw %}.tar
+        dest: /tmp/student-repos/student{{ student_number }}/
+        remote_src: true
+
+
+########################################################################################################
+# 
+## AT THIS MOMENT THE OSTREE REPOSITORY CANNOT BE UPGRADED IN THE WAY THAT THE COLLECTION IS DOING IT
+## BECAUSE THERE IS A BUG IN RPM-OSTREE THAT DOES NOT ALLOW TO RUN COMMANDS SUCH AS rpm-ostree upgrade --check
+## OR rpm-ostree upgrade --preview THIS IS THE ERROR THAT YOU WILL GET:
+#
+# error: Bus owner changed, aborting. This likely means the daemon crashed; check logs with `journalctl -xe`
+#
+# https://github.com/coreos/rpm-ostree/issues/4280
+#
+####################################################
+
+{% raw %}
+#    - shell: ostree refs --repo=/tmp/student-repos/student{{ student_number }}/repo
+#      register: builder_blueprint_ref
+
+#    - name: Get checksum from artifact
+#      become: true
+#      ansible.builtin.command:
+#        cmd: "/usr/bin/ostree --repo=/tmp/student-repos/student{{ student_number }}/repo rev-parse {{ builder_blueprint_ref.stdout  }}"
+#      register: checksum_output
+#      changed_when: false
+
+#    - name: Pull commit from artifact
+#      become: true
+#      ansible.builtin.command:
+#        cmd: "/usr/bin/ostree --repo=/var/www/html/student-repos/student{{ student_number }}/repo pull-local /tmp/student-repos/student{{ student_number }}/repo {{ checksum_output['stdout'] }}"
+#      changed_when: true
+
+#    - name: Commit changes to repository
+#      become: true
+#      ansible.builtin.command:
+#        cmd: "/usr/bin/ostree --repo=/var/www/html/student-repos/student{{ student_number }}/repo commit -b {{ builder_blueprint_ref.stdout  }} -s 'Release {{ image_version }}' --add-metadata-string=version={{ image_version }} --tree=ref={{ checksum_output['stdout'] }}"
+#      changed_when: true
+{% endraw %}
+
+
+## IN ORDER TO WORKAROUND WHILE THAT'S FIXED WE CAN JUST COPY THE NEW FILES IN THE HTTP SERVER
+
+
+    - name: Create ostree-repo students directory if it does not exist
+      ansible.builtin.file:
+        path:  /var/www/html/student-repos/student{{ student_number }}
+        state: directory
+
+    - name: Remove old repo directory if it existed
+      ansible.builtin.file:
+        path: /var/www/html/student-repos/student{{ student_number }}/repo
+        state: absent
+
+    - name: Copy the new repo
+      ansible.builtin.copy:
+        remote_src: true
+        src: /tmp/student-repos/student{{ student_number }}/repo
+        dest: /var/www/html/student-repos/student{{ student_number }}
+
+
+    - name: Remove tar file
+      ansible.builtin.file:
+        path: "/tmp/student-repos/student{{ student_number }}/student{{ student_number }}-image_{% raw %}{{ image_id }}{% endraw %}.tar"
+        state: absent
+
+    - name: Remove tmp directory
+      ansible.builtin.file:
+        path: "/tmp/student-repos/student{{ student_number }}"
+        state: absent
+
+    - name: Restore context on blueprint directory
+      ansible.builtin.command: "restorecon -R /var/www/html/student-repos/student{{ student_number }}"
+      changed_when: true
+
+
+

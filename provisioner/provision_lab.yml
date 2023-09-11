@@ -22,7 +22,7 @@
             msg: The provisioner has failed during initial check_setup, please scroll up to see exact error.
 
 - name: import workshop validator playbook
-  ansible.builtin.import_playbook: workshop-validator.yml
+  ansible.builtin.import_playbook: selection-validator.yml
 
 - name: import aws setup playbook
   ansible.builtin.import_playbook: aws-setup.yml
@@ -65,6 +65,12 @@
 
 - name: import populate controller playbook
   ansible.builtin.import_playbook: populate-controller.yml
+
+#- name: import populate controller from builder
+#  ansible.builtin.import_playbook: populate-controller-from-builder.yml
+
+- name: import populate Gitea with post-controller deployment info playbook
+  ansible.builtin.import_playbook: populate-gitea.yml
 
 - name: import student users playbook
   ansible.builtin.import_playbook: student-users.yml

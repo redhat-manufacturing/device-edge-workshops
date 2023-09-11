@@ -27,6 +27,7 @@ The Red Hat Ansible Automation Workshops project is intended for effectively dem
 | Workshop   | Public Deck | Red Hat Internal  | Exercises  | Workshop Type Var   |
 |---|---|---|---|---|
 | **[Red Hat Device Edge Any Workload](./exercises/rhde_aw_120)** <br> focused on deploying different workloads to Device Edge  | [PDF](./decks/rhde_aw_120.pdf) | [Google Source](https://docs.google.com/presentation/d/1RZTqdKSXVhbguuidvNMx3fkR77lD4cM41N7S95Xb7HA) | [Exercises](./exercises/rhde_aw_120)  | `workshop_type: rhde_aw_120`
+| **[Red Hat Device Edge GitOps](./exercises/rhde_gitops)** <br> Use a GitOps approach not only with your workloads, but also with your device lifecycle  | [TBD](./decks/rhde_gitops.pdf) | [TBD](TBD) | [TBD](./exercises/rhde_gitops)  | `workshop_type: rhde_gitops`
 
 ### All day workshops:
 

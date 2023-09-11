@@ -1,0 +1,197 @@
+---
+
+
+#
+# This is not working for whatever reason..... I would need to investigate it because it's better than using "shell"
+# I got this error: "'Status code was -1 and not [201]: Request failed: <urlopen error [Errno -2]  Name or service not known>' "
+#
+#
+#    - name: Create Personal Access Token
+#      ansible.builtin.uri:
+#        url: "https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/api/v2/tokens/"
+#        validate_certs: false
+#        method: POST
+#        user: "student{{ item[0] }}"
+#        password: "{{ admin_password }}"
+#        headers:
+#          Content-Type: "application/json"
+#        body_format: json
+#        body: '{"name": "student{{ item[0] }} Token", "scope": "write"}'
+#        status_code: 201
+#      register: token_result
+#      delegate_to: localhost
+#
+#    - name: Set Authentication Token
+#      set_fact:
+#        auth_token: "{{ token_result.json.token }}"
+#
+#    - name: List Job Templates
+#      ansible.builtin.uri:
+#        url: "https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/api/v2/workflow_job_templates/"
+#        method: GET
+#        headers:
+#          Authorization: "Bearer {{ auth_token }}"
+#          Content-Type: "application/json"
+#      register: job_templates
+#      changed_when: false
+#      delegate_to: localhost
+#
+#    - name: Find Job Template by Name
+#      set_fact:
+#        job_template_id: "{{ item.id }}"
+#      loop: "{{ job_templates.json.results }}"
+#      when: item.name == "New Edge Device Image"
+#
+#    - name: Get Job Template Details
+#      ansible.builtin.uri:
+#        url: "https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/api/v2/workflow_job_templates/{{ job_template_id }}/"
+#        method: GET
+#        headers:
+#          Authorization: "Bearer {{ auth_token }}"
+#          Content-Type: "application/json"
+#      register: job_template_details
+#      changed_when: false
+#      delegate_to: localhost
+
+
+    - name: Create Personal Access Token
+      shell: |
+        set -x
+        hostname
+        ANSIBLE_CONTROLLER_URL="https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+        USERNAME="student{{ item[0] }}"
+        PASSWORD="{{ admin_password }}"
+
+        cat <<EOF > /tmp/token_request.json
+        {
+          "name": "student{{ item[0] }} Token",
+          "scope": "write"
+        }
+        EOF
+
+        response=$(curl -k -X POST -H "Content-Type: application/json" -u "${USERNAME}:${PASSWORD}" -d "@/tmp/token_request.json" "${ANSIBLE_CONTROLLER_URL}/api/v2/tokens/")
+
+        token=$(echo "$response" | grep -o '"token": *"[^"]*"' | awk -F'"' '{print $4}')
+
+        echo "$token"
+      register: token_output
+      delegate_to: localhost
+
+    - name: Set Token as Ansible Variable
+      set_fact:
+        auth_token: "{{ token_output.stdout }}"
+
+    - name: List Job Templates
+      shell: |
+        ANSIBLE_CONTROLLER_URL="https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+        AUTH_TOKEN="{{ auth_token }}"
+        
+        curl -s -X GET "${ANSIBLE_CONTROLLER_URL}/api/v2/workflow_job_templates/" \
+          -H "Authorization: Bearer ${AUTH_TOKEN}" \
+          -H "Content-Type: application/json"
+      register: job_templates
+      delegate_to: localhost
+
+
+    - name: Set Job Template ID
+      set_fact:
+        job_template_id: "{{ job_templates.stdout | from_json |  json_query('results[?name==`New Edge Device Image`].id') | join(', ') }}"
+
+
+#    - name: Get Job Template Details
+#      shell: |
+#        ANSIBLE_CONTROLLER_URL="https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+#        AUTH_TOKEN="{{ auth_token }}"
+#        JOB_TEMPLATE_ID="{{ job_template_id }}"
+#        
+#        curl -s -X GET "${ANSIBLE_CONTROLLER_URL}/api/v2/workflow_job_templates/${JOB_TEMPLATE_ID}/" \
+#          -H "Authorization: Bearer ${AUTH_TOKEN}" \
+#          -H "Content-Type: application/json" \
+#          -H "Accept: application/json"
+#      register: job_template_details
+
+
+#    - name: Get Webhook Secret
+#      set_fact:
+#        webhook_secret: "{{ job_template_details.json.webhook_key }}"
+#      when: job_template_details.json.webhook_key is defined
+
+
+    - name: Get Webhook Secret
+      shell: |
+        ANSIBLE_CONTROLLER_URL="https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+        AUTH_TOKEN="{{ auth_token }}"
+        
+        curl -s -X GET "${ANSIBLE_CONTROLLER_URL}/api/v2/workflow_job_templates/{{ job_template_id }}/webhook_key/" \
+          -H "Authorization: Bearer ${AUTH_TOKEN}" \
+          -H "Content-Type: application/json"
+      register: webhook_secret
+      delegate_to: localhost
+
+
+
+################################################################################
+
+
+
+    - name: Get webhooks from Gitea
+      ansible.builtin.uri:
+        url: "https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/api/v1/repos/student{{ item[0] }}/{{ item[1].name  }}/hooks"
+        method: GET
+        user: "student{{ item[0] }}"
+        password: "{{ admin_password }}"
+        force_basic_auth: true
+        return_content: yes
+      register: existing_webhooks
+      changed_when: false
+      delegate_to: localhost
+
+    - set_fact:
+        existing_webhooks_json: "{{ existing_webhooks.content  | from_json }}"
+
+    - name: Set AAP webhook URL
+      set_fact:
+        aap_webhook_url: "https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/api/v2/workflow_job_templates/{{ job_template_id }}/github/"
+
+    - name: Set Webhook URL
+      set_fact:
+        gitea_webhook_url: "https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/api/v1/repos/student{{ item[0] }}/{{ item[1].name  }}/hooks/"
+
+
+    - name: Check if webhook exists
+      set_fact:
+        webhook_exists: "{{ aap_webhook_url in existing_webhooks_json[0].config.url }}"
+      when: existing_webhooks.content is defined and existing_webhooks.content | length > 3
+
+
+    - name: Check if webhook exists
+      set_fact:
+        webhook_exists: false
+      when: existing_webhooks.content is not defined or existing_webhooks.content | length < 4
+
+    - name: Set Webhook key
+      set_fact:
+        webhook_key: "{{webhook_secret.stdout | from_json | json_query('webhook_key') }}"
+
+
+    - name: Create Webhook
+      ansible.builtin.uri:
+        url: "{{ gitea_webhook_url }}"
+        validate_certs: false
+        user: "student{{ item[0] }}"
+        password: "{{ admin_password }}"
+        force_basic_auth: true
+        body_format: json
+        method: POST
+        body:
+          branch_filter: "main"
+          type: "gitea"
+          config: "{ \"url\": \"{{ aap_webhook_url }}\" , \"content_type\": \"json\" , \"secret\": \"{{ webhook_key }}\" }"
+          events: 
+            - push
+          active: true
+        status_code:
+          - 201
+          - 409
+      when: not webhook_exists or webhook_exists is undefined
+      delegate_to: localhost

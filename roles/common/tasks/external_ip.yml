@@ -1,0 +1,15 @@
+---
+
+    - name: Get Default Route Interface
+      shell: "ip route | awk '/^default/ {print $5}'"
+      register: default_route_interface
+      changed_when: false  
+
+    - name: Get IP Address of Default Route Interface
+      shell: "ip addr show {{ default_route_interface.stdout }} | awk '/inet / {print $2}' | cut -d/ -f1"
+      register: default_route_ip
+      changed_when: false 
+
+    - name: Set the ansible variable with the External IP
+      set_fact:
+        edge_management_ext_ip: "{{ default_route_ip.stdout }}"

@@ -1,0 +1,38 @@
+---
+
+- name: compose an image via Image Builder
+  hosts:
+    - all
+  vars:
+    images_repo: "device-edge-images"
+    image_definition_file: "production-image-definition.yml"
+  tasks:
+
+    - name: Import Image definition variables from remote file
+      block:
+
+            - name: Create a tmp directory if it does not exist 
+              ansible.builtin.file:
+                path: /tmp/{{ ansible_host }}/repos/student{{ student_number }}"
+                state: directory
+
+            - name: Clone repo 
+              ansible.builtin.shell:            
+                cmd: "git clone http://student{{ student_number }}:'{{ admin_password }}'@{{ ansible_host }}:3001/student{{ student_number }}/{% raw %}{{ images_repo }}{% endraw %}.git /tmp/{{ ansible_host }}/repos/student{{ student_number }}/images"
+                #chdir: "/tmp/{{ ansible_host }}/repos/student{{ student_number }}"
+
+            - ansible.builtin.include_vars:
+                file: "/tmp/{{ ansible_host }}/repos/student{{ student_number }}/images/{% raw %}{{ image_definition_file }}{% endraw %}"
+
+            - name: Remove tmp directory
+              ansible.builtin.file:
+                path: "/tmp/{{ ansible_host }}/repo/student{{ student_number }}"
+                state: absent
+
+      delegate_to: localhost
+
+    - name: run the image builder role
+      ansible.builtin.include_role:
+        name: infra.osbuild.builder
+
+

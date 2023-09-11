@@ -1,0 +1,17 @@
+---
+
+- name: populate controller from builder
+  hosts:
+    - edge_management
+  gather_facts: false
+  connection: local
+  pre_tasks:
+    - name: attempt to load in vars for workshop
+      ansible.builtin.include_vars:
+        file: "{{ workshop_or_demo | default('workshop') }}_vars/{{ workshop_type }}.yml"
+  tasks:
+    - name: populate controller from builder
+      ansible.builtin.include_role:
+        name: ../roles/infra_osbuild_populate_wrapper
+      when:
+        - builder_populate_aap is defined and builder_populate_aap is true

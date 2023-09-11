@@ -1,0 +1,4 @@
+---
+- name: run infra.osbuild.populate role 
+  ansible.builtin.include_role:
+    name: infra.osbuild.populate_aap

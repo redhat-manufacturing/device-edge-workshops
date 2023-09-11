@@ -72,3 +72,15 @@
   failed_when:
     - code_push.rc != 0
     - "'not have locally' not in code_push.stderr"
+
+
+- name: Additional repos
+  include_tasks: populate-additional-repos.yml
+  loop: "{{ additional_repos }}"
+  loop_control:
+    loop_var: additional_repo
+  when: additional_repos is defined 
+
+
+
+    
