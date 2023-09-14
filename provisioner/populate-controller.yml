@@ -16,7 +16,7 @@
     - block:
       - name: create password in ec2-user if we created an AWS server
         shell: |
-          echo {{ admin_password }} | passwd ec2-user --stdin
+          echo {{ admin_password }} | /usr/bin/passwd ec2-user --stdin
 
       - name: Allow Password Authentication
         ansible.builtin.lineinfile:
