@@ -36,3 +36,5 @@ start_workshop-artifact*
 export.json*
 import.json*
 *-artifact*.json
+ssh-key.pem
+ssh-key.pub
