@@ -17,6 +17,7 @@
             name: ../roles/aws_dns
           vars:
             route53_dns_record: "{{ domain_name }}"
+            route53_dns_value: "{{ ansible_host }}"
         - name: get certificate
           ansible.builtin.include_role:
             name: ../roles/zerossl_cert

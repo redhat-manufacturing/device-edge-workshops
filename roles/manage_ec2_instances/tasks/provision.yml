@@ -34,3 +34,6 @@
 
 - name: create instructor_inventory, and student files
   include_tasks: create_inventory.yml
+
+- name: create Route53 entries
+  include_tasks: create_dns_records.yml

@@ -10,7 +10,6 @@
     - name: allow ports through firewall
       ansible.posix.firewalld:
         port: "{{ external_service.port }}/{{ external_service.protocol | default('tcp') }}"
-        zone: external
         permanent: true
         immediate: true
         state: enabled

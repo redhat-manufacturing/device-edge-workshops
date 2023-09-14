@@ -1,7 +1,15 @@
 ---
+route53_domains:
+  controller:
+    domain: "controller.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
+  cockpit:
+    domain: "cockpit.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
+  gitea:
+    domain:  "gitea.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
+  edge_manager:
+    domain: "edge-manager.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
 
 remote_services:
-
   - name: eda
     containerfile: eda-containerfile
     templates:

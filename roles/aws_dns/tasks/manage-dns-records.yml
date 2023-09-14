@@ -8,6 +8,26 @@
     record: "{{ route53_dns_record }}"
     type: A
     overwrite: true
-    value: "{{ ansible_host }}"
+    value: "{{ route53_dns_value }}"
     wait: true
   delegate_to: localhost
+
+
+#    - name: Check if DNS Entry Exists
+#      community.aws.route53_info:
+#        hosted_zone_id: workshop_dns_zone
+#        query: "{{ route53_dns_record }}"
+#      register: dns_info
+#      failed_when: false 
+#      delegate_to: localhost
+
+#    - name: Create DNS Entry
+#      community.aws.route53:
+#        state: "{{ s3_state }}"
+#        zone: "{{ workshop_dns_zone }}"
+#        record: "{{ route53_dns_record }}"
+#        type: A 
+#        ttl: 300 
+#        value: "{{ route53_dns_value }}"
+#      when: dns_info.hosted_zone is not defined
+#      delegate_to: localhost
