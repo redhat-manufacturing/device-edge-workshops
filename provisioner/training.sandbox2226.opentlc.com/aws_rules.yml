@@ -121,6 +121,34 @@
         "proto": "tcp",
         "rule_desc": "gitea web",
         "to_port": 3000
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 10443,
+        "proto": "tcp",
+        "rule_desc": "gitops port",
+        "to_port": 10443
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 3001,
+        "proto": "tcp",
+        "rule_desc": "gitops port",
+        "to_port": 3001
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 5000,
+        "proto": "tcp",
+        "rule_desc": "gitops port",
+        "to_port": 5000
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 8080,
+        "proto": "tcp",
+        "rule_desc": "gitops port",
+        "to_port": 8080
     }
 ]
     }

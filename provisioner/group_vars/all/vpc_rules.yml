@@ -85,8 +85,6 @@ workshops:
         from_port: 3000
         cidr_ip: 0.0.0.0/0
         rule_desc: gitea web
-  gitops:
-    ports:
       - proto: tcp
         to_port: 10443
         from_port: 10443
