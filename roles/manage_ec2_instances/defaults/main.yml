@@ -15,6 +15,17 @@ rhel: "rhel9"
 # additional info needed by AWS ec2 modules
 # Look for owner 309956199498 to find official Red Hat AMIs
 ec2_info:
+  edge-gitops:
+    owners: 309956199498
+    size: m4.xlarge
+    os_type: linux
+    disk_volume_type: gp3
+    disk_space: 40
+    disk_iops: 3000
+    disk_throughput: 125
+    architecture: x86_64
+    filter: 'RHEL-9*HVM-*Hourly*'
+    username: ec2-user
   private_automation_hub:
     owners: 309956199498
     size: m4.xlarge

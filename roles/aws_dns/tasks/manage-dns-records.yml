@@ -8,6 +8,6 @@
     record: "{{ route53_dns_record }}"
     type: A
     overwrite: true
-    value: "{{ route53_dns_host }}"
+    value: "{{ ansible_host }}"
     wait: true
   delegate_to: localhost

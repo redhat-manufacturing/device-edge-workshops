@@ -17,7 +17,7 @@
     file: build-container.yml
     apply:
       become: "{{ service.privileged | default('false') }}"
-  loop: "{{ local_services }}"
+  loop: "{{ services }}"
   loop_control:
     loop_var: service
     

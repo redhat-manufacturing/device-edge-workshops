@@ -3,6 +3,7 @@
 - name: run additional roles if needed
   hosts:
     - edge_management
+    - edge_remote_management
   become: true
   vars_files:
     - "workshop_vars/{{ workshop_type }}.yml"

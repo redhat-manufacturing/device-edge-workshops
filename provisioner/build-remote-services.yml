@@ -1,17 +1,21 @@
 ---
 
-- name: build and start local services
+- name: build and start remote services
   hosts:
     - edge-manager-local
-    - edge_local_management
+    - edge_remote_management
   pre_tasks:
     - name: attempt to load in vars for workshop
       ansible.builtin.include_vars:
         file: "{{ workshop_or_demo | default('workshop') }}_vars/{{ workshop_type }}.yml"
   tasks:
-    - name: build local services
+    - name: build remote services
       ansible.builtin.include_role:
         name: ../roles/build_local_services
+      vars:
+        services: "{{ remote_services }}"
+        pods: "{{ remote_pods }}" 
       # loop: "{{ local_services }}"
       # loop_control:
       #   loop_var: service
+      when: remote_services is defined and remote_pods is defined

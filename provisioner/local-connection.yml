@@ -3,6 +3,7 @@
 - name: setup local connection via NM
   hosts:
     - 'edge_management:&local'
+    - edge_local_management
   become: true
   pre_tasks:
     - name: attempt to load in vars for workshop

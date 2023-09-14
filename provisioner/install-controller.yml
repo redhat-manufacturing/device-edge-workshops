@@ -3,6 +3,7 @@
 - name: setup ansible controller
   hosts:
     - edge_management
+    - edge_remote_management
   become: true
   tasks:
     - name: setup ansible controller

@@ -5,6 +5,7 @@
     - edge_management
     - edge_hypervisor
     - attendance
+    - edge_local_management
   become: true
   tasks:
     - include_role:

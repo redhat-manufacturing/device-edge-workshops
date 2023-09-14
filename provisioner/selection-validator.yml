@@ -3,6 +3,8 @@
 - name: validate vars are defined for selected workshop or demo
   hosts:
     - edge_management
+    - edge_local_management
+    - edge_remote_management
   gather_facts: false
   pre_tasks:
     # workshop_type is used all over, should be moved to 'content_type'

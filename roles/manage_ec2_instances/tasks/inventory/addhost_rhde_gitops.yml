@@ -1,0 +1,35 @@
+---
+
+- name: edge gitops node tasks
+  block:
+    - name: grab facts for edge gitops node
+      amazon.aws.ec2_instance_info:
+        region: "{{ ec2_region }}"
+        filters:
+          instance-state-name: running
+          "tag:Workshop_edge_gitops_node": "{{ ec2_name_prefix }}-edge-manager-aws"
+      register: edge_gitops_node_facts
+
+    - name: add hosts to groups | edge gitops node
+      add_host:
+        name: 'edge-manager-aws'
+        username: "{{ student_user }}"
+        students: "{{ student_total }}"
+        short_name: "{{ item.tags.short_name }}"
+        ansible_host: "{{ item.public_ip_address }}"
+        ansible_user: "{{ item.tags.username }}"
+        ansible_port: "{{ ssh_port }}"
+        ansible_ssh_private_key_file: "{{ workshop_folder }}/ssh-key.pem"
+        route53_domains:
+          controller:
+            domain: "controller.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
+          cockpit:
+            domain: "cockpit.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
+          gitea:
+            domain:  "gitea.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
+          edge_manager:
+            domain: "edge-manager.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
+        groups: edge_remote_management
+      with_items:
+        - "{{ edge_gitops_node_facts.instances }}"
+      changed_when: false

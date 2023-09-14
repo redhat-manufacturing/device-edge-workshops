@@ -3,6 +3,7 @@
 - name: setup gitea
   hosts:
     - edge_management
+    - edge_remote_management
   pre_tasks:
     - name: attempt to load in vars for workshop
       ansible.builtin.include_vars:

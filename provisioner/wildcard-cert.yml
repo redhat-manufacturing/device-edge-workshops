@@ -2,7 +2,9 @@
 
 - name: issue wildcard cert
   hosts:
-    - 'edge_management:&local'
+    - edge_remote_management
+    - edge_local_management
+    - edge_management
   pre_tasks:
     - name: become for these tasks
       become: true

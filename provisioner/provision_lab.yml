@@ -54,11 +54,23 @@
 - name: run local services
   ansible.builtin.import_playbook: run-local-services.yml
 
+- name: build remote services
+  ansible.builtin.import_playbook: build-remote-services.yml
+
+- name: run remote services
+  ansible.builtin.import_playbook: run-remote-services.yml
+  
 - name: import external services playbook
   ansible.builtin.import_playbook: configure-external-access.yml
 
+- name: import external services playbook for remote host
+  ansible.builtin.import_playbook: configure-external-access-remote.yml
+
 - name: import workshop checker playbook
   ansible.builtin.import_playbook: check-workshop.yml
+
+- name: import workshop remote checker playbook
+  ansible.builtin.import_playbook: check-workshop-remote.yml
 
 - name: import gitea playbook
   ansible.builtin.import_playbook: gitea.yml
