@@ -18,3 +18,36 @@
   containers.podman.podman_play:
     kube_file: "{{ pod_dir }}/{{ pod.name }}.yml"
     state: "{{ play_pod_state }}"
+
+- name: Configure autostart for pod {{ pod.name }}
+  become: true
+  block:
+    - name: Create systemd service unit file
+      ansible.builtin.copy:
+        content: |
+          [Unit]
+          Description=Start the {{ pod.name }} pod with podman
+          After=network.target
+
+          [Service]
+          ExecStart=/usr/bin/podman pod start {{ pod.name }}
+          Restart=always
+          User={{ ansible_user if (pod.privileged is not defined or not pod.privileged|bool) else 'root' }}
+
+          [Install]
+          WantedBy=multi-user.target
+        dest: /etc/systemd/system/{{ pod.name }}-start.service
+
+    - name: Reload systemd
+      ansible.builtin.systemd:
+        daemon_reload: yes
+
+    - name: Enable systemd service
+      ansible.builtin.service:
+        name: "{{ pod.name }}-start.service"
+        enabled: yes
+
+    - name: Start systemd service
+      ansible.builtin.service:
+        name: "{{ pod.name }}-start.service"
+        state: started

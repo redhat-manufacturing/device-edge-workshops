@@ -8,6 +8,12 @@ route53_domains:
     domain:  "gitea.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
   edge_manager:
     domain: "edge-manager.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
+  image-builder:
+    domain: "image-builder.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
+  eda:
+    domain: "eda.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
+  ostree-repo:
+    domain: "ostree-repo.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
 
 remote_services:
   - name: eda
