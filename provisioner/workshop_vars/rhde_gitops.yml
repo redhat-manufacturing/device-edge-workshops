@@ -2,18 +2,18 @@
 
 remote_services:
 
-#  - name: eda
-#    containerfile: eda-containerfile
-#    templates:
-#      - src: eda-run-workflow.yml.j2
-#        dest: run-workflow.yml
-#    files:
-#      - src: eda-rulebook.yml
-#        dest: rulebook.yml
-#      - src: eda-inventory.yml
-#        dest: inventory.yml
-#      - src: eda-ansible.cfg
-#        dest: ansible.cfg
+  - name: eda
+    containerfile: eda-containerfile
+    templates:
+      - src: eda-run-workflow.yml.j2
+        dest: run-workflow.yml
+    files:
+      - src: eda-rulebook.yml
+        dest: rulebook.yml
+      - src: eda-inventory.yml
+        dest: inventory.yml
+      - src: eda-ansible.cfg
+        dest: ansible.cfg
 
   - name: reverse-proxy
     containerfile: reverse-proxy-containerfile
@@ -108,8 +108,8 @@ remote_pods:
         containers:
           - name: reverse-proxy
             image: reverse-proxy:latest
-#          - name: eda
-#            image: eda:latest
+          - name: eda
+            image: eda:latest
           - name: database
             image: database:latest
             volumeMounts:
@@ -134,7 +134,7 @@ remote_pods:
 
 
 allowed_external_remote_services:
-#  - port: 5000
+  - port: 5000
   - port: 8081
   - port: 10443
   - port: 9090

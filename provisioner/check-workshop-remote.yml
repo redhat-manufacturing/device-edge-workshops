@@ -11,7 +11,7 @@
             host: "{{ ansible_host }}"
             port:  "{{ _service.port }}"
             timeout: 10
-          loop: "{{ allowed_external_services }}"
+          loop: "{{ allowed_external_remote_services }}"
           loop_control:
             loop_var: _service
           delegate_to: localhost

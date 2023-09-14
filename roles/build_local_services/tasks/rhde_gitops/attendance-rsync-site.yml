@@ -1,6 +1,13 @@
 ---
 
-- name: rsync is faster
-  ansible.posix.synchronize:
+#- name: rsync is faster
+#  ansible.posix.synchronize:
+#    src: "files/{{ workshop_type }}/attendance"
+#    dest: "{{ build_dir }}/attendance/"
+
+
+# TODO: investigate why rsync is not working when using gitops remote workshop
+- name: rsync is faster, but copy works
+  ansible.builtin.copy:
     src: "files/{{ workshop_type }}/attendance"
     dest: "{{ build_dir }}/attendance/"
