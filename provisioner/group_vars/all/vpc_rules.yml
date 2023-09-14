@@ -85,6 +85,28 @@ workshops:
         from_port: 3000
         cidr_ip: 0.0.0.0/0
         rule_desc: gitea web
+  gitops:
+    ports:
+      - proto: tcp
+        to_port: 10443
+        from_port: 10443
+        cidr_ip: 0.0.0.0/0
+        rule_desc: gitops port
+      - proto: tcp
+        to_port: 3001
+        from_port: 3001
+        cidr_ip: 0.0.0.0/0
+        rule_desc: gitops port
+      - proto: tcp
+        to_port: 5000
+        from_port: 5000
+        cidr_ip: 0.0.0.0/0
+        rule_desc: gitops port
+      - proto: tcp
+        to_port: 8080
+        from_port: 8080
+        cidr_ip: 0.0.0.0/0
+        rule_desc: gitops port
   f5:
     ports:
       - proto: tcp

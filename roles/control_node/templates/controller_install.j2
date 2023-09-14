@@ -25,10 +25,5 @@ registry_url='{{ ee_registry_name }}'
 registry_username='{{ redhat_username }}'
 registry_password='{{ redhat_password }}'
 
-{% if route53_domains.controller is defined %}
-web_server_ssl_cert="/etc/ssl/{{ route53_domains.controller.domain }}/{{ route53_domains.controller.domain.split('.')[0] }}-fullchain.crt"
-web_server_ssl_key="/etc/ssl/{{ route53_domains.controller.domain }}/{{ route53_domains.controller.domain.split('.')[0] }}.pem"
-{% endif %}
-
 nginx_http_port='{{ nginx_http_port }}'
 nginx_https_port='{{ nginx_https_port }}'
