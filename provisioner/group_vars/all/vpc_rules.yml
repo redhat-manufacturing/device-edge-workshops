@@ -100,11 +100,6 @@ workshops:
         from_port: 5000
         cidr_ip: 0.0.0.0/0
         rule_desc: gitops port
-      - proto: tcp
-        to_port: 8080
-        from_port: 8080
-        cidr_ip: 0.0.0.0/0
-        rule_desc: gitops port
   f5:
     ports:
       - proto: tcp

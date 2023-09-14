@@ -135,7 +135,6 @@ remote_pods:
 
 allowed_external_remote_services:
   - port: 5000
-  - port: 8081
   - port: 10443
   - port: 9090
   - port: 3001
@@ -327,16 +326,16 @@ pods:
 #              path: /var/www/html/student-repos
 
 
-#allowed_external_services:
+allowed_external_services:
+  - port: 8081
 #  - port: 5000
-#  - port: 8081
 #  - port: 10443
 #  - port: 9090
 #  - port: 3001
 #  - port: 8080
 #  - port: 3000
-#  - port: 80
-#  - port: 443
+  - port: 80
+  - port: 443
 
 
 
