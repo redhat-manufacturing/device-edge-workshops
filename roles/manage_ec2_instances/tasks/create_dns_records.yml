@@ -10,6 +10,12 @@
     - set_fact:
         edge_remote_management_ext_ip: "{{ edge_gitops_node_facts.instances[0].public_ip_address }}"
 
+    - name: Add/Update variable in workshop vars file
+      lineinfile:
+        path: "workshop_vars/{{ workshop_type }}.yml"
+        line: "edge_remote_management_ext_ip: {{ edge_remote_management_ext_ip }}"
+      backup: no
+
     - name: setup dns in route53
       ansible.builtin.include_role:
         name: ../roles/aws_dns

@@ -25,3 +25,12 @@
         dest: /etc/hosts
         line: "{{ ansible_host }} {{ item.value.domain }}"
       loop: "{{ route53_domains | dict2items }}"
+    - name: set local /etc/host for external services
+      become: true
+      lineinfile:
+        dest: /etc/hosts
+        line: "{{ edge_remote_management_ext_ip }} {{ item.value.domain }}"
+      loop: "{{ route53_domains | dict2items }}"
+      when:
+        - run_in_aws is defined
+        - run_in_aws | bool

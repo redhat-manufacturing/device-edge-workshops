@@ -18,17 +18,6 @@
         loop_var: external_service
       when: allowed_external_remote_services is defined
 
-    - name: grab facts for edge gitops node
-      amazon.aws.ec2_instance_info:
-        region: "{{ ec2_region }}"
-        filters:
-          instance-state-name: running
-          "tag:Workshop_edge_gitops_node": "{{ ec2_name_prefix }}-edge-manager-aws"
-      register: edge_gitops_node_facts
-
-    - set_fact:
-        edge_remote_management_ext_ip: "{{ edge_gitops_node_facts.instances[0].public_ip_address }}"
-
     - name: Add entries to /etc/hosts
       become: true
       lineinfile:
