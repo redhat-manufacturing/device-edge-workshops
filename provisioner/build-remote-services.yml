@@ -2,7 +2,6 @@
 
 - name: build and start remote services
   hosts:
-    - edge-manager-local
     - edge_remote_management
   pre_tasks:
     - name: attempt to load in vars for workshop

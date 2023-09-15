@@ -39,7 +39,7 @@
     src: "files/{{ workshop_type }}/{{ service.containerfile }}"
     dest: "{{ build_dir }}/{{ service.name }}/Containerfile"
 
-- name: build container
+- name: "build container {{ service.name }}"
   containers.podman.podman_image:
     name: "{{ service.name }}"
     path: "{{ build_dir }}/{{ service.name }}/"

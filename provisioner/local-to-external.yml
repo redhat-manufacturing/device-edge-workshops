@@ -6,7 +6,6 @@
   become: true
   tasks:
     - block:
-## NOTE: I use password and not key because workshops used passwords from the begining but in thise case we could use the keys that are already created 
         - name: Copy private SSH keys 
           ansible.builtin.copy:
             src: "{{ playbook_dir }}/{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/ssh-key.pem"
@@ -35,7 +34,7 @@
             daemon_reload: yes
             description: "Reverse tunnel to AWS"
             user: "{{ ansible_user }}"
-            exec_start: "ssh -N -R 22:localhost:2222 ec2-user@{{ edge_remote_management_ext_ip }} "
+            exec_start: "ssh -N -R 22:localhost:2222 ec2-user@{{ edge_remote_management_ext_ip }} &"
           ignore_errors: yes
 
       when: run_in_aws is defined and run_in_aws|bool
