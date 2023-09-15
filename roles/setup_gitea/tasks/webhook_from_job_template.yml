@@ -2,7 +2,7 @@
 
     - name: "Wait until connectivity to https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
       wait_for:
-        host: "https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+        host: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
         port: 443 
         delay: 60
         timeout: 1200
