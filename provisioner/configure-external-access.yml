@@ -23,5 +23,5 @@
       become: true
       lineinfile:
         dest: /etc/hosts
-        line: "{{ edge_management_ext_ip }} {{ item.value.domain }}"
+        line: "{{ ansible_host }} {{ item.value.domain }}"
       loop: "{{ route53_domains | dict2items }}"
