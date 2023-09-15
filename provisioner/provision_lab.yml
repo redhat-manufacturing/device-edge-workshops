@@ -63,10 +63,10 @@
 - name: run remote services
   ansible.builtin.import_playbook: run-remote-services.yml
   
-- name: import external services playbook
+- name: import access services playbook
   ansible.builtin.import_playbook: configure-external-access.yml
 
-- name: import external services playbook for remote host
+- name: import access remote services playbook
   ansible.builtin.import_playbook: configure-external-access-remote.yml
 
 - name: import workshop checker playbook

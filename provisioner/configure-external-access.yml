@@ -1,6 +1,6 @@
 ---
 
-- name: allow external access to workshop services
+- name: allow access to workshop services
   hosts:
     - edge_management
     - edge_local_management
@@ -19,3 +19,9 @@
       loop_control:
         loop_var: external_service
       when: allowed_external_services is defined
+    - name: Add entries to /etc/hosts
+      become: true
+      lineinfile:
+        dest: /etc/hosts
+        line: "{{ edge_management_ext_ip }} {{ item.value.domain }}"
+      loop: "{{ route53_domains | dict2items }}"

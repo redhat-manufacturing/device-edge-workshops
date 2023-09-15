@@ -1,6 +1,6 @@
 ---
 
-- name: allow remote external access to workshop services
+- name: allow remote access to workshop services
   hosts:
     - edge_remote_management
   vars_files:
@@ -17,6 +17,14 @@
       loop_control:
         loop_var: external_service
       when: allowed_external_remote_services is defined
+
+    - name: Add entries to /etc/hosts
+      become: true
+      lineinfile:
+        dest: /etc/hosts
+        line: "{{ edge_remote_management_ext_ip }} {{ item.value.domain }}"
+      loop: "{{ route53_domains | dict2items }}"
+
     - block:
       - name: create password in ec2-user if we created an AWS server
         shell: |

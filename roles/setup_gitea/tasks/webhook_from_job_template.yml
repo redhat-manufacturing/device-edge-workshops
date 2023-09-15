@@ -1,5 +1,14 @@
 ---
 
+    - name: "Wait until connectivity to https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+      wait_for:
+        host: "https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+        port: 443 
+        delay: 60
+        timeout: 1200
+      register: result
+      until: result.elapsed < 600  
+      retries: 10
 
 #
 # This is not working for whatever reason..... I would need to investigate it because it's better than using "shell"
