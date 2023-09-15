@@ -184,16 +184,16 @@ local_services:
           dns_entries:
             - record: "ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
-            - record: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
-            - record: "image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
-            - record: "gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
-            - record: "eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
-            - record: "ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
+#            - record: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+#              address: "{{ internal_address }}"
+#            - record: "image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+#              address: "{{ internal_address }}"
+#            - record: "gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+#              address: "{{ internal_address }}"
+#            - record: "eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+#              address: "{{ internal_address }}"
+#            - record: "ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+#              address: "{{ internal_address }}"
             - record: "attendance.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
             - record: "exercises.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
@@ -421,4 +421,5 @@ additional_repos:
 
 
 
-
+# Automatically added
+edge_remote_management_ext_ip: 54.78.133.149
