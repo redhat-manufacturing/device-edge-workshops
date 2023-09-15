@@ -13,25 +13,6 @@
     - name: enforce var
       ansible.builtin.set_fact:
         controller_configuration_projects_async_retries: 300
-    - block:
-      - name: create password in ec2-user if we created an AWS server
-        shell: |
-          echo {{ admin_password }} | /usr/bin/passwd ec2-user --stdin
-
-      - name: Allow Password Authentication
-        ansible.builtin.lineinfile:
-          path: /etc/ssh/sshd_config
-          regexp: '^#?PasswordAuthentication'
-          line: 'PasswordAuthentication yes'
-          state: present
-      - name: Restart SSH Service
-        ansible.builtin.service:
-          name: sshd
-          state: restarted
-      become: true
-      when:
-        - run_in_aws is defined
-        - run_in_aws | bool
   tasks:
     - name: populate controller
       ansible.builtin.include_role:
