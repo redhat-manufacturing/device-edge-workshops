@@ -12,6 +12,24 @@
     path: "{{ build_dir }}"
     state: directory
 
+# Running restorecon for some wierd issues while building the images
+- name: create cert dir
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user }}/.local/share/containers"
+    state: directory
+- name: create cert dir
+  become: true
+  ansible.builtin.file:
+    path: "/root/.local/share/containers"
+    state: directory
+
+- name: "Pre restorecon user"
+  shell: restorecon -RFv /home/{{ ansible_user }}/.local/share/containers
+    
+- name: "Pre restorecon root"
+  become: true
+  shell: restorecon -RFv /root/.local/share/containers
+
 - name: loop through builds
   ansible.builtin.include_tasks:
     file: build-container.yml
@@ -20,4 +38,4 @@
   loop: "{{ services }}"
   loop_control:
     loop_var: service
-    
+

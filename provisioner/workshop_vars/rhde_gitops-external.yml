@@ -15,6 +15,9 @@ route53_domains:
   ostree-repo:
     domain: "ostree-repo.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
 
+
+
+
 remote_services:
   - name: eda
     containerfile: eda-containerfile
@@ -181,16 +184,16 @@ local_services:
           dns_entries:
             - record: "ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
-            - record: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
-            - record: "image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
-            - record: "gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
-            - record: "eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
-            - record: "ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
+#            - record: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+#              address: "{{ internal_address }}"
+#            - record: "image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+#              address: "{{ internal_address }}"
+#            - record: "gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+#              address: "{{ internal_address }}"
+#            - record: "eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+#              address: "{{ internal_address }}"
+#            - record: "ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+#              address: "{{ internal_address }}"
             - record: "attendance.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
             - record: "exercises.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
@@ -416,6 +419,4 @@ additional_repos:
       - src: templates/rhde_gitops/ssh_config.j2
         dest: etc/ssh/ssh_config
 
-
-
-
+build_net-installer_isos: true

@@ -324,3 +324,4 @@ allowed_external_services:
   - port: 80
   - port: 443
 
+build_net-installer_isos: true
