@@ -14,6 +14,7 @@
       ansible.builtin.lineinfile:
         path: "workshop_vars/{{ workshop_type }}.yml"
         line: "edge_remote_management_ext_ip: {{ edge_remote_management_ext_ip }}"
+        regexp: "^edge_remote_management_ext_ip:*"
 
     - name: setup dns in route53
       ansible.builtin.include_role:

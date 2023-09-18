@@ -25,6 +25,9 @@
         dest: /etc/hosts
         line: "{{ ansible_host }} {{ item.value.domain }}"
       loop: "{{ route53_domains | dict2items }}"
+      when:
+        - run_in_aws is not defined
+        - not run_in_aws | bool
     - name: set local /etc/host for external services
       become: true
       lineinfile:
