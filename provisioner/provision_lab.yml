@@ -33,6 +33,9 @@
 - name: import connectivity playbook
   ansible.builtin.import_playbook: ensure-connectivity.yml
 
+- name: import connectivity between local and external nodes
+  ansible.builtin.import_playbook: local-to-external.yml
+
 - name: import rhsm playbook
   ansible.builtin.import_playbook: rhsm.yml
 
@@ -89,9 +92,6 @@
 
 - name: import student users playbook
   ansible.builtin.import_playbook: student-users.yml
-
-- name: import connectivity between local and external nodes
-  ansible.builtin.import_playbook: local-to-external.yml
 
 - name: import additional roles playbook
   ansible.builtin.import_playbook: additional-roles.yml

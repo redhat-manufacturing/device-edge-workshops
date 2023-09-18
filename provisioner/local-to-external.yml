@@ -6,35 +6,40 @@
   become: true
   tasks:
     - block:
-        - name: Copy private SSH keys 
+        - name: Copy private AWS SSH keys 
           ansible.builtin.copy:
             src: "{{ playbook_dir }}/{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/ssh-key.pem"
             dest: "/home/{{ ansible_user }}/.ssh/id_rsa"     
             mode: '0400'
             
         - name: Set up Reverse SSH Tunnel
-          command: "ssh -N -R 22:localhost:2222 ec2-user@{{ edge_remote_management_ext_ip }}  &"
+          shell:  |
+            set -x
+            ssh -i /home/{{ ansible_user }}/.ssh/id_rsa -fNT -R 2222:localhost:22 ec2-user@{{ edge_remote_management_ext_ip }}
           async: 600
           poll: 0
 
-        - name: Wait for the tunnel to be established
-          async_status:
-            jid: "{{ item.ansible_job_id }}"
-          register: job_result
-          until: job_result.finished
-          retries: 60
-          delay: 10
-          when: job_result is defined
+        - name: Create systemd service unit file
+          ansible.builtin.copy:
+            content: |
+              [Unit]
+              Description="Reverse tunnel to AWS"
 
-        - name: Install systemd service for the tunnel
+              [Service]
+              ExecStart=/bin/bash -c "ssh -i /home/{{ ansible_user }}/.ssh/id_rsa -fNT -R 2222:localhost:22 ec2-user@{{ edge_remote_management_ext_ip }}"
+
+              [Install]
+              WantedBy=multi-user.target
+            dest: /etc/systemd/system/reverse-ssh-tunnel.service
+
+        - name: Start and enable the reverse-ssh-tunnel service
           systemd:
             name: reverse-ssh-tunnel
             enabled: yes
             state: started
+
+        - name: Reload systemd
+          systemd:
             daemon_reload: yes
-            description: "Reverse tunnel to AWS"
-            user: "{{ ansible_user }}"
-            exec_start: "ssh -N -R 22:localhost:2222 ec2-user@{{ edge_remote_management_ext_ip }} &"
-          ignore_errors: yes
 
       when: run_in_aws is defined and run_in_aws|bool
