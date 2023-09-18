@@ -184,16 +184,16 @@ local_services:
           dns_entries:
             - record: "ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
-#            - record: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-#              address: "{{ internal_address }}"
-#            - record: "image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-#              address: "{{ internal_address }}"
-#            - record: "gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-#              address: "{{ internal_address }}"
-#            - record: "eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-#              address: "{{ internal_address }}"
-#            - record: "ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-#              address: "{{ internal_address }}"
+            - record: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+              address: "{{ edge_remote_management_ext_ip }}"
+            - record: "image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+              address: "{{ edge_remote_management_ext_ip }}"
+            - record: "gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+              address: "{{ edge_remote_management_ext_ip }}"
+            - record: "eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+              address: "{{ edge_remote_management_ext_ip }}"
+            - record: "ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+              address: "{{ edge_remote_management_ext_ip }}"
             - record: "attendance.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
             - record: "exercises.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
@@ -420,3 +420,6 @@ additional_repos:
         dest: etc/ssh/ssh_config
 
 build_net-installer_isos: true
+
+# Automatically added
+edge_remote_management_ext_ip: 3.252.142.77

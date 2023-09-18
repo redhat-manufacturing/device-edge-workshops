@@ -43,8 +43,12 @@ EOF
 
 cat > /var/tmp/aap-auto-registration.sh <<EOF
 #!/bin/bash
-IP_ADDRESS=\$(nmcli conn show {{ lab_wifi_network.ssid }} | grep ip_address | awk '{print \$4}')
-MAC_ADDRESS=\$(ip addr | grep wlp -A 1 | grep link | awk '{print \$2}' | sed 's/://g')
+#IP_ADDRESS=\$(nmcli conn show {{ lab_wifi_network.ssid }} | grep ip_address | awk '{print \$4}')
+conn_name=\$(nmcli con show | grep -v UUID | head -n 1 | awk '{print \$1}')
+IP_ADDRESS=\$(nmcli conn show \$conn_name | grep ip_address | awk '{print \$4}')
+
+#MAC_ADDRESS=\$(ip addr | grep wlp -A 1 | grep link | awk '{print \$2}' | sed 's/://g')
+MAC_ADDRESS=\$(ip addr | grep \$conn_name -A 1 | grep link | awk '{print \$2}' | sed 's/://g')
 STUDENT='{{ student_number }}'
 
 JSON="{\

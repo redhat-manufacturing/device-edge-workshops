@@ -33,9 +33,6 @@
 - name: import connectivity playbook
   ansible.builtin.import_playbook: ensure-connectivity.yml
 
-- name: import connectivity between local and external nodes
-  ansible.builtin.import_playbook: local-to-external.yml
-
 - name: import rhsm playbook
   ansible.builtin.import_playbook: rhsm.yml
 
@@ -77,6 +74,9 @@
 
 - name: import workshop remote checker playbook
   ansible.builtin.import_playbook: check-workshop-remote.yml
+
+- name: import connectivity between local and external nodes
+  ansible.builtin.import_playbook: local-to-external.yml
 
 - name: import gitea playbook
   ansible.builtin.import_playbook: gitea.yml
