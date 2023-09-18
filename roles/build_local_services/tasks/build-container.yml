@@ -47,6 +47,8 @@
 - name: "restorecon"
   shell: |
     restorecon -RFv {{ ansible_env.HOME }}/.local/share/containers
+    ausearch -c 'ansible-playboo' --raw | audit2allow -M my-ansibleplayboo
+    semodule -X 300 -i my-ansibleplayboo.pp
   ignore_errors: true
   when: containers_dir.stat.exists
 

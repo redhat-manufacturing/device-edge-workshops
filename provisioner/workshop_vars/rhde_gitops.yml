@@ -422,4 +422,4 @@ additional_repos:
 build_net-installer_isos: true
 
 # Automatically added
-edge_remote_management_ext_ip: 54.78.133.149
+edge_remote_management_ext_ip: 3.252.142.77
