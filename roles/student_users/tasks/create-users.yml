@@ -20,14 +20,26 @@
   register: _public_key_stat
   delegate_to: localhost
 
+- name: Save var with SSH key generated key exists
+  set_fact:
+    _public_key_value: "{{ lookup('file', public_key_path) }}"
+  register: _public_key_value
+  when:
+    - _public_key_stat.stat.exists
+  delegate_to: localhost
+
+
+- debug:
+    msg: "{{_public_key_value.ansible_facts._public_key_value}}" 
+
 - name: push generated key for login
   ansible.posix.authorized_key:
     user: "student{{ student_number }}"
     state: present
-    key: "{{ lookup('file', public_key_path) }}"
+    key: "{{ _public_key_value.ansible_facts._public_key_value }}"
   loop: "{{ range(1, (student_total + 1), 1)|list }}"
   loop_control:
     loop_var: student_number
   when:
     - _public_key_stat.stat.exists
-  delegate_to: localhost
+

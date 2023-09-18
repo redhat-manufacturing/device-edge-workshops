@@ -36,10 +36,26 @@
           regexp: '^#?PasswordAuthentication'
           line: 'PasswordAuthentication yes'
           state: present
-      - name: Restart SSH Service
-        ansible.builtin.service:
-          name: sshd
-          state: restarted
+
+
+## Restart of SSHD service fails in AWS instances so I restart the instance
+#      - name: Restart SSH Service
+#        ansible.builtin.service:
+#          name: sshd
+#          state: restarted
+
+      - name: Reboot the server
+        ansible.builtin.reboot:
+          reboot_timeout: 300  
+
+      - name: Wait for SSH connectivity to recover
+        ansible.builtin.wait_for:
+          host: "{{ ansible_host }}"
+          port: 22
+          state: started
+          delay: 30
+          timeout: 300  
+
       become: true
       when:
         - run_in_aws is defined

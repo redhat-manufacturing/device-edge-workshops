@@ -39,11 +39,17 @@
     src: "files/{{ workshop_type }}/{{ service.containerfile }}"
     dest: "{{ build_dir }}/{{ service.name }}/Containerfile"
 
+- name: Check containers dir
+  stat:
+    path: "{{ ansible_env.HOME }}/.local/share/containers" 
+  register: register_name
+
 - name: "restorecon"
   shell: |
-    mkdir -p {{ ansible_env.HOME }}/.local/share/containers
     restorecon -RFv {{ ansible_env.HOME }}/.local/share/containers
-    
+  ignore_errors: true
+  when: containers_dir.stat.exists
+
 - name: "build container {{ service.name }}"
   containers.podman.podman_image:
     name: "{{ service.name }}"

@@ -425,3 +425,5 @@ build_net-installer_isos: true
 edge_remote_management_ext_ip: 54.78.133.149
 edge_remote_management_ext_ip: 54.228.70.36
 edge_remote_management_ext_ip: 34.243.134.54
+edge_remote_management_ext_ip: 63.35.184.152
+edge_remote_management_ext_ip: 34.245.155.63
