@@ -223,8 +223,6 @@ pods:
             image: reverse-proxy:latest
           - name: eda
             image: eda:latest
-          - name: ipxe
-            image: ipxe:latest
           - name: database
             image: database:latest
             volumeMounts:
@@ -232,13 +230,16 @@ pods:
                 name: database-data
           - name: gitea
             image: gitea:latest
-          - name: tftp
-            image: tftp:latest
           - name: ostree-repo
             image: ostree-repo:latest
             volumeMounts:
               - mountPath: /var/www/html/student-repos
                 name: student-repos
+          - name: ostree-repo
+            image: ostree-repo:latest
+            volumeMounts:
+              - mountPath: /var/www/html/student-kickstarts
+                name: student-kickstarts
           - name: attendance
             image: attendance:latest
         volumes:
@@ -248,6 +249,9 @@ pods:
           - name: student-repos
             hostPath:
               path: /var/www/html/student-repos
+          - name: student-kickstarts
+            hostPath:
+              path: /var/www/html/student-kickstarts
 
 builder_blueprint_name: rhde-image
 #images_to_compose:
@@ -303,6 +307,14 @@ additional_repos:
         dest: examples/production-blueprint-v2.yml
       - src: templates/rhde_gitops/production-blueprint-v3.yml.j2
         dest: examples/production-blueprint-v3.yml
+      - src: templates/rhde_gitops/production-microshift-blueprint.yml.j2
+        dest: examples/production-microshift-blueprint.yml
+      - src: templates/production-kickstart.ks.j2
+        dest: production-kickstart.ks
+      - src: templates/production-kickstart.ks.j2
+        dest: examples/production-kickstart.ks
+      - src: templates/production-microshift-kickstart.ks.j2
+        dest: examples/production-microshift-kickstart.ks
   - name: device-edge-configs
     private: true
     webhook: true
@@ -311,6 +323,8 @@ additional_repos:
     files: 
       - src: templates/rhde_gitops/ssh_config.j2
         dest: etc/ssh/ssh_config
+      - src: templates/app_motioneye-microshift.yaml.j2
+        dest: APPs/motioneye/app_motioneye-microshift.yaml
 
 
 allowed_external_services:

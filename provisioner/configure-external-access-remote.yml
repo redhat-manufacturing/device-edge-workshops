@@ -7,6 +7,19 @@
     - "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
   become: true
   tasks:
+    - name: "Refresh vars"
+      include_vars:
+        file: "workshop_vars/{{ workshop_type }}.yml"
+    - name: ensure firewalld is present
+      ansible.builtin.dnf:
+        name:
+          - firewalld
+          - python3-firewall
+    - name: enable/start firewalld service
+      ansible.builtin.systemd:
+        name: firewalld
+        state: started
+        enabled: true
     - name: allow ports through firewall
       ansible.posix.firewalld:
         port: "{{ external_service.port }}/{{ external_service.protocol | default('tcp') }}"
@@ -24,6 +37,18 @@
         dest: /etc/hosts
         line: "{{ edge_remote_management_ext_ip }} {{ item.value.domain }}"
       loop: "{{ route53_domains | dict2items }}"
+
+    - name: Add entries to /etc/hosts
+      become: true
+      lineinfile:
+        dest: /etc/hosts
+        line: "{{ edge_remote_management_ext_ip }} controller-node"
+
+    - name: Add entries to /etc/hosts
+      become: true
+      lineinfile:
+        dest: /etc/hosts
+        line: "127.0.0.1 execution-node"
 
     - block:
       - name: create password in ec2-user if we created an AWS server

@@ -27,11 +27,23 @@
 - name: import aws setup playbook
   ansible.builtin.import_playbook: aws-setup.yml
 
+- name: import aws setup playbook
+  ansible.builtin.import_playbook: aws-post-setup.yml
+
 - name: import route53-records playbook
   ansible.builtin.import_playbook: route53-records.yml
 
 - name: import connectivity playbook
   ansible.builtin.import_playbook: ensure-connectivity.yml
+
+- name: import access services playbook
+  ansible.builtin.import_playbook: configure-external-access.yml
+
+- name: import access remote services playbook
+  ansible.builtin.import_playbook: configure-external-access-remote.yml
+
+- name: import connectivity between local and external nodes
+  ansible.builtin.import_playbook: local-to-external.yml
 
 - name: import rhsm playbook
   ansible.builtin.import_playbook: rhsm.yml
@@ -63,20 +75,11 @@
 - name: run remote services
   ansible.builtin.import_playbook: run-remote-services.yml
   
-- name: import access services playbook
-  ansible.builtin.import_playbook: configure-external-access.yml
-
-- name: import access remote services playbook
-  ansible.builtin.import_playbook: configure-external-access-remote.yml
-
 - name: import workshop checker playbook
   ansible.builtin.import_playbook: check-workshop.yml
 
 - name: import workshop remote checker playbook
   ansible.builtin.import_playbook: check-workshop-remote.yml
-
-- name: import connectivity between local and external nodes
-  ansible.builtin.import_playbook: local-to-external.yml
 
 - name: import gitea playbook
   ansible.builtin.import_playbook: gitea.yml

@@ -1,5 +1,18 @@
 [automationcontroller]
-edge-manager-local ansible_host=127.0.0.1 ansible_connection=local
+controller-node ansible_connection=local
+
+{% if run_in_aws is defined and run_in_aws %}
+[automationcontroller:vars]
+node_type=control 
+
+[execution_nodes]
+execution-node ansible_host=localhost ansible_port=2222 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+
+[execution_nodes:vars]
+peers=automationcontroller 
+node_type=execution
+
+{% endif %}
 
 [automationhub]
 
@@ -27,3 +40,10 @@ registry_password='{{ redhat_password }}'
 
 nginx_http_port='{{ nginx_http_port }}'
 nginx_https_port='{{ nginx_https_port }}'
+
+
+
+
+
+
+

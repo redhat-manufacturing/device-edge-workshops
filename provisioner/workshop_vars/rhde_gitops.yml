@@ -139,6 +139,11 @@ remote_pods:
             volumeMounts:
               - mountPath: /var/www/html/student-repos
                 name: student-repos
+          - name: ostree-repo
+            image: ostree-repo:latest
+            volumeMounts:
+              - mountPath: /var/www/html/student-kickstarts
+                name: student-kickstarts
           - name: attendance
             image: attendance:latest
         volumes:
@@ -148,11 +153,15 @@ remote_pods:
           - name: student-repos
             hostPath:
               path: /var/www/html/student-repos
+          - name: student-kickstarts
+            hostPath:
+              path: /var/www/html/student-kickstarts
 
 
 allowed_external_remote_services:
   - port: 5000
   - port: 10443
+  - port: 27199
   - port: 9090
   - port: 3001
   - port: 8080
@@ -410,6 +419,14 @@ additional_repos:
         dest: examples/production-blueprint-v2.yml
       - src: templates/rhde_gitops/production-blueprint-v3.yml.j2
         dest: examples/production-blueprint-v3.yml
+      - src: templates/rhde_gitops/production-microshift-blueprint.yml.j2
+        dest: examples/production-microshift-blueprint.yml
+      - src: templates/production-kickstart.ks.j2
+        dest: production-kickstart.ks
+      - src: templates/production-kickstart.ks.j2
+        dest: examples/production-kickstart.ks
+      - src: templates/production-microshift-kickstart.ks.j2
+        dest: examples/production-microshift-kickstart.ks
   - name: device-edge-configs
     private: true
     webhook: true
@@ -418,8 +435,14 @@ additional_repos:
     files: 
       - src: templates/rhde_gitops/ssh_config.j2
         dest: etc/ssh/ssh_config
+      - src: templates/app_motioneye-microshift.yaml.j2
+        dest: APPs/motioneye/app_motioneye-microshift.yaml
+
+
+
+        
 
 build_net-installer_isos: true
 
 # Automatically added
-edge_remote_management_ext_ip: 3.252.142.77
+edge_remote_management_ext_ip: 34.255.121.75

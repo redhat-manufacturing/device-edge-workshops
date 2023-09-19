@@ -139,6 +139,11 @@ remote_pods:
             volumeMounts:
               - mountPath: /var/www/html/student-repos
                 name: student-repos
+          - name: ostree-repo
+            image: ostree-repo:latest
+            volumeMounts:
+              - mountPath: /var/www/html/student-kickstarts
+                name: student-kickstarts
           - name: attendance
             image: attendance:latest
         volumes:
@@ -148,6 +153,9 @@ remote_pods:
           - name: student-repos
             hostPath:
               path: /var/www/html/student-repos
+          - name: student-kickstarts
+            hostPath:
+              path: /var/www/html/student-kickstarts
 
 
 allowed_external_remote_services:
@@ -410,6 +418,14 @@ additional_repos:
         dest: examples/production-blueprint-v2.yml
       - src: templates/rhde_gitops/production-blueprint-v3.yml.j2
         dest: examples/production-blueprint-v3.yml
+      - src: templates/rhde_gitops/production-microshift-blueprint.yml.j2
+        dest: examples/production-microshift-blueprint.yml
+      - src: templates/production-kickstart.ks.j2
+        dest: production-kickstart.ks
+      - src: templates/production-kickstart.ks.j2
+        dest: examples/production-kickstart.ks
+      - src: templates/production-microshift-kickstart.ks.j2
+        dest: examples/production-microshift-kickstart.ks
   - name: device-edge-configs
     private: true
     webhook: true

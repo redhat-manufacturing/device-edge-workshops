@@ -8,6 +8,16 @@
     - "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
   become: true
   tasks:
+    - name: ensure firewalld is present
+      ansible.builtin.dnf:
+        name:
+          - firewalld
+          - python3-firewall
+    - name: enable/start firewalld service
+      ansible.builtin.systemd:
+        name: firewalld
+        state: started
+        enabled: true
     - name: allow ports through firewall
       ansible.posix.firewalld:
         port: "{{ external_service.port }}/{{ external_service.protocol | default('tcp') }}"
@@ -28,12 +38,44 @@
       when:
         - run_in_aws is not defined
         - not run_in_aws | bool
+    - name: "Refresh vars"
+      include_vars:
+        file: "workshop_vars/{{ workshop_type }}.yml"
+      when:
+        - run_in_aws is defined
+        - run_in_aws | bool
     - name: set local /etc/host for external services
       become: true
       lineinfile:
         dest: /etc/hosts
         line: "{{ edge_remote_management_ext_ip }} {{ item.value.domain }}"
       loop: "{{ route53_domains | dict2items }}"
+      when:
+        - run_in_aws is defined
+        - run_in_aws | bool
+    - name: Add entries to /etc/hosts
+      become: true
+      lineinfile:
+        dest: /etc/hosts
+        line: "{{ edge_remote_management_ext_ip }} controller-node"
+      when:
+        - run_in_aws is defined
+        - run_in_aws | bool
+
+    - name: Add entries to /etc/hosts
+      become: true
+      lineinfile:
+        dest: /etc/hosts
+        line: "127.0.0.1 controller-node"
+      when:
+        - run_in_aws is not defined
+        - not run_in_aws | bool
+
+    - name: Add entries to /etc/hosts
+      become: true
+      lineinfile:
+        dest: /etc/hosts
+        line: "127.0.0.1 execution-node"
       when:
         - run_in_aws is defined
         - run_in_aws | bool
