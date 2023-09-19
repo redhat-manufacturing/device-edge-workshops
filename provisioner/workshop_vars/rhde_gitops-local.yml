@@ -94,6 +94,7 @@ local_services:
               proxy_pass: "http://localhost:8081/"
             - name: controller
               proxy_pass: "https://localhost:10443/"
+              web_socket: true
               proxy_advanced_options:
                 - proxy_ssl_verify off
             - name: image-builder
