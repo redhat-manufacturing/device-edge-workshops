@@ -420,11 +420,11 @@ additional_repos:
         dest: examples/production-blueprint-v3.yml
       - src: templates/rhde_gitops/production-microshift-blueprint.yml.j2
         dest: examples/production-microshift-blueprint.yml
-      - src: templates/production-kickstart.ks.j2
+      - src: templates/rhde_gitops/production-kickstart.ks.j2
         dest: production-kickstart.ks
-      - src: templates/production-kickstart.ks.j2
+      - src: templates/rhde_gitops/production-kickstart.ks.j2
         dest: examples/production-kickstart.ks
-      - src: templates/production-microshift-kickstart.ks.j2
+      - src: templates/rhde_gitops/production-microshift-kickstart.ks.j2
         dest: examples/production-microshift-kickstart.ks
   - name: device-edge-configs
     private: true
