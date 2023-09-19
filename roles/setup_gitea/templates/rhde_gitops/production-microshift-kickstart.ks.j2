@@ -52,7 +52,7 @@ EOF
 
 
 cat > /etc/crio/openshift-pull-secret <<EOF
-{{ pull-secret }}
+{{ pull_secret | default('INCLUDE-YOUR-PULL-SECRET') }}
 EOF
 sudo chown root:root /etc/crio/openshift-pull-secret
 sudo chmod 600 /etc/crio/openshift-pull-secret
