@@ -139,9 +139,6 @@ remote_pods:
             volumeMounts:
               - mountPath: /var/www/html/student-repos
                 name: student-repos
-          - name: ostree-repo
-            image: ostree-repo:latest
-            volumeMounts:
               - mountPath: /var/www/html/student-kickstarts
                 name: student-kickstarts
           - name: attendance
@@ -161,6 +158,7 @@ remote_pods:
 allowed_external_remote_services:
   - port: 5000
   - port: 10443
+  - port: 27199
   - port: 9090
   - port: 3001
   - port: 8080
@@ -434,8 +432,14 @@ additional_repos:
     files: 
       - src: templates/rhde_gitops/ssh_config.j2
         dest: etc/ssh/ssh_config
+      - src: templates/rhde_gitops/app_motioneye-microshift.yaml.j2
+        dest: APPs/motioneye/app_motioneye-microshift.yaml
+
+
+
+        
 
 build_net-installer_isos: true
 
 # Automatically added
-edge_remote_management_ext_ip: 3.252.142.77
+edge_remote_management_ext_ip: 3.249.148.103
