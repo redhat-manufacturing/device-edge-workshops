@@ -32,19 +32,29 @@
     state: directory
   when: not dir_check.stat.exists
 
-- name: Create ostree-repo students directory if it does not exist
+- name: Create additional students directory if it does not exist
   ansible.builtin.file:
-    path:  /var/www/html/student-repos
+    path: "{{ item }}" 
     state: directory
   become: true
+  loop:
+    - "/var/www/html/student-repos" 
+    - "/var/www/html/student-kickstarts" 
 
-- name: Allow containers to access and modify files in /var/www/html/student-repos
+- name: Allow containers to access and modify files
   community.general.sefcontext:
-    target: '/var/www/html/student-repos(/.*)?'
+    target: "{{ item }}" 
     setype: container_file_t
     state: present
   become: true
+  loop:
+    - "'/var/www/html/student-repos(/.*)?'" 
+    - "'/var/www/html/student-kickstarts(/.*)?'" 
 
 - name: Apply new SELinux file context to filesystem
-  ansible.builtin.command: restorecon -R /var/www/html/student-repos
+  ansible.builtin.command: restorecon -R {{ item }}
   become: true
+  loop:
+    - "/var/www/html/student-repos" 
+    - "/var/www/html/student-kickstarts" 
+
