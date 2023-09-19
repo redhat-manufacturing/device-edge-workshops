@@ -235,9 +235,6 @@ pods:
             volumeMounts:
               - mountPath: /var/www/html/student-repos
                 name: student-repos
-          - name: ostree-repo
-            image: ostree-repo:latest
-            volumeMounts:
               - mountPath: /var/www/html/student-kickstarts
                 name: student-kickstarts
           - name: attendance
