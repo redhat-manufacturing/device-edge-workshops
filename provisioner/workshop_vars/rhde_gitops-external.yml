@@ -429,11 +429,12 @@ additional_repos:
     webhook: true
     directories:
       - etc/ssh
+      - APPs
     files: 
       - src: templates/rhde_gitops/ssh_config.j2
         dest: etc/ssh/ssh_config
       - src: templates/rhde_gitops/app_motioneye-microshift.yaml.j2
-        dest: APPs/motioneye/app_motioneye-microshift.yaml
+        dest: APPs/app_motioneye-microshift.yaml
 
 
 
