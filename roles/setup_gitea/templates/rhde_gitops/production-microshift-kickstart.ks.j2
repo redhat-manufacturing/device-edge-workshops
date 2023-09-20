@@ -73,7 +73,7 @@ patches:
         value: test.apps.$(hostname -I | awk '{print $1}').nip.io
     target:
       kind: Route
-
+EOF
 
 
 cat <<EOF > /etc/microshift/manifests/testapp.yaml
