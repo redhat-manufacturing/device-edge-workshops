@@ -31,6 +31,8 @@
 
 - debug:
     msg: "{{_public_key_value.ansible_facts._public_key_value}}" 
+  when:
+    - _public_key_stat.stat.exists
 
 - name: push generated key for login
   ansible.posix.authorized_key:
