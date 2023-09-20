@@ -233,6 +233,8 @@ pods:
                 name: database-data
           - name: gitea
             image: gitea:latest
+          - name: tftp
+            image: tftp:latest
           - name: ostree-repo
             image: ostree-repo:latest
             volumeMounts:
