@@ -1,0 +1,8 @@
+---
+
+- name: Set virt_sandbox_share_apache_content flag on and keep it persistent across reboots
+  ansible.posix.seboolean:
+    name: virt_sandbox_share_apache_content
+    state: true
+    persistent: true
+
