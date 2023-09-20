@@ -224,6 +224,8 @@ pods:
             image: reverse-proxy:latest
           - name: eda
             image: eda:latest
+          - name: ipxe
+            image: ipxe:latest
           - name: database
             image: database:latest
             volumeMounts:
