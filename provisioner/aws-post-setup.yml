@@ -1,0 +1,36 @@
+
+- name: AWS instance post-setup 
+  hosts:
+    - edge_remote_management
+  tasks:
+    - block:
+        - name: Copy private SSH key
+          ansible.builtin.copy:
+            src: "{{ playbook_dir }}/{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/ssh-key.pem"
+            dest: "/home/{{ ansible_user }}/.ssh/id_rsa"     
+            mode: '0400'  
+
+        - name: create .ssh root dir
+          become: true
+          ansible.builtin.file:
+            path: "/root/.ssh/"
+            state: directory
+
+        - name: Copy private SSH key to root
+          become: true
+          ansible.builtin.copy:
+            src: "/home/{{ ansible_user }}/.ssh/id_rsa"
+            dest: "/root/.ssh/id_rsa"     
+            mode: '0400'  
+            remote_src: yes
+
+        - name: Add/Update StrictHostKeyChecking
+          become: true
+          ansible.builtin.lineinfile:
+            path: "/etc/ssh/ssh_config"
+            line: "StrictHostKeyChecking no"
+            regexp: "^StrictHostKeyChecking*"
+
+      when:
+        - run_in_aws is defined
+        - run_in_aws | bool

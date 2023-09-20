@@ -1,0 +1,26 @@
+---
+
+- name: setup for edge-gitops node
+  block:
+    - name: find ami for edge-gitops node
+      ec2_ami_info:
+        region: "{{ ec2_region }}"
+        owners: "{{ ec2_info['edge-gitops'].owners }}"
+        filters:
+          name: "{{ ec2_info['edge-gitops'].filter }}"
+          architecture: "{{ ec2_info['edge-gitops'].architecture }}"
+      register: edge_gitops_node_amis
+
+    - name: save ami for node for edge-gitops node
+      set_fact:
+        edge_gitops_node_ami: >
+          {{ edge_gitops_node_amis.images | selectattr('name', 'defined') | sort(attribute='name') | last }}
+
+- name: common tasks
+  block:
+    - name: ensure at least RHEL9.1+
+      ansible.builtin.assert:
+        that:
+          - edge_gitops_node_ami.name[5] | int >= 9
+          - edge_gitops_node_ami.name[7] | int >= 1
+        msg: "Please use RHEL9.1 or later"

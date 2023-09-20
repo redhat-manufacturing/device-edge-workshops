@@ -1,5 +1,18 @@
 [automationcontroller]
-edge-manager-local ansible_host=127.0.0.1 ansible_connection=local
+controller-node ansible_connection=local
+
+{% if run_in_aws is defined and run_in_aws %}
+[automationcontroller:vars]
+node_type=control 
+
+[execution_nodes]
+execution-node ansible_port=2222 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+
+[execution_nodes:vars]
+peers=automationcontroller 
+node_type=execution
+
+{% endif %}
 
 [automationhub]
 
@@ -25,10 +38,12 @@ registry_url='{{ ee_registry_name }}'
 registry_username='{{ redhat_username }}'
 registry_password='{{ redhat_password }}'
 
-{% if route53_domains.controller is defined %}
-web_server_ssl_cert="/etc/ssl/{{ route53_domains.controller.domain }}/{{ route53_domains.controller.domain.split('.')[0] }}-fullchain.crt"
-web_server_ssl_key="/etc/ssl/{{ route53_domains.controller.domain }}/{{ route53_domains.controller.domain.split('.')[0] }}.pem"
-{% endif %}
-
 nginx_http_port='{{ nginx_http_port }}'
 nginx_https_port='{{ nginx_https_port }}'
+
+
+
+
+
+
+

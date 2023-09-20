@@ -6,7 +6,7 @@ server={{ server }}
 {% endfor %}
 expand-hosts
 domain={{ ec2_name_prefix }}.{{ workshop_dns_zone }}
-addn-hosts=/etc/dnsmasq.hosts
+addn-hosts=/etc/dnsmasq.hosts,/etc/hosts
 interface={{ internal_connection }}
 
 dhcp-range={{ template.vars.dhcp_range_start }},{{ template.vars.dhcp_range_end }},{{ template.vars.dhcp_lease_time }}

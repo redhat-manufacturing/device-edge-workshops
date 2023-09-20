@@ -5,6 +5,8 @@
     - edge_management
     - controller
     - edge_hypervisor
+    - edge_local_management
+    - edge_remote_management
   become: true
   tasks:
     - name: register to rhsm

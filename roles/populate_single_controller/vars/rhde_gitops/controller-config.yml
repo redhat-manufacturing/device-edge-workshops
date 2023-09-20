@@ -75,10 +75,12 @@ controller_hosts:
     variables:
       ansible_connection: local
       ansible_python_interpreter: "{  { ansible_playbook_python }}"
+    enabled: true
   - name: "image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
     inventory: Edge Utilities
     variables:
       ansible_host: "{{ ansible_host }}"
+    enabled: true
 
 controller_credentials:
   - name: Gitea Credentials

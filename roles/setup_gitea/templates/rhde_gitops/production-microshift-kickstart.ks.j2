@@ -1,0 +1,230 @@
+{% if wifi_network is defined and wifi_password is defined %}
+%pre
+nmcli dev wifi connect "{{ wifi_network }}" password "{{ wifi_password }}"
+%end
+{% endif %}
+{% if wifi_network is not defined  %}
+network --bootproto=dhcp --onboot=true
+{% endif %}
+keyboard --xlayouts='us'
+lang en_US.UTF-8
+timezone UTC
+zerombr
+clearpart --all --initlabel
+autopart --type=plain --fstype=xfs --nohome
+reboot
+graphical
+user --name=ansible --groups=wheel --password='{{ admin_password }}'
+rootpw --plaintext --lock '{{ admin_password }}'
+services --enabled=ostree-remount
+ostreesetup --nogpg --url=http://ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student-repos/student{{ student_number }}/repo --osname=rhel --ref=rhel/9/x86_64/edge
+
+%post
+
+firewall-offline-cmd --zone=trusted --add-source=10.42.0.0/16
+firewall-offline-cmd --zone=trusted --add-source=169.254.169.1
+firewall-offline-cmd --zone=public --add-port=80/tcp
+firewall-offline-cmd --zone=public --add-port=443/tcp
+firewall-offline-cmd --zone=public --add-port=6443/tcp
+
+
+cat > /etc/microshift/config.yaml <<EOF
+dns:
+  baseDomain: $(hostname -I | awk '{print $1}').nip.io
+network:
+  clusterNetwork:
+    - cidr: 10.42.0.0/16
+  serviceNetwork:
+    - 10.43.0.0/16
+  serviceNodePortRange: 30000-32767
+node:
+  hostnameOverride: "microshift"
+  nodeIP: "$(hostname -I | awk '{print $1}')"
+apiServer:
+  subjectAltNames: 
+    - microshift.lablocal
+    - microshift.$(hostname -I | awk '{print $1}').nip.io
+debugging:
+  logLevel: "Normal"
+
+EOF
+
+
+
+cat > /etc/crio/openshift-pull-secret <<EOF
+{{ pull_secret | default('INCLUDE-YOUR-PULL-SECRET') }}
+EOF
+sudo chown root:root /etc/crio/openshift-pull-secret
+sudo chmod 600 /etc/crio/openshift-pull-secret
+
+
+
+cat <<EOF > /etc/microshift/manifests/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - testapp.yaml
+
+patches:
+  - patch: |-
+      - op: replace
+        path: "/spec/host"
+        value: test.apps.$(hostname -I | awk '{print $1}').nip.io
+    target:
+      kind: Route
+
+
+
+cat <<EOF > /etc/microshift/manifests/testapp.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    kubernetes.io/metadata.name: test
+  name: test
+spec: {}
+---
+apiVersion: apps/v1                                                                                                                                                                                     
+kind: Deployment                                                                                                                                                                                        
+metadata:                                                                                                                                                                                                                                                                                                                                                                              
+  labels:                                                                                                                                                                                               
+    app: hello                                                                                                                                                                                          
+  name: test-hello                                                                                                                                                                                           
+  namespace: test                                                                                                                                                                                                                                                                                                                                           
+spec:                                                                                                                                                                                                   
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: hello
+    spec:
+      containers:
+      - image: quay.io/tasato/hello-js:latest
+        imagePullPolicy: Always
+        name: hello-js
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File      
+        volumeMounts:
+        - mountPath: /mnt
+          name: my-volume
+      volumes:
+      - name: my-volume
+        persistentVolumeClaim:
+          claimName: test-lv-pvc        
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: test-lv-pvc
+  namespace: test
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1G
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-nodeport
+  namespace: test
+spec:
+  type: NodePort
+  selector:
+    app: hello
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+      nodePort: 30080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-service
+  namespace: test
+spec:
+  selector:
+    app: hello
+  ports:
+  - name: http
+    protocol: TCP
+    port: 8080
+    targetPort: 8080
+
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: test-route
+  namespace: test
+spec:
+  host: APP-HOST
+  port:
+    targetPort: 8080 
+  to:
+    kind: Service
+    name: test-service
+    weight: 10
+
+
+
+cat > /var/tmp/aap-auto-registration.sh <<EOF
+#!/bin/bash
+#IP_ADDRESS=\$(nmcli conn show {{ lab_wifi_network.ssid }} | grep ip_address | awk '{print \$4}')
+conn_name=\$(nmcli con show | grep -v UUID | head -n 1 | awk '{print \$1}')
+IP_ADDRESS=\$(nmcli conn show \$conn_name | grep ip_address | awk '{print \$4}')
+
+#MAC_ADDRESS=\$(ip addr | grep wlp -A 1 | grep link | awk '{print \$2}' | sed 's/://g')
+MAC_ADDRESS=\$(ip addr | grep \$conn_name -A 1 | grep link | awk '{print \$2}' | sed 's/://g')
+STUDENT='{{ student_number }}'
+
+JSON="{\
+\"ip_address\": \"\$IP_ADDRESS\", \
+\"student\": \"\$STUDENT\", \
+\"mac_address\": \"\$MAC_ADDRESS\" \
+}"
+
+/usr/bin/curl -H 'Content-Type: application/json' --data "\$JSON" https://eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/endpoint
+EOF
+
+cat > /etc/systemd/system/aap-auto-registration.service <<EOF
+[Unit]
+Description=Register to Ansible Automation Platform
+After=network.target
+After=connect-wifi.service
+ConditionPathExists=!/var/tmp/aap-registered
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /var/tmp/aap-auto-registration.sh
+ExecStopPost=/usr/bin/touch /var/tmp/aap-registered
+
+[Install]
+WantedBy=default.target
+EOF
+
+systemctl daemon-reload
+systemctl enable connect-wifi.service
+systemctl enable aap-auto-registration.service
+
+
+
+%end

@@ -68,19 +68,6 @@
       loop_control:
         loop_var: student_number
 
-
-- name: Setup Route53 DNS
-  ansible.builtin.include_role:
-    name: ../roles/aws_dns
-  vars:
-    route53_dns_record: "{{ item.domain }}"
-    route53_dns_host: "{{ item.host }}"
-  when: item.name == 'gitea'
-  loop: "{{ route53_domains }}"
-  loop_control:
-    label: "{{ item.name }}"
-
-
 - name: tasks to configure gitea after controller
   when:
     - configure_gitea | bool and post_controller is defined and post_controller

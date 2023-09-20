@@ -1,9 +1,8 @@
 ---
 
-- name: start local services up
+- name: start remote services up
   hosts:
-    - edge-manager-local
-    - edge_local_management
+    - edge_remote_management
   pre_tasks:
     - name: attempt to load in vars for workshop
       ansible.builtin.include_vars:
@@ -14,6 +13,7 @@
         name: ../roles/run_local_services
         apply:
           become: "{{ pod.privileged | default(false) }}"
-      loop: "{{ pods }}"
+      loop: "{{ remote_pods }}"
       loop_control:
         loop_var: pod
+      when: remote_pods is defined

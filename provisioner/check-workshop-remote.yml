@@ -1,18 +1,17 @@
 ---
 
-- name: check on workshop services
+- name: check on workshop remote services
   hosts:
-    - edge_management
-    - edge_local_management
+    - edge_remote_management
   tasks:
-    - name: check workshop services
+    - name: check workshop remote services
       block:
         - name: check ports are open and listening
           ansible.builtin.wait_for:
             host: "{{ ansible_host }}"
             port:  "{{ _service.port }}"
             timeout: 10
-          loop: "{{ allowed_external_services }}"
+          loop: "{{ allowed_external_remote_services }}"
           loop_control:
             loop_var: _service
           delegate_to: localhost
@@ -22,4 +21,4 @@
             msg: "Not all services available, re-running the provisioner may help"
         - name: fail out
           ansible.builtin.fail:
-      when: allowed_external_services is defined
+      when: allowed_external_remote_services is defined

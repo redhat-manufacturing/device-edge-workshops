@@ -6,26 +6,55 @@
     state: absent
   become: true
 
+- name: Check if the /var/www/html/{{ builder_blueprint_name }}/repo directory exists
+  stat:
+    path: /var/www/html/{{ builder_blueprint_name }}/repo
+  register: dir_check
+  become: true
+
 - name: copy repo dir to {{ build_dir }}/ostree-repo
   ansible.builtin.copy:
     src: "/var/www/html/{{ builder_blueprint_name }}/repo"
     dest: "{{ build_dir }}/ostree-repo/"
     remote_src: true
+  when: dir_check.stat.exists
 
-
-- name: Create ostree-repo students directory if it does not exist
-  ansible.builtin.file:
-    path:  /var/www/html/student-repos
+- name: Create /var/www/html/{{ builder_blueprint_name }}/repo directory
+  file:
+    path: "/var/www/html/{{ builder_blueprint_name }}/repo"
     state: directory
+  when: not dir_check.stat.exists
   become: true
 
-- name: Allow containers to access and modify files in /var/www/html/student-repos
+- name: Create {{ build_dir }}/ostree-repo/ directory
+  file:
+    path: "{{ build_dir }}/ostree-repo/repo"
+    state: directory
+  when: not dir_check.stat.exists
+
+- name: Create additional students directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ item }}" 
+    state: directory
+  become: true
+  loop:
+    - "/var/www/html/student-repos" 
+    - "/var/www/html/student-kickstarts" 
+
+- name: Allow containers to access and modify files
   community.general.sefcontext:
-    target: '/var/www/html/student-repos(/.*)?'
+    target: "{{ item }}" 
     setype: container_file_t
     state: present
   become: true
+  loop:
+    - "'/var/www/html/student-repos(/.*)?'" 
+    - "'/var/www/html/student-kickstarts(/.*)?'" 
 
 - name: Apply new SELinux file context to filesystem
-  ansible.builtin.command: restorecon -R /var/www/html/student-repos
+  ansible.builtin.command: restorecon -R {{ item }}
   become: true
+  loop:
+    - "/var/www/html/student-repos" 
+    - "/var/www/html/student-kickstarts" 
+

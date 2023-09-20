@@ -3,6 +3,7 @@
 - name: setup gitea
   hosts:
     - edge_management
+    - edge_remote_management
   pre_tasks:
     - name: attempt to load in vars for workshop
       ansible.builtin.include_vars:
@@ -19,6 +20,7 @@
     #         name: ../roles/aws_dns
     #       vars:
     #         route53_dns_record: "{{ route53_domains.gitea.domain }}"
+    #         route53_dns_value: "{{ ansible_host }}"
 
     # - name: set source_control_host dns name and setup record | local
     #   when:

@@ -1,13 +1,15 @@
 ---
 
-- name: allow access to workshop services
+- name: allow remote access to workshop services
   hosts:
-    - edge_management
-    - edge_local_management
+    - edge_remote_management
   vars_files:
     - "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
   become: true
   tasks:
+    - name: "Refresh vars"
+      include_vars:
+        file: "workshop_vars/{{ workshop_type }}.yml"
     - name: ensure firewalld is present
       ansible.builtin.dnf:
         name:
@@ -21,57 +23,65 @@
     - name: allow ports through firewall
       ansible.posix.firewalld:
         port: "{{ external_service.port }}/{{ external_service.protocol | default('tcp') }}"
-        zone: external
         permanent: true
         immediate: true
         state: enabled
-      loop: "{{ allowed_external_services }}"
+      loop: "{{ allowed_external_remote_services }}"
       loop_control:
         loop_var: external_service
-      when: allowed_external_services is defined
-    - name: Add entries to /etc/hosts
-      become: true
-      lineinfile:
-        dest: /etc/hosts
-        line: "{{ ansible_host }} {{ item.value.domain }}"
-      loop: "{{ route53_domains | dict2items }}"
-      when: (run_in_aws is not defined or not run_in_aws | bool) and route53_domains is defined
-    - name: "Refresh vars"
-      include_vars:
-        file: "workshop_vars/{{ workshop_type }}.yml"
-      when:
-        - run_in_aws is defined
-        - run_in_aws | bool
-    - name: set local /etc/host for external services
-      become: true
-      lineinfile:
-        dest: /etc/hosts
-        line: "{{ edge_remote_management_ext_ip }} {{ item.value.domain }}"
-      loop: "{{ route53_domains | dict2items }}"
-      when:
-        - run_in_aws is defined
-        - run_in_aws | bool
-    - name: Add entries to /etc/hosts
-      become: true
-      lineinfile:
-        dest: /etc/hosts
-        line: "{{ edge_remote_management_ext_ip }} controller-node"
-      when:
-        - run_in_aws is defined
-        - run_in_aws | bool
+      when: allowed_external_remote_services is defined
 
     - name: Add entries to /etc/hosts
       become: true
       lineinfile:
         dest: /etc/hosts
-        line: "127.0.0.1 controller-node"
-      when: run_in_aws is not defined or not run_in_aws | bool
+        line: "{{ edge_remote_management_ext_ip }} {{ item.value.domain }}"
+      loop: "{{ route53_domains | dict2items }}"
+
+    - name: Add entries to /etc/hosts
+      become: true
+      lineinfile:
+        dest: /etc/hosts
+        line: "{{ edge_remote_management_ext_ip }} controller-node"
 
     - name: Add entries to /etc/hosts
       become: true
       lineinfile:
         dest: /etc/hosts
         line: "127.0.0.1 execution-node"
+
+    - block:
+      - name: create password in ec2-user if we created an AWS server
+        shell: |
+          echo {{ admin_password }} | /usr/bin/passwd ec2-user --stdin
+
+      - name: Allow Password Authentication
+        ansible.builtin.lineinfile:
+          path: /etc/ssh/sshd_config
+          regexp: '^#?PasswordAuthentication'
+          line: 'PasswordAuthentication yes'
+          state: present
+
+
+## Restart of SSHD service fails in AWS instances so I restart the instance
+#      - name: Restart SSH Service
+#        ansible.builtin.service:
+#          name: sshd
+#          state: restarted
+
+      - name: Reboot the server
+        ansible.builtin.reboot:
+          reboot_timeout: 300  
+
+      - name: Wait for SSH connectivity to recover
+        ansible.builtin.wait_for:
+          host: "{{ ansible_host }}"
+          port: 22
+          state: started
+          delay: 30
+          timeout: 300  
+
+      become: true
       when:
         - run_in_aws is defined
         - run_in_aws | bool

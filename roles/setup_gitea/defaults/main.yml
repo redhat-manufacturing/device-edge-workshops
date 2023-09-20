@@ -1,5 +1,7 @@
 ---
 
+ocp_release: 4.13
+
 build_dir: ~/build
 source_control_tmp_dir: /tmp
 install_gitea: true

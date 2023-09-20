@@ -1,0 +1,40 @@
+---
+
+        # Download RHEL ISO
+
+        - shell: ls /etc/pki/entitlement/*.pem | grep -v key
+          register: ls_client_cert
+
+        - shell: ls /etc/pki/entitlement/*key.pem 
+          register: ls_client_key
+
+        - set_fact:
+            cdn_client_cert: "{{ ls_client_cert.stdout }}"
+
+        - set_fact:
+            cdn_client_key: "{{ ls_client_key.stdout }}"
+
+
+        - name: Download Red Hat ISO
+          shell: "curl -L  --cacert /etc/rhsm/ca/redhat-uep.pem --cert {{ cdn_client_cert }} --key {{ cdn_client_key }} {{ system.cdn_rhel_iso }} -O"
+
+
+
+
+        # inject kernel args
+        - ansible.builtin.template:
+            src: ../templates/inject-kernel-arg.j2
+            dest: inject-kernel-arg.sh
+            mode: '0644'
+
+        - name: Inject Kernel args
+          become: true
+          shell: bash inject-kernel-arg.sh
+
+
+        # move iso to HTTP path
+
+
+
+        - debug:
+            msg:  "Download the ISO image from: http://{{ ansible_host }}/{{ builder_blueprint_name }}/images/{{ builder_blueprint_name }}_boot.iso"

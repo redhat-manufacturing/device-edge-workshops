@@ -174,9 +174,29 @@
         path: "/tmp/student-repos/student{{ student_number }}"
         state: absent
 
-    - name: Restore context on blueprint directory
+    - name: Restore context on directory
       ansible.builtin.command: "restorecon -R /var/www/html/student-repos/student{{ student_number }}"
       changed_when: true
 
 
+############
+# Copy kickstart
+############
 
+    - name: Create kickstart students directory if it does not exist
+      ansible.builtin.file:
+        path:  /var/www/html/student-kickstarts/student{{ student_number }}
+        state: directory
+
+    - name: Create tmp kickstart students directory if it does not exist
+      ansible.builtin.file:
+        path:  /tmp/student-kickstarts/student{{ student_number }}
+        state: directory
+
+    - name: Download production kickstart
+      shell: |
+        curl -k -o /var/www/html/student-kickstarts/student{{ student_number }}/kickstart.ks -H "Authorization: Basic $(echo -n 'student{{ student_number }}:{{ admin_password }}' | base64)" https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-images/raw/branch/main/production-kickstart.ks
+
+    - name: Restore context on directory
+      ansible.builtin.command: "restorecon -R /var/www/html/student-kickstarts/student{{ student_number }}"
+      changed_when: true

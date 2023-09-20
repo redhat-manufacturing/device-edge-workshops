@@ -7,6 +7,10 @@
 
 slack_app_token: "xoxp-xxxxxxxxxxxxxx-xxxxxxxxxxxxxx-xxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
+attendance: false
+
+pull_secret: '{"auths":{"cloud.openshift.com":{"auth":"b3BlbnNoaWZ0LXJlbGVXXXXXXX .... ' 
+
 # Set the right workshop type
 workshop_or_demo: workshop
 workshop_type: rhde_gitops
@@ -62,6 +66,7 @@ workshop_dns_zone: "{{ base_zone }}"
 ec2_name_prefix: "{{ sub_domain }}"
 
 # where the workshop is being run
+# If you want to run AAP, Gitea and OSTree Repo in AWS change 'run_in_aws' to true and 'run_locally' to false
 run_in_aws: false
 run_locally: true
 

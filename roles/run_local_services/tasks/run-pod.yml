@@ -18,3 +18,23 @@
   containers.podman.podman_play:
     kube_file: "{{ pod_dir }}/{{ pod.name }}.yml"
     state: "{{ play_pod_state }}"
+
+- name: Create systemd service unit file
+  become: "{{ pod.privileged | default(false) }}"
+  shell: |
+    podman generate systemd --files --name  {{ pod.name }}
+    cd {{ ansible_env.HOME }}
+    mkdir -p {{ ansible_env.HOME }}/.config/systemd/user/
+    for i in $(ls *.service)
+    do 
+      if [ "$(id -u)" = "0" ]; then
+        mv -f $i /etc/systemd/system/
+        systemctl daemon-reload
+        systemctl enable $i
+      else
+        mv -f $i {{ ansible_env.HOME }}/.config/systemd/user/
+        systemctl daemon-reload --user
+        systemctl enable --user $i
+      fi
+    done
+  ignore_errors: true

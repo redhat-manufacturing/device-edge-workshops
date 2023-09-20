@@ -1,0 +1,155 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    pod-security.kubernetes.io/enforce: privileged
+    kubernetes.io/metadata.name: motioneye
+  name: motioneye
+spec: {}
+
+---
+
+apiVersion: apps/v1  
+kind: Deployment
+metadata:
+  name: motioneye
+  namespace: motioneye                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+  labels:                                                                                                                                                                                               
+    app: motioneye
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: motioneye
+  template:
+    metadata:
+      labels:
+        app: motioneye
+    spec:
+      serviceAccountName: privileged-sa
+      volumes:
+      - name: motioneye-lib-pv-storage
+        persistentVolumeClaim:
+          claimName: motioneye-lib-pv-claim
+      - name: motioneye-etc-pv-storage
+        persistentVolumeClaim:
+          claimName: motioneye-etc-pv-claim
+      - name: localtime
+        hostPath:
+          path: "/etc/localtime" 
+      containers:
+      - name: motioneye-container
+        image: ccrisan/motioneye:master-amd64
+        securityContext:
+          privileged: true
+        ports:
+        - containerPort: 8765
+          protocol: TCP
+          name: "server"
+        volumeMounts:
+        - mountPath: "/etc/motioneye"
+          name: motioneye-etc-pv-storage
+        - mountPath: "/var/lib/motioneye"
+          name: motioneye-lib-pv-storage
+        - mountPath: "/etc/localtime"
+          name: localtime
+        env:
+        - name: hostname
+          value: "motioneye"
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: motioneye-etc-pv-claim
+  namespace: motioneye  
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: motioneye-lib-pv-claim
+  namespace: motioneye  
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: portal
+  namespace: motioneye  
+spec:
+  port:
+    targetPort: 8765 
+  to:
+    kind: Service
+    name: motioneye-http-service
+    weight: 10
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: motioneye-nodeport-service
+  namespace: motioneye  
+  labels:
+    app: motioneye
+spec:
+  type: NodePort
+  ports:
+    - port: 8765
+      nodePort: 31180
+  selector:
+    app: motioneye
+
+--- 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: motioneye-http-service
+  namespace: motioneye  
+spec:
+  selector:
+    app: motioneye
+  ports:
+  - name: http
+    protocol: TCP
+    port: 8765
+    targetPort: 8765
+
+---
+
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: privileged-sa
+  namespace: motioneye  
+
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: privileged-sa
+  namespace: motioneye  
+subjects:
+  - kind: ServiceAccount
+    name: privileged-sa
+    namespace: motioneye
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: 'system:openshift:scc:privileged'
+

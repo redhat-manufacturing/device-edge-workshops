@@ -3,6 +3,7 @@
 - name: populate controller for students
   hosts:
     - edge_management
+    - edge_remote_management
   gather_facts: false
   connection: local
   pre_tasks:

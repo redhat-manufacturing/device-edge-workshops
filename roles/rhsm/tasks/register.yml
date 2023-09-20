@@ -1,8 +1,36 @@
 ---
+    - name: Gather Red Hat Subscription Facts
+      shell: subscription-manager status | grep Overall | awk '{print $3}'
+      changed_when: false
+      register: subscription_facts
+      ignore_errors: true
 
-- name: register to the customer portal
-  community.general.redhat_subscription:
-    username: "{{ redhat_username }}"
-    password: "{{ redhat_password }}"
-  notify:
-    - clean_dnf
+    - name: Display current subscription facts
+      debug:
+        var: subscription_facts.stdout
+
+    - name: System is already subscribed
+      debug:
+        msg: "System is already subscribed"
+      when: "subscription_facts.stdout == 'Current'"
+
+# This is not working for the AWS node
+#    - name: register to the customer portal
+#      community.general.redhat_subscription:
+#        username: "{{ redhat_username }}"
+#        password: "{{ redhat_password }}"
+#        force_register: true
+#      notify:
+#        - clean_dnf
+#      when: "subscription_facts.stdout != 'Current'"
+
+    - name: Register and attach the node
+      shell: "subscription-manager register --username {{ redhat_username }} --password {{ redhat_password }} --force ; subscription-manager attach --auto"
+      notify:
+        - clean_dnf
+      when: "subscription_facts.stdout != 'Current'"
+
+    - name: Display subscription facts after subscribing
+      shell: subscription-manager status | grep Overall | awk '{print $3}'
+      register: subscription_facts_after
+      when: "subscription_facts.stdout != 'Current'"

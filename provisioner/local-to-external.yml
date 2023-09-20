@@ -1,0 +1,68 @@
+
+- name: setup two-way connectivity between local and remote
+  hosts:
+    - 'edge_management:&local'
+    - edge_local_management
+
+  become: true
+  tasks:
+    - block:
+        - name: Copy private AWS SSH keys 
+          ansible.builtin.copy:
+            src: "{{ playbook_dir }}/{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/ssh-key.pem"
+            dest: "/home/{{ ansible_user }}/.ssh/id_rsa"     
+            mode: '0400'
+
+        - name: Add Authorized SSH key
+          authorized_key:
+            user: "{{ ansible_user }}"  
+            key: "{{ lookup('file', '{{ playbook_dir }}/{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/ssh-key.pub') }}"  
+
+        - name: create .ssh root dir
+          become: true
+          ansible.builtin.file:
+            path: "/root/.ssh/"
+            state: directory
+
+        - name: Add Authorized SSH key
+          become: true
+          authorized_key:
+            user: "root"  
+            key: "{{ lookup('file', '{{ playbook_dir }}/{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/ssh-key.pub') }}"  
+
+
+        - name: Include variables again from file (to get new AWS instance ip)
+          include_vars:
+            file: "workshop_vars/{{ workshop_type }}.yml"
+        
+        - name: Set up Reverse SSH Tunnel
+          shell:  |
+            set -x
+            ssh -o StrictHostKeyChecking=no -i /home/{{ ansible_user }}/.ssh/id_rsa -fNT -R 2222:localhost:22 ec2-user@{{ edge_remote_management_ext_ip }}
+          async: 600
+          poll: 0
+
+        - name: Create systemd service unit file
+          ansible.builtin.copy:
+            content: |
+              [Unit]
+              Description="Reverse tunnel to AWS"
+
+              [Service]
+              ExecStart=/bin/bash -c "ssh -o StrictHostKeyChecking=no -i /home/{{ ansible_user }}/.ssh/id_rsa -fNT -R 2222:localhost:22 ec2-user@{{ edge_remote_management_ext_ip }}"
+
+              [Install]
+              WantedBy=multi-user.target
+            dest: /etc/systemd/system/reverse-ssh-tunnel.service
+
+        - name: Start and enable the reverse-ssh-tunnel service
+          systemd:
+            name: reverse-ssh-tunnel
+            enabled: yes
+            state: started
+
+        - name: Reload systemd
+          systemd:
+            daemon_reload: yes
+
+      when: run_in_aws is defined and run_in_aws|bool

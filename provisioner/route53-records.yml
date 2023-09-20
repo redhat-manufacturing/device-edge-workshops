@@ -1,0 +1,23 @@
+
+- name: Setup Route53 records if running in local
+  hosts:
+    - edge_management
+    - edge_local_management
+  become: true
+  gather_facts: false
+  vars_files:
+    - "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
+  tasks:
+    - block: 
+      - name: import external_ip tasks
+        ansible.builtin.import_tasks: external_ip.yml
+
+      - name: setup dns in route53
+        ansible.builtin.include_role:
+          name: ../roles/aws_dns
+        vars:
+          route53_dns_record: "{{ item.value.domain  }}"
+          route53_dns_value: "{{ edge_management_ext_ip }}"
+        loop: "{{ route53_domains | dict2items }}"
+
+      when: (run_in_aws is not defined or not run_in_aws|bool) and route53_domains is defined

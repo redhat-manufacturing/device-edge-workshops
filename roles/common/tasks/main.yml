@@ -17,6 +17,3 @@
 
 - name: import ssh-keypair tasks
   ansible.builtin.import_tasks: ssh-keypair.yml
-
-- name: import external_ip tasks
-  ansible.builtin.import_tasks: external_ip.yml

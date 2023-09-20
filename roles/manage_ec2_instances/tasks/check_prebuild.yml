@@ -5,6 +5,7 @@
       amazon.aws.ec2_ami_info:
         region: "{{ ec2_region }}"
         image_ids: "{{ pre_build_controller_ami[ec2_region] }}"
+      when: pre_build_controller_ami[ec2_region] is defined
   rescue:
     - name: AWS AMI Access is not available
       debug:

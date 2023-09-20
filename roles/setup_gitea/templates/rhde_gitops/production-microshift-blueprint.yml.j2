@@ -1,0 +1,27 @@
+
+---
+builder_blueprint_name: {{ builder_blueprint_name }}-student{{ student_number }}
+builder_request_timeout: 300
+builder_wait_compose_timeout: 2400
+builder_compose_type: edge-commit
+builder_skip_repo: true
+builder_rhsm_repos:
+- "rhocp-{{ ocp_release }}-for-rhel-{{ ansible_distribution_major_version }}-{{ ansible_architecture }}-rpms"
+- "fast-datapath-for-rhel-{{ ansible_distribution_major_version }}-{{ ansible_architecture }}-rpms"
+builder_compose_pkgs:
+  - microshift
+  - microshift-greenboot
+  - NetworkManager-wifi
+  - firewalld
+  - git
+  - openshift-clients
+builder_compose_customizations:
+  user:
+    name: "admin"
+    description: "Admin user"
+    password: "{{ admin_password }}"
+    groups: ["users", "wheel"]
+  services:
+    enabled: ["microshift"]
+  firewall.services:
+    enabled: ["80/tcp", "443/tcp", "6443/tcp"]

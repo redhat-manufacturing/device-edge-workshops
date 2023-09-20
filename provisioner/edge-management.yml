@@ -14,6 +14,7 @@
             name: ../roles/aws_dns
           vars:
             route53_dns_record: "{{ route53_domains.edge_manager.domain }}"
+            route53_dns_value: "{{ ansible_host }}"
     
     - name: setup local dns
       when:
