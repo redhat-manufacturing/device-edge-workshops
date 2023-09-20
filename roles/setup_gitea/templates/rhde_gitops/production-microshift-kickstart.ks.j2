@@ -188,12 +188,15 @@ spec:
 
 cat > /var/tmp/aap-auto-registration.sh <<EOF
 #!/bin/bash
-#IP_ADDRESS=\$(nmcli conn show {{ lab_wifi_network.ssid }} | grep ip_address | awk '{print \$4}')
-conn_name=\$(nmcli con show | grep -v UUID | head -n 1 | awk '{print \$1}')
-IP_ADDRESS=\$(nmcli conn show \$conn_name | grep ip_address | awk '{print \$4}')
+# Get the name of the interface with the default route
+default_iface=\$(ip route | awk '/default/ {print \$5}')
 
-#MAC_ADDRESS=\$(ip addr | grep wlp -A 1 | grep link | awk '{print \$2}' | sed 's/://g')
-MAC_ADDRESS=\$(ip addr | grep \$conn_name -A 1 | grep link | awk '{print \$2}' | sed 's/://g')
+# Get the IP address of the default interface
+IP_ADDRESS=\$(ip addr show dev \$default_iface | awk '/inet / {print \$2}' | cut -d '/' -f 1 | head -n 1)
+
+# Get the MAC address of the default interface
+MAC_ADDRESS=\$(cat /sys/class/net/\$default_iface/address | sed 's/://g')
+
 STUDENT='{{ student_number }}'
 
 JSON="{\
