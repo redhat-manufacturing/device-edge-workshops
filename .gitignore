@@ -2,6 +2,7 @@
 .aws-credentials*
 execution-environment/context
 extra-vars.yml
+extra-vars-gitops.yml
 testing*
 provision_lab-artifact*
 ansible-navigator.log

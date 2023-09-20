@@ -35,9 +35,7 @@
         dest: /etc/hosts
         line: "{{ ansible_host }} {{ item.value.domain }}"
       loop: "{{ route53_domains | dict2items }}"
-      when:
-        - run_in_aws is not defined
-        - not run_in_aws | bool
+      when: (run_in_aws is not defined or not run_in_aws | bool) and route53_domains is defined
     - name: "Refresh vars"
       include_vars:
         file: "workshop_vars/{{ workshop_type }}.yml"
@@ -67,9 +65,7 @@
       lineinfile:
         dest: /etc/hosts
         line: "127.0.0.1 controller-node"
-      when:
-        - run_in_aws is not defined
-        - not run_in_aws | bool
+      when: run_in_aws is not defined or not run_in_aws | bool
 
     - name: Add entries to /etc/hosts
       become: true

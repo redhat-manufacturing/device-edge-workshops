@@ -20,4 +20,4 @@
           route53_dns_value: "{{ edge_management_ext_ip }}"
         loop: "{{ route53_domains | dict2items }}"
 
-      when: run_in_aws is not defined or not run_in_aws|bool
+      when: (run_in_aws is not defined or not run_in_aws|bool) and route53_domains is defined
