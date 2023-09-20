@@ -14,160 +14,7 @@ route53_domains:
     domain: "eda.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
   ostree-repo:
     domain: "ostree-repo.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
-
-
-
-
-remote_services:
-  - name: eda
-    containerfile: eda-containerfile
-    templates:
-      - src: eda-run-workflow.yml.j2
-        dest: run-workflow.yml
-    files:
-      - src: eda-rulebook.yml
-        dest: rulebook.yml
-      - src: eda-inventory.yml
-        dest: inventory.yml
-      - src: eda-ansible.cfg
-        dest: ansible.cfg
-
-  - name: reverse-proxy
-    containerfile: reverse-proxy-containerfile
-    pre_tasks:
-      - reverse-proxy-copy-certs.yml
-    templates:
-      - src: reverse-proxy-nginx.conf.j2
-        dest: nginx.conf
-        vars:
-          proxied_services:
-            - name: eda
-              proxy_pass: "http://localhost:5000/"
-#            - name: ipxe
-#              proxy_pass: "http://localhost:8081/"
-            - name: controller
-              proxy_pass: "https://localhost:10443/"
-              web_socket: true
-              proxy_advanced_options:
-                - proxy_ssl_verify off
-            - name: image-builder
-              proxy_pass: "https://localhost:9090/"
-              web_socket: true
-              proxy_advanced_options:
-                - proxy_ssl_verify off
-            - name: gitea
-              proxy_pass: "http://localhost:3001/"
-            - name: ostree-repo
-              proxy_pass: "http://localhost:8080/"
-            - name: attendance
-              proxy_pass: "http://localhost:3000/"
-              web_socket: true
-            - name: exercises
-              proxy_pass: https://redhat-manufacturing.github.io/device-edge-workshops/exercises/rhde_gitops/
-
-  - name: database
-    containerfile: database-containerfile
-    templates:
-      - src: database-postgresql.conf.j2
-        dest: postgresql.conf
-      - src: database-db-start.sh.j2
-        dest: db-start.sh
-        vars:
-          databases:
-            - name: gitea
-              username: gitea
-              password: gitea
-            - name: attendance
-              username: attendance
-              password: attendance
-
-  - name: gitea
-    containerfile: gitea-containerfile
-    templates:
-      - src: gitea-app.ini.j2
-        dest: app.ini
-
-  - name: ostree-repo
-    containerfile: ostree-repo-containerfile
-    pre_tasks:
-      - ostree-repo-copy-repo.yml
-    files:
-      - src: ostree-repo-nginx.conf
-        dest: nginx.conf
-
-  - name: attendance
-    containerfile: attendance-containerfile
-    pre_tasks:
-      - attendance-student-pages.yml
-      - attendance-rsync-site.yml
-    templates:
-      - src: attendance-App.js.j2
-        dest: attendance/src/App.js
-      - src: attendance-index.js.j2
-        dest: attendance/src/pages/index.js
-      
-remote_pods:
-
-  - name: workshop-rhde_gitops
-    definition:
-      apiVersion: v1
-      kind: Pod
-      metadata:
-        annotations:
-          io.podman.annotations.autoremove/workshop-rhde_gitops: "FALSE"
-          io.podman.annotations.init/workshop-rhde_gitops: "FALSE"
-          io.podman.annotations.privileged/workshop-rhde_gitops: "FALSE"
-          io.podman.annotations.publish-all/workshop-rhde_gitops: "FALSE"
-        labels:
-          app: workshop-rhde_gitops
-        name: workshop-rhde_gitops
-      spec:
-        hostNetwork: true
-        containers:
-          - name: reverse-proxy
-            image: reverse-proxy:latest
-          - name: eda
-            image: eda:latest
-          - name: database
-            image: database:latest
-            volumeMounts:
-              - mountPath: /var/lib/pgsql/data
-                name: database-data
-          - name: gitea
-            image: gitea:latest
-          - name: ostree-repo
-            image: ostree-repo:latest
-            volumeMounts:
-              - mountPath: /var/www/html/student-repos
-                name: student-repos
-              - mountPath: /var/www/html/student-kickstarts
-                name: student-kickstarts
-          - name: attendance
-            image: attendance:latest
-        volumes:
-          - name: database-data
-            persistentVolumeClaim:
-              claimName: workshop-rhde_gitops-database
-          - name: student-repos
-            hostPath:
-              path: /var/www/html/student-repos
-          - name: student-kickstarts
-            hostPath:
-              path: /var/www/html/student-kickstarts
-
-
-allowed_external_remote_services:
-  - port: 5000
-  - port: 10443
-  - port: 27199
-  - port: 9090
-  - port: 3001
-  - port: 8080
-  - port: 3000
-  - port: 80
-  - port: 443
-
-
+    
 
 
 local_services:
@@ -192,15 +39,15 @@ local_services:
             - record: "ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
             - record: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ edge_remote_management_ext_ip }}"
+              address: "{{ internal_address }}"
             - record: "image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ edge_remote_management_ext_ip }}"
+              address: "{{ internal_address }}"
             - record: "gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ edge_remote_management_ext_ip }}"
+              address: "{{ internal_address }}"
             - record: "eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ edge_remote_management_ext_ip }}"
+              address: "{{ internal_address }}"
             - record: "ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ edge_remote_management_ext_ip }}"
+              address: "{{ internal_address }}"
             - record: "attendance.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
             - record: "exercises.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
@@ -216,6 +63,22 @@ local_services:
       - dnsmasq-update-etc-hosts.yml
     containerfile: dnsmasq-containerfile
 
+
+
+  - name: eda
+    containerfile: eda-containerfile
+    templates:
+      - src: eda-run-workflow.yml.j2
+        dest: run-workflow.yml
+    files:
+      - src: eda-rulebook.yml
+        dest: rulebook.yml
+      - src: eda-inventory.yml
+        dest: inventory.yml
+      - src: eda-ansible.cfg
+        dest: ansible.cfg
+
+        
   - name: reverse-proxy
     containerfile: reverse-proxy-containerfile
     pre_tasks:
@@ -225,28 +88,31 @@ local_services:
         dest: nginx.conf
         vars:
           proxied_services:
-#            - name: eda
-#              proxy_pass: "http://localhost:5000/"
+            - name: eda
+              proxy_pass: "http://localhost:5000/"
             - name: ipxe
               proxy_pass: "http://localhost:8081/"
-#            - name: controller
-#              proxy_pass: "https://localhost:10443/"
-#              proxy_advanced_options:
-#                - proxy_ssl_verify off
-#            - name: image-builder
-#              proxy_pass: "https://localhost:9090/"
-#              web_socket: true
-#              proxy_advanced_options:
-#                - proxy_ssl_verify off
-#            - name: gitea
-#              proxy_pass: "http://localhost:3001/"
-#            - name: ostree-repo
-#              proxy_pass: "http://localhost:8080/"
+            - name: controller
+              proxy_pass: "https://localhost:10443/"
+              web_socket: true
+              proxy_advanced_options:
+                - proxy_ssl_verify off
+            - name: image-builder
+              proxy_pass: "https://localhost:9090/"
+              web_socket: true
+              proxy_advanced_options:
+                - proxy_ssl_verify off
+            - name: gitea
+              proxy_pass: "http://localhost:3001/"
+            - name: ostree-repo
+              proxy_pass: "http://localhost:8080/"
             - name: attendance
               proxy_pass: "http://localhost:3000/"
               web_socket: true
             - name: exercises
               proxy_pass: https://redhat-manufacturing.github.io/device-edge-workshops/exercises/rhde_gitops/
+
+
 
   - name: ipxe
     containerfile: ipxe-containerfile
@@ -262,10 +128,45 @@ local_services:
       - src: ipxe-nginx.conf
         dest: nginx.conf
 
+
+  - name: database
+    containerfile: database-containerfile
+    templates:
+      - src: database-postgresql.conf.j2
+        dest: postgresql.conf
+      - src: database-db-start.sh.j2
+        dest: db-start.sh
+        vars:
+          databases:
+            - name: gitea
+              username: gitea
+              password: gitea
+            - name: attendance
+              username: attendance
+              password: attendance
+
+
+  - name: gitea
+    containerfile: gitea-containerfile
+    templates:
+      - src: gitea-app.ini.j2
+        dest: app.ini
+
+
   - name: tftp
     containerfile: tftp-containerfile
     pre_tasks:
       - tftp-download-chainload-files.yml
+
+
+  - name: ostree-repo
+    containerfile: ostree-repo-containerfile
+    pre_tasks:
+      - ostree-repo-copy-repo.yml
+    files:
+      - src: ostree-repo-nginx.conf
+        dest: nginx.conf
+
 
   - name: attendance
     containerfile: attendance-containerfile
@@ -321,47 +222,34 @@ pods:
         containers:
           - name: reverse-proxy
             image: reverse-proxy:latest
-#          - name: eda
-#            image: eda:latest
-          - name: ipxe
-            image: ipxe:latest
-#          - name: database
-#            image: database:latest
-#            volumeMounts:
-#              - mountPath: /var/lib/pgsql/data
-#                name: database-data
-#          - name: gitea
-#            image: gitea:latest
-          - name: tftp
-            image: tftp:latest
-#          - name: ostree-repo
-#            image: ostree-repo:latest
-#            volumeMounts:
-#              - mountPath: /var/www/html/student-repos
-#                name: student-repos
+          - name: eda
+            image: eda:latest
+          - name: database
+            image: database:latest
+            volumeMounts:
+              - mountPath: /var/lib/pgsql/data
+                name: database-data
+          - name: gitea
+            image: gitea:latest
+          - name: ostree-repo
+            image: ostree-repo:latest
+            volumeMounts:
+              - mountPath: /var/www/html/student-repos
+                name: student-repos
+              - mountPath: /var/www/html/student-kickstarts
+                name: student-kickstarts
           - name: attendance
             image: attendance:latest
-#        volumes:
-#          - name: database-data
-#            persistentVolumeClaim:
-#              claimName: workshop-rhde_gitops-database
-#          - name: student-repos
-#            hostPath:
-#              path: /var/www/html/student-repos
-
-
-allowed_external_services:
-  - port: 8081
-#  - port: 5000
-#  - port: 10443
-#  - port: 9090
-#  - port: 3001
-#  - port: 8080
-#  - port: 3000
-  - port: 80
-  - port: 443
-
-
+        volumes:
+          - name: database-data
+            persistentVolumeClaim:
+              claimName: workshop-rhde_gitops-database
+          - name: student-repos
+            hostPath:
+              path: /var/www/html/student-repos
+          - name: student-kickstarts
+            hostPath:
+              path: /var/www/html/student-kickstarts
 
 builder_blueprint_name: rhde-image
 #images_to_compose:
@@ -438,10 +326,15 @@ additional_repos:
         dest: APPs/app_motioneye-microshift.yaml
 
 
-
-        
+allowed_external_services:
+  - port: 5000
+  - port: 8081
+  - port: 10443
+  - port: 9090
+  - port: 3001
+  - port: 8080
+  - port: 3000
+  - port: 80
+  - port: 443
 
 build_net-installer_isos: true
-
-# Automatically added
-edge_remote_management_ext_ip: 3.249.148.103
