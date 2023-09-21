@@ -109,7 +109,7 @@ spec:
         app: hello
     spec:
       containers:
-      - image: quay.io/tasato/hello-js:latest
+      - image: quay.io/luisarizmendi/hello-js:latest
         imagePullPolicy: Always
         name: hello-js
         resources: {}
@@ -189,10 +189,10 @@ EOF
 cat > /var/tmp/aap-auto-registration.sh <<EOF
 #!/bin/bash
 # Get the name of the interface with the default route
-default_iface=\$(ip route | awk '/default/ {print \$5}')
+default_iface=\$(/usr/sbin/ip route | /usr/bin/awk '/default/ {print \$5}')
 
 # Get the IP address of the default interface
-IP_ADDRESS=\$(ip addr show dev \$default_iface | awk '/inet / {print \$2}' | cut -d '/' -f 1 | head -n 1)
+IP_ADDRESS=\$(/usr/sbin/ip addr show dev \$default_iface | /usr/bin/awk '/inet / {print \$2}' | cut -d '/' -f 1 | head -n 1)
 
 # Get the MAC address of the default interface
 MAC_ADDRESS=\$(cat /sys/class/net/\$default_iface/address | sed 's/://g')
