@@ -163,7 +163,7 @@ controller_templates:
     project: Device Edge Codebase
     playbook: playbooks/update_app_microshift.yml
     credentials:
-      - Image Builder Credentials
+      - Device Credentials
     execution_environment: Device Edge Workshops Execution Environment
     become_enabled: true
 
@@ -173,7 +173,7 @@ controller_templates:
     project: Device Edge Codebase
     playbook: playbooks/deploy_app_microshift.yml
     credentials:
-      - Image Builder Credentials
+      - Device Credentials
     execution_environment: Device Edge Workshops Execution Environment
     become_enabled: true
     ask_variables_on_launch: true

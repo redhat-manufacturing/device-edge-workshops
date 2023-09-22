@@ -20,12 +20,16 @@
             mac_address: "{{ event.payload.mac_address }}"
 
 
-############ CONFIGURE this POST body template in Quay:
+############ CONFIGURE this in Quay:
+# URL
+# https://eda.xxx.xxx.xxx/endpoint
+
+# POST body template 
 #
 #{
 #"name": "${name}",
-#"image": "${repository}",
-#"tag": "${updated_tags}",
+#"repository": "${repository}",
+#"updated_tags": "${updated_tags}",
 #"student": "1"
 #}
 #

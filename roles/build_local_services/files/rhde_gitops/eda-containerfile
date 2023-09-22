@@ -30,6 +30,8 @@ COPY inventory.yml .
 
 COPY run-workflow.yml .
 
+COPY update-image-microshift.yml .
+
 COPY ansible.cfg .
 
 EXPOSE 5000

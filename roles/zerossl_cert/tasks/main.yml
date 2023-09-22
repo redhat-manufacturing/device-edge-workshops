@@ -8,16 +8,41 @@
     path: "{{ _cert_dir }}/{{ domain_name.split('.')[0] }}.crt"
   register: _issued_cert
 
-- name: include issue cert tasks
-  ansible.builtin.include_tasks:
-    file: "{{ task_file }}"
-  loop:
-    - generate-keys.yml
-    - create-challenge.yml
-    - aws-dns-record.yml
-    - issue-cert.yml
-  loop_control:
-    loop_var: task_file
+- block:
+  - name: include issue cert tasks
+    ansible.builtin.include_tasks:
+      file: "{{ task_file }}"
+    loop:
+      - generate-keys.yml
+      - create-challenge.yml
+      - aws-dns-record.yml
+      - issue-cert.yml
+    loop_control:
+      loop_var: task_file
+    register: task_result
+
+## Sometimes it fails when deployed in both local and AWS. Instead of re-run the whole provisioner I've included a re-run for just the cert issuing
+  - name: Rerun the loop if there were failures
+    ansible.builtin.set_fact:
+      rerun_loop: true
+    when: task_result.failed
+
+  - name: Sleep for 300 seconds and continue with play
+    ansible.builtin.wait_for:
+      timeout: 300
+    when: rerun_loop|default(false)
+
+  - name: Include tasks again if needed
+    ansible.builtin.include_tasks:
+      file: "{{ task_file }}"
+    loop:
+      - generate-keys.yml
+      - create-challenge.yml
+      - aws-dns-record.yml
+      - issue-cert.yml
+    loop_control:
+      loop_var: task_file
+    when: rerun_loop|default(false)
   when:
     - not _issued_cert.stat.exists
 
