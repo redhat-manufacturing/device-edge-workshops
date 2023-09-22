@@ -18,3 +18,25 @@
             ip_address: "{{ event.payload.ip_address }}"
             student: "{{ event.payload.student }}"
             mac_address: "{{ event.payload.mac_address }}"
+
+
+############ CONFIGURE this POST body template in Quay:
+#
+#{
+#"name": "${name}",
+#"image": "${repository}",
+#"tag": "${updated_tags}",
+#"student": "1"
+#}
+#
+
+    - name: Update image in microshift
+      condition: event.payload.name is defined and event.payload.repository is defined and event.payload.updated_tags is defined and event.payload.student is defined
+      action:
+        run_playbook:
+          name: update-image-microshift.yml
+          extra_vars:
+            name: "{{ event.payload.name }}"
+            image: "{{ event.payload.repository }}"
+            tag: "{{ event.payload.updated_tags[0] }}"
+            student: "{{ event.payload.student }}"

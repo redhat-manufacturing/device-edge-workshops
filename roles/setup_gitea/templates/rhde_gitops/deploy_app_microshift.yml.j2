@@ -1,12 +1,12 @@
 ---
 
-- name: compose an image via Image Builder
+- name: Create resources from manifest in Gitea
   hosts:
     - all
   tasks:
     - name: Download manifest
       shell: |
-        curl -k -o app.yaml -H "Authorization: Basic $(echo -n 'student{{ student_number }}:{{ admin_password }}' | base64)" {% raw %}{{ manifest | default("{% endraw %}https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-configs/raw/branch/main/APPs/app_motioneye-microshift.yaml" {% raw %}) }} {% endraw %}     
+        curl -k -o app.yaml -H "Authorization: Basic $(echo -n 'student{{ student_number }}:{{ admin_password }}' | base64)" {% raw %}{{ manifest }} {% endraw %}     
         
     - name: Deploy YAML files
       become: true

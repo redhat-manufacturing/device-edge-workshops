@@ -157,9 +157,19 @@ controller_templates:
     execution_environment: Device Edge Workshops Execution Environment
     become_enabled: true
 
-  - name: Deploy Microshift APP
+  - name: Update Microshift APP
     organization: "Student{{ student_number }} Organization"
-    inventory: Edge Utilities
+    inventory: Edge Devices
+    project: Device Edge Codebase
+    playbook: playbooks/update_app_microshift.yml
+    credentials:
+      - Image Builder Credentials
+    execution_environment: Device Edge Workshops Execution Environment
+    become_enabled: true
+
+  - name: Deploy Manifest in Microshift
+    organization: "Student{{ student_number }} Organization"
+    inventory: Edge Devices
     project: Device Edge Codebase
     playbook: playbooks/deploy_app_microshift.yml
     credentials:
