@@ -9,7 +9,7 @@
     controller_username: admin
     controller_password: "{{ admin_password }}"
     controller_validate_certs: false
-    controller_workflow_launch_jobs:
+    controller_launch_jobs:
       - name: Update Microshift APP
         wait: true
 {% raw %}
@@ -22,4 +22,4 @@
           tag: "{{ tag }}"
 {% endraw %}
   roles:
-    - /opt/eda/collections/ansible_collections/redhat_cop/controller_configuration/roles/workflow_launch
+    - /opt/eda/collections/ansible_collections/redhat_cop/controller_configuration/roles/job_launch
