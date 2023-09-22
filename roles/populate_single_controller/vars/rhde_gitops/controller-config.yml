@@ -166,6 +166,13 @@ controller_templates:
       - Device Credentials
     execution_environment: Device Edge Workshops Execution Environment
     become_enabled: true
+    extra_vars: 
+        namespace: namespace
+        deployment: deployment
+        container: container
+        image: image
+        tag: tag
+    ask_variables_on_launch: true
 
   - name: Deploy Manifest in Microshift
     organization: "Student{{ student_number }} Organization"
