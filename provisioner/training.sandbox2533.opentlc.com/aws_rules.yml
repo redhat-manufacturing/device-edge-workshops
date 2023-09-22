@@ -1,0 +1,147 @@
+{
+  "all_rules":
+      [
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": -1,
+        "proto": 47,
+        "to_port": -1
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 443,
+        "proto": "tcp",
+        "to_port": 443
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": -1,
+        "proto": "icmp",
+        "to_port": -1
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 80,
+        "proto": "tcp",
+        "to_port": 80
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 22,
+        "proto": "tcp",
+        "to_port": 22
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 3389,
+        "proto": "tcp",
+        "to_port": 3389
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 8000,
+        "proto": "tcp",
+        "to_port": 8000
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 8080,
+        "proto": "tcp",
+        "to_port": 8080
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 8088,
+        "proto": "tcp",
+        "to_port": 8088
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 8089,
+        "proto": "tcp",
+        "to_port": 8089
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 8443,
+        "proto": "tcp",
+        "to_port": 8443
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 830,
+        "proto": "tcp",
+        "to_port": 830
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 5986,
+        "proto": "tcp",
+        "rule_desc": "WinRM",
+        "to_port": 5986
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 514,
+        "proto": "udp",
+        "rule_desc": "WinRM",
+        "to_port": 514
+    },
+    {
+        "cidr_ip": "172.16.0.0/14",
+        "from_port": 5432,
+        "proto": "tcp",
+        "rule_desc": "Cluster option DB port",
+        "to_port": 5432
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 27199,
+        "proto": "tcp",
+        "rule_desc": "receptor",
+        "to_port": 27199
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 9090,
+        "proto": "tcp",
+        "rule_desc": "cockpit",
+        "to_port": 9090
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 2222,
+        "proto": "tcp",
+        "rule_desc": "gitea SSH",
+        "to_port": 2222
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 3000,
+        "proto": "tcp",
+        "rule_desc": "gitea web",
+        "to_port": 3000
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 10443,
+        "proto": "tcp",
+        "rule_desc": "gitops port",
+        "to_port": 10443
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 3001,
+        "proto": "tcp",
+        "rule_desc": "gitops port",
+        "to_port": 3001
+    },
+    {
+        "cidr_ip": "0.0.0.0/0",
+        "from_port": 5000,
+        "proto": "tcp",
+        "rule_desc": "gitops port",
+        "to_port": 5000
+    }
+]
+    }

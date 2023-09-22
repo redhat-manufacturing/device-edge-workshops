@@ -24,6 +24,8 @@ remote_services:
     templates:
       - src: eda-run-workflow.yml.j2
         dest: run-workflow.yml
+      - src: eda-run-update-image-microshift.yml.j2
+        dest: update-image-microshift.yml
     files:
       - src: eda-rulebook.yml
         dest: rulebook.yml
@@ -399,6 +401,10 @@ repo_files:
     dest: playbooks/publish-image.yml
   - src: templates/rhde_gitops/update-devices.yml.j2
     dest: playbooks/update-devices.yml
+  - src: templates/rhde_gitops/deploy_app_microshift.yml.j2
+    dest: playbooks/deploy_app_microshift.yml
+  - src: templates/rhde_gitops/update_app_microshift.yml.j2
+    dest: playbooks/update_app_microshift.yml
 
 additional_repos:
   - name: device-edge-images
@@ -434,8 +440,10 @@ additional_repos:
     files: 
       - src: templates/rhde_gitops/ssh_config.j2
         dest: etc/ssh/ssh_config
-      - src: templates/rhde_gitops/app_motioneye-microshift.yaml.j2
-        dest: APPs/app_motioneye-microshift.yaml
+      - src: templates/rhde_gitops/app_motioneye-microshift.yml.j2
+        dest: APPs/app_motioneye-microshift.yml
+      - src: templates/rhde_gitops/app_2048-microshift.yml.j2
+        dest: APPs/app_2048-microshift.yml
 
 
 

@@ -6,12 +6,18 @@ nmcli dev wifi connect "{{ wifi_network }}" password "{{ wifi_password }}"
 {% if wifi_network is not defined  %}
 network --bootproto=dhcp --onboot=true
 {% endif %}
-keyboard --xlayouts='us'
 lang en_US.UTF-8
-timezone UTC
+keyboard us
+timezone Etc/UTC
+text
 zerombr
 clearpart --all --initlabel
-autopart --type=plain --fstype=xfs --nohome
+part /boot/efi --fstype=efi --size=200
+part /boot --fstype=xfs --asprimary --size=800
+part swap --fstype=swap --recommended
+part pv.01 --grow
+volgroup rhel pv.01
+logvol / --vgname=rhel --fstype=xfs --size=10000 --name=root
 reboot
 graphical
 user --name=ansible --groups=wheel --password='{{ admin_password }}'
@@ -73,7 +79,7 @@ patches:
         value: test.apps.$(hostname -I | awk '{print $1}').nip.io
     target:
       kind: Route
-
+EOF
 
 
 cat <<EOF > /etc/microshift/manifests/testapp.yaml
@@ -109,7 +115,7 @@ spec:
         app: hello
     spec:
       containers:
-      - image: quay.io/tasato/hello-js:latest
+      - image: quay.io/luisarizmendi/hello-js:latest
         imagePullPolicy: Always
         name: hello-js
         resources: {}
@@ -183,17 +189,20 @@ spec:
     kind: Service
     name: test-service
     weight: 10
-
+EOF
 
 
 cat > /var/tmp/aap-auto-registration.sh <<EOF
 #!/bin/bash
-#IP_ADDRESS=\$(nmcli conn show {{ lab_wifi_network.ssid }} | grep ip_address | awk '{print \$4}')
-conn_name=\$(nmcli con show | grep -v UUID | head -n 1 | awk '{print \$1}')
-IP_ADDRESS=\$(nmcli conn show \$conn_name | grep ip_address | awk '{print \$4}')
+# Get the name of the interface with the default routeDeploy Microshift APP
+default_iface=\$(/usr/sbin/ip route | /usr/bin/awk '/default/ {print \$5}')
 
-#MAC_ADDRESS=\$(ip addr | grep wlp -A 1 | grep link | awk '{print \$2}' | sed 's/://g')
-MAC_ADDRESS=\$(ip addr | grep \$conn_name -A 1 | grep link | awk '{print \$2}' | sed 's/://g')
+# Get the IP address of the default interface
+IP_ADDRESS=\$(/usr/sbin/ip addr show dev \$default_iface | /usr/bin/awk '/inet / {print \$2}' | cut -d '/' -f 1 | head -n 1)
+
+# Get the MAC address of the default interface
+MAC_ADDRESS=\$(cat /sys/class/net/\$default_iface/address | sed 's/://g')
+
 STUDENT='{{ student_number }}'
 
 JSON="{\
@@ -208,8 +217,8 @@ EOF
 cat > /etc/systemd/system/aap-auto-registration.service <<EOF
 [Unit]
 Description=Register to Ansible Automation Platform
-After=network.target
-After=connect-wifi.service
+After=network-online.target
+Wants=network-online.target
 ConditionPathExists=!/var/tmp/aap-registered
 
 [Service]

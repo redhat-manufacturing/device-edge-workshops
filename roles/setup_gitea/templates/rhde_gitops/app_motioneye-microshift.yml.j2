@@ -40,6 +40,7 @@ spec:
           path: "/etc/localtime" 
       containers:
       - name: motioneye-container
+        ImagePullPolicy: Always
         image: ccrisan/motioneye:master-amd64
         securityContext:
           privileged: true

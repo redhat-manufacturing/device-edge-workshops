@@ -39,3 +39,4 @@ import.json*
 *-artifact*.json
 ssh-key.pem
 ssh-key.pub
+provisioner/training.sandbox*/

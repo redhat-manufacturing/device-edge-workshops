@@ -1,0 +1,12 @@
+---
+{% raw %}
+- name: compose an image via Image Builder
+  hosts:
+    - all
+  tasks:
+     
+    - name: Deploy YAML files
+      become: true
+      shell: |
+        oc --kubeconfig /var/lib/microshift/resources/kubeadmin/kubeconfig -n {{ namespace }} set image deployment/{{ deployment }} {{ container }}=quay.io/{{ image }}:{{ tag | default('latest') }}
+{% endraw %}

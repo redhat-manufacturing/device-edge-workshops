@@ -10,7 +10,7 @@
           ansible.builtin.wait_for:
             host: "{{ ansible_host }}"
             port:  "{{ _service.port }}"
-            timeout: 10
+            timeout: 30
           loop: "{{ allowed_external_remote_services }}"
           loop_control:
             loop_var: _service

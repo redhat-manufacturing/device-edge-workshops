@@ -195,6 +195,7 @@ You must run from the project root rather than the `/provisioner` folder.  This 
 ```
 ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.yml --extra-vars @extra-vars.yml -v
 ```
+You can add *-m stdout* to ansible-navigator to make the output explicit.
 
 >**Note**
 >

@@ -157,6 +157,36 @@ controller_templates:
     execution_environment: Device Edge Workshops Execution Environment
     become_enabled: true
 
+  - name: Update Microshift APP
+    organization: "Student{{ student_number }} Organization"
+    inventory: Edge Devices
+    project: Device Edge Codebase
+    playbook: playbooks/update_app_microshift.yml
+    credentials:
+      - Device Credentials
+    execution_environment: Device Edge Workshops Execution Environment
+    become_enabled: true
+    extra_vars: 
+        namespace: namespace
+        deployment: deployment
+        container: container
+        image: image
+        tag: tag
+    ask_variables_on_launch: true
+
+  - name: Deploy Manifest in Microshift
+    organization: "Student{{ student_number }} Organization"
+    inventory: Edge Devices
+    project: Device Edge Codebase
+    playbook: playbooks/deploy_app_microshift.yml
+    credentials:
+      - Device Credentials
+    execution_environment: Device Edge Workshops Execution Environment
+    become_enabled: true
+    ask_variables_on_launch: true
+    extra_vars: 
+        manifest: https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-configs/raw/branch/main/APPs/app_2048-microshift.yml
+
   - name: Publish Image
     organization: "Student{{ student_number }} Organization"
     inventory: Edge Utilities
