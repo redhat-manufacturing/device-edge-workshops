@@ -128,6 +128,11 @@ These are the ways to integrate your license file with the workshop:
   base64_manifest: 2342387234872dfsdlkjf23148723847dkjfskjfksdfj
   ```
 
+  On macs, specify the `-i` flag:
+  ```
+  base64 -i manifest.zip > base64_platform_manifest.txt
+  ```
+
   >**Note**
   >
   >The manifest.zip is substantially larger than the tower.license file, so the base64_manifest base64 might be several hundred lines long if you have text wrapping in your editor.
