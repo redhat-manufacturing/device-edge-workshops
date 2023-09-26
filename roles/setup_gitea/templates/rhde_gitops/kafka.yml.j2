@@ -84,19 +84,3 @@ spec:
     port: 9092
     targetPort: 9092
 
----
-apiVersion: route.openshift.io/v1
-kind: Route
-metadata:
-  name: kafka
-  namespace: messaging
-spec:
-  port:
-    targetPort: 9092 
-  to:
-    kind: Service
-    name: kafka-service
-    weight: 10
-
-
- 
