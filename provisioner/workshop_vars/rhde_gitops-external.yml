@@ -444,6 +444,9 @@ additional_repos:
         dest: APPs/app_motioneye-microshift.yml
       - src: templates/rhde_gitops/app_2048-microshift.yml.j2
         dest: APPs/app_2048-microshift.yml
+      - src: templates/rhde_gitops/kafka.yml.j2
+        dest: APPs/kafka-microshift.yml
+
 
 
 

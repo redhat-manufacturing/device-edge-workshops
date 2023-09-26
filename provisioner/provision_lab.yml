@@ -36,6 +36,12 @@
 - name: import connectivity playbook
   ansible.builtin.import_playbook: ensure-connectivity.yml
 
+- name: import rhsm playbook
+  ansible.builtin.import_playbook: rhsm.yml
+
+- name: import common roles playbook
+  ansible.builtin.import_playbook: common.yml
+
 - name: import access services playbook
   ansible.builtin.import_playbook: configure-external-access.yml
 
@@ -44,12 +50,6 @@
 
 - name: import connectivity between local and external nodes
   ansible.builtin.import_playbook: local-to-external.yml
-
-- name: import rhsm playbook
-  ansible.builtin.import_playbook: rhsm.yml
-
-- name: import common roles playbook
-  ansible.builtin.import_playbook: common.yml
 
 - name: compose images
   ansible.builtin.import_playbook: compose-images.yml

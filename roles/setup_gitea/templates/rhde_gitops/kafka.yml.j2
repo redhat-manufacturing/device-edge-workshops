@@ -1,0 +1,102 @@
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    kubernetes.io/metadata.name: messaging
+  name: messaging
+spec: {}
+---
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  labels:
+    app: messaging
+  name: kafka
+  namespace: messaging 
+spec:                                                                                                                                                                                                   
+  replicas: 1
+  selector:
+    matchLabels:
+      app: messaging
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: messaging
+    spec:
+      containers:
+      - image: quay.io/strimzi/kafka:latest-kafka-3.5.0-amd64
+        imagePullPolicy: IfNotPresent
+        name: kafka
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        command: ["sh", "-c", "export CLUSTER_ID=$$(bin/kafka-storage.sh random-uuid) && bin/kafka-storage.sh format -t $$CLUSTER_ID -c config/kraft/server.properties && bin/kafka-server-start.sh config/kraft/server.properties --override advertised.listeners=$${KAFKA_ADVERTISED_LISTENERS} --override listener.security.protocol.map=$${KAFKA_LISTENER_SECURITY_PROTOCOL_MAP} --override listeners=$${KAFKA_LISTENERS} --override auto.create.topics.enable=true --override num.partitions=1 --override default.replication.factor=1"]
+        ports:
+        - containerPort: 9092
+        env:
+        - name: LOG_DIR
+          value: "/tmp/logs"
+        - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+          value: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT"
+        - name: KAFKA_LISTENERS
+          value: "PLAINTEXT://:29092,PLAINTEXT_HOST://:9092,CONTROLLER://:9093"
+        - name: KAFKA_ADVERTISED_LISTENERS
+          value: "PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092"
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-nodeport
+  namespace: messaging
+spec:
+  type: NodePort
+  selector:
+    app: messaging
+  ports:
+    - name: http
+      port: 9092
+      targetPort: 9092
+      nodePort: 30092
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-service
+  namespace: messaging
+spec:
+  selector:
+    app: messaging
+  ports:
+  - name: http
+    protocol: TCP
+    port: 9092
+    targetPort: 9092
+
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: kafka
+  namespace: messaging
+spec:
+  port:
+    targetPort: 9092 
+  to:
+    kind: Service
+    name: kafka-service
+    weight: 10
+
+
+ 
