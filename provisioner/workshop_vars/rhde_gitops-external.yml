@@ -446,6 +446,8 @@ additional_repos:
         dest: APPs/app_2048-microshift.yml
       - src: templates/rhde_gitops/kafka.yml.j2
         dest: APPs/kafka-microshift.yml
+      - src: templates/rhde_gitops/app_self-checkout.yml.j2
+        dest: APPs/app_self-checkout.yml
 
 
 
