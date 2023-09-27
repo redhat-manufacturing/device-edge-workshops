@@ -48,7 +48,7 @@ spec:
         - name: KAFKA_LISTENERS
           value: "PLAINTEXT://:29092,PLAINTEXT_HOST://:9092,CONTROLLER://:9093"
         - name: KAFKA_ADVERTISED_LISTENERS
-          value: "PLAINTEXT://kafka:29092,PLAINTEXT_HOST://kafka:9092"
+          value: "PLAINTEXT://kafka.messaging.svc.cluster.local:29092,PLAINTEXT_HOST://kafka.messaging.svc.cluster.local:9092"
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler

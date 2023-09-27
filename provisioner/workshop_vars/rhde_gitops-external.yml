@@ -450,11 +450,9 @@ additional_repos:
         dest: APPs/app_self-checkout.yml
 
 
-
-
         
 
 build_net-installer_isos: true
 
 # Automatically added
-edge_remote_management_ext_ip: 3.249.148.103
+edge_remote_management_ext_ip: 34.249.106.184
