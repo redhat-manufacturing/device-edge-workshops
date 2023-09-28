@@ -39,6 +39,8 @@ spec:
         ports:
         - containerPort: 8080
         env:
+        - name: QUARKUS_HTTP_CORS_ORIGINS
+          value: "*"
         - name: KAFKA_BOOTSTRAP_SERVERS
           value: "kafka.messaging.svc.cluster.local:9092"
       dnsPolicy: ClusterFirst
@@ -91,7 +93,7 @@ metadata:
     app: checkout-frontend
   name: checkout-frontend
   namespace: checkout-frontend 
-spec:                                                                                                                                                                                                   
+spec:
   replicas: 1
   selector:
     matchLabels:
@@ -117,8 +119,10 @@ spec:
         ports:
         - containerPort: 8080
         env:
-        - name: KAFKA_BOOTSTRAP_SERVERS
-          value: "kafka.messaging.svc.cluster.local:9092"
+        - name: SYS_INVENTORY_URL
+          value: "http://web-checkout-backoffice.apps.192.168.40.208.nip.io/inventory"
+        - name: SYS_UPDATES_URL
+          value: "http://web-checkout-backoffice.apps.192.168.40.208.nip.io/inventory/updates"
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
