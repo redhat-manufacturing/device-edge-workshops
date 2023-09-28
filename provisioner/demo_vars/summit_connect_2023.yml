@@ -31,16 +31,6 @@ local_services:
               address: "{{ internal_address }}"
             - record: "attendance.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
-            - record: "manufacturing.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
-            - record: "rendezvous.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
-            - record: "owner.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
-            - record: "serviceinfo-api.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
-            - record: onboarding.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
     post_tasks:
       - dnsmasq-update-etc-hosts.yml
     containerfile: dnsmasq-containerfile
@@ -69,16 +59,6 @@ local_services:
             - name: attendance
               proxy_pass: "http://localhost:3000/"
               web_socket: true
-            - name: manufacturing
-              proxy_pass: "http://localhost:8080"
-            - name: rendezvous
-              proxy_pass: "http://localhost:8082"
-            - name: owner
-              proxy_pass: "http://localhost:8081"
-            - name: serviceinfo-api
-              proxy_pass: "http://localhost:8083"
-            - name: onboarding
-              proxy_pass: "http://localhost:18000"
             - name: eda
               proxy_pass: "http://localhost:5000/"
   - name: database
@@ -189,6 +169,7 @@ pods:
 
 builder_blueprint_name: rhde-image
 images_to_compose:
+  # Blank image
   - version: 1.0.0
     type: edge-commit
     packages:
@@ -197,9 +178,184 @@ images_to_compose:
       - nano
       - NetworkManager-wifi
       - podman
-builder_compose_customizations:
-  manufacturing_server_url: "http://192.168.1.1:8080"
-  diun_pub_key_insecure: "true"
+  # Embed application
+  - version: 2.0.0
+    type: edge-commit
+    packages:
+      - vim-enhanced
+      - git
+      - nano
+      - NetworkManager-wifi
+      - podman
+    containers:
+      - name: mqtt
+        source: quay.io/device-edge-workshops/process-control-mqtt:1.0.0
+      - name: simulate
+        source: quay.io/device-edge-workshops/process-control-simulate:1.0.0
+      - name: control
+        source: quay.io/device-edge-workshops/process-control-control:1.0.0
+      - name: ui
+        source: quay.io/device-edge-workshops/process-control-ui:1.0.0
+    customizations:
+      files:
+        - path: /etc/containers/systemd/process-control.yaml
+          mode: '0644'
+          user: root
+          group: root
+          data: "---\napiVersion: v1\nkind: Pod\nmetadata:\n  name: process-control\nspec:\n  containers:\n    - name: mqtt\n      image: docker.io/library/mqtt:latest\n    - name: simulate\n      image: docker.io/library/simulate:latest\n    - name: control\n      image: docker.io/library/control:latest\n    - name: ui\n      image: docker.io/library/ui:latest\n      ports:\n        - containerPort: 1881\n          hostPort: 1881"
+        - path: /etc/containers/systemd/process-control.kube
+          mode: '0644'
+          user: root
+          group: root
+          data: "[Install]\nWantedBy=default.target\n\n[Unit]\nAfter=network-online.target\n\n[Kube]\nYaml=process-control.yaml\nPublishPort=1883:1883"
+        - path: /etc/systemd/system/process-control.service
+          mode: '0644'
+          user: root
+          group: root
+          data: "[Install]\nWantedBy=default.target\n\n[Unit]\nAfter=network-online.target\nSourcePath=/etc/containers/systemd/process-control.kube\nRequiresMountsFor=%t/containers\n\n[X-Kube]\nYaml=/etc/containers/systemd/process-control.yaml\nPublishPort=1883:1883\n\n[Service]\nKillMode=mixed\nEnvironment=PODMAN_SYSTEMD_UNIT=%n\nType=notify\nNotifyAccess=all\nSyslogIdentifier=%N\nExecStart=/usr/bin/podman kube play --replace --service-container=true --log-driver passthrough --publish 1883:1883 /etc/containers/systemd/process-control.yaml\nExecStop=/usr/bin/podman kube down /etc/containers/systemd/process-control.yaml"
+      firewall:
+        ports:
+          - '1881:tcp'
+          - '1883:tcp'
+      services:
+        enabled:
+          - process-control
+  # Add Greenboot and working application
+  - version: 3.0.0
+    type: edge-commit
+    packages:
+      - vim-enhanced
+      - git
+      - nano
+      - NetworkManager-wifi
+      - podman
+    containers:
+      - name: mqtt
+        source: quay.io/device-edge-workshops/process-control-mqtt:1.0.0
+      - name: simulate
+        source: quay.io/device-edge-workshops/process-control-simulate:1.0.0
+      - name: control
+        source: quay.io/device-edge-workshops/process-control-control:1.0.0
+      - name: ui
+        source: quay.io/device-edge-workshops/process-control-ui:1.0.0
+    customizations:
+      files:
+        - path: /etc/containers/systemd/process-control.yaml
+          mode: '0644'
+          user: root
+          group: root
+          data: "---\napiVersion: v1\nkind: Pod\nmetadata:\n  name: process-control\nspec:\n  containers:\n    - name: mqtt\n      image: docker.io/library/mqtt:latest\n    - name: simulate\n      image: docker.io/library/simulate:latest\n    - name: control\n      image: docker.io/library/control:latest\n    - name: ui\n      image: docker.io/library/ui:latest\n      ports:\n        - containerPort: 1881\n          hostPort: 1881"
+        - path: /etc/containers/systemd/process-control.kube
+          mode: '0644'
+          user: root
+          group: root
+          data: "[Install]\nWantedBy=default.target\n\n[Unit]\nAfter=network-online.target\n\n[Kube]\nYaml=process-control.yaml\nPublishPort=1883:1883"
+        - path: /etc/systemd/system/process-control.service
+          mode: '0644'
+          user: root
+          group: root
+          data: "[Install]\nWantedBy=default.target\n\n[Unit]\nAfter=network-online.target\nSourcePath=/etc/containers/systemd/process-control.kube\nRequiresMountsFor=%t/containers\n\n[X-Kube]\nYaml=/etc/containers/systemd/process-control.yaml\nPublishPort=1883:1883\n\n[Service]\nKillMode=mixed\nEnvironment=PODMAN_SYSTEMD_UNIT=%n\nType=notify\nNotifyAccess=all\nSyslogIdentifier=%N\nExecStart=/usr/bin/podman kube play --replace --service-container=true --log-driver passthrough --publish 1883:1883 /etc/containers/systemd/process-control.yaml\nExecStop=/usr/bin/podman kube down /etc/containers/systemd/process-control.yaml"
+        - path: /etc/greenboot/check/required.d/application-check.sh
+          mode: '0755'
+          user: root
+          group: root
+          data: "#!/bin/bash\n\n/usr/bin/sleep 20\n\nRETURN_CODE=$(/usr/bin/curl -s -o /dev/null -w '%{http_code}' http://localhost:1881)\n\nif [ $RETURN_CODE = '200' ]; then\n    exit 0;\nelse\n    exit 1;\nfi"
+      firewall:
+        ports:
+          - '1881:tcp'
+          - '1883:tcp'
+      services:
+        enabled:
+          - process-control
+  # Add Greenboot and broken application, trigger rollback
+  - version: 4.0.0
+    type: edge-commit
+    packages:
+      - vim-enhanced
+      - git
+      - nano
+      - NetworkManager-wifi
+      - podman
+    containers:
+      - name: mqtt
+        source: quay.io/device-edge-workshops/process-control-mqtt:1.0.0
+      - name: simulate
+        source: quay.io/device-edge-workshops/process-control-simulate:1.0.0
+      - name: control
+        source: quay.io/device-edge-workshops/process-control-control:1.0.0
+      - name: ui
+        source: quay.io/device-edge-workshops/process-control-ui:broken
+    customizations:
+      files:
+        - path: /etc/containers/systemd/process-control.yaml
+          mode: '0644'
+          user: root
+          group: root
+          data: "---\napiVersion: v1\nkind: Pod\nmetadata:\n  name: process-control\nspec:\n  containers:\n    - name: mqtt\n      image: docker.io/library/mqtt:latest\n    - name: simulate\n      image: docker.io/library/simulate:latest\n    - name: control\n      image: docker.io/library/control:latest\n    - name: ui\n      image: docker.io/library/ui:latest\n      ports:\n        - containerPort: 1881\n          hostPort: 1881"
+        - path: /etc/containers/systemd/process-control.kube
+          mode: '0644'
+          user: root
+          group: root
+          data: "[Install]\nWantedBy=default.target\n\n[Unit]\nAfter=network-online.target\n\n[Kube]\nYaml=process-control.yaml\nPublishPort=1883:1883"
+        - path: /etc/systemd/system/process-control.service
+          mode: '0644'
+          user: root
+          group: root
+          data: "[Install]\nWantedBy=default.target\n\n[Unit]\nAfter=network-online.target\nSourcePath=/etc/containers/systemd/process-control.kube\nRequiresMountsFor=%t/containers\n\n[X-Kube]\nYaml=/etc/containers/systemd/process-control.yaml\nPublishPort=1883:1883\n\n[Service]\nKillMode=mixed\nEnvironment=PODMAN_SYSTEMD_UNIT=%n\nType=notify\nNotifyAccess=all\nSyslogIdentifier=%N\nExecStart=/usr/bin/podman kube play --replace --service-container=true --log-driver passthrough --publish 1883:1883 /etc/containers/systemd/process-control.yaml\nExecStop=/usr/bin/podman kube down /etc/containers/systemd/process-control.yaml"
+        - path: /etc/greenboot/check/required.d/application-check.sh
+          mode: '0755'
+          user: root
+          group: root
+          data: "#!/bin/bash\n\n/usr/bin/sleep 20\n\nRETURN_CODE=$(/usr/bin/curl -s -o /dev/null -w '%{http_code}' http://localhost:1881)\n\nif [ $RETURN_CODE = '200' ]; then\n    exit 0;\nelse\n    exit 1;\nfi"
+      firewall:
+        ports:
+          - '1881:tcp'
+          - '1883:tcp'
+      services:
+        enabled:
+          - process-control
+  # Add Microshift, microshift-greenboot, and embedded application with greenboot check
+  - version: 5.0.0
+    type: edge-commit
+    packages:
+      - vim-enhanced
+      - git
+      - nano
+      - NetworkManager-wifi
+      - podman
+      - microshift
+      - microshift-greenboot
+    customizations:
+      files:
+        - path: /etc/greenboot/check/required.d/application-check.sh
+          mode: '0755'
+          user: root
+          group: root
+          data: "#!/bin/bash\n\n/usr/bin/sleep 20\n\nRETURN_CODE=$(/usr/bin/curl -s -o /dev/null -w '%{http_code}' http://localhost:1881)\n\nif [ $RETURN_CODE = '200' ]; then\n    exit 0;\nelse\n    exit 1;\nfi"
+        - path: /etc/crio/openshift-pull-secret
+          mode: '0644'
+          user: root
+          group: root
+          data: "{{ pull_secret }}"
+        - path: /etc/microshift/manifests/process-control.yaml
+          mode: '0644'
+          user: root
+          group: root
+          data: "---\napiVersion: v1\nkind: Namespace\nmetadata:\n  name: process-control\n--- \napiVersion: v1\nkind: Service\nmetadata:\n  name: mqtt\n  namespace: process-control\nspec:\n  ports:\n  - port: 1883\n    protocol: TCP\n    targetPort: 1883\n  selector:\n    app: mqtt\n  type: NodePort\n---\napiVersion: apps/v1 \nkind: Deployment\nmetadata:\n  name: mqtt-deployment\n  namespace: process-control\nspec:\n  selector:\n    matchLabels:\n      app: mqtt\n  replicas: 1\n  template:\n    metadata:\n      labels:\n        app: mqtt\n    spec:\n      containers:\n        - name: mqtt\n          image: mqtt\n          ports:\n            - containerPort: 1883\n              name: mqtt-port\n---\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: simulate-deployment\n  namespace: process-control\nspec:\n  selector:\n    matchLabels:\n      app: simulate\n  replicas: 1\n  template:\n    metadata:\n      labels:\n        app: simulate\n    spec:\n      containers:\n        - name: simulate\n          image: simulate\n---\napiVersion: apps/v1 \nkind: Deployment\nmetadata:\n  name: control-deployment\n  namespace: process-control\nspec:\n  selector:\n    matchLabels:\n      app: control\n  replicas: 1\n  template:\n    metadata:\n      labels:\n        app: control\n    spec:\n      containers:\n      - name: control\n        image: control\n---\napiVersion: v1\nkind: Service\nmetadata:\n  name: ui\n  namespace: process-control\nspec:\n  ports:\n  - port: 1881\n    protocol: TCP\n    targetPort: 1881\n  selector:\n    app: ui\n  type: NodePort\n---\napiVersion: apps/v1 \nkind: Deployment\nmetadata:\n  name: ui-deployment\n  namespace: process-control\nspec:\n  selector:\n    matchLabels:\n      app: ui\n  replicas: 1\n  template:\n    metadata:\n      labels:\n        app: ui\n    spec:\n      containers:\n      - name: ui\n        image: ui\n        ports:\n          - containerPort: 1881\n            name: http-ui-port"
+        - path: /etc/microshift/manifests/kustomization.yaml
+          mode: '0644'
+          user: root
+          group: root
+          data: "---\napiVersion: kustomize.config.k8s.io/v1beta1\nkind: Kustomization\nnamespace: process-control\nresources:\n  - process-control.yaml\nimages:\n  - name: quay.io/device-edge-workshops/process-control-mqtt:1.0.0\n    newName: registry.k8s.io/mqtt\n  - name: quay.io/device-edge-workshops/process-control-simulate-k8s:1.0.0\n    newName: registry.k8s.io/simulate\n  - name: quay.io/device-edge-workshops/process-control-control-k8s:2.0.0\n    newName: registry.k8s.io/control\n  - name: quay.io/device-edge-workshops/process-control-ui-k8s:2.0.1\n    newName: registry.k8s.io/ui"
+      firewall:
+        ports:
+          - '6443:tcp'
+      services:
+        enabled:
+          - microshift
+    rhsm_repos:
+      - "rhocp-4.13-for-rhel-{{ ansible_distribution_major_version }}-{{ ansible_architecture }}-rpms"
+      - "fast-datapath-for-rhel-{{ ansible_distribution_major_version }}-{{ ansible_architecture }}-rpms"
 
 image_builder_http_port: 11080
 
