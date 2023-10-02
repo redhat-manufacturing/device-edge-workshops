@@ -2,8 +2,7 @@
 
 - name: start local services up
   hosts:
-    - edge-manager-local
-    - edge_local_management
+    - 'edge_management:&local'
   pre_tasks:
     - name: attempt to load in vars for workshop
       ansible.builtin.include_vars:
