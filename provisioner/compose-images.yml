@@ -28,6 +28,10 @@
 
   tasks:
     - name: handle image builder being image builder
+      when:
+        - (ansible_distribution_major_version|int == 8 or ansible_distribution_major_version|int == 9)
+        - images_to_compose is defined
+
       block:
         - name: build images via builder role
           ansible.builtin.include_role:
@@ -40,31 +44,11 @@
             builder_compose_containers: "{{ image.containers | default(omit) }}"
             builder_rhsm_repos: "{{ image.rhsm_repos | default('[]') }}"
             builder_compose_customizations: "{{ image.customizations | default('{}') }}"
-            builder_request_timeout: 300
+            builder_request_timeout: 1200
           loop: "{{ images_to_compose }}"
           loop_control:
             loop_var: image
-          when: (ansible_distribution_major_version|int == 8 or ansible_distribution_major_version|int == 9) and images_to_compose is defined
-      # rescue:
-      #   - name: try again
-      #     ansible.builtin.include_role:
-      #       name: ../roles/infra_osbuild_builder_wrapper
-      #     vars:
-      #       builder_compose_type: "{{ image.type }}"
-      #       builder_compose_pkgs: "{{ image.packages }}"
-      #       builder_custom_repos: "{{ image.repos | default('[]') }}"
-      #       builder_blueprint_distro: "{{ image.distro | default(omit) }}"
-      #       builder_compose_containers: "{{ image.containers | default(omit) }}"
-      #       builder_rhsm_repos: "{{ image.rhsm_repos | default(omit) }}"
-      #       builder_request_timeout: 600
-      #     loop: "{{ images_to_compose }}"
-      #     loop_control:
-      #       loop_var: image
-      #     when: (ansible_distribution_major_version|int == 8 or ansible_distribution_major_version|int == 9) and images_to_compose is defined
-      #   - name: print warning
-      #     ansible.builtin.debug:
-      #       msg: "Ansible block saved Image Buider, confirm images composed correctly"
-
+  
   post_tasks:
     - name: adjust for non-standard port
       when:
