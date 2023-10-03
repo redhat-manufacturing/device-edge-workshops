@@ -2,7 +2,7 @@
 
 - name: slurp up composes.yml file
   ansible.builtin.slurp:
-    src: /var/www/html/composes.yml
+    src: /var/www/html/{{ image_name }}.yml
   register: available_images_raw
   
 - name: set available_images fact
