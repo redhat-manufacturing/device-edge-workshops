@@ -40,3 +40,5 @@ import.json*
 ssh-key.pem
 ssh-key.pub
 provisioner/training.sandbox*/
+test_*
+provision_files/
