@@ -31,6 +31,14 @@ local_services:
               address: "{{ internal_address }}"
             - record: "attendance.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
+            - record: "ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+              address: "{{ internal_address }}"
+            - record: "ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+              address: "{{ internal_address }}"
+            - record: "exercises.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+              address: "{{ internal_address }}"
+            - record: "attendance.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+              address: "{{ internal_address }}"
     post_tasks:
       - dnsmasq-update-etc-hosts.yml
     containerfile: dnsmasq-containerfile
@@ -61,6 +69,8 @@ local_services:
               web_socket: true
             - name: eda
               proxy_pass: "http://localhost:5000/"
+            - name: ipxe
+              proxy_pass: "http://localhost:8081/"
   - name: database
     containerfile: database-containerfile
     templates:
@@ -88,26 +98,30 @@ local_services:
         dest: attendance/src/App.js
       - src: attendance-index.js.j2
         dest: attendance/src/pages/index.js
-  - name: onboarding
-    containerfile: onboarding-containerfile
+  - name: tftp
+    containerfile: tftp-containerfile
     pre_tasks:
-      - onboarding-student-scripts.yml
+      - tftp-download-chainload-files.yml
+  - name: ostree-repo
+    containerfile: ostree-repo-containerfile
+    pre_tasks:
+      - ostree-repo-copy-repo.yml
     files:
-      - src: onboarding-nginx.conf
+      - src: ostree-repo-nginx.conf
         dest: nginx.conf
-  - name: eda
-    containerfile: eda-containerfile
+  - name: ipxe
+    containerfile: ipxe-containerfile
+    pre_tasks:
+      - ipxe-get-boot-iso.yml
+      - ipxe-student-kickstarts.yml
+    post_tasks:
+      - ipxe-cleanup-boot-iso.yml
     templates:
-      - src: eda-run-workflow.yml.j2
-        dest: run-workflow.yml
+      - src: workshop.ipxe.j2
+        dest: workshop.ipxe
     files:
-      - src: eda-rulebook.yml
-        dest: rulebook.yml
-      - src: eda-inventory.yml
-        dest: inventory.yml
-      - src: eda-ansible.cfg
-        dest: ansible.cfg
-
+      - src: ipxe-nginx.conf
+        dest: nginx.conf
 pods:
   - name: "{{ top_line_variables.type }}-{{ top_line_variables.name }}-priv"
     privileged: true
@@ -158,12 +172,17 @@ pods:
             image: gitea:latest
           - name: attendance
             image: attendance:latest
-          - name: eda
-            image: eda:latest
+          - name: tftp
+            image: tftp:latest
+          - name: ostree-repo
+            image: ostree-repo:latest
+          - name: ipxe
+            image: ipxe:latest
         volumes:
           - name: database-data
             persistentVolumeClaim:
               claimName: "{{ top_line_variables.type }}-{{ top_line_variables.name }}-database"
+
 
 builder_blueprint_name: rhde-image
 images_to_compose:
