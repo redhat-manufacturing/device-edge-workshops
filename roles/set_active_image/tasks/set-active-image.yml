@@ -9,3 +9,15 @@
       --subject='Release {{ desired_image_version }}'
       --add-metadata-string='version={{ desired_image_version }}'
       --tree=ref={{ desired_ref }}
+
+- name: set the active commit in the containerized repo
+  ansible.builtin.shell:
+    cmd: >
+      podman exec {{ top_line_variables.type }}-{{ top_line_variables.name }}-ostree-repo
+      ostree commit
+      --repo=/var/www/html/repo
+      --branch={{ ostree_repo_branch }}
+      --subject='Release {{ desired_image_version }}'
+      --add-metadata-string='version={{ desired_image_version }}'
+      --tree=ref={{ desired_ref }}
+  become: false
