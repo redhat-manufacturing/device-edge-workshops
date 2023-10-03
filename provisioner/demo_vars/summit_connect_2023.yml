@@ -158,8 +158,6 @@ pods:
             image: gitea:latest
           - name: attendance
             image: attendance:latest
-          - name: onboarding
-            image: onboarding:latest
           - name: eda
             image: eda:latest
         volumes:
@@ -390,10 +388,8 @@ repo_files:
     dest: README.md
   - src: templates/hello-world.yml.j2
     dest: playbooks/hello-world.yml
-  - src: "templates/{{ top_line_variables.name }}/manage-hosts-in-controller.yml.j2"
-    dest: playbooks/manage-hosts-in-controller.yml
-  - src: "templates/{{ top_line_variables.name }}/initial-configuration.yml.j2"
-    dest: playbooks/initial-configuration.yml
+  - src: "templates/{{ top_line_variables.name }}/compose-image.yml.j2"
+    dest: playbooks/compose-image.yml
 
 allowed_external_services:
   - port: 5000
