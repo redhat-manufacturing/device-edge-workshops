@@ -117,48 +117,59 @@ controller_projects:
     credential: Gitea Credentials
 
 controller_templates:
-  - name: Test Device Connectivity
+  - name: Compose Image via Image Builder
     organization: "Student{{ student_number }} Organization"
-    inventory: Edge Devices
+    inventory: Edge Utilities
     project: Device Edge Codebase
-    playbook: playbooks/hello-world.yml
+    playbook: playbooks/compose-image.yml
     credentials:
       - Device Credentials
     execution_environment: Device Edge Workshops Execution Environment
-  - name: Initial Device Configuration
-    organization: "Student{{ student_number }} Organization"
-    inventory: Edge Devices
-    project: Device Edge Codebase
-    playbook: playbooks/initial-configuration.yml
-    credentials:
-      - Device Credentials
-    execution_environment: Device Edge Workshops Execution Environment
-  - name: Create Host in Controller Inventory
-    organization: "Student{{ student_number }} Organization"
-    inventory: Local Actions
-    project: Device Edge Codebase
-    playbook: playbooks/manage-hosts-in-controller.yml
-    credentials:
-      - Controller API Credentials
-    ask_variables_on_launch: true
-    execution_environment: Device Edge Workshops Execution Environment
-    become_enabled: true
+    extra_vars:
+      builder_compose_type: edge-commit
+      builder_compose_pkgs:
+        - vim-enhanced
+        - git
+        - nano
+        - NetworkManager-wifi
+        - podman
+        - microshift
+        - microshift-greenboot
+      builder_compose_customizations:
+        files:
+          - path: /etc/greenboot/check/required.d/application-check.sh
+            mode: '0755'
+            user: root
+            group: root
+            data: "#!/bin/bash\n\n/usr/bin/sleep 60\n\nRETURN_CODE=$(/usr/bin/curl -s -o /dev/null -w '%{http_code}' http://localhost:1881)\n\nif [ $RETURN_CODE = '200' ]; then\n    exit 0;\nelse\n    exit 1;\nfi"
+          - path: /etc/systemd/system/deploy-pull-secret.service
+            mode: '0644'
+            user: root
+            group: root
+            data: "[Unit]\nDescription=Deploy pull secret\n\n[Service]\nType=oneshot\nExecStart=/bin/bash /etc/deploy-pull-secret.sh\nRemainAfterExit=yes\n\n[Install]\nWantedBy=multi-user.target"
+          - path: /etc/deploy-pull-secret.sh
+            mode: '0755'
+            user: root
+            group: root
+            data: "#!/bin/bash\n\n/usr/bin/echo 'abc123' | base64 -d > /etc/crio/openshift-pull-secret"
+          - path: /etc/microshift/manifests/process-control.yaml
+            mode: '0644'
+            user: root
+            group: root
+            data: "---\napiVersion: v1\nkind: Namespace\nmetadata:\n  name: process-control\n---\napiVersion: v1\nkind: Service\nmetadata:\n  name: mqtt\nspec:\n  ports:\n  - port: 1883\n    protocol: TCP\n    targetPort: 1883\n  selector:\n    app: mqtt\n  type: NodePort\n---\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: mqtt-deployment\nspec:\n  selector:\n    matchLabels:\n      app: mqtt\n  replicas: 1\n  template:\n    metadata:\n      labels:\n        app: mqtt\n    spec:\n      containers:\n        - name: mqtt\n          image: quay.io/device-edge-workshops/process-control-mqtt:1.0.0\n          ports:\n            - containerPort: 1883\n              name: mqtt-port\n---\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: simulate-deployment\nspec:\n  selector:\n    matchLabels:\n      app: simulate\n  replicas: 1\n  template:\n    metadata:\n      labels:\n        app: simulate\n    spec:\n      containers:\n        - name: simulate\n          image: quay.io/device-edge-workshops/process-control-simulate-k8s:1.0.0\n---\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: control-deployment\nspec:\n  selector:\n    matchLabels:\n      app: control\n  replicas: 1\n  template:\n    metadata:\n      labels:\n        app: control\n    spec:\n      containers:\n      - name: control\n        image: quay.io/device-edge-workshops/process-control-control-k8s:3.0.0\n---\napiVersion: v1\nkind: Service\nmetadata:\n  name: ui\nspec:\n  ports:\n  - port: 1881\n    protocol: TCP\n    targetPort: 1881\n  selector:\n    app: ui\n  type: NodePort\n---\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ui-deployment\nspec:\n  selector:\n    matchLabels:\n      app: ui\n  replicas: 1\n  template:\n    metadata:\n      labels:\n        app: ui\n    spec:\n      containers:\n      - name: ui\n        image: quay.io/device-edge-workshops/process-control-ui-k8s:2.0.4\n        ports:\n          - containerPort: 1881\n            name: http-ui-port\n---\nkind: Route\napiVersion: route.openshift.io/v1\nmetadata:\n  name: ui\nspec:\n  path: /ui\n  to:\n    kind: Service\n    name: ui\n  port:\n    targetPort: 1881"
+          - path: /etc/microshift/manifests/kustomization.yaml
+            mode: '0644'
+            user: root
+            group: root
+            data: "---\napiVersion: kustomize.config.k8s.io/v1beta1\nkind: Kustomization\nnamespace: process-control\nresources:\n  - process-control.yaml"
+        firewall:
+          ports:
+            - '6443:tcp'
+        services:
+          enabled:
+            - microshift
+            - deploy-pull-secret
+      builder_rhsm_repos:
+        - "rhocp-4.13-for-rhel-{  { ansible_distribution_major_version }}-{  { ansible_architecture }}-rpms"
+        - "fast-datapath-for-rhel-{  { ansible_distribution_major_version }}-{  { ansible_architecture }}-rpms"
 
-controller_workflows:
-  - name: Provision Edge Device
-    organization: "Student{{ student_number }} Organization"
-    state: present
-    allow_simultaneous: true
-    survey_enabled: false
-    ask_variables_on_launch: true
-    simplified_workflow_nodes:
-      - identifier: Create Host in Controller Inventory
-        unified_job_template: Create Host in Controller Inventory
-        success_nodes:
-          - Test Device Connectivity
-      - identifier: Test Device Connectivity
-        unified_job_template: Test Device Connectivity
-        success_nodes:
-          - Initial Device Configuration
-      - identifier: Initial Device Configuration
-        unified_job_template: Initial Device Configuration
