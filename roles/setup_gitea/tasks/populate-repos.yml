@@ -5,7 +5,7 @@
     repo_root_path: "{{ source_control_tmp_dir }}/{{ ansible_host }}/student{{ student_number }}"
 
 - name: setup files
-  delegate_to: localhost
+  #delegate_to: localhost
   block:
     - name: create dir for student{{ student_number }}
       ansible.builtin.file:
@@ -27,10 +27,10 @@
   ansible.builtin.stat:
     path: "{{ repo_root_path }}/.git"
   register: git_dir
-  delegate_to: localhost
+  #delegate_to: localhost
 
 - name: push code into repo
-  delegate_to: localhost
+  #delegate_to: localhost
   when:
     - not git_dir.stat.exists
   block:
@@ -66,7 +66,7 @@
     cmd: "git push --set-upstream http://student{{ student_number }}:'{{ admin_password }}'@{{ ansible_host }}:3001/student{{ student_number }}/{{ repo_name }}.git main"
     chdir: "{{ repo_root_path }}"
   register: code_push
-  delegate_to: localhost
+  #delegate_to: localhost
   changed_when:
     - code_push.rc == 0
   failed_when:
