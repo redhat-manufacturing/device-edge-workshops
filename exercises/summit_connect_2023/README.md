@@ -1,26 +1,8 @@
 # Demo: Summit Connect 2023
 
-This demo focuses on the ACP and DCN architecture, where DCNs are provisioned and onboarded via FDO and Image Builder. From there, Greenboot functionaly is applied and tested to ensure DCN availability.
-
-## TO-DO
-Ignore everything below this line
+This demo is a deep dive on [Red Hat Device Edge](https://cloud.redhat.com/blog/meet-red-hat-device-edge-with-microshift)'s functionality, including an introduction to [Image Builder](https://www.redhat.com/en/topics/linux/what-is-an-image-builder) and the [infra.osbuild](https://github.com/redhat-cop/infra.osbuild) Ansible collection, [greenboot](https://www.redhat.com/en/blog/automating-rhel-edge-image-rollback-greenboot), and [microshift](https://next.redhat.com/project/microshift/). Particular attention will be given to building applications into an image, along with configuring health checks to trigger rollbacks.
 
 ## Table of Contents
-
-- [Red Hat Device Edge - FDO Secure Onboarding and the Realtime Kernel](#red-hat-device-edge---fdo-secure-onboarding-and-the-realtime-kernel)
-  - [Table of Contents](#table-of-contents)
-  - [Presentations](#presentations)
-  - [Time planning](#time-planning)
-  - [Lab Diagram](#lab-diagram)
-  - [Section 1 - Investigating the Lab Environment](#section-1---investigating-the-lab-environment)
-  - [Section 2 - Creating an Image with the Realtime Kernel via the infra.osbuild Collection](#section-2---creating-an-image-with-the-realtime-kernel-via-the-infraosbuild-collection)
-  - [Section 3 - Installing and Configuring FDO](#section-3---installing-and-configuring-fdo)
-  - [Section 4 - Creating an Edge Simplified Installer Image via the Composer CLI](#section-4---creating-an-edge-simplified-installer-image-via-the-composer-cli)
-  - [Section 5 - Imaging a Device as a Device Manufacturer](#section-5---imaging-a-device-as-a-device-manufacturer)
-  - [Section 6 - Finishing Device Installation at their Final Destination](#section-6---finishing-device-installation-at-their-final-destination)
-  - [Section 7 - Deploying an Application that Requires Deterministic Compute](#section-7---deploying-an-application-that-requires-deterministic-compute)
-  - [Supplamental Resources](#supplamental-resources)
-  - [Instructor Resources](#instructor-resources)
 
 ## Presentations
 
@@ -32,34 +14,18 @@ Have a look at a general deck about Red Hat's Edge strategy:
 Also, have a look at our Ansible Best Practices Deck:
 [Ansible Best Practices](../../decks/ansible_best_practices.pdf)
 
-## Time planning
+## Section 1 - Composing an Initial Image
 
-The time required to do the workshops strongly depends on multiple factors: the number of participants, how familiar those are with Linux in general and how much discussions are done in between.
-
-Having said that, this workshop is built to take roughly 4 hours.
-
-## Lab Diagram
-
-![Lab Diagram](../../images/rhde_aw_120_lab_diagram.png)
-
-## Section 1 - Investigating the Lab Environment
-
-* [Exercise 1.1 - Preflight Checks](1.1-preflight)
-* [Exercise 1.2 - Investigating Ansible Controller](1.2-controller-intro)
-* [Exercise 1.3 - Investigating Source Control](1.3-source-control-intro)
-* [Exercise 1.4 - Investigating Your Edge Device](1.4-device-intro)
-* [Exercise 1.5 - Investigating the Example Workload](1.5-application-intro)
-* [Exercise 1.6 - Gathering Networking Information](1.6-network-info)
-* [Exercise 1.7 - Cloning Your Code Repository](1.7-coding-intro)
-* [Exercise 1.8 - Getting Logged Into the Image Builder WebUI](1.8-image-builder-intro)
-
-## Section 2 - Creating an Image with the Realtime Kernel via the infra.osbuild Collection
-
+* [Exercise 1.1 - Introduction to Image Builder](1.1-image-builder-intro)
 * [Exercise 2.1 - Reviewing the Workflow to Build Images](2.1-image-builder-workflow)
 * [Exercise 2.2 - Reviewing Execution Environments](2.2-execution-environment-review)
 * [Exercise 2.3 - Creating an Image Definition](2.3-image-definition-in-code)
 * [Exercise 2.4 - Using the infra.osbuild Collection in a Playbook](2.4-using-collection-in-playbook)
 * [Exercise 2.5 - Running Our Playbook through Controller](2.5-aap-image-build)
+
+## Section 2 - Creating an Image with the Realtime Kernel via the infra.osbuild Collection
+
+
 
 ## Section 3 - Installing and Configuring FDO
 
