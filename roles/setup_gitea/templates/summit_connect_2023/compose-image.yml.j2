@@ -1,0 +1,10 @@
+---
+
+{% raw %}
+- name: compose image using Image Builder
+  hosts:
+    - all
+  roles:
+    - infra.osbuild.setup_server
+    - infra.osbuild.builder
+{% endraw %}
