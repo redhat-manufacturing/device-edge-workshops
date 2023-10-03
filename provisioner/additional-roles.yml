@@ -15,6 +15,13 @@
           - ../roles/edge_simplified_installers
       when:
         - workshop_type == 'rhde_fdo_rtk'
+    - name: assign extra roles for summit connect 2023 demo
+      ansible.builtin.set_fact:
+        extra_roles:
+          - ../roles/set_active_image
+        desired_image_version: 1.0.0
+      when:
+        - demo_type is defined and demo_type == 'summit_connect_2023'
   tasks:
     - name: run extra roles
       ansible.builtin.include_role:
