@@ -6,6 +6,15 @@
 #  - gitea
 #  - eda
 # 
+- name: attempt to load in vars for workshop
+  ansible.builtin.include_vars:
+    file: "workshop_vars/{{ workshop_type }}.yml"
+    
+- name: Set fact with internal_address
+  set_fact:
+    internal_address: "{{ item.templates[0].vars.internal_address }}"
+  with_items: "{{ local_services }}"
+  when: "'dnsmasq' in item.name" 
 
 - name: create build dir
   ansible.builtin.file:

@@ -7,6 +7,12 @@
   become: true
   tasks:
     - block:
+
+        - name: create directory to house keypair
+          ansible.builtin.file:
+            path: "/home/{{ ansible_user }}/.ssh" 
+            state: directory
+
         - name: Copy private AWS SSH keys 
           ansible.builtin.copy:
             src: "{{ playbook_dir }}/{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/ssh-key.pem"
@@ -38,7 +44,7 @@
         - name: Set up Reverse SSH Tunnel
           shell:  |
             set -x
-            ssh -o StrictHostKeyChecking=no -i /home/{{ ansible_user }}/.ssh/id_rsa -fNT -R 2222:localhost:22 ec2-user@{{ edge_remote_management_ext_ip }}
+            ssh -o StrictHostKeyChecking=no -i /home/{{ ansible_user }}/.ssh/id_rsa -fNT -R 2022:localhost:22 ec2-user@{{ edge_remote_management_ext_ip }}
           async: 600
           poll: 0
 
@@ -49,7 +55,7 @@
               Description="Reverse tunnel to AWS"
 
               [Service]
-              ExecStart=/bin/bash -c "ssh -o StrictHostKeyChecking=no -i /home/{{ ansible_user }}/.ssh/id_rsa -fNT -R 2222:localhost:22 ec2-user@{{ edge_remote_management_ext_ip }}"
+              ExecStart=/bin/bash -c "ssh -o StrictHostKeyChecking=no -i /home/{{ ansible_user }}/.ssh/id_rsa -fNT -R 2022:localhost:22 ec2-user@{{ edge_remote_management_ext_ip }}"
 
               [Install]
               WantedBy=multi-user.target

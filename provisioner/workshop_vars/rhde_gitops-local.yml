@@ -27,10 +27,10 @@ local_services:
           upstream_dns_servers:
             - 8.8.8.8
             - 8.8.4.4
-          internal_address: 192.168.1.1
+          internal_address: 192.168.40.1
           internal_netmask: 24
-          dhcp_range_start: 192.168.1.5
-          dhcp_range_end: 192.168.1.253
+          dhcp_range_start: 192.168.40.5
+          dhcp_range_end: 192.168.40.253
           dhcp_lease_time: 12h
       - src: dnsmasq.hosts.j2
         dest: dnsmasq.hosts
@@ -54,10 +54,10 @@ local_services:
               address: "{{ internal_address }}"
           dhcp_reservations:
             - mac_address: 'e4:90:69:a2:b7:41'
-              ip_address: 192.168.1.141
+              ip_address: 192.168.40.141
               name: plc
             - mac_address: 'e4:90:69:a2:b7:42'
-              ip_address: 192.168.1.142
+              ip_address: 192.168.40.142
               name: drive
     post_tasks:
       - dnsmasq-update-etc-hosts.yml
@@ -336,6 +336,11 @@ additional_repos:
         dest: APPs/app_motioneye-microshift.yml
       - src: templates/rhde_gitops/app_2048-microshift.yml.j2
         dest: APPs/app_2048-microshift.yml
+      - src: templates/rhde_gitops/kafka.yml.j2
+        dest: APPs/kafka-microshift.yml
+      - src: templates/rhde_gitops/app_self-checkout.yml.j2
+        dest: APPs/app_self-checkout.yml
+
 
 
 allowed_external_services:
@@ -348,5 +353,6 @@ allowed_external_services:
   - port: 3000
   - port: 80
   - port: 443
+  - port: 1080
 
 build_net-installer_isos: true
