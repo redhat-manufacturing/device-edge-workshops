@@ -44,7 +44,9 @@
         - name: Set up Reverse SSH Tunnel
           shell:  |
             set -x
+            ssh-keygen -R {{ edge_remote_management_ext_ip }}
             ssh -o StrictHostKeyChecking=no -i /home/{{ ansible_user }}/.ssh/id_rsa -fNT -R 2022:localhost:22 ec2-user@{{ edge_remote_management_ext_ip }}
+
           async: 600
           poll: 0
 
@@ -53,22 +55,26 @@
             content: |
               [Unit]
               Description="Reverse tunnel to AWS"
+              After=network.target
 
               [Service]
-              ExecStart=/bin/bash -c "ssh -o StrictHostKeyChecking=no -i /home/{{ ansible_user }}/.ssh/id_rsa -fNT -R 2022:localhost:22 ec2-user@{{ edge_remote_management_ext_ip }}"
+              Type=simple
+              ExecStart=/bin/bash - c "ssh -vvv -g -N -T -o ServerAliveInterval=10 -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -i /home/{{ ansible_user }}/.ssh/id_rsa -R 2022:localhost:22 ec2-user@{{ edge_remote_management_ext_ip }}"
+              Restart=always
+              RestartSec=5s
 
               [Install]
               WantedBy=multi-user.target
             dest: /etc/systemd/system/reverse-ssh-tunnel.service
+
+        - name: Reload systemd
+          systemd:
+            daemon_reload: yes
 
         - name: Start and enable the reverse-ssh-tunnel service
           systemd:
             name: reverse-ssh-tunnel
             enabled: yes
             state: started
-
-        - name: Reload systemd
-          systemd:
-            daemon_reload: yes
 
       when: run_in_aws is defined and run_in_aws|bool
