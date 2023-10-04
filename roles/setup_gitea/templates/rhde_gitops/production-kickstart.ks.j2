@@ -20,6 +20,8 @@ services --enabled=ostree-remount
 ostreesetup --nogpg --url=http://ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student-repos/student{{ student_number }}/repo --osname=rhel --ref=rhel/9/x86_64/edge
 
 %post
+
+{% if lab_wifi_network.ssid is defined and lab_wifi_network.password is defined %}
 cat > /etc/systemd/system/connect-wifi.service <<EOF
 [Unit]
 Description=Connect to lab WiFi
@@ -39,10 +41,11 @@ ExecStopPost=/usr/bin/touch /var/tmp/wifi-connected
 [Install]
 WantedBy=default.target
 EOF
+{% endif %}
+
 
 cat > /var/tmp/aap-auto-registration.sh <<EOF
 #!/bin/bash
-#IP_ADDRESS=\$(nmcli conn show {{ lab_wifi_network.ssid }} | grep ip_address | awk '{print \$4}')
 conn_name=\$(nmcli con show | grep -v UUID | head -n 1 | awk '{print \$1}')
 IP_ADDRESS=\$(nmcli conn show \$conn_name | grep ip_address | awk '{print \$4}')
 
