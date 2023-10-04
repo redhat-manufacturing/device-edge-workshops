@@ -168,7 +168,6 @@ allowed_external_remote_services:
   - port: 3000
   - port: 80
   - port: 443
-  - port: 1080
 
 
 
