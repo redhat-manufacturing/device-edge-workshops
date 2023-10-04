@@ -7,6 +7,12 @@
   become: true
   tasks:
     - block:
+
+        - name: create directory to house keypair
+          ansible.builtin.file:
+            path: "/home/{{ ansible_user }}/.ssh" 
+            state: directory
+
         - name: Copy private AWS SSH keys 
           ansible.builtin.copy:
             src: "{{ playbook_dir }}/{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/ssh-key.pem"

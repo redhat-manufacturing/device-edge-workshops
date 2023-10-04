@@ -2,11 +2,12 @@
 
 - name: edge-gitops tasks
   block:
+
     - name: Create EC2 instance for edge gitops node
       amazon.aws.ec2_instance:
         state: running
         network:
-          assign_public_ip: true
+          assign_public_ip: "{{ not aws_fix_ip | default(true) }}"
         key_name: "{{ ec2_name_prefix }}-key"
         security_group: "{{ ec2_security_group }}"
         instance_type: "{{ ec2_info['edge-gitops'].size }}"
@@ -51,6 +52,7 @@
           "tag:Workshop_edge_gitops_node": "{{ ec2_name_prefix }}-edge-manager-aws"
       register: node1_output
 
+
     - name: Ensure tags are present for edge gitops node
       amazon.aws.ec2_tag:
         region: "{{ ec2_region }}"
@@ -63,6 +65,43 @@
       with_indexed_items:
         - "{{ node1_output.instances }}"
       when: node1_output.instances|length > 0
+
+
+    - name: Check if Elastic IP is associated
+      set_fact:
+        elastic_ip_associated: "{{ node1_output.instances[0].public_ip_address is defined }}"
+      when: aws_fix_ip is defined and aws_fix_ip|bool
+
+
+    - block: 
+      - name: Get information about all Elastic IPs
+        amazon.aws.ec2_eip_info:
+          region: "{{ ec2_region }}"
+        register: elastic_ips
+
+      - name: Filter unallocated Elastic IPs
+        set_fact:
+          unallocated_eips: "{{ elastic_ips.addresses | selectattr('instance_id', 'undefined') | map(attribute='public_ip') | list }}"
+
+      - name: Allocate a new Elastic IP if none are available for reuse
+        ec2_eip:
+          region: "{{ ec2_region }}"
+          in_vpc: yes
+        when: unallocated_eips | length == 0
+        register: eip
+
+      - name: Set eip variable to an unallocated or newly allocated Elastic IP
+        set_fact:
+          eip: "{{ unallocated_eips | first | default(eip.public_ip) }}"
+
+      - name: Associate Elastic IP with EC2 instance
+        amazon.aws.ec2_eip:
+          device_id: "{{ node1_output.instances[0].instance_id }}"
+          region: "{{ ec2_region }}"
+          public_ip: "{{ eip }}"
+
+      when: (aws_fix_ip is defined and aws_fix_ip|bool) and ( not elastic_ip_associated | bool ) 
+
 
     - name: Associate IAM instance profile with edge gitops node
       amazon.aws.ec2_instance:
