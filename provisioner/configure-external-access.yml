@@ -49,7 +49,7 @@
           cat /home/{{ ansible_user }}/.ssh/id_rsa.pub >> /home/{{ ansible_user }}/.ssh/authorized_keys
           #chmod 600 /home/{{ ansible_user }}/.ssh/authorized_keys
         fi
-        ssh -o StrictHostKeyChecking=no -N -D *:1080 localhost
+        ssh -o StrictHostKeyChecking=no -N -f -D *:1080 localhost
       async: 600
       poll: 0
 
@@ -60,7 +60,7 @@
           Description="SOCKs Tunnel"
 
           [Service]
-          ExecStart=/bin/bash -c "ssh -o StrictHostKeyChecking=no -N -D *:1080 localhost"
+          ExecStart=/bin/bash -c "ssh -o StrictHostKeyChecking=no -N -f -D *:1080 localhost"
 
           [Install]
           WantedBy=multi-user.target
