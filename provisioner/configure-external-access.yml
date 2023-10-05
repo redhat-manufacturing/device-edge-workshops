@@ -37,6 +37,16 @@
         immediate: true
         state: enabled
 
+
+    - name: allow SOCKs port through firewall
+      ansible.posix.firewalld:
+        port: "1080/tcp"
+        permanent: true
+        immediate: true
+        zone: external
+        state: enabled
+
+
     - name: Set up SOCKs Tunnel
       shell:  |
         set -x
