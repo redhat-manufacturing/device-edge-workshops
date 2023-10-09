@@ -195,6 +195,13 @@ images_to_compose:
       - nano
       - NetworkManager-wifi
       - podman
+    customizations:
+      files:
+        - path: /etc/containers/containers.conf
+          mode: '0644'
+          user: root
+          group: root
+          data: "[engine]\nruntime='crun'"
   # Embed application
   - version: 2.0.0
     type: edge-commit
@@ -230,12 +237,17 @@ images_to_compose:
           mode: '0644'
           user: root
           group: root
-          data: "[Install]\nWantedBy=default.target\n\n[Unit]\nAfter=network-online.target\n\n[Kube]\nYaml=process-control.yaml\nPublishPort=1883:1883"
+          data: "[Install]\nWantedBy=default.target\n\n[Unit]\nAfter=network-online.target\n\n[Kube]\nYaml=process-control.yaml\nPublishPort=1881:1881"
         - path: /etc/systemd/system/process-control.service
           mode: '0644'
           user: root
           group: root
-          data: "[Install]\nWantedBy=default.target\n\n[Unit]\nAfter=network-online.target\nSourcePath=/etc/containers/systemd/process-control.kube\nRequiresMountsFor=%t/containers\n\n[X-Kube]\nYaml=/etc/containers/systemd/process-control.yaml\nPublishPort=1883:1883\n\n[Service]\nKillMode=mixed\nEnvironment=PODMAN_SYSTEMD_UNIT=%n\nType=notify\nNotifyAccess=all\nSyslogIdentifier=%N\nExecStart=/usr/bin/podman kube play --replace --service-container=true --log-driver passthrough --publish 1883:1883 /etc/containers/systemd/process-control.yaml\nExecStop=/usr/bin/podman kube down /etc/containers/systemd/process-control.yaml"
+          data: "[Install]\nWantedBy=default.target\n\n[Unit]\nAfter=network-online.target\nSourcePath=/etc/containers/systemd/process-control.kube\nRequiresMountsFor=%t/containers\n\n[X-Kube]\nYaml=/etc/containers/systemd/process-control.yaml\nPublishPort=1881:1881\n\n[Service]\nKillMode=mixed\nEnvironment=PODMAN_SYSTEMD_UNIT=%n\nType=notify\nNotifyAccess=all\nSyslogIdentifier=%N\nExecStart=/usr/bin/podman kube play --replace --service-container=true --log-driver passthrough --publish 1881:1881 /etc/containers/systemd/process-control.yaml\nExecStop=/usr/bin/podman kube down /etc/containers/systemd/process-control.yaml"
+        - path: /etc/containers/containers.conf
+          mode: '0644'
+          user: root
+          group: root
+          data: "[engine]\nruntime='crun'"
       firewall:
         ports:
           - '1881:tcp'
@@ -278,17 +290,22 @@ images_to_compose:
           mode: '0644'
           user: root
           group: root
-          data: "[Install]\nWantedBy=default.target\n\n[Unit]\nAfter=network-online.target\n\n[Kube]\nYaml=process-control.yaml\nPublishPort=1883:1883"
+          data: "[Install]\nWantedBy=default.target\n\n[Unit]\nAfter=network-online.target\n\n[Kube]\nYaml=process-control.yaml\nPublishPort=1881:1881"
         - path: /etc/systemd/system/process-control.service
           mode: '0644'
           user: root
           group: root
-          data: "[Install]\nWantedBy=default.target\n\n[Unit]\nAfter=network-online.target\nSourcePath=/etc/containers/systemd/process-control.kube\nRequiresMountsFor=%t/containers\n\n[X-Kube]\nYaml=/etc/containers/systemd/process-control.yaml\nPublishPort=1883:1883\n\n[Service]\nKillMode=mixed\nEnvironment=PODMAN_SYSTEMD_UNIT=%n\nType=notify\nNotifyAccess=all\nSyslogIdentifier=%N\nExecStart=/usr/bin/podman kube play --replace --service-container=true --log-driver passthrough --publish 1883:1883 /etc/containers/systemd/process-control.yaml\nExecStop=/usr/bin/podman kube down /etc/containers/systemd/process-control.yaml"
+          data: "[Install]\nWantedBy=default.target\n\n[Unit]\nAfter=network-online.target\nSourcePath=/etc/containers/systemd/process-control.kube\nRequiresMountsFor=%t/containers\n\n[X-Kube]\nYaml=/etc/containers/systemd/process-control.yaml\nPublishPort=1881:1881\n\n[Service]\nKillMode=mixed\nEnvironment=PODMAN_SYSTEMD_UNIT=%n\nType=notify\nNotifyAccess=all\nSyslogIdentifier=%N\nExecStart=/usr/bin/podman kube play --replace --service-container=true --log-driver passthrough --publish 1881:1881 /etc/containers/systemd/process-control.yaml\nExecStop=/usr/bin/podman kube down /etc/containers/systemd/process-control.yaml"
         - path: /etc/greenboot/check/required.d/application-check.sh
           mode: '0755'
           user: root
           group: root
           data: "#!/bin/bash\n\n/usr/bin/sleep 20\n\nRETURN_CODE=$(/usr/bin/curl -s -o /dev/null -w '%{http_code}' http://localhost:1881)\n\nif [ $RETURN_CODE = '200' ]; then\n    exit 0;\nelse\n    exit 1;\nfi"
+        - path: /etc/containers/containers.conf
+          mode: '0644'
+          user: root
+          group: root
+          data: "[engine]\nruntime='crun'"
       firewall:
         ports:
           - '1881:tcp'
@@ -331,17 +348,22 @@ images_to_compose:
           mode: '0644'
           user: root
           group: root
-          data: "[Install]\nWantedBy=default.target\n\n[Unit]\nAfter=network-online.target\n\n[Kube]\nYaml=process-control.yaml\nPublishPort=1883:1883"
+          data: "[Install]\nWantedBy=default.target\n\n[Unit]\nAfter=network-online.target\n\n[Kube]\nYaml=process-control.yaml\nPublishPort=1881:1881"
         - path: /etc/systemd/system/process-control.service
           mode: '0644'
           user: root
           group: root
-          data: "[Install]\nWantedBy=default.target\n\n[Unit]\nAfter=network-online.target\nSourcePath=/etc/containers/systemd/process-control.kube\nRequiresMountsFor=%t/containers\n\n[X-Kube]\nYaml=/etc/containers/systemd/process-control.yaml\nPublishPort=1883:1883\n\n[Service]\nKillMode=mixed\nEnvironment=PODMAN_SYSTEMD_UNIT=%n\nType=notify\nNotifyAccess=all\nSyslogIdentifier=%N\nExecStart=/usr/bin/podman kube play --replace --service-container=true --log-driver passthrough --publish 1883:1883 /etc/containers/systemd/process-control.yaml\nExecStop=/usr/bin/podman kube down /etc/containers/systemd/process-control.yaml"
+          data: "[Install]\nWantedBy=default.target\n\n[Unit]\nAfter=network-online.target\nSourcePath=/etc/containers/systemd/process-control.kube\nRequiresMountsFor=%t/containers\n\n[X-Kube]\nYaml=/etc/containers/systemd/process-control.yaml\nPublishPort=1881:1881\n\n[Service]\nKillMode=mixed\nEnvironment=PODMAN_SYSTEMD_UNIT=%n\nType=notify\nNotifyAccess=all\nSyslogIdentifier=%N\nExecStart=/usr/bin/podman kube play --replace --service-container=true --log-driver passthrough --publish 1881:1881 /etc/containers/systemd/process-control.yaml\nExecStop=/usr/bin/podman kube down /etc/containers/systemd/process-control.yaml"
         - path: /etc/greenboot/check/required.d/application-check.sh
           mode: '0755'
           user: root
           group: root
           data: "#!/bin/bash\n\n/usr/bin/sleep 20\n\nRETURN_CODE=$(/usr/bin/curl -s -o /dev/null -w '%{http_code}' http://localhost:1881)\n\nif [ $RETURN_CODE = '200' ]; then\n    exit 0;\nelse\n    exit 1;\nfi"
+        - path: /etc/containers/containers.conf
+          mode: '0644'
+          user: root
+          group: root
+          data: "[engine]\nruntime='crun'"
       firewall:
         ports:
           - '1881:tcp'
@@ -390,6 +412,8 @@ images_to_compose:
       firewall:
         ports:
           - '6443:tcp'
+          - '1881:tcp'
+          - '1883:tcp'
       services:
         enabled:
           - microshift
