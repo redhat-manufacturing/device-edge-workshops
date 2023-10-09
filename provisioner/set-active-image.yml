@@ -4,6 +4,14 @@
   hosts:
     - edge_management
   become: true
+  pre_tasks:
+    - name: set var for now
+      ansible.builtin.set_fact:
+        workshop_type: "{{ demo_type }}"
+      when: demo_type is defined
+    - name: load in vars
+      ansible.builtin.include_vars:
+        file: "{{ workshop_or_demo | default('workshop') }}_vars/{{ workshop_type }}.yml"
   tasks:
     - name: include role
       ansible.builtin.include_role:
