@@ -6,7 +6,7 @@ controller-node ansible_connection=local
 node_type=control 
 
 [execution_nodes]
-execution-node ansible_port=2222 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+execution-node ansible_port=2022 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
 [execution_nodes:vars]
 peers=automationcontroller 

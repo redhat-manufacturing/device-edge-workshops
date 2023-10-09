@@ -29,6 +29,53 @@
       loop_control:
         loop_var: external_service
       when: allowed_external_services is defined
+
+    - name: allow SOCKs port through firewall
+      ansible.posix.firewalld:
+        port: "1080/tcp"
+        permanent: true
+        immediate: true
+        state: enabled
+
+    - name: Set up SOCKs Tunnel
+      shell:  |
+        set -x
+        if [ "$(id -u)" = "0" ]; then
+          ssh-keygen -t rsa -f /root/.ssh/id_rsa -N ""
+          cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
+          chmod 600 /root/.ssh/authorized_keys
+        else
+          ssh-keygen -t rsa -f /home/{{ ansible_user }}/.ssh/id_rsa -N ""
+          cat /home/{{ ansible_user }}/.ssh/id_rsa.pub >> /home/{{ ansible_user }}/.ssh/authorized_keys
+          #chmod 600 /home/{{ ansible_user }}/.ssh/authorized_keys
+        fi
+        ssh -o StrictHostKeyChecking=no -N -D *:1080 localhost
+      async: 600
+      poll: 0
+
+    - name: Create systemd service unit file
+      ansible.builtin.copy:
+        content: |
+          [Unit]
+          Description="SOCKs Tunnel"
+
+          [Service]
+          ExecStart=/bin/bash -c "ssh -o StrictHostKeyChecking=no -N -D *:1080 localhost"
+
+          [Install]
+          WantedBy=multi-user.target
+        dest: /etc/systemd/system/socks-tunnel.service
+
+    - name: Start and enable the socks-tunnel.service service
+      systemd:
+        name: socks-tunnel.service
+        enabled: yes
+        state: started
+
+    - name: Reload systemd
+      systemd:
+        daemon_reload: yes
+
     - name: Add entries to /etc/hosts
       become: true
       lineinfile:

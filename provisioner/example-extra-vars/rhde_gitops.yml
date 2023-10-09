@@ -70,6 +70,10 @@ ec2_name_prefix: "{{ sub_domain }}"
 run_in_aws: false
 run_locally: true
 
+# If you deploy on AWS you can fix the IP using an Elastic IP
+aws_fix_ip: true
+
+
 # if local hypervisor nodes should be configured
 manage_local_hypervisor: false
 

@@ -1,5 +1,21 @@
 ---
 
+- name: attempt to load in vars for workshop
+  ansible.builtin.include_vars:
+    file: "workshop_vars/{{ workshop_type }}.yml"
+
+- name: Set fact with internal_address
+  set_fact:
+    internal_address: "{{ item.templates[0].vars.internal_address }}"
+  with_items: "{{ local_services }}"
+  when: "'dnsmasq' in item.name" 
+
+- name: Set fact with internal_netmask
+  set_fact:
+    internal_netmask: "{{ item.templates[0].vars.internal_netmask }}"
+  with_items: "{{ local_services }}"
+  when: "'dnsmasq' in item.name" 
+
 - name: set wan link to external zone
   community.general.nmcli:
     conn_name: "{{ external_connection }}"
@@ -14,9 +30,9 @@
     type: ethernet
     ifname: "{{ internal_connection }}"
     ip4:
-      - "{{ internal_address }}/ {{ internal_netmask }}"
+      - "{{ internal_address | default('192.168.1.1') }}/ {{ internal_netmask | default('24') }}"
     dns4:
-      - "{{ internal_address }}"
+      - "{{ internal_address | default('192.168.1.1') }}"
     dns4_search:
       - "{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
     zone: trusted
