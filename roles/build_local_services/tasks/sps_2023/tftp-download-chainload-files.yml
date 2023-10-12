@@ -1,0 +1,19 @@
+---
+
+- name: download undionly
+  ansible.builtin.get_url:
+    url: http://boot.ipxe.org/undionly.kpxe
+    dest: "{{ build_dir }}/tftp/undionly.kpxe"
+  register: download_undionly
+  until: download_undionly is not failed
+  retries: 15
+  delay: 20
+
+- name: download ipxe.efi
+  ansible.builtin.get_url:
+    url: https://boot.ipxe.org/ipxe.efi
+    dest: "{{ build_dir }}/tftp/ipxe.efi"
+  register: download_ipxe_efi
+  until: download_ipxe_efi is not failed
+  retries: 15
+  delay: 20

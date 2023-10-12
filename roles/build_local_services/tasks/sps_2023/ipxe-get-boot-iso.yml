@@ -1,0 +1,43 @@
+---
+
+- name: make mount dir
+  ansible.builtin.file:
+    path: "{{ build_dir }}/ipxe/boot_iso"
+    state: directory
+
+- name: Generating an access token
+  ansible.builtin.uri:
+    url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
+    method: POST
+    body_format: form-urlencoded
+    return_content: true
+    body:
+      grant_type: "refresh_token"
+      client_id: "rhsm-api"
+      refresh_token: "{{ offline_token }}"
+  register: temp_token
+  until: temp_token is not failed
+  retries: 15
+  delay: 20
+
+- name: download rhel boot iso
+  ansible.builtin.get_url:
+    url: "https://api.access.redhat.com/management/v1/images/{{ rhel_boot_iso_sha256 }}/download"
+    headers:
+      accept: "application/json"
+      Authorization: "Bearer {{ temp_token.json.access_token }}"
+    dest: "{{ build_dir }}/ipxe/rhel-9-boot.iso"
+    checksum: "sha256: {{ rhel_boot_iso_sha256 }}"
+  register: download_rhel_boot_iso
+  until: download_rhel_boot_iso is not failed
+  retries: 15
+  delay: 20
+
+- name: mount boot iso
+  ansible.posix.mount:
+    path: "{{ build_dir }}/ipxe/boot_iso"
+    src: "{{ build_dir }}/ipxe/rhel-9-boot.iso"
+    fstype: iso9660
+    opts: loop
+    state: ephemeral
+  become: true
