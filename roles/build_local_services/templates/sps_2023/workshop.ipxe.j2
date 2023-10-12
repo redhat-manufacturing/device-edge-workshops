@@ -1,0 +1,45 @@
+#!ipxe
+set sleeptime 60
+menu Boot Selection
+item --gap -- --- Select What To Provision ---
+item
+item dcn Provision Distributed Control Node
+item
+item --gap -- --- Alternatives ---
+item --key r reboot (R)eboot computer
+item --key x exit E(x)it and continue BIOS boot order
+item
+choose option
+goto ${option}
+
+:dcn
+kernel http://ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/pxeboot/vmlinuz inst.stage2=http://ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/pxeboot quiet None inst.ks=http://ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/kickstarts/dcn.ks None initrd=initrd.img || goto download_fail
+initrd http://ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/pxeboot/initrd.img || goto download_fail
+boot && exit 0 || goto boot_fail
+
+:download_fail
+echo
+echo Download Failure
+goto return_menu
+:boot_fail
+echo
+echo Boot Failure
+goto return_menu
+:dhcp_fail
+echo
+echo DHCP Failure
+goto return_menu
+:return_menu
+ifclose
+sleep ${sleeptime}
+goto env_menu
+:reboot
+echo Rebooting...
+ifclose
+sleep ${sleeptime}
+reboot
+:exit
+echo Continuing BIOS boot order...
+ifclose
+sleep ${sleeptime}
+exit 1
