@@ -113,7 +113,7 @@ local_services:
     containerfile: ipxe-containerfile
     pre_tasks:
       - ipxe-get-boot-iso.yml
-      - ipxe-student-kickstarts.yml
+      - ipxe-dcn-kickstart.yml
     post_tasks:
       - ipxe-cleanup-boot-iso.yml
     templates:
@@ -209,6 +209,8 @@ images_to_compose:
 image_builder_http_port: 11080
 
 install_gitea: false
+gitea_demo_user: ot-operator
+gitea_repo_name: dcn-codebase
 gitea_container: "{{ top_line_variables.type }}-{{ top_line_variables.name }}-gitea"
 repo_files:
   - src: templates/README.md.j2
