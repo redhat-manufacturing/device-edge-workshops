@@ -18,6 +18,8 @@
   loop: "{{ range(1, (student_total + 1), 1)|list }}"
   loop_control:
     loop_var: student_number
+  when:
+    - workshop_or_demo == 'workshop'
   #delegate_to: localhost
 
 
@@ -40,4 +42,27 @@
     - "{{ range(1, (student_total + 1), 1)|list }}"
     - "{{ additional_repos }}"
   #delegate_to: localhost
-  when: additional_repos is defined
+  when:
+    - additional_repos is defined
+    - workshop_or_demo == 'workshop'
+
+- name: Create repo for demo
+  ansible.builtin.uri:
+    url: "http://{{ ansible_host }}:3001/api/v1/admin/users/{{ demo_gitea_user }}/repos"
+    validate_certs: false
+    user: lab-instructor
+    password: '{{ admin_password }}'
+    force_basic_auth: true
+    body_format: json
+    method: POST
+    body:
+      name: "{{ gitea_repo_name }}"
+      private: true
+    status_code:
+      - 201
+      - 409
+  loop: "{{ range(1, (student_total + 1), 1)|list }}"
+  loop_control:
+    loop_var: student_number
+  when:
+    - workshop_or_demo == 'workshop'

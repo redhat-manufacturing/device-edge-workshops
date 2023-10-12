@@ -20,4 +20,25 @@
   loop: "{{ range(1, (student_total + 1), 1)|list }}"
   loop_control:
     loop_var: student_number
-  #delegate_to: localhost
+  when:
+    - workshop_or_demo == 'workshop'
+
+- name: Create single user for demos
+  ansible.builtin.uri:
+    url: "http://{{ ansible_host }}:3001/api/v1/admin/users"
+    validate_certs: false
+    user: lab-instructor
+    password: '{{ admin_password }}'
+    force_basic_auth: true
+    body_format: json
+    method: POST
+    body:
+      username: "{{ demo_gitea_user }}"
+      password: "{{ admin_password }}"
+      email: "{{ demo_gitea_user }}@email.me"
+      must_change_password: false
+    status_code:
+      - 201
+      - 422
+  when:
+    - workshop_or_demo == 'demo'
