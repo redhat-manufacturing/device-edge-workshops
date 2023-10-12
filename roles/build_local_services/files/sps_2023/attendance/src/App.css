@@ -1,0 +1,252 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.footer {
+  position:fixed;
+  left:0px;
+  bottom:0px;
+  height:30px;
+  text-align: center;
+  min-width: 100%;
+  background: rgb(196, 196, 196, .2);
+  color: white;
+}
+
+.topbar{
+  background-color: blue; 
+}
+
+.homepage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  color: rgb(0, 0, 0)  
+}
+.span { 
+  float: right; 
+  width: 400px; 
+}
+
+.Split {
+  background: #000000;   
+}
+
+.Tab-text {
+  color:rgb(255, 255, 255)
+}
+
+.Button-color {
+  background-color: rgb(0, 0, 0)   
+}
+
+.Icon-color {
+  color: #ffffff;
+}
+
+.Overview-container {
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-top: 10px;
+  max-width: 100em;
+  margin: auto;
+  color: white;
+
+}
+.Overview-card a {
+  color: rgb(30, 0, 202);
+} 
+
+.Overview-card {
+  height: 60vh;
+  /* Centering children vertically and horizontally */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background:rgba(196, 196, 196, .4); 
+  color: #000000;
+}
+
+.box {
+  height: 40vh;
+  width: 60vh;
+}
+
+.Description-card {
+  max-height: 250px;
+    
+  background:rgb(255, 255, 255);  
+  color: #000000; 
+}
+
+.Description-list {
+  font-size: medium; 
+}
+
+.Collections-card {
+  width: 25%;
+  background:rgba(196, 196, 196, .4);
+  color: white;
+}
+
+.Gallery-options{
+  justify-content: center;
+  align-items: center;
+  padding-top: 5%;
+  
+}
+
+.Gallery-options-two{
+  justify-content: center;
+  align-items: center;
+}
+
+.Card-Spacing{
+  padding-left: 5%;
+  padding-right: 5%; 
+}
+
+.Card-Size{
+  width: 10vh;
+  height: 10vh; 
+}
+
+.Overview-top-spacing {
+  width: 100%;
+  height: 20vh;
+}
+
+/* spacing for lines of text and images in the overview */
+.Overview-item-padding {
+  padding-bottom: 30px;
+  color:rgb(255, 255, 255);
+}
+
+.box {
+  height: 70vh;
+  width: 100vw;
+}
+
+.learn-more-tab {
+  visibility: hidden;
+}
+
+.use-cases {
+  max-width: 30%;
+  padding-bottom: 30px;
+}
+
+.h1{
+  font-size: 50px;
+  color: #ffffff;
+  justify-content: center;
+  align-items: center;
+}
+
+.h2{
+    font-size: 20px;
+    color: #ffffff;
+    justify-content: center;
+    align-items: center;
+  
+}
+
+.button{
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/* keep the navbar at the top of the page when scrolling */
+.navbar {
+  position: fixed;
+  background: #000000; 
+  width: 100%;
+  z-index: 1;
+}
+
+/* so top content isn't stuck under the navbar */
+.page-padding {
+  padding-top: 50px;
+}
+
+.Stack-options {
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.image {
+  height: 250px;
+  width: 388px;
+  justify-content: center;
+  align-items: center; 
+}
+
+.Flex-options{
+  justify-content: center;
+  align-items: center;
+}
+
+.arrow {
+  text-align: center;
+  margin: 8% 0;
+}
+
+.bounce {
+  -moz-animation: bounce 2s infinite;
+  -webkit-animation: bounce 2s infinite;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+}

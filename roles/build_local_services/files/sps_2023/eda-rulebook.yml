@@ -1,0 +1,19 @@
+---
+- name: Listen for events on a webhook
+  hosts: all
+
+  sources:
+    - ansible.eda.webhook:
+        host: 0.0.0.0
+        port: 5000
+
+  rules:
+    - name: Trigger provisioning workflow
+      condition: event.payload.ip_address is defined and event.payload.mac_address is defined
+
+      action:
+        run_playbook:
+          name: run-workflow.yml
+          extra_vars:
+            ip_address: "{{ event.payload.ip_address }}"
+            mac_address: "{{ event.payload.mac_address }}"

@@ -1,0 +1,21 @@
+FROM ubi9/nginx-120:latest
+
+USER root
+
+RUN dnf -y install ostree
+RUN dnf clean all
+RUN rm -rf /var/cache/dnf
+
+COPY nginx.conf /etc/nginx/nginx.conf
+
+RUN mkdir -p /var/www/html/repo
+COPY repo /var/www/html/repo
+
+RUN chown -R nginx:nginx /var/lib/nginx
+RUN chown -R nginx:nginx /var/www/html
+
+EXPOSE 18080
+USER 0
+
+ENTRYPOINT ["/bin/bash"]
+CMD ["-c", "exec /usr/sbin/nginx -g 'daemon off;'"]

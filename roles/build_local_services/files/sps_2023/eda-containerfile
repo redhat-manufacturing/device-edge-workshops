@@ -1,0 +1,37 @@
+FROM fedora
+
+ENV VIRTUAL_ENV=/opt/eda
+
+RUN dnf -y install java-17-openjdk python3 python3-pip
+
+RUN mkdir $VIRTUAL_ENV
+
+RUN chown 1000 $VIRTUAL_ENV
+
+USER 1000
+
+WORKDIR $VIRTUAL_ENV
+
+RUN python3 -m venv $VIRTUAL_ENV
+
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+RUN pip install --upgrade pip
+
+RUN pip install ansible ansible-rulebook
+
+RUN ansible-galaxy collection install 'ansible.eda:==1.3.3' redhat_cop.controller_configuration -p $VIRTUAL_ENV/collections
+
+RUN ansible-galaxy collection install redhat_cop.controller_configuration
+
+COPY rulebook.yml .
+
+COPY inventory.yml .
+
+COPY run-workflow.yml .
+
+COPY ansible.cfg .
+
+EXPOSE 5000
+
+CMD ansible-rulebook -r rulebook.yml --inventory inventory.yml --verbose
