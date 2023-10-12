@@ -17,6 +17,7 @@ The Red Hat Ansible Automation Workshops project is intended for effectively dem
 | Demo | Public Deck | Red Hat Internal  | Outline | Workshop Type Var |
 |---|---|---|---|---|
 | **[Summit Connect 2023](./exercises/summit_connect_2023)** <br> A demo walkthrough of the ACP and DCN architecture, with FDO and Greenboot highlighted  | [PDF](./decks/rhde_aw_120.pdf) | [Google Source](https://docs.google.com/presentation/d/1RZTqdKSXVhbguuidvNMx3fkR77lD4cM41N7S95Xb7HA) | [Exercises](./exercises/rhde_aw_120)  | `workshop_type: summit_connect_2023`
+| **[SPS 2023](./exercises/sps_2023)** <br> A demo walkthrough of a small-scale ACP managing DCNs running a softPLC with clustering failover | [PDF](./decks/rhde_aw_120.pdf) | [Google Source](https://docs.google.com/presentation/d/1RZTqdKSXVhbguuidvNMx3fkR77lD4cM41N7S95Xb7HA) | [Exercises](./exercises/sps_2023)  | `workshop_type: sps_2023`
 
 >**Note**
 >
