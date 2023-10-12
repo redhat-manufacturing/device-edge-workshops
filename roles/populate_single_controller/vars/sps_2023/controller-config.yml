@@ -1,0 +1,106 @@
+---
+
+_internal_controller_hostname: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+controller_hostname: "{{ ansible_host }}:10443"
+controller_validate_certs: false
+controller_configuration_credentials_secure_logging: false
+
+# These are configured for global use
+controller_execution_environments:
+  - name: Device Edge Workshops Execution Environment
+    image: quay.io/device-edge-workshops/provisioner-execution-environment:latest
+    pull: missing
+
+controller_credential_types:
+  - name: Contrller API Credentials
+    kind: cloud
+    inputs:
+      fields:
+        - id: controller_username
+          type: string
+          label: Controller API Username
+        - id: controller_password
+          type: string
+          label: Controller API Password
+          secret: true
+    injectors:
+      extra_vars:
+        controller_hostname: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+        controller_username: "{  { controller_username }}"
+        controller_password: "{  { controller_password }}"
+        controller_validate_certs: 'false'
+
+# These can be templated out for all students
+controller_organizations_yaml:
+  - name: Switt Motors
+
+controller_users_yaml:
+  - username: ot-operator
+    password: "{{ admin_password }}"
+    email: "ot-operator@dont-email.me"
+    organization: Switt Motors
+
+controller_roles_yaml: |-
+  - user: ot-operator
+    organization: Switt Motors
+    role: admin
+
+controller_inventories_yaml: |-
+  - name: Distributed Control Nodes
+    organization: Switt Motors
+  - name: Edge Utilities
+    organization: Switt Motors
+  - name: Local Actions
+    organization: Switt Motors
+
+# These are student specific because we must query the API for credentials under the student user so we only see that student's credentials
+# Loop over these by student number, which is slower but not bad
+controller_hosts:
+  - name: localhost
+    inventory: Local Actions
+    variables:
+      ansible_connection: local
+      ansible_python_interpreter: "{  { ansible_playbook_python }}"
+  - name: "image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+    inventory: Edge Utilities
+    variables:
+      ansible_host: "{{ ansible_host }}"
+
+controller_credentials:
+  - name: Gitea Credentials
+    organization: Switt Motors
+    credential_type: Source Control
+    inputs:
+      username: "{{ gitea_demo_user }}"
+      password: "{{ admin_password }}"
+  - name: Device Credentials
+    organization: Switt Motors
+    credential_type: Machine
+    inputs:
+      username: ansible
+      password: "{{ admin_password }}"
+      become_password: "{{ admin_password }}"
+  - name: Controller API Credentials
+    organization: Switt Motors
+    credential_type: Contrller API Credentials
+    inputs:
+      controller_username: ot-operator
+      controller_password: "{{ admin_password }}"
+  - name: Image Builder Credentials
+    organization: Switt Motors
+    credential_type: Machine
+    inputs:
+      username: "{{ ansible_user }}"
+      password: "{{ admin_password }}"
+      become_password: "{{ admin_password }}"
+
+controller_projects:
+  - name: DCN Codebase
+    organization: Switt Motors
+    scm_type: git
+    scm_branch: main
+    scm_url: https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/{{ gitea_demo_user }}/{{ gitea_repo_name }}.git
+    credential: Gitea Credentials
+
+controller_templates:
+  # TO FINISH
