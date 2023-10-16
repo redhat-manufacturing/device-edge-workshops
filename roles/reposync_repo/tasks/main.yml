@@ -1,0 +1,11 @@
+---
+
+- name: Import pre-flight tasks
+  ansible.builtin.import_tasks: pre-flight.yml
+
+- name: Loop through repos to sync
+  ansible.builtin.include_tasks:
+    file: reposync.yml
+  loop: "{{ repos_to_sync }}"
+  loop_control:
+    loop_var: _repo

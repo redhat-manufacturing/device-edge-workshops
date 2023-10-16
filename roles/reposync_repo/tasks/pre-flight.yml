@@ -1,0 +1,11 @@
+---
+
+- name: Ensure packages are installed
+  ansible.builtin.dnf:
+    name:
+      - createrepo_c
+
+- name: Ensure sync dir exists
+  ansible.builtin.file:
+    path: "{{ _reposync_dir }}"
+    state: directory

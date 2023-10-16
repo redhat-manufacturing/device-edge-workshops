@@ -1,0 +1,27 @@
+---
+
+- name: Check for synced repo
+  ansible.builtin.stat:
+    path: "{{ _reposync_dir }}/{{ _repo }}/Packages"
+  register: _repo_synced
+
+- name: Check for repodata
+  ansible.builtin.stat:
+    path: "{{ _reposync_dir }}/{{ _repo }}/repodata"
+  register: _repodata_present
+
+- name: Sync repo
+  ansible.builtin.shell:
+    cmd: dnf reposync --repoid "{{ _repo }}"
+  args:
+    chdir: "{{ _reposync_dir }}/"
+  when:
+    - not _repo_synced.stat.exists
+
+- name: Create repodata
+  ansible.builtin.shell:
+    cmd: createrepo_c ./
+  args:
+    chdir: "{{ _reposync_dir }}/{{ _repo }}/"
+  when:
+    - not _repodata_present.stat.exists
