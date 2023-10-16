@@ -63,10 +63,23 @@
 
     - name: include tasks to populate repos
       ansible.builtin.include_tasks:
-        file: populate-repos.yml
+        file: populate-student-repos.yml
       loop: "{{ range(1, (student_total + 1), 1)|list }}"
       loop_control:
         loop_var: student_number
+      when:
+        - workshop_or_demo is not defined or
+          demo_type == 'summit_connect_2023' or
+          workshop_or_demo == 'workshop' or
+          demo_type != 'sps_2023'
+
+    - name: include tasks to populate repos for specific demos
+      ansible.builtin.include_tasks:
+        file: populate-demo-repo.yml
+      when:
+        - workshop_or_demo is defined
+        - workshop_or_demo == 'demo'
+        - demo_type == 'sps_2023'
 
 - name: tasks to configure gitea after controller
   when:

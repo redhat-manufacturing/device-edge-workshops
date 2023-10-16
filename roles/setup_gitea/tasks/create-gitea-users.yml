@@ -21,7 +21,8 @@
   loop_control:
     loop_var: student_number
   when:
-    - workshop_or_demo == 'workshop'
+    - workshop_or_demo == 'workshop' or
+      demo_type == 'summit_connect_2023'
 
 - name: Create single user for demos
   ansible.builtin.uri:
@@ -33,12 +34,13 @@
     body_format: json
     method: POST
     body:
-      username: "{{ demo_gitea_user }}"
+      username: "{{ gitea_demo_user }}"
       password: "{{ admin_password }}"
-      email: "{{ demo_gitea_user }}@email.me"
+      email: "{{ gitea_demo_user }}@email.me"
       must_change_password: false
     status_code:
       - 201
       - 422
   when:
     - workshop_or_demo == 'demo'
+    - demo_type != 'summit_connect_2023'

@@ -19,7 +19,8 @@
   loop_control:
     loop_var: student_number
   when:
-    - workshop_or_demo == 'workshop'
+    - workshop_or_demo == 'workshop' or
+      demo_type == 'summit_connect_2023'
   #delegate_to: localhost
 
 
@@ -48,7 +49,7 @@
 
 - name: Create repo for demo
   ansible.builtin.uri:
-    url: "http://{{ ansible_host }}:3001/api/v1/admin/users/{{ demo_gitea_user }}/repos"
+    url: "http://{{ ansible_host }}:3001/api/v1/admin/users/{{ gitea_demo_user }}/repos"
     validate_certs: false
     user: lab-instructor
     password: '{{ admin_password }}'
@@ -61,8 +62,7 @@
     status_code:
       - 201
       - 409
-  loop: "{{ range(1, (student_total + 1), 1)|list }}"
-  loop_control:
-    loop_var: student_number
   when:
-    - workshop_or_demo == 'workshop'
+    - workshop_or_demo is defined
+    - workshop_or_demo == 'demo'
+    - demo_type != 'summit_connect_2023'
