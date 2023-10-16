@@ -6,6 +6,7 @@
     - edge_remote_management
   vars_files:
     - "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
+    - "{{ playbook_dir }}/demo_vars/{{ demo_type }}.yml"
   vars:
     image_builder_http_port: 18080
   become: true
@@ -39,7 +40,7 @@
           vars:
             builder_compose_type: "{{ image.type }}"
             builder_compose_pkgs: "{{ image.packages }}"
-            builder_custom_repos: "{{ image.repos | default('[]') }}"
+            builder_custom_repos: "{{ image.custom_repos | default('[]') }}"
             builder_blueprint_distro: "{{ image.distro | default(omit) }}"
             builder_compose_containers: "{{ image.containers | default(omit) }}"
             builder_rhsm_repos: "{{ image.rhsm_repos | default('[]') }}"
