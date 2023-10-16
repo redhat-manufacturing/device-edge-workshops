@@ -6,9 +6,9 @@
 #  - gitea
 #  - eda
 # 
-- name: attempt to load in vars for workshop
-  ansible.builtin.include_vars:
-    file: "workshop_vars/{{ workshop_type }}.yml"
+# - name: attempt to load in vars for workshop
+#   ansible.builtin.include_vars:
+#     file: "workshop_vars/{{ workshop_type }}.yml"
     
 - name: Set fact with internal_address
   set_fact:
