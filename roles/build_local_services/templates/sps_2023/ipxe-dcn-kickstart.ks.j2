@@ -15,10 +15,8 @@ ostreesetup --nogpg --url=http://ostree-repo.{{ ec2_name_prefix }}.{{ workshop_d
 %post
 cat > /var/tmp/aap-auto-registration.sh <<EOF
 #!/bin/bash
-### UPDATE THESE
-IP_ADDRESS=\$(nmcli conn show {{ lab_wifi_network.ssid }} | grep ip_address | awk '{print \$4}')
-MAC_ADDRESS=\$(ip addr | grep wlp -A 1 | grep link | awk '{print \$2}' | sed 's/://g')
-STUDENT='{{ student_number }}'
+IP_ADDRESS=\$(ip addr | grep 'inet ' | grep -v '127.0.0.1' | grep -v 'cni' | awk '{print \$2}' | cut -d '/' -f 1)
+MAC_ADDRESS=\$(ip addr | grep enp -A 1 | grep link | awk '{print \$2}' | sed 's/://g')
 
 JSON="{\
 \"ip_address\": \"\$IP_ADDRESS\", \
@@ -45,6 +43,5 @@ EOF
 
 systemctl daemon-reload
 systemctl enable aap-auto-registration.service
-{% endif %}
 
 %end
