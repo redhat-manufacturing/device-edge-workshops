@@ -5,5 +5,14 @@
     - edge_management
     - edge_remote_management
   become: true
-  roles:
-    - ../roles/student_users
+  vars_files:
+    - "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
+    - "{{ playbook_dir }}/demo_vars/{{ demo_type }}.yml"
+  tasks:
+    - name: Include student_users role when appropriate
+      ansible.builtin.include_role:
+        name: ../roles/student_users
+      when:
+        - workshop_or_demo is not defined or
+          workshop_or_demo == 'workshop'
+
