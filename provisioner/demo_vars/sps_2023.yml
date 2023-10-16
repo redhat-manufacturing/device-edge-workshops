@@ -39,6 +39,8 @@ local_services:
               address: "{{ internal_address }}"
             - record: "attendance.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
+            - record: "eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+              address: "{{ internal_address }}"
     post_tasks:
       - dnsmasq-update-etc-hosts.yml
     containerfile: dnsmasq-containerfile
@@ -122,6 +124,18 @@ local_services:
     files:
       - src: ipxe-nginx.conf
         dest: nginx.conf
+  - name: eda
+    containerfile: eda-containerfile
+    templates:
+      - src: eda-run-workflow.yml.j2
+        dest: run-workflow.yml
+    files:
+      - src: eda-rulebook.yml
+        dest: rulebook.yml
+      - src: eda-inventory.yml
+        dest: inventory.yml
+      - src: eda-ansible.cfg
+        dest: ansible.cfg
 pods:
   - name: "{{ top_line_variables.type }}-{{ top_line_variables.name }}-priv"
     privileged: true
@@ -178,11 +192,18 @@ pods:
             image: ostree-repo:latest
           - name: ipxe
             image: ipxe:latest
+          - name: eda
+            image: eda:latest
         volumes:
           - name: database-data
             persistentVolumeClaim:
               claimName: "{{ top_line_variables.type }}-{{ top_line_variables.name }}-database"
 
+pre_flight_roles:
+  - reposync_repo
+
+repos_to_sync:
+  - rhel-9-for-x86_64-highavailability-rpms
 
 builder_blueprint_name: rhde-image
 images_to_compose:
@@ -197,7 +218,6 @@ images_to_compose:
       - podman
       - pcs
       - pacemaker
-      - fence-agents-all
     customizations:
       files:
         - path: /etc/containers/containers.conf
@@ -205,6 +225,13 @@ images_to_compose:
           user: root
           group: root
           data: "[engine]\nruntime='crun'"
+    custom_repos:
+      - name: ha-localsync
+        base_url: file:///opt/reposync/rhel-9-for-x86_64-highavailability-rpms
+        type: yum-baseurl
+        check_ssl: false
+        check_gpg: false
+        state: present
 
 image_builder_http_port: 11080
 
@@ -213,12 +240,10 @@ gitea_demo_user: ot-operator
 gitea_repo_name: dcn-codebase
 gitea_container: "{{ top_line_variables.type }}-{{ top_line_variables.name }}-gitea"
 repo_files:
-  - src: templates/README.md.j2
+  - src: templates/sps_2023/README.md.j2
     dest: README.md
-  - src: templates/hello-world.yml.j2
+  - src: templates/sps_2023/hello-world.yml.j2
     dest: playbooks/hello-world.yml
-  - src: "templates/{{ top_line_variables.name }}/compose-image.yml.j2"
-    dest: playbooks/compose-image.yml
 
 allowed_external_services:
   - port: 5000
@@ -226,7 +251,6 @@ allowed_external_services:
   - port: 10443
   - port: 9090
   - port: 3001
-  - port: 8080
   - port: 3000
   - port: 80
   - port: 443
