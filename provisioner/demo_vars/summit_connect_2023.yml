@@ -221,12 +221,6 @@ images_to_compose:
       - name: ui
         source: quay.io/device-edge-workshops/process-control-ui:1.0.0
     customizations:
-      directories:
-        - path: /etc/containers/systemd
-          mode: '0755'
-          user: root
-          group: root
-          ensure_parent: 'true'
       files:
         - path: /etc/containers/systemd/process-control.yaml
           mode: '0644'
@@ -274,12 +268,6 @@ images_to_compose:
       - name: ui
         source: quay.io/device-edge-workshops/process-control-ui:1.0.0
     customizations:
-      directories:
-        - path: /etc/containers/systemd
-          mode: '0755'
-          user: root
-          group: root
-          ensure_parent: 'true'
       files:
         - path: /etc/containers/systemd/process-control.yaml
           mode: '0644'
@@ -332,12 +320,6 @@ images_to_compose:
       - name: ui
         source: quay.io/device-edge-workshops/process-control-ui:broken
     customizations:
-      directories:
-        - path: /etc/containers/systemd
-          mode: '0755'
-          user: root
-          group: root
-          ensure_parent: 'true'
       files:
         - path: /etc/containers/systemd/process-control.yaml
           mode: '0644'
