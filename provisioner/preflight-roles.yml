@@ -1,0 +1,18 @@
+---
+
+- name: Run pre-flight roles if requested
+  hosts:
+    - edge_management
+    - edge_remote_management
+  become: true
+  vars_files:
+    - "workshop_vars/{{ workshop_type }}.yml"
+  tasks:
+    - name: Run pre-flight roles
+      ansible.builtin.include_role:
+        name: "../roles/{{ _role }}"
+      loop: "{{ pre_flight_roles }}"
+      loop_control:
+        loop_var: _role
+      when:
+        - pre_flight_roles is defined
