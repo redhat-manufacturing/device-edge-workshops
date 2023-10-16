@@ -4,44 +4,9 @@
   hosts:
     - edge_management
     - edge_remote_management
-  pre_tasks:
-    - name: attempt to load in vars for workshop
-      ansible.builtin.include_vars:
-        file: "{{ workshop_or_demo | default('workshop') }}_vars/{{ workshop_type }}.yml"
-    # - name: set source_control_host dns name and setup record | aws
-    #   when:
-    #     - route53_domains.gitea is defined
-    #   block:
-    #     - name: set var for gitea role
-    #       ansible.builtin.set_fact:
-    #         source_control_hostname: "{{ route53_domains.gitea.domain }}"
-    #     - name: setup dns in route53
-    #       ansible.builtin.include_role:
-    #         name: ../roles/aws_dns
-    #       vars:
-    #         route53_dns_record: "{{ route53_domains.gitea.domain }}"
-    #         route53_dns_value: "{{ ansible_host }}"
-
-    # - name: set source_control_host dns name and setup record | local
-    #   when:
-    #     - local_domains.gitea is defined
-    #   block:
-    #     - name: set var for gitea role
-    #       ansible.builtin.set_fact:
-    #         source_control_hostname: "{{ local_domains.gitea.domain }}"
-    #     - name: setup dns locally
-    #       ansible.builtin.include_role:
-    #         name: ../roles/local_dns
-    #         apply:
-    #           become: true
-    #       vars:
-    #         local_dns_record: "{{ local_domains.gitea.domain }}"
-    
-    # - name: fallback to ip address
-    #   ansible.builtin.set_fact:
-    #     source_control_hostname: "{{ ansible_host }}"
-    #   when:
-    #     - source_control_hostname is not defined
+  vars_files:
+    - "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
+    - "{{ playbook_dir }}/demo_vars/{{ demo_type }}.yml"
   tasks:
     - name: include gitea setup role
       ansible.builtin.include_role:
