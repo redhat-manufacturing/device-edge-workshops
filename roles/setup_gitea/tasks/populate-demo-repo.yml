@@ -1,0 +1,86 @@
+---
+
+- name: set repo root dir
+  ansible.builtin.set_fact:
+    repo_root_path: "{{ source_control_tmp_dir }}/{{ ansible_host }}/{{ gitea_demo_user }}"
+
+- name: setup files
+  #delegate_to: localhost
+  block:
+    - name: create dir for {{ gitea_demo_user }}
+      ansible.builtin.file:
+        path: "{{ repo_root_path }}"
+        state: directory
+    - name: create playbook dir
+      ansible.builtin.file:
+        path: "{{ repo_root_path }}/playbooks"
+        state: directory
+    - name: template out files to push into repo
+      ansible.builtin.template:
+        src: "{{ file.src }}"
+        dest: "{{ repo_root_path }}/{{ file.dest }}"
+      loop: "{{ repo_files }}"
+      loop_control:
+        loop_var: file
+
+- name: check for existing git config
+  ansible.builtin.stat:
+    path: "{{ repo_root_path }}/.git"
+  register: git_dir
+  #delegate_to: localhost
+
+- name: push code into repo
+  #delegate_to: localhost
+  when:
+    - not git_dir.stat.exists
+  block:
+    - name: initialize git
+      ansible.builtin.shell:
+        cmd: git init
+        chdir: "{{ repo_root_path }}"
+    - name: set git user.name
+      ansible.builtin.shell:
+        cmd: git config user.name "Workshop Provisioner"
+        chdir: "{{ repo_root_path }}"
+      changed_when: false
+    - name: set git user.email
+      ansible.builtin.shell:
+        cmd: git config user.email "dont@email.me"
+        chdir: "{{ repo_root_path }}"
+      changed_when: false
+    - name: checkout main branch
+      ansible.builtin.shell:
+        cmd: git checkout -b main
+        chdir: "{{ repo_root_path }}"
+    - name: add all files for push
+      ansible.builtin.shell:
+        cmd: git add *
+        chdir: "{{ repo_root_path }}"
+    - name: commit new files
+      ansible.builtin.shell:
+        cmd: git commit -m "initial commit by provisioner"
+        chdir: "{{ repo_root_path }}"
+
+- name: push repos into local source control
+  ansible.builtin.shell:
+    cmd: "git push --set-upstream http://{{ gitea_demo_user }}:'{{ admin_password }}'@{{ ansible_host }}:3001/{{ gitea_demo_user }}/{{ gitea_repo_name }}.git main"
+    chdir: "{{ repo_root_path }}"
+  register: code_push
+  #delegate_to: localhost
+  changed_when:
+    - code_push.rc == 0
+  failed_when:
+    - code_push.rc != 0
+    - "'not have locally' not in code_push.stderr"
+
+
+- name: Additional repos
+  include_tasks: populate-additional-repos.yml
+  loop: "{{ additional_repos }}"
+  loop_control:
+    loop_var: additional_repo
+  when: additional_repos is defined 
+
+
+
+    
