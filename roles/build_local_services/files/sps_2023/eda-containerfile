@@ -18,9 +18,9 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 RUN pip install --upgrade pip
 
-RUN pip install ansible ansible-rulebook
+RUN pip install ansible ansible-rulebook watchdog
 
-RUN ansible-galaxy collection install 'ansible.eda:==1.3.3' redhat_cop.controller_configuration -p $VIRTUAL_ENV/collections
+RUN ansible-galaxy collection install ansible.eda redhat_cop.controller_configuration -p $VIRTUAL_ENV/collections
 
 RUN ansible-galaxy collection install redhat_cop.controller_configuration
 
