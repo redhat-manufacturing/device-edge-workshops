@@ -28,9 +28,12 @@
       shell: "subscription-manager register --username {{ redhat_username }} --password {{ redhat_password }} --force ; subscription-manager attach --auto"
       notify:
         - clean_dnf
-      when: "subscription_facts.stdout != 'Current'"
-
+      when:
+        - "subscription_facts.stdout != 'Current' or
+          subscription_facts.stdout != 'Disabled'"
     - name: Display subscription facts after subscribing
       shell: subscription-manager status | grep Overall | awk '{print $3}'
       register: subscription_facts_after
-      when: "subscription_facts.stdout != 'Current'"
+      when:
+        - "subscription_facts.stdout != 'Current' or
+          subscription_facts.stdout != 'Disabled'"
