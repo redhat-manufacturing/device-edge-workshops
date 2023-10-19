@@ -15,4 +15,4 @@ collections:
   - name: fedora.linux_system_roles
   - git+https://github.com/ansible-collections/community.fdo.git
   - git+https://github.com/jjaswanson4/kubernetes.core.git
-  - git+https://github.com/ansible-collections/osbuild.composer
+  - git+https://github.com/jjaswanson4/infra.osbuild.git
