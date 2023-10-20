@@ -12,7 +12,6 @@
       - jq
       - net-tools
       - podman
-      - python3-pip
     state: present
   register: dnf_check
   until: dnf_check is not failed
