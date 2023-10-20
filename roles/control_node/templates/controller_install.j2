@@ -1,5 +1,5 @@
 [automationcontroller]
-controller-node ansible_connection=local
+{{ inventory_hostname }}.local ansible_host=127.0.0.1 ansible_connection=local
 
 {% if run_in_aws is defined and run_in_aws %}
 [automationcontroller:vars]
