@@ -127,6 +127,7 @@ class Overview extends React.Component {
                     <DescriptionListDescription className ><a href="https://image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}">https://image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}</a></DescriptionListDescription>
                   </CardBody>
                 </Card>
+{% if lab_wifi_network.ssid is defined and lab_wifi_network.password is defined %}
                 <Card component="div">
                   <CardTitle>Wifi Information</CardTitle>
                   <CardBody>
@@ -136,6 +137,7 @@ class Overview extends React.Component {
                     <DescriptionListDescription className ><code>{{ lab_wifi_network.password }}</code></DescriptionListDescription>
                   </CardBody>
                 </Card>
+{% endif %}
               </DescriptionList>
             </Card>
           </Box>

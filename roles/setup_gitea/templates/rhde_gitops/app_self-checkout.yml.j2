@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - image: quay.io/aollebla/checkout-backoffice:latest
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         name: checkout-backoffice
         resources: {}
         terminationMessagePath: /dev/termination-log
@@ -42,7 +42,7 @@ spec:
         - name: QUARKUS_HTTP_CORS_ORIGINS
           value: "*"
         - name: KAFKA_BOOTSTRAP_SERVERS
-          value: "kafka.messaging.svc.cluster.local:9092"
+          value: "192.168.40.208:30092"
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
@@ -111,7 +111,7 @@ spec:
     spec:
       containers:
       - image: quay.io/aollebla/checkout-frontend:latest
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         name: checkout-frontend
         resources: {}
         terminationMessagePath: /dev/termination-log

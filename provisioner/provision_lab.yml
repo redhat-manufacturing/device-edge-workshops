@@ -45,11 +45,11 @@
 - name: import access services playbook
   ansible.builtin.import_playbook: configure-external-access.yml
 
-- name: import connectivity between local and external nodes
-  ansible.builtin.import_playbook: local-to-external.yml
-
 - name: import access remote services playbook
   ansible.builtin.import_playbook: configure-external-access-remote.yml
+
+- name: import connectivity between local and external nodes
+  ansible.builtin.import_playbook: local-to-external.yml
 
 - name: compose images
   ansible.builtin.import_playbook: compose-images.yml
