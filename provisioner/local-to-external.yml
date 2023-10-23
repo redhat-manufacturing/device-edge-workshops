@@ -40,7 +40,13 @@
         - name: Include variables again from file (to get new AWS instance ip)
           include_vars:
             file: "workshop_vars/{{ workshop_type }}.yml"
-        
+
+        - name: allow domain_can_mmap_files
+          ansible.posix.seboolean:
+            name: domain_can_mmap_files
+            state: true
+            persistent: true
+
         - name: Set up Reverse SSH Tunnel
           shell:  |
             set -x
@@ -59,7 +65,7 @@
 
               [Service]
               Type=simple
-              ExecStart=/bin/bash - c "ssh -vvv -g -N -T -o ServerAliveInterval=10 -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -i /home/{{ ansible_user }}/.ssh/id_rsa -R 2022:localhost:22 ec2-user@{{ edge_remote_management_ext_ip }}"
+              ExecStart=/bin/bash - c "ssh -g -N -T -o ServerAliveInterval=10 -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -i /home/{{ ansible_user }}/.ssh/id_rsa -R 2022:localhost:22 ec2-user@{{ edge_remote_management_ext_ip }}"
               Restart=always
               RestartSec=5s
 

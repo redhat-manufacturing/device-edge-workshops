@@ -53,12 +53,12 @@ local_services:
             - record: "exercises.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
           dhcp_reservations:
-            - mac_address: 'e4:90:69:a2:b7:41'
-              ip_address: 192.168.40.141
-              name: plc
-            - mac_address: 'e4:90:69:a2:b7:42'
-              ip_address: 192.168.40.142
-              name: drive
+            - mac_address: '1c:69:7a:6c:ac:6a'
+              ip_address: 192.168.40.208
+              name: checkout
+            - mac_address: '1c:69:7a:6c:ac:b9'
+              ip_address: 192.168.40.38
+              name: detector
     post_tasks:
       - dnsmasq-update-etc-hosts.yml
     containerfile: dnsmasq-containerfile
