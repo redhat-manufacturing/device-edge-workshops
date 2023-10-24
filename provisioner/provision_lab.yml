@@ -30,11 +30,12 @@
 - name: import aws setup playbook
   ansible.builtin.import_playbook: aws-post-setup.yml
 
-- name: import route53-records playbook
-  ansible.builtin.import_playbook: route53-records.yml
 
 - name: import connectivity playbook
   ansible.builtin.import_playbook: ensure-connectivity.yml
+  
+- name: import route53-records playbook
+  ansible.builtin.import_playbook: route53-records.yml
 
 - name: import rhsm playbook
   ansible.builtin.import_playbook: rhsm.yml

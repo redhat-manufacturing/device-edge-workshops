@@ -69,6 +69,7 @@
         loop_var: student_number
       when:
         - workshop_or_demo is not defined or
+          demo_type is not defined or
           demo_type == 'summit_connect_2023' or
           workshop_or_demo == 'workshop' or
           demo_type != 'sps_2023'

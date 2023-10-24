@@ -4,13 +4,23 @@
   hosts:
     - edge_management
     - edge_remote_management
-  vars_files:
-    - "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
-    - "{{ playbook_dir }}/demo_vars/{{ demo_type }}.yml"
   vars:
     image_builder_http_port: 18080
   become: true
   pre_tasks:
+
+    - name: Include workshop or demo variables
+      include_vars:
+        file: "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
+      when: workshop_type is defined
+      ignore_errors: yes
+
+    - name: Include demo variables
+      include_vars:
+        file: "{{ playbook_dir }}/demo_vars/{{ demo_type }}.yml"
+      when: demo_type is defined
+      ignore_errors: yes
+
     - name: rhel8 tasks
       when:
         - ansible_distribution_major_version|int == 8
