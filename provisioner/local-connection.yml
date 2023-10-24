@@ -5,9 +5,17 @@
     - 'edge_management:&local'
     - edge_local_management
   become: true
-  vars_files:
-    - "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
-    - "{{ playbook_dir }}/demo_vars/{{ demo_type }}.yml"
+  pre_tasks:
+    - name: Include workshop or demo variables
+      include_vars:
+        file: "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
+      when: workshop_type is defined
+      ignore_errors: yes
+
+    - name: Include demo variables
+      include_vars:
+        file: "{{ playbook_dir }}/demo_vars/{{ demo_type }}.yml"
+      when: demo_type is defined
   tasks:
     - name: run connection config role
       ansible.builtin.include_role:
