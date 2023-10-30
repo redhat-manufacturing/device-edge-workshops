@@ -198,6 +198,46 @@ controller_templates:
     become_enabled: true
     notification_templates_success: "Slack Notification"
 
+
+
+  - name: Copy config files
+    organization: "Student{{ student_number }} Organization"
+    inventory: Edge Devices
+    ask_inventory_on_launch: true
+    project: Device Edge Codebase
+    playbook: playbooks/copy-os-files.yml
+    credentials:
+      - Device Credentials
+    execution_environment: Device Edge Workshops Execution Environment
+    become_enabled: true
+
+
+  - name: Reboot devices
+    organization: "Student{{ student_number }} Organization"
+    ask_inventory_on_launch: true
+    inventory: Edge Devices
+    project: Device Edge Codebase
+    playbook: playbooks/reboot-devices.yml
+    credentials:
+      - Device Credentials
+    execution_environment: Device Edge Workshops Execution Environment
+    become_enabled: true
+
+
+
+  - name: Run command
+    organization: "Student{{ student_number }} Organization"
+    inventory: Edge Devices
+    project: Device Edge Codebase
+    playbook: playbooks/run-command.yml
+    credentials:
+      - Device Credentials
+    execution_environment: Device Edge Workshops Execution Environment
+    become_enabled: true
+    ask_variables_on_launch: true
+    extra_vars: 
+        command_to_execute: date
+
 controller_workflows:
   - name: Provision Edge Device
     organization: "Student{{ student_number }} Organization"
@@ -242,6 +282,34 @@ controller_workflows:
     webhook_service: github
     notification_templates_approvals: "Slack Notification"
     notification_templates_success: "Slack Notification"
+
+
+  - name: Configure Edge Device
+    organization: "Student{{ student_number }} Organization"
+    state: present
+    allow_simultaneous: false
+    survey_enabled: false
+    inventory: Edge Devices
+    ask_inventory_on_launch: true
+    simplified_workflow_nodes:
+      - identifier: Copy config files
+        unified_job_template: Copy config files
+        success_nodes:
+          - Reboot approval
+      - identifier: Reboot approval
+        approval_node:
+          name: Approve the reboot
+          description: Reboot the device if it's needed
+          timeout: 0
+        success_nodes:
+          - Reboot devices
+      - identifier: Reboot devices
+        unified_job_template: Reboot devices
+    webhook_service: github
+    notification_templates_approvals: "Slack Notification"
+    notification_templates_success: "Slack Notification"
+
+
 
 
 controller_notifications:

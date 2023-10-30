@@ -1,0 +1,15 @@
+---
+{% raw %}
+- name: Execute Command on Remote Host
+  hosts: all
+  tasks:
+    - name: "Execute the command {{ command_to_execute }}"
+      shell: "{{ command_to_execute }}"
+      register: command_output
+
+    - name: Display command output
+      debug:
+       var: command_output.stdout   
+
+
+{% endraw %} 
