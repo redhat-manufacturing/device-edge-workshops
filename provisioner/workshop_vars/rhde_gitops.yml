@@ -323,7 +323,10 @@ repo_files:
     dest: playbooks/run-command.yml
   - src: templates/rhde_gitops/reboot-devices.yml.j2
     dest: playbooks/reboot-devices.yml
-
+  - src: templates/rhde_gitops/podman_quadlet.yml.j2
+    dest: playbooks/podman_quadlet.yml
+  - src: templates/rhde_gitops/create_iso_kickstart.yml.j2
+    dest: playbooks/create_iso_kickstart.yml
     
 
 additional_repos:
@@ -356,8 +359,8 @@ additional_repos:
     webhook: true
     directories:
       - OS/greenboot/check/required.d
-      - APPs/podman/2048
-      - APPs/podman/motioneye
+      - OS/greenboot/red.d
+      - APPs/podman/quadlet
       - APPs/microshift/motioneye
       - APPs/microshift/retail
       - APPs/microshift/2048
@@ -370,8 +373,12 @@ additional_repos:
         dest: APPs/microshift/retail/kafka-microshift.yml
       - src: templates/rhde_gitops/app_self-checkout.yml.j2
         dest: APPs/microshift/retail/app_self-checkout.yml
+      - src: templates/rhde_gitops/app_fuxa_scada.container.j2
+        dest: APPs/podman/quadlet/app_fuxa_scada.container
       - src: templates/rhde_gitops/os_01-check-packages.sh.j2
         dest: OS/greenboot/check/required.d/01-check-packages.sh
+      - src: templates/rhde_gitops/os_01-slack-notification.sh.j2
+        dest: OS/greenboot/red.d/01-slack-notification.sh
       - src: templates/rhde_gitops/os_sudoers.j2
         dest: OS/sudoers
       - src: templates/rhde_gitops/os_rpm-ostreed.conf.j2

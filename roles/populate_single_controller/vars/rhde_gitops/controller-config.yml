@@ -157,6 +157,27 @@ controller_templates:
     execution_environment: Device Edge Workshops Execution Environment
     become_enabled: true
 
+
+  - name: Create ISO Kickstart
+    organization: "Student{{ student_number }} Organization"
+    inventory: Edge Utilities
+    project: Device Edge Codebase
+    playbook: playbooks/create_iso_kickstart.yml
+    credentials:
+      - Image Builder Credentials
+    execution_environment: Device Edge Workshops Execution Environment
+    become_enabled: true
+
+  - name: Create Quadlet APP
+    organization: "Student{{ student_number }} Organization"
+    inventory: Edge Devices
+    project: Device Edge Codebase
+    playbook: playbooks/podman_quadlet.yml
+    credentials:
+      - Device Credentials
+    execution_environment: Device Edge Workshops Execution Environment
+    become_enabled: true
+
   - name: Update Microshift APP
     organization: "Student{{ student_number }} Organization"
     inventory: Edge Devices
@@ -185,7 +206,7 @@ controller_templates:
     become_enabled: true
     ask_variables_on_launch: true
     extra_vars: 
-        manifest: https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-configs/raw/branch/main/APPs/app_2048-microshift.yml
+        manifest: https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-configs/raw/branch/main/APPs/microshift/2048/app_2048-microshift.yml
 
   - name: Publish Image
     organization: "Student{{ student_number }} Organization"
@@ -310,6 +331,29 @@ controller_workflows:
     notification_templates_success: "Slack Notification"
 
 
+  - name: OSTree Upgrade
+    organization: "Student{{ student_number }} Organization"
+    state: present
+    allow_simultaneous: true
+    survey_enabled: false
+    inventory: Edge Devices
+    simplified_workflow_nodes:
+      - identifier: Run command
+        unified_job_template: Run command
+        extra_vars: 
+            command_to_execute: rpm-ostree upgrade
+        success_nodes:
+          - Reboot approval
+      - identifier: Reboot approval
+        approval_node:
+          name: Approve the reboot
+          description: Reboot the device approval
+          timeout: 0
+        success_nodes:
+          - Reboot devices
+      - identifier: Reboot devices
+        unified_job_template: Reboot devices
+    notification_templates_success: "Slack Notification"
 
 
 controller_notifications:

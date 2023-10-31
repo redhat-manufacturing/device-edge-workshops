@@ -1,7 +1,10 @@
 ---
 
 aap_bundle_sha256_checksum: eb4573d15785d441782279ac7404d763e3905e7032f38d8bfa40bc75c68f9ea1
+rhel_iso_sha256_checksum: 087f5387f28e6edf1f770ec7eb41e56823b6c3c4d4c3ef09b3b61f59440c229c
+
 provided_sha_value: "{{ aap_bundle_sha256_checksum }}"
+provided_sha_value_rhel_iso: "{{ rhel_iso_sha256_checksum }}"
 
 aap_dir: "/home/{{ ansible_user }}/aap_install"
 output_dir: "{{ playbook_dir }}/{{ ec2_name_prefix }}"

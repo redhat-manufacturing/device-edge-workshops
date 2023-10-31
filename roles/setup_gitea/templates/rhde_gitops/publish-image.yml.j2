@@ -7,7 +7,6 @@
     images_repo: "device-edge-images"
     image_definition_file: "production-image-definition.yml"
     image_deploy_file: "production-image-deploy.yml"
-    create_iso: true
   tasks:
 
     - name: Import Image definition variables from remote file
@@ -203,9 +202,3 @@
       changed_when: true
 
 
-
-    - name: Create ISO
-      block
-      - shell: |
-          echo "Hola"
-      when: create_iso is defined and create_iso

@@ -1,0 +1,71 @@
+---{% raw %}
+- name: Embed Kickstart in ISO
+  hosts: localhost  
+  gather_facts: no 
+  vars:
+    iso_standard: 
+    kickstart_http_location: 
+    basearch: "x86_64"
+  tasks:
+    - name: Creating ISO image with kickstart embedded
+      block:
+        - name: Create directories
+          file:
+            path: "{{ item }}"
+            state: directory
+          with_items:
+            - mnt/rhel-iso
+            - tmp/rhel-iso
+
+        - name: Mount the ISO
+          mount:
+            path: mnt/rhel-iso
+            src: "{{ iso_standard }}"
+            opts: loop
+            state: mounted
+
+        - name: Copy ISO contents to temporary directory
+          shell: cp -avRf mnt/rhel-iso/* tmp/rhel-iso
+
+        - name: Get ISO label
+          shell: blkid "{{ iso_standard }}" | awk -F 'LABEL="' '{print $2}' | cut -d '"' -f 1
+          register: iso_label
+
+        - name: Modify isolinux configuration
+          replace:
+            path: tmp/rhel-iso/isolinux/isolinux.cfg
+            regexp: "quiet"
+            replace: "inst.ks={{ kickstart_http_location }}"
+          state: present
+
+        - name: Modify isolinux configuration
+          replace:
+            path: tmp/rhel-iso/isolinux/isolinux.cfg
+            regexp: "timeout 600"
+            replace: "timeout 1"
+          state: present
+
+        - name: Modify isolinux configuration
+          replace:
+            path: tmp/rhel-iso/isolinux/isolinux.cfg
+            regexp: "RHEL-.-.-0-BaseOS-{{ basearch }}"
+            replace: "{{ iso_label }}"
+          state: present
+
+        - name: Create the final ISO image
+          shell: mkisofs -o images/student{% endraw %}{{ student_number }}{% raw %}-custom-kernelarg.iso -b isolinux/isolinux.bin -c isolinux/boot.cat --joliet-long --no-emul-boot --boot-load-size 4 --boot-info-table -J -R -V "{{ iso_label }}" tmp/rhel-iso
+          changed_when: false
+
+        - name: Add MD5 checksum
+          shell: implantisomd5 images/student{% endraw %}{{ student_number }}{% raw %}-custom-kernelarg.iso
+          changed_when: false
+
+        - name: Clean up temporary directories
+          file:
+            path: "{{ item }}"
+            state: absent
+          with_items:
+            - mnt
+            - tmp
+      become: yes
+      {% endraw %}
