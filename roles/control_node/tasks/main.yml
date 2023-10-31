@@ -4,6 +4,10 @@
   ansible.builtin.include_tasks:
     file: 05_download_aap.yml
 
+- name: download rhel ISO
+  ansible.builtin.include_tasks:
+    file: 06_download_rhel_iso.yml
+
 - name: aap setup for control node
   include_tasks: 10_aap_setup.yml
   tags:
