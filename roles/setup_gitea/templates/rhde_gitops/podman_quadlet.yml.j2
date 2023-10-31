@@ -33,9 +33,8 @@
 
 
     - name: Reload systemd manager
-      systemd:
-        name: systemd
-        state: reloaded
+      ansible.builtin.systemd:
+        daemon_reload: true
 
     - name: Get list of .container files in /etc/containers/systemd/
       find:
