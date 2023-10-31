@@ -294,17 +294,17 @@ controller_workflows:
     simplified_workflow_nodes:
       - identifier: Copy config files
         unified_job_template: Copy config files
-        success_nodes:
-          - Reboot approval
-      - identifier: Reboot approval
-        approval_node:
-          name: Approve the reboot
-          description: Reboot the device if it's needed
-          timeout: 0
-        success_nodes:
-          - Reboot devices
-      - identifier: Reboot devices
-        unified_job_template: Reboot devices
+      #  success_nodes:
+      #    - Reboot approval
+      #- identifier: Reboot approval
+      #  approval_node:
+      #    name: Approve the reboot
+      #    description: Reboot the device if it's needed
+      #    timeout: 0
+      #  success_nodes:
+      #    - Reboot devices
+      #- identifier: Reboot devices
+      #  unified_job_template: Reboot devices
     webhook_service: github
     notification_templates_approvals: "Slack Notification"
     notification_templates_success: "Slack Notification"

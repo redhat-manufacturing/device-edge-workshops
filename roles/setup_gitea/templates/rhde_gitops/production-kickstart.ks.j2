@@ -53,6 +53,12 @@ IP_ADDRESS=\$(nmcli conn show \$conn_name | grep ip_address | awk '{print \$4}')
 MAC_ADDRESS=\$(ip addr | grep \$conn_name -A 1 | grep link | awk '{print \$2}' | sed 's/://g')
 STUDENT='{{ student_number }}'
 
+
+if [ -z "\$IP_ADDRESS" ] || [ -z "\$MAC_ADDRESS" ] || [ -z "\$STUDENT" ]; then
+    echo "One or more required variables are empty. Script failed."
+    exit 1
+fi
+
 JSON="{\
 \"ip_address\": \"\$IP_ADDRESS\", \
 \"student\": \"\$STUDENT\", \
@@ -101,12 +107,13 @@ cat <<EOF > /usr/local/bin/watch_etc.py
 import inotify.adapters
 import requests
 import os
+import subprocess
 
 # Define the directory to monitor
 DIRECTORY = '/etc'
 
 # Define your webhook URL
-WEBHOOK_URL = "https://eda.training.sandbox1339.opentlc.com/endpoint"
+WEBHOOK_URL = "https://eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/endpoint"
 
 # Function to send a webhook with JSON data
 def send_webhook(path, filename, event_type, student, inventory):
@@ -128,7 +135,7 @@ def inotify_wait_exists():
     return os.path.exists('/root/inotify-wait')
 
 try:
-    conn_name = subprocess.check_output("nmcli con show | grep -v UUID | head -n 1 | awk '{print $1}'", shell=True)
+    conn_name = subprocess.check_output("nmcli con show | grep -v UUID | head -n 1 | awk '{{print \$1}}'", shell=True)
     conn_name = conn_name.decode("utf-8").strip()
 except subprocess.CalledProcessError as e:
     print(f"Error running the first shell command: {e}")
@@ -138,7 +145,7 @@ except subprocess.CalledProcessError as e:
 if conn_name:
     # Run the second shell command to get the MAC address
     try:
-        MAC_ADDRESS = subprocess.check_output(f"ip addr | grep {conn_name} -A 1 | grep link | awk '{print $2}' | sed 's/://g'", shell=True)
+        MAC_ADDRESS = subprocess.check_output(f"ip addr | grep {conn_name} -A 1 | grep link | awk '{{print \$2}}' | sed 's/://g'", shell=True)
         MAC_ADDRESS = MAC_ADDRESS.decode("utf-8").strip()
     except subprocess.CalledProcessError as e:
         print(f"Error running the second shell command: {e}")
@@ -153,17 +160,16 @@ i = inotify.adapters.InotifyTree(DIRECTORY)
 
 for event in i.event_gen(yield_nones=False):
       (_, type_names, path, filename) = event
-      print("                                PATH=[{}] FILENAME=[{}] EVENT_TYPES={}".format( path, filename, type_names))
       # Check the file extension and skip unwanted extensions
       _, file_extension = os.path.splitext(filename)
 
       if file_extension not in ('.swp', '.ddf'):
         print("variable: {}".format(type_names))
         if any(event_type in ['IN_CREATE', 'IN_MODIFY', 'IN_DELETE', 'IN_MOVE'] for event_type in type_names):
+            print("PATH=[{}] FILENAME=[{}] EVENT_TYPES={}".format(path, filename, type_names))
             # Check if the "/root/inotify-wait" file exists
             if not inotify_wait_exists():
                 # Send a webhook notification with JSON data
-                print("PATH=[{}] FILENAME=[{}] EVENT_TYPES={}".format(path, filename, type_names))
                 send_webhook(path, filename, type_names, {{ student_number }}, inventory )
                 # Create the "/root/inotify-wait" file
                 open('/root/inotify-wait', 'w').close()
@@ -173,6 +179,11 @@ EOF
 
 # Make the script executable
 chmod +x /usr/local/bin/watch_etc.py
+
+semanage fcontext -a -t bin_t '/usr/local/bin/watch_etc.py'
+restorecon -v '/usr/local/bin/watch_etc.py'
+
+
 
 # Define the webhook URL (replace with your actual URL)
 WEBHOOK_URL="https://eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/endpoint"
@@ -208,9 +219,9 @@ sudo cat << 'EOF' > /etc/greenboot/check/required.d/01-check-packages.sh
 required_packages=("python3-pip" "python3-inotify" "git")
 
 # Check if each package is installed
-for package in "${required_packages[@]}"; do
-    if ! rpm -q "$package" &>/dev/null; then
-        echo "Error: $package is not installed."
+for package in "\${required_packages[@]}"; do
+    if ! rpm -q "\$package" &>/dev/null; then
+        echo "Error: \$package is not installed."
         exit 1
     fi
 done
