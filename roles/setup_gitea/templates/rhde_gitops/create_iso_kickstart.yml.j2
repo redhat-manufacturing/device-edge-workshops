@@ -57,15 +57,22 @@
           replace:
             path: /tmp/student{{ student_number }}/rhel-iso/isolinux/isolinux.cfg
             regexp: "RHEL-.-.-0-BaseOS-{% raw %}{{ basearch }}{% endraw %}"
-            replace: "{% raw %}{{ iso_label }}{% endraw %}"
+            replace: "{% raw %}{{ iso_label.stdout }}{% endraw %}"
 
         - name: Create the final ISO image
-          shell: mkisofs -o {% raw %}{{ iso_dst_path }}/{{ iso_name }}{% endraw %} -b /tmp/student{{ student_number }}/rhel-iso/isolinux/isolinux.bin -c /tmp/student{{ student_number }}/rhel-iso/isolinux/boot.cat --joliet-long --no-emul-boot --boot-load-size 4 --boot-info-table -J -R -V "{% raw %}{{ iso_label }}{% endraw %}" /tmp/student{{ student_number }}/rhel-iso
+          shell: mkisofs -o {% raw %}{{ iso_dst_path }}/{{ iso_name }}{% endraw %} -b isolinux/isolinux.bin -c isolinux/boot.cat --joliet-long --no-emul-boot --boot-load-size 4 --boot-info-table -J -R -V "{% raw %}{{ iso_label.stdout }}{% endraw %}" /tmp/student{{ student_number }}/rhel-iso
           changed_when: false
+          args:
+            chdir: /tmp/student1/rhel-iso/
 
         - name: Add MD5 checksum
-          shell: implantisomd5 {% raw %}{{ iso_dst_path }}/{{ iso_name }}{% endraw %}
-          changed_when: false
+          shell: implantisomd5 {% raw %}{{ iso_dst_path }}/{{ iso_name }}
+          changed_when: false{% endraw %}
+
+
+        - name: Unmount the file system
+          command: umount /home/student{{ student_number }}/mnt/rhel-iso
+
 
         - name: Clean up temporary directories
           file:
@@ -77,5 +84,5 @@
 
 
         - ansible.builtin.debug:
-            msg: "Download the ISO from http://image-builder.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}/student-kickstarts/student{{ student_number }}/{% raw %}{{ iso_name }}{% endraw %}"
+            msg: "Download the ISO from http://ostree-repo.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}/student-isos/student{{ student_number }}/{% raw %}{{ iso_name }}{% endraw %}"
       become: yes
