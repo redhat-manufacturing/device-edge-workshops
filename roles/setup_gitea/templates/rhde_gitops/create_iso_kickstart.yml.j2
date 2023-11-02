@@ -5,7 +5,7 @@
   gather_facts: no 
   vars:
     iso_standard: "/home/ansible/rhel.iso"
-    kickstart_http_location: "/var/www/html/student-kickstarts/student{{ student_number }}/kickstart.ks"
+    kickstart_http_location: "http://ostree-repo.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}/student-kickstarts/student{{ student_number }}/kickstart.ks"
     iso_dst_path: "/var/www/html/student-isos/student{{ student_number }}"
     iso_name: "rhel-custom-kickstart.iso"
     basearch: "x86_64"
