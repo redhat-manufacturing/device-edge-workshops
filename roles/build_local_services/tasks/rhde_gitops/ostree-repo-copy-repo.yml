@@ -40,6 +40,7 @@
   loop:
     - "/var/www/html/student-repos" 
     - "/var/www/html/student-kickstarts" 
+    - "/var/www/html/student-isos" 
 
 - name: Allow containers to access and modify files
   community.general.sefcontext:
@@ -50,6 +51,7 @@
   loop:
     - "'/var/www/html/student-repos(/.*)?'" 
     - "'/var/www/html/student-kickstarts(/.*)?'" 
+    - "'/var/www/html/student-isos(/.*)?'" 
 
 - name: Apply new SELinux file context to filesystem
   ansible.builtin.command: restorecon -R {{ item }}
@@ -57,4 +59,5 @@
   loop:
     - "/var/www/html/student-repos" 
     - "/var/www/html/student-kickstarts" 
+    - "/var/www/html/student-isos" 
 

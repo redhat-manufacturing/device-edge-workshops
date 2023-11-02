@@ -1,4 +1,9 @@
 ---
+
+
+rhel_iso_sha_value: 087f5387f28e6edf1f770ec7eb41e56823b6c3c4d4c3ef09b3b61f59440c229c
+
+
 route53_domains:
   controller:
     domain: "controller.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
@@ -264,6 +269,8 @@ pods:
                 name: student-repos
               - mountPath: /var/www/html/student-kickstarts
                 name: student-kickstarts
+              - mountPath: /var/www/html/student-isos
+                name: student-isos
           - name: attendance
             image: attendance:latest
         volumes:
@@ -276,6 +283,9 @@ pods:
           - name: student-kickstarts
             hostPath:
               path: /var/www/html/student-kickstarts
+          - name: student-isos
+            hostPath:
+              path: /var/www/html/student-isos
 
 builder_blueprint_name: rhde-image
 #images_to_compose:
