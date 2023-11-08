@@ -450,6 +450,11 @@ chmod +x /var/usrlocal/bin/pre-pull-container-image.sh
 
 # pre-pull the container images at startup to avoid delay in http response
 cat > /var/home/ansible/.config/systemd/user/pre-pull-container-image.service <<EOF
+[Unit]
+Description=Pre-pull container image service
+After=network-online.target
+Wants=network-online.target
+
 [Service]
 Type=oneshot
 ExecStart=/var/usrlocal/bin/pre-pull-container-image.sh

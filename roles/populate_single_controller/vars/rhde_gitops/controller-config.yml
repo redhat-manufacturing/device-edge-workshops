@@ -177,6 +177,7 @@ controller_templates:
       - Device Credentials
     execution_environment: Device Edge Workshops Execution Environment
     become_enabled: true
+    ask_inventory_on_launch: true
 
   - name: Update Microshift APP
     organization: "Student{{ student_number }} Organization"
