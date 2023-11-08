@@ -1,0 +1,52 @@
+
+---
+- name: Clone GitHub Repository and Copy Files
+  hosts:
+    - all
+  gather_facts: no
+
+  vars:
+    git_repo_url: "gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-configs"
+    local_clone_path: "/tmp/repo_clone"
+    target_path: "/etc/containers/systemd"
+{% raw %}
+  tasks:
+    - name: Remove the local clone
+      file:
+        path: "{{ local_clone_path }}"
+        state: absent
+{% endraw %}
+    - name: Clone repo 
+      ansible.builtin.shell:            
+        cmd: "git clone https://student{{ student_number }}:'{{ admin_password }}'@{% raw %}{{ git_repo_url }} {{ local_clone_path }}"
+       
+    - name: Copy files to the target host
+      copy:
+        src: "{{ local_clone_path }}/APPs/podman/quadlet/"
+        dest: "{{ target_path }}"
+        remote_src: yes
+      
+    - name: Remove the local clone
+      file:
+        path: "{{ local_clone_path }}"
+        state: absent
+
+
+    - name: Reload systemd manager
+      ansible.builtin.systemd:
+        daemon_reload: true
+
+    - name: Get list of .container files in /etc/containers/systemd/
+      find:
+        paths: /etc/containers/systemd/
+        patterns: "*.container"
+      register: container_files
+      changed_when: false
+
+    - name: Restart systemd units
+      systemd:
+        name: "{{ item.path | basename | regex_replace('(.*)\\.container', '\\1.service') }}"
+        state: restarted
+      loop: "{{ container_files.files }}"
+      
+{% endraw %}

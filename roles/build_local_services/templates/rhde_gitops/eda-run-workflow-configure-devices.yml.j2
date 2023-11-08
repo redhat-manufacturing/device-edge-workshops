@@ -1,0 +1,39 @@
+---
+
+- name: run Configure Edge Device workflow
+  hosts:
+    - all
+  gather_facts: false
+  tasks:
+
+    - name: set common host facts
+      ansible.builtin.set_fact:
+        controller_hostname: controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}
+        controller_username: admin
+        controller_password: "{{ admin_password }}"
+        controller_validate_certs: false
+
+{% raw %}
+    - name: Set controller_workflow_launch_jobs fact
+      ansible.builtin.set_fact:
+        controller_workflow_launch_jobs:
+          - name: Configure Edge Device
+            wait: true
+            organization: "{{ username }} Organization"
+      when: inventory is not defined
+
+    - name: Set controller_workflow_launch_jobs fact when inventory is defined
+      ansible.builtin.set_fact:
+        controller_workflow_launch_jobs:
+          - name: Configure Edge Device
+            inventory: "{{ inventory }}"
+            wait: true
+            organization: "{{ username }} Organization"
+      when: inventory is defined
+
+{% endraw %}
+
+    - name: Run the role
+      ansible.builtin.include_role:
+        name: /opt/eda/collections/ansible_collections/redhat_cop/controller_configuration/roles/workflow_launch
+

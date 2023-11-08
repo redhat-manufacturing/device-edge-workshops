@@ -1,0 +1,20 @@
+---
+
+- name: run a workflow on controller
+  hosts:
+    - all
+  gather_facts: false
+  vars:
+    controller_hostname: controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}
+    controller_username: admin
+    controller_password: "{{ admin_password }}"
+    controller_validate_certs: false
+    controller_workflow_launch_jobs:
+      - name: New Edge Device Image
+        wait: true
+{% raw %}
+        organization: "{{ username }} Organization"
+{% endraw %}
+  roles:
+    - /opt/eda/collections/ansible_collections/redhat_cop/controller_configuration/roles/workflow_launch
+

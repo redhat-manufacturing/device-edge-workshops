@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Replace with your Slack app token and the desired channel name
+TOKEN="{{ slack_app_token }}"
+
+CHANNEL="#ostree-upgrades"
+
+script_failed=$(journalctl -u greenboot-status | grep FAILURE | grep Script | head -n 1 | awk '{print $7}')
+
+# Message to send
+MESSAGE="THE OSTREE UPGRADE FAILED!: $script_failed"
+
+# Send the message
+curl -X POST -H "Authorization: Bearer $TOKEN" -H 'Content-type: application/json' --data "{\"channel\":\"#$CHANNEL\",\"text\":\"$MESSAGE\"}" "https://slack.com/api/chat.postMessage"

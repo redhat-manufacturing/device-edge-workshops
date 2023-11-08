@@ -1,7 +1,8 @@
 ---
 - name: "Create webhooks"
   ansible.builtin.include_tasks:
-    file: webhook_from_job_template.yml     
+    file: webhook_from_eda.yml     
+#    file: webhook_from_job_template.yml     
   with_nested: 
     - "{{ range(1, (student_total + 1), 1)|list }}"
     - "{{ additional_repos }}"

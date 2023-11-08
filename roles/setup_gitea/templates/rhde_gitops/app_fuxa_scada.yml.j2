@@ -1,0 +1,39 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: fuxa-pod
+  name: fuxa-pod
+spec:
+  containers:
+  - args:
+    - npm
+    - start
+    image: docker.io/frangoteam/fuxa:latest
+    name: fuxa
+    ports:
+    - containerPort: 1881
+      hostPort: 1881
+    volumeMounts:
+    - mountPath: /root/FUXA/_appdata
+      name: fuxa_appdata-pvc
+    - mountPath: /root/FUXA/_db
+      name: fuxa_db-pvc
+    - mountPath: /root/FUXA/_logs
+      name: fuxa_logs-pvc
+    - mountPath: /root/FUXA/_images
+      name: fuxa_images-pvc
+  volumes:
+  - name: fuxa_appdata-pvc
+    persistentVolumeClaim:
+      claimName: fuxa_appdata
+  - name: fuxa_db-pvc
+    persistentVolumeClaim:
+      claimName: fuxa_db
+  - name: fuxa_logs-pvc
+    persistentVolumeClaim:
+      claimName: fuxa_logs
+  - name: fuxa_images-pvc
+    persistentVolumeClaim:
+      claimName: fuxa_images

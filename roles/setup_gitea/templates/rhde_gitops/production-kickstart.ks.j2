@@ -19,8 +19,8 @@ rootpw --plaintext --lock '{{ admin_password }}'
 services --enabled=ostree-remount
 ostreesetup --nogpg --url=http://ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student-repos/student{{ student_number }}/repo --osname=rhel --ref=rhel/9/x86_64/edge
 
-%post
-
+%post --log=/root/kickstart-post.log
+set -x
 {% if lab_wifi_network.ssid is defined and lab_wifi_network.password is defined %}
 cat > /etc/systemd/system/connect-wifi.service <<EOF
 [Unit]
@@ -53,6 +53,12 @@ IP_ADDRESS=\$(nmcli conn show \$conn_name | grep ip_address | awk '{print \$4}')
 MAC_ADDRESS=\$(ip addr | grep \$conn_name -A 1 | grep link | awk '{print \$2}' | sed 's/://g')
 STUDENT='{{ student_number }}'
 
+
+if [ -z "\$IP_ADDRESS" ] || [ -z "\$MAC_ADDRESS" ] || [ -z "\$STUDENT" ]; then
+    echo "One or more required variables are empty. Script failed."
+    exit 1
+fi
+
 JSON="{\
 \"ip_address\": \"\$IP_ADDRESS\", \
 \"student\": \"\$STUDENT\", \
@@ -62,6 +68,9 @@ JSON="{\
 /usr/bin/curl -H 'Content-Type: application/json' --data "\$JSON" https://eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/endpoint
 EOF
 
+chmod +x  /var/tmp/aap-auto-registration.sh
+
+
 cat > /etc/systemd/system/aap-auto-registration.service <<EOF
 [Unit]
 Description=Register to Ansible Automation Platform
@@ -70,9 +79,8 @@ After=connect-wifi.service
 ConditionPathExists=!/var/tmp/aap-registered
 
 [Service]
-Type=oneshot
-ExecStart=/bin/bash /var/tmp/aap-auto-registration.sh
-ExecStopPost=/usr/bin/touch /var/tmp/aap-registered
+Type=simple
+ExecStart=/bin/bash -c 'while true; do /var/tmp/aap-auto-registration.sh && /usr/bin/touch /var/tmp/aap-registered && break; done'
 
 [Install]
 WantedBy=default.target
@@ -81,6 +89,480 @@ EOF
 systemctl daemon-reload
 systemctl enable connect-wifi.service
 systemctl enable aap-auto-registration.service
+
+
+
+
+### python3-inotify
+
+## **** REMEMBER TO HAVE PYTHON3-INOTIFY INSTALLED
+
+
+pip3 install inotify requests
+
+# Create the Python script to watch /etc and send a webhook with JSON data
+cat <<EOF > /usr/local/bin/watch_etc.py
+#!/usr/bin/env python3
+
+import inotify.adapters
+import requests
+import os
+import subprocess
+
+# Define the directory to monitor
+DIRECTORY = '/etc'
+
+# Define your webhook URL
+WEBHOOK_URL = "https://eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/endpoint"
+{% raw %}
+# Function to send a webhook with JSON data
+def send_webhook(path, filename, event_type, student, inventory):
+    json_data = {
+        "student": student,
+        "inventory": inventory,
+        "path": path,
+        "file_changed": filename,
+        "event_type": event_type
+    }
+
+    headers = {'Content-Type': 'application/json'}
+    response = requests.post(WEBHOOK_URL, json=json_data, headers=headers)
+    if response.status_code == 200:
+        print(f'Webhook sent: {filename}')
+
+# Check if the "/root/inotify-wait" file exists
+def inotify_wait_exists():
+    return os.path.exists('/root/inotify-wait')
+
+try:
+    conn_name = subprocess.check_output("nmcli con show | grep -v UUID | head -n 1 | awk '{{print \$1}}'", shell=True)
+    conn_name = conn_name.decode("utf-8").strip()
+except subprocess.CalledProcessError as e:
+    print(f"Error running the first shell command: {e}")
+    conn_name = None
+
+# Check if the connection name was retrieved successfully
+if conn_name:
+    # Run the second shell command to get the MAC address
+    try:
+        MAC_ADDRESS = subprocess.check_output(f"ip addr | grep {conn_name} -A 1 | grep link | awk '{{print \$2}}' | sed 's/://g'", shell=True)
+        MAC_ADDRESS = MAC_ADDRESS.decode("utf-8").strip()
+    except subprocess.CalledProcessError as e:
+        print(f"Error running the second shell command: {e}")
+        MAC_ADDRESS = None
+
+# Check if both variables are available
+if conn_name and MAC_ADDRESS:
+    inventory = f'edge-{MAC_ADDRESS}'
+
+# Initialize the inotify watcher
+i = inotify.adapters.InotifyTree(DIRECTORY)
+{% endraw %}
+for event in i.event_gen(yield_nones=False):
+      (_, type_names, path, filename) = event
+      # Check the file extension and skip unwanted extensions
+      _, file_extension = os.path.splitext(filename)
+
+      if file_extension not in ('.swp', '.ddf'):
+        #print("variable: {}".format(type_names))
+        if any(event_type in ['IN_CREATE', 'IN_MODIFY', 'IN_DELETE', 'IN_MOVE'] for event_type in type_names):
+            print("PATH=[{}] FILENAME=[{}] EVENT_TYPES={}".format(path, filename, type_names))
+            # Check if the "/root/inotify-wait" file exists
+            if not inotify_wait_exists():
+                # Send a webhook notification with JSON data
+                send_webhook(path, filename, type_names, {{ student_number }}, inventory )
+                # Create the "/root/inotify-wait" file
+                open('/root/inotify-wait', 'w').close()
+
+i.remove_watch(DIRECTORY)
+EOF
+
+# Make the script executable
+chmod +x /usr/local/bin/watch_etc.py
+
+semanage fcontext -a -t bin_t '/usr/local/bin/watch_etc.py'
+restorecon -v '/usr/local/bin/watch_etc.py'
+
+
+
+# Define the webhook URL (replace with your actual URL)
+WEBHOOK_URL="https://eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/endpoint"
+
+# Create a systemd service unit to run the Python script
+cat <<EOF > /etc/systemd/system/watch-etc.service
+[Unit]
+Description=Watch /etc for file changes and send a webhook
+
+[Service]
+ExecStart=/usr/local/bin/watch_etc.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Reload systemd to read the new unit file
+systemctl daemon-reload
+
+# Enable and start the service
+systemctl enable watch-etc.service
+systemctl start watch-etc.service
+
+
+
+
+
+
+
+########## PODMAN autoupdate rootless
+
+
+# create systemd user directories for rootless services, timers, and sockets
+mkdir -p /var/home/ansible/.config/systemd/user/default.target.wants
+mkdir -p /var/home/ansible/.config/systemd/user/sockets.target.wants
+mkdir -p /var/home/ansible/.config/systemd/user/timers.target.wants
+mkdir -p /var/home/ansible/.config/systemd/user/multi-user.target.wants
+
+cat > /var/home/ansible/.config/systemd/user/podman-auto-update.service <<EOF
+[Unit]
+Description=Podman auto-update service
+Documentation=man:podman-auto-update(1)
+
+[Service]
+ExecStart=/usr/bin/podman auto-update
+
+[Install]
+WantedBy=multi-user.target default.target
+EOF
+
+
+
+# This timer ensures podman auto-update is run every minute
+cat > /var/home/ansible/.config/systemd/user/podman-auto-update.timer <<EOF
+[Unit]
+Description=Podman auto-update timer
+
+[Timer]
+# This example runs the podman auto-update daily within a two-hour
+# randomized window to reduce system load
+#OnCalendar=daily
+#Persistent=true
+#RandomizedDelaySec=7200
+
+# activate every minute
+OnBootSec=30
+OnUnitActiveSec=30
+
+[Install]
+WantedBy=timers.target
+EOF
+
+
+# define listener
+node_ip=$(ip a show dev $(ip route | grep default | awk '{print $5}') | grep "inet " | awk '{print $2}' | awk -F / '{print $1}')
+
+
+##
+## Create a service to launch the container workload and restart
+## it on failure
+##
+cat > /var/home/ansible/.config/systemd/user/container-app1.service <<EOF
+# container-app1.service
+# autogenerated by Podman 4.2.0
+# Wed Feb  8 10:13:55 UTC 2023
+
+[Unit]
+Description=Podman container-app1.service
+Documentation=man:podman-generate-systemd(1)
+Wants=network-online.target
+After=network-online.target
+RequiresMountsFor=%t/containers
+
+[Service]
+Environment=PODMAN_SYSTEMD_UNIT=%n
+Restart=on-failure
+TimeoutStopSec=70
+ExecStartPre=/bin/rm -f %t/%n.ctr-id
+ExecStart=/usr/bin/podman run \
+        --cidfile=%t/%n.ctr-id \
+        --cgroups=no-conmon \
+        --rm \
+        --sdnotify=conmon \
+        -d \
+        --replace \
+        --name app1 \
+        --label io.containers.autoupdate=registry \
+        -p ${node_ip}:8081:8081 {{ apps.app1.registry }}/{{ apps.app1.image }}:{{ apps.app1.prodtag }}
+ExecStop=/usr/bin/podman stop --ignore --cidfile=%t/%n.ctr-id
+ExecStopPost=/usr/bin/podman rm -f --ignore --cidfile=%t/%n.ctr-id
+Type=notify
+NotifyAccess=all
+
+[Install]
+WantedBy=default.target
+EOF
+
+
+# enable connection through the firewall
+cat << EOF > /etc/systemd/system/expose-container-app1.service
+[Unit]
+Wants=firewalld.service
+After=firewalld.service
+
+[Service]
+Type=oneshot
+ExecStart=firewall-cmd --permanent --add-port=8081/tcp
+ExecStartPost=firewall-cmd --reload
+
+[Install]
+WantedBy=multi-user.target default.target
+EOF
+
+
+# enable services
+ln -s /var/home/ansible/.config/systemd/user/podman-auto-update.timer /var/home/ansible/.config/systemd/user/timers.target.wants/podman-auto-update.timer
+
+ln -s /var/home/ansible/.config/systemd/user/container-app1.service /var/home/ansible/.config/systemd/user/default.target.wants/container-app1.service
+ln -s /var/home/ansible/.config/systemd/user/container-app1.service /var/home/ansible/.config/systemd/user/multi-user.target.wants/container-app1.service
+
+systemctl enable expose-container-app1.service
+
+
+
+# fix ownership of user local files and SELinux contexts
+chown -R ansible: /var/home/ansible
+restorecon -vFr /var/home/ansible
+
+
+# enable linger so user services run whether user logged in or not
+cat << EOF > /etc/systemd/system/enable-linger.service
+[Service]
+Type=oneshot
+ExecStart=loginctl enable-linger ansible
+
+[Install]
+WantedBy=multi-user.target default.target
+EOF
+
+systemctl enable enable-linger.service
+
+
+
+
+
+########## PODMAN serverless rootless
+
+
+
+##
+## Create a scale from zero systemd service for a container web
+## server using socket activation
+##
+
+# create systemd user directories for rootless services, timers,
+# and sockets
+mkdir -p /var/home/ansible/.config/systemd/user/default.target.wants
+mkdir -p /var/home/ansible/.config/systemd/user/sockets.target.wants
+mkdir -p /var/home/ansible/.config/systemd/user/timers.target.wants
+mkdir -p /var/home/ansible/.config/systemd/user/multi-user.target.wants
+
+
+
+# define listener for socket activation
+node_ip=$(ip a show dev $(ip route | grep default | awk '{print $5}') | grep "inet " | awk '{print $2}' | awk -F / '{print $1}')
+
+cat << EOF > /var/home/ansible/.config/systemd/user/container-httpd-proxy.socket
+[Socket]
+ListenStream=${node_ip}:8080
+FreeBind=true
+
+[Install]
+WantedBy=sockets.target
+EOF
+
+
+
+# define proxy service that launches web container and forwards
+# requests to it
+cat << EOF > /var/home/ansible/.config/systemd/user/container-httpd-proxy.service
+[Unit]
+Requires=container-httpd.service
+After=container-httpd.service
+Requires=container-httpd-proxy.socket
+After=container-httpd-proxy.socket
+
+[Service]
+ExecStart=/usr/lib/systemd/systemd-socket-proxyd --exit-idle-time=10s 127.0.0.1:8080
+EOF
+
+
+
+##
+## Create a service to launch the container workload and restart
+## it on failure
+##
+cat > /var/home/ansible/.config/systemd/user/container-httpd.service <<EOF
+# container-httpd.service
+# autogenerated by Podman 3.0.2-dev
+# Thu May 20 10:16:40 EDT 2021
+
+[Unit]
+Description=Podman container-httpd.service
+Documentation=man:podman-generate-systemd(1)
+Wants=network-online.target
+After=network-online.target
+RequiresMountsFor=%t/containers
+StopWhenUnneeded=true
+
+[Service]
+Environment=PODMAN_SYSTEMD_UNIT=%n
+Restart=on-failure
+TimeoutStopSec=70
+ExecStartPre=/bin/rm -f %t/%n.ctr-id
+ExecStart=/usr/bin/podman run --cidfile %t/%n.ctr-id --cgroups=no-conmon --sdnotify=conmon -d --replace --name httpd --label io.containers.autoupdate=registry -p 127.0.0.1:8080:8080 {{ apps.app2.registry }}/{{ apps.app2.image }}:{{ apps.app1.prodtag }}
+ExecStop=/usr/bin/podman stop --ignore --cidfile=%t/%n.ctr-id
+ExecStopPost=/usr/bin/podman rm -f --ignore --cidfile=%t/%n.ctr-id
+Type=notify
+NotifyAccess=all
+
+[Install]
+WantedBy=default.target
+EOF
+
+
+
+
+
+cat << EOF > /var/usrlocal/bin/pre-pull-container-image.sh
+#!/bin/bash
+while true
+do 
+  podman pull {{ apps.app2.registry }}/{{ apps.app2.image }}:{{ apps.app1.prodtag }}
+  podman image list | grep {{ apps.app2.image }}
+  if [ $? -eq 0 ]
+  then 
+    break
+  fi  
+done
+EOF
+
+chmod +x /var/usrlocal/bin/pre-pull-container-image.sh
+
+# pre-pull the container images at startup to avoid delay in http response
+cat > /var/home/ansible/.config/systemd/user/pre-pull-container-image.service <<EOF
+[Unit]
+Description=Pre-pull container image service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/var/usrlocal/bin/pre-pull-container-image.sh
+
+[Install]
+WantedBy=multi-user.target default.target
+EOF
+
+# enable socket listener
+ln -s /var/home/ansible/.config/systemd/user/container-httpd-proxy.socket /var/home/ansible/.config/systemd/user/sockets.target.wants/container-httpd-proxy.socket
+
+
+
+# enable pre-pull container image
+ln -s /var/home/ansible/.config/systemd/user/pre-pull-container-image.service /var/home/ansible/.config/systemd/user/default.target.wants/pre-pull-container-image.service
+ln -s /var/home/ansible/.config/systemd/user/pre-pull-container-image.service /var/home/ansible/.config/systemd/user/multi-user.target.wants/pre-pull-container-image.service
+
+
+
+
+# enable linger so user services run whether user logged in or not
+cat << EOF > /etc/systemd/system/enable-linger.service
+[Service]
+Type=oneshot
+ExecStart=loginctl enable-linger ansible
+
+[Install]
+WantedBy=multi-user.target default.target
+EOF
+
+systemctl enable enable-linger.service
+
+# enable 8080 port through the firewall to expose the application
+cat << EOF > /etc/systemd/system/expose-container-app2.service
+[Unit]
+Wants=firewalld.service
+After=firewalld.service
+
+[Service]
+Type=oneshot
+ExecStart=firewall-cmd --permanent --add-port=8080/tcp
+ExecStartPost=firewall-cmd --reload
+
+[Install]
+WantedBy=multi-user.target default.target
+EOF
+
+
+
+systemctl enable expose-container-app2.service
+
+
+# fix ownership of user local files and SELinux contexts
+chown -R ansible: /var/home/ansible
+restorecon -vFr /var/home/ansible
+
+
+
+
+
+
+######## Greenboot
+
+sudo cat << 'EOF' > /etc/greenboot/check/required.d/01-check-packages.sh
+#!/bin/bash
+
+# List of required packages
+required_packages=("python3-pip" "python3-inotify" "git")
+
+# Check if each package is installed
+for package in "\${required_packages[@]}"; do
+    if ! rpm -q "\$package" &>/dev/null; then
+        echo "Error: \$package is not installed."
+        exit 1
+    fi
+done
+
+echo "All required packages are installed."
+EOF
+
+chmod +x /etc/greenboot/check/required.d/01-check-packages.sh
+
+
+
+
+
+
+sudo cat << 'EOF' > /etc/greenboot/red.d/01-slack-notification.sh
+#!/bin/bash
+
+# Replace with your Slack app token and the desired channel name
+TOKEN="{{ slack_app_token }}"
+
+CHANNEL="#ostree-upgrades"
+
+script_failed=$(journalctl -u greenboot-status | grep FAILURE | grep Script | head -n 1 | awk '{print $7}')
+
+# Message to send
+MESSAGE="THE OSTREE UPGRADE FAILED!: $script_failed"
+
+# Send the message
+curl -X POST -H "Authorization: Bearer $TOKEN" -H 'Content-type: application/json' --data "{\"channel\":\"#$CHANNEL\",\"text\":\"$MESSAGE\"}" "https://slack.com/api/chat.postMessage"
+EOF
+
+
+chmod +x /etc/greenboot/red.d/01-slack-notification.sh
+
+
 
 
 %end
