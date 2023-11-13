@@ -1,0 +1,16 @@
+---
+
+all:
+  children:
+    local:
+      children:
+        edge_management:
+          hosts:
+            edge-manager-virtual:
+              ansible_host: 192.168.122.205
+              external_connection: enp1s0
+              internal_connection: enp7s0
+  vars:
+    ansible_user: ansible
+    ansible_password: password-here
+    ansible_become_password: "{{ ansible_password }}"

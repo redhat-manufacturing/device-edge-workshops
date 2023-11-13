@@ -1,0 +1,83 @@
+---
+
+# Required Variables
+
+# Set the content type
+workshop_or_demo: demo
+
+# Set the right workshop or demo type
+demo_type: sps_2023
+
+# Set the number of student slots
+student_total: 1
+
+# Authentication to the container registry
+redhat_username: your-redhat-username
+redhat_password: your-redhat-password
+  
+# DNS settings
+# If using an AWS Open Environment, a DNS zone will be provisioned for you, or feel free to use your own deletated to Rout53
+base_zone: your-base-dns.zone.com
+# The subdomain for the workshop - usually the customer name or event
+sub_domain: sps-2023
+
+lab_wifi_network:
+  ssid: example-network
+  password: example-password
+
+# Your zerossl information from https://app.zerossl.com/developer
+zerossl_account:
+  kid: your-kid
+  key: your-key
+  alg: HS256
+
+pull_secret: your-pull-secret
+
+# The base64 of your controller manifest (may be long)
+base64_manifest: your-base64-manifest
+
+# Generate offline token to authenticate the calls to Red Hat's APIs
+# Can be accessed at https://access.redhat.com/management/api
+offline_token: your-offline-token
+
+# admin password for workshop services
+admin_password: admin-password-here
+
+# Optional Variables - shouldn't need to be configured
+
+# turn DNS on for control nodes, and set to type in valid_dns_type
+dns_type: aws
+
+# Sets the Route53 DNS zone to use for Amazon Web Services
+workshop_dns_zone: "{{ base_zone }}"
+
+# name prefix for all the VMs
+ec2_name_prefix: "{{ sub_domain }}"
+
+# where the workshop is being run
+run_in_aws: false
+run_locally: true
+
+# if local hypervisor nodes should be configured
+manage_local_hypervisor: false
+
+# region where the nodes will live
+ec2_region: us-east-2
+
+# Use zeroSSL
+use_zerossl: true
+
+# automatically installs Tower to control node
+controllerinstall: true
+
+# forces ansible.workshops collection to install latest edits every time
+developer_mode: false
+
+# Don't need automation hub
+automation_hub: false
+
+#builder_pub_key: 'ssh-rsa abc123'
+
+_install_extra_packages: true
+
+_vars_file_path: demo_vars/sps_2023.yml
