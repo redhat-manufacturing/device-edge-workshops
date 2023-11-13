@@ -2,6 +2,8 @@
 - name: AWS instance post-setup 
   hosts:
     - edge_remote_management
+  vars_files:
+    - "{{ _vars_file_path }}"
   tasks:
     - block:
         - name: Copy private SSH key
