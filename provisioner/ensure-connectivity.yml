@@ -9,6 +9,8 @@
     - edge_remote_management
   become: true
   gather_facts: false
+  vars_files:
+    - "{{ _vars_file_path }}"
   tasks:
     - include_role:
         name: ../roles/connectivity_test
