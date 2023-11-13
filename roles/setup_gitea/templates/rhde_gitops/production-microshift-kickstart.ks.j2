@@ -17,7 +17,7 @@ part /boot --fstype=xfs --asprimary --size=800
 part swap --fstype=swap --recommended
 part pv.01 --grow
 volgroup rhel pv.01
-logvol / --vgname=rhel --fstype=xfs --size=10000 --name=root
+logvol / --vgname=rhel --fstype=xfs --percent=90 --name=root
 reboot
 graphical
 user --name=ansible --groups=wheel --password='{{ admin_password }}'
@@ -25,7 +25,8 @@ rootpw --plaintext --lock '{{ admin_password }}'
 services --enabled=ostree-remount
 ostreesetup --nogpg --url=http://ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student-repos/student{{ student_number }}/repo --osname=rhel --ref=rhel/9/x86_64/edge
 
-%post
+%post --log=/root/kickstart-post.log
+set -x
 
 firewall-offline-cmd --zone=trusted --add-source=10.42.0.0/16
 firewall-offline-cmd --zone=trusted --add-source=169.254.169.1
@@ -214,6 +215,8 @@ JSON="{\
 /usr/bin/curl -H 'Content-Type: application/json' --data "\$JSON" https://eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/endpoint
 EOF
 
+chmod +x  /var/tmp/aap-auto-registration.sh
+
 cat > /etc/systemd/system/aap-auto-registration.service <<EOF
 [Unit]
 Description=Register to Ansible Automation Platform
@@ -222,9 +225,8 @@ Wants=network-online.target
 ConditionPathExists=!/var/tmp/aap-registered
 
 [Service]
-Type=oneshot
-ExecStart=/bin/bash /var/tmp/aap-auto-registration.sh
-ExecStopPost=/usr/bin/touch /var/tmp/aap-registered
+Type=simple
+ExecStart=/bin/bash -c 'while true; do /var/tmp/aap-auto-registration.sh && /usr/bin/touch /var/tmp/aap-registered && break; done'
 
 [Install]
 WantedBy=default.target

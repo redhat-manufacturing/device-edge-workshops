@@ -3,10 +3,18 @@
 - name: build and start local services
   hosts:
     - 'edge_management:&local'
-  vars_files:
-    - "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
-    - "{{ playbook_dir }}/demo_vars/{{ demo_type }}.yml"
-  # pre_tasks:
+  pre_tasks:
+    - name: Include workshop or demo variables
+      include_vars:
+        file: "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
+      when: workshop_type is defined
+      ignore_errors: yes
+
+    - name: Include demo variables
+      include_vars:
+        file: "{{ playbook_dir }}/demo_vars/{{ demo_type }}.yml"
+      when: demo_type is defined
+      ignore_errors: yes
   #   - name: attempt to load in vars for workshop
   #     ansible.builtin.include_vars:
   #       file: "{{ workshop_or_demo | default('workshop') }}_vars/{{ workshop_type }}.yml"

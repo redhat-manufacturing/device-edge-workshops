@@ -39,6 +39,10 @@ workshops:
         from_port: 8088
         cidr_ip: 0.0.0.0/0
       - proto: tcp
+        to_port: 9001
+        from_port: 9001
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
         to_port: 8089
         from_port: 8089
         cidr_ip: 0.0.0.0/0

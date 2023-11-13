@@ -5,12 +5,14 @@
   hosts:
     - all
   gather_facts: false
-  pre_tasks:
+
+  tasks:
     - name: set fact when needed
       ansible.builtin.set_fact:
         resource_state: present
       when:
         - resource_state is not defined
+
     - name: set host facts
       ansible.builtin.set_fact:
         controller_hosts:
@@ -20,6 +22,40 @@
             state: "{{ resource_state | default('present') }}"
             variables:
               ansible_host: "{{ ip_address }}"
-  roles:
-    - redhat_cop.controller_configuration.hosts
+
+    - name: Run the redhat_cop.controller_configuration.hosts role
+      ansible.builtin.include_role:
+        name: redhat_cop.controller_configuration.hosts
+
+
+    - name: set host facts
+      ansible.builtin.set_fact:
+        controller_inventories:
+          - name: "edge-{{ mac_address }}"
+            description: "Inventory containing just device edge-{{ mac_address }}"
+            organization: "Student{{ student }} Organization"
+            variables:
+              student_number: "{{ student }}"
+            state: present
+
+    - name: create dedicated inventory
+      ansible.builtin.include_role:
+        name: redhat_cop.controller_configuration.inventories
+
+    - name: set host facts
+      ansible.builtin.set_fact:
+        controller_hosts:
+          - name: "edge-{{ mac_address }}"
+            inventory: "edge-{{ mac_address }}"
+            enabled: true
+            state: "{{ resource_state | default('present') }}"
+            variables:
+              ansible_host: "{{ ip_address }}"
+
+    - name: Run the redhat_cop.controller_configuration.hosts role
+      ansible.builtin.include_role:
+        name: redhat_cop.controller_configuration.hosts
+
+
+
 {% endraw %}

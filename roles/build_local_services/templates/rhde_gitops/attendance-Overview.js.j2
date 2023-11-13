@@ -88,15 +88,23 @@ class Overview extends React.Component {
             <Card isCompact isRounded className='Overview-card' alignSelf={{ default: 'alignSelfCenter' }}>
               <DescriptionList isVertical columnModifier={{ lg: '2Col' }} termWidth="10ch">
                 <Card component="div">
-                  <CardTitle>Anisble Controller</CardTitle>
+                  <CardTitle>Ansible Controller</CardTitle>
                   <CardBody>
 {% endraw %}
                     <DescriptionListTerm className='Description-list'>Username:</DescriptionListTerm>
                     <DescriptionListDescription className >student{{ student_number }}</DescriptionListDescription>
                     <DescriptionListTerm className='Description-list'>Password:</DescriptionListTerm>
                     <DescriptionListDescription className ><code>{{ admin_password }}</code></DescriptionListDescription>
-                    <DescriptionListTerm className='Description-list'>IP Address:</DescriptionListTerm>
+                    <DescriptionListTerm className='Description-list'>Internal IP Address:</DescriptionListTerm>
                     <DescriptionListDescription className ><a href="{{ internal_address }}">{{ internal_address }}</a></DescriptionListDescription>
+{% if edge_management_ext_ip.ssid is defined %}
+                    <DescriptionListTerm className='Description-list'>External IP Address:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="{{ edge_management_ext_ip }}">{{ edge_management_ext_ip }}</a></DescriptionListDescription>
+{% endif %}
+{% if edge_remote_management_ext_ip.ssid is defined %}
+                    <DescriptionListTerm className='Description-list'>Public IP Address:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="{{ edge_remote_management_ext_ip }}">{{ edge_remote_management_ext_ip }}</a></DescriptionListDescription>
+{% endif %}
                     <DescriptionListTerm className='Description-list'>DNS Hostname:</DescriptionListTerm>
                     <DescriptionListDescription className ><a href="https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}">https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}</a></DescriptionListDescription>
                   </CardBody>
@@ -108,8 +116,16 @@ class Overview extends React.Component {
                     <DescriptionListDescription className >student{{ student_number }}</DescriptionListDescription>
                     <DescriptionListTerm className='Description-list'>Password:</DescriptionListTerm>
                     <DescriptionListDescription className ><code>{{ admin_password }}</code></DescriptionListDescription>
-                    <DescriptionListTerm className='Description-list'>IP Address:</DescriptionListTerm>
+                    <DescriptionListTerm className='Description-list'>Internal IP Address:</DescriptionListTerm>
                     <DescriptionListDescription className ><a href="https://{{ internal_address }}">{{ internal_address }}</a></DescriptionListDescription>
+{% if edge_management_ext_ip.ssid is defined %}
+                    <DescriptionListTerm className='Description-list'>External IP Address:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="{{ edge_management_ext_ip }}">{{ edge_management_ext_ip }}</a></DescriptionListDescription>
+{% endif %}
+{% if edge_remote_management_ext_ip.ssid is defined %}
+                    <DescriptionListTerm className='Description-list'>Public IP Address:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="{{ edge_remote_management_ext_ip }}">{{ edge_remote_management_ext_ip }}</a></DescriptionListDescription>
+{% endif %}
                     <DescriptionListTerm className='Description-list'>DNS Hostname:</DescriptionListTerm>
                     <DescriptionListDescription className ><a href="https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}">https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}</a></DescriptionListDescription>
                   </CardBody>
@@ -121,12 +137,38 @@ class Overview extends React.Component {
                     <DescriptionListDescription className >student{{ student_number }}</DescriptionListDescription>
                     <DescriptionListTerm className='Description-list'>Password:</DescriptionListTerm>
                     <DescriptionListDescription className ><code>{{ admin_password }}</code></DescriptionListDescription>
-                    <DescriptionListTerm className='Description-list'>IP Address:</DescriptionListTerm>
+                    <DescriptionListTerm className='Description-list'>Internal IP Address:</DescriptionListTerm>
                     <DescriptionListDescription className ><a href="https://{{ internal_address }}">{{ internal_address }}</a></DescriptionListDescription>
+{% if edge_management_ext_ip.ssid is defined %}
+                    <DescriptionListTerm className='Description-list'>External IP Address:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="{{ edge_management_ext_ip }}">{{ edge_management_ext_ip }}</a></DescriptionListDescription>
+{% endif %}
+{% if edge_remote_management_ext_ip.ssid is defined %}
+                    <DescriptionListTerm className='Description-list'>Public IP Address:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="{{ edge_remote_management_ext_ip }}">{{ edge_remote_management_ext_ip }}</a></DescriptionListDescription>
+{% endif %}
                     <DescriptionListTerm className='Description-list'>DNS Hostname:</DescriptionListTerm>
                     <DescriptionListDescription className ><a href="https://image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}">https://image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}</a></DescriptionListDescription>
                   </CardBody>
                 </Card>
+                <Card component="div">
+                  <CardTitle>Etherpad (Source Control)</CardTitle>
+                  <CardBody>
+                    <DescriptionListTerm className='Description-list'>Internal IP Address:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="https://{{ internal_address }}">{{ internal_address }}</a></DescriptionListDescription>
+{% if edge_management_ext_ip.ssid is defined %}
+                    <DescriptionListTerm className='Description-list'>External IP Address:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="{{ edge_management_ext_ip }}">{{ edge_management_ext_ip }}</a></DescriptionListDescription>
+{% endif %}
+{% if edge_remote_management_ext_ip.ssid is defined %}
+                    <DescriptionListTerm className='Description-list'>Public IP Address:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="{{ edge_remote_management_ext_ip }}">{{ edge_remote_management_ext_ip }}</a></DescriptionListDescription>
+{% endif %}
+                    <DescriptionListTerm className='Description-list'>DNS Hostname:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}">https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}</a></DescriptionListDescription>
+                  </CardBody>
+                </Card>
+{% if lab_wifi_network.ssid is defined and lab_wifi_network.password is defined %}
                 <Card component="div">
                   <CardTitle>Wifi Information</CardTitle>
                   <CardBody>
@@ -136,6 +178,7 @@ class Overview extends React.Component {
                     <DescriptionListDescription className ><code>{{ lab_wifi_network.password }}</code></DescriptionListDescription>
                   </CardBody>
                 </Card>
+{% endif %}
               </DescriptionList>
             </Card>
           </Box>

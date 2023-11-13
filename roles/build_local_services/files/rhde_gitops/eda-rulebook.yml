@@ -20,6 +20,52 @@
             mac_address: "{{ event.payload.mac_address }}"
 
 
+    - name: Create new device image
+      condition: "'production-image-definition.yml' in event.payload.commits[0].modified"
+      action:
+        run_playbook:
+          name: run-workflow-create-device-image.yml
+          extra_vars:
+            username: "{{ event.payload.repository.owner.login | capitalize }}"
+
+    - name: Publish new device image
+      condition: "('production-image-deploy.yml' in event.payload.commits[0].modified or 'production-kickstart.ks' in event.payload.commits[0].modified) and 'production-image-definition.yml' not in event.payload.commits[0].modified "
+      action:
+        run_playbook:
+          name: run-task-publish-device-image.yml
+          extra_vars:
+            username: "{{ event.payload.repository.owner.login | capitalize }}"
+
+
+    - name: Create APPs
+      condition: "'APPs/' in event.payload.commits[0].modified"
+      action:
+        run_playbook:
+          name: run-task-create-apps.yml
+          extra_vars:
+            username: "{{ event.payload.repository.owner.login | capitalize }}"
+
+
+    - name: Config all devices
+      condition: "event.payload.commits[0].modified is search('OS/',ignorecase=true)  or event.payload.commits[0].added is search('OS/',ignorecase=true)"
+      action:
+        run_playbook:
+          name: run-workflow-configure-devices.yml
+          extra_vars:
+            username: "{{ event.payload.repository.owner.login | capitalize }}"
+  
+
+
+    - name: Config specific device
+      condition: "event.payload.inventory is defined and event.payload.student is defined"
+      action:
+        run_playbook:
+          name: run-workflow-configure-devices.yml
+          extra_vars:
+            username: "Student{{ event.payload.student }}"
+            inventory: "{{ event.payload.inventory }}"
+  
+
 ############ CONFIGURE this in Quay:
 # URL
 # https://eda.xxx.xxx.xxx/endpoint
@@ -33,7 +79,6 @@
 #"student": "1"
 #}
 #
-
     - name: Update image in microshift
       condition: event.payload.name is defined and event.payload.repository is defined and event.payload.updated_tags is defined and event.payload.student is defined
       action:
@@ -44,3 +89,4 @@
             image: "{{ event.payload.repository }}"
             tag: "{{ event.payload.updated_tags[0] }}"
             student: "{{ event.payload.student }}"
+############

@@ -1,5 +1,14 @@
 ---
 
+#####
+#
+# This playbook gets the right Job ID from the controller and configure it in the webhook URI on Gitea.
+# This is needed if you want to configure a webhook on Gitea without EDA
+#
+######
+
+
+
     - name: "Wait until connectivity to https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
       wait_for:
         host: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
