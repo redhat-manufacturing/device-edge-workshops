@@ -50,3 +50,24 @@
         - name: fail out on undefined aws vars
           ansible.builtin.fail:
             msg: "Ensure AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are exported to your shell session."
+  post_tasks:
+    - name: Assign vars file path for workshop
+      ansible.builtin.set_fact:
+        _vars_file_path: "{{ workshop_or_demo | default('workshop') }}_vars/{{ workshop_type }}.yml"
+      when:
+        - workshop_or_demo is not defined or
+          workshop_or_demo == 'workshop'
+
+    - name: Assign vars file path for workshop
+      ansible.builtin.set_fact:
+        _vars_file_path: "{{ workshop_or_demo }}_vars/{{ workshop_type }}.yml"
+      when:
+        - workshop_or_demo is defined
+        - workshop_or_demo == 'demo'
+    - name: Ensure vars path was set
+      ansible.builtin.assert:
+        that:
+          - _vars_file_path is defined
+        fail_msg: |
+          Unable to set path to vars file, ensure your extra-vars file is correct.
+
