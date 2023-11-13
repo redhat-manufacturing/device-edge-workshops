@@ -66,6 +66,12 @@
   when:
     - ansible_distribution_major_version|int == 9 
 
+- name: ensure pip is upgraded
+  ansible.builtin.pip:
+    name:
+      - pip
+    state: latest
+
 # Certbot dependancy / acme, needs later version of requests library than task above^^
 - name: install ansible-tower-cli and requests >2.14
   become: true
