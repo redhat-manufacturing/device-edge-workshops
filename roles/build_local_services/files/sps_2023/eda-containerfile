@@ -1,4 +1,4 @@
-FROM fedora
+FROM fedora:38
 
 ENV VIRTUAL_ENV=/opt/eda
 
