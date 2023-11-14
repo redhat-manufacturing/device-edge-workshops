@@ -1,0 +1,70 @@
+---
+
+{% raw %}
+- name: Setup pacemaker cluster
+  hosts:
+    - all
+  pre_tasks:
+    - name: Ensure /etc/hosts is populated
+      ansible.builtin.lineinfile:
+        dest: /etc/hosts
+        regexp: '.*{{ item }}$'
+        line: "{{ hostvars[item].ansible_host }} {{ item }}"
+        state: present
+      when: hostvars[item].ansible_host is defined
+      loop: "{{ groups.all }}"
+    - name: Ensure hacluster is in /etc/passwd
+      ansible.builtin.lineinfile:
+        path: /etc/passwd
+        line: 'hacluster:x:189:189::/tmp:/bin/bash'
+        insertafter: EOF
+        regexp: '^hacluster'
+    - name: Enforce hacluster user password
+      ansible.builtin.shell:
+        cmd: echo 'hacluster' | passwd hacluster --stdin
+    - name: Ensure pcsd is running
+      ansible.builtin.systemd:
+        name: pcsd
+        state: started
+        enabled: true
+    - name: Allow high-availability through firewall
+      ansible.posix.firewalld:
+        service: high-availability
+        state: enabled
+        permanent: true
+        immediate: true
+    - name: Ensure nodes are auth-ed
+      ansible.builtin.shell:
+        cmd: "pcs host auth {{ ansible_play_hosts | join(' ') }} -u hacluster -p hacluster"
+      run_once: true
+  tasks:
+    - name: Check for existing cluster
+      ansible.builtin.shell:
+        cmd: pcs cluster status
+      register: _cluster_status
+      run_once: true
+      failed_when: false
+      changed_when: false
+    - name: Init cluster
+      ansible.builtin.shell:
+        cmd: "pcs cluster setup dcn-cluster --start {{ ansible_play_hosts | join(' ') }}"
+      run_once: true
+      when:
+        - "'cluster is not currently running' in _cluster_status.stderr"
+      notify:
+        - disable_stonith
+        - enable_all
+  handlers:
+    - name: Disable STONITH
+      ansible.builtin.shell:
+        cmd: pcs property set stonith-enabled=false
+      run_once: true
+      listen:
+        - disable_stonith
+    - name: Enable all cluster services
+      ansible.builtin.shell:
+        cmd: pcs cluster enable --all
+      run_once: true
+      listen:
+        - enable_all
+{% endraw %}
