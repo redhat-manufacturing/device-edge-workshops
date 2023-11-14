@@ -23,7 +23,6 @@ route53_domains:
     domain: "etherpad.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
   attendance:
     domain: "attendance.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
-    
 
 
 local_services:

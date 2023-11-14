@@ -1,4 +1,9 @@
 ---
+
+
+rhel_iso_sha_value: 087f5387f28e6edf1f770ec7eb41e56823b6c3c4d4c3ef09b3b61f59440c229c
+
+
 route53_domains:
   controller:
     domain: "controller.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
@@ -14,7 +19,10 @@ route53_domains:
     domain: "eda.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
   ostree-repo:
     domain: "ostree-repo.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
-    
+  etherpad:
+    domain: "etherpad.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
+  attendance:
+    domain: "attendance.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
 
 
 local_services:
@@ -39,6 +47,8 @@ local_services:
             - record: "ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
             - record: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+              address: "{{ internal_address }}"
+            - record: "etherpad.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
             - record: "image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
@@ -70,8 +80,16 @@ local_services:
     templates:
       - src: eda-run-workflow.yml.j2
         dest: run-workflow.yml
+      - src: eda-run-workflow-create-device-image.yml.j2
+        dest: run-workflow-create-device-image.yml
+      - src: eda-run-task-publish-device-image.yml.j2
+        dest: run-task-publish-device-image.yml
       - src: eda-run-update-image-microshift.yml.j2
         dest: update-image-microshift.yml
+      - src: eda-run-task-create-apps.yml.j2
+        dest: run-task-create-apps.yml
+      - src: eda-run-workflow-configure-devices.yml.j2
+        dest: run-workflow-configure-devices.yml
     files:
       - src: eda-rulebook.yml
         dest: rulebook.yml
@@ -90,6 +108,8 @@ local_services:
         dest: nginx.conf
         vars:
           proxied_services:
+            - name: etherpad
+              proxy_pass: "http://localhost:9001/"
             - name: eda
               proxy_pass: "http://localhost:5000/"
             - name: ipxe
@@ -180,7 +200,10 @@ local_services:
         dest: attendance/src/App.js
       - src: attendance-index.js.j2
         dest: attendance/src/pages/index.js
-      
+
+
+  - name: etherpad
+    containerfile: etherpad-containerfile      
 
 
 pods:
@@ -222,6 +245,8 @@ pods:
       spec:
         hostNetwork: true
         containers:
+          - name: etherpad
+            image: etherpad:latest
           - name: reverse-proxy
             image: reverse-proxy:latest
           - name: eda
@@ -244,6 +269,8 @@ pods:
                 name: student-repos
               - mountPath: /var/www/html/student-kickstarts
                 name: student-kickstarts
+              - mountPath: /var/www/html/student-isos
+                name: student-isos
           - name: attendance
             image: attendance:latest
         volumes:
@@ -256,6 +283,9 @@ pods:
           - name: student-kickstarts
             hostPath:
               path: /var/www/html/student-kickstarts
+          - name: student-isos
+            hostPath:
+              path: /var/www/html/student-isos
 
 builder_blueprint_name: rhde-image
 #images_to_compose:
@@ -297,6 +327,17 @@ repo_files:
     dest: playbooks/deploy_app_microshift.yml
   - src: templates/rhde_gitops/update_app_microshift.yml.j2
     dest: playbooks/update_app_microshift.yml
+  - src: templates/rhde_gitops/copy-os-files.yml.j2
+    dest: playbooks/copy-os-files.yml
+  - src: templates/rhde_gitops/run-command.yml.j2
+    dest: playbooks/run-command.yml
+  - src: templates/rhde_gitops/reboot-devices.yml.j2
+    dest: playbooks/reboot-devices.yml
+  - src: templates/rhde_gitops/podman_quadlet.yml.j2
+    dest: playbooks/podman_quadlet.yml
+  - src: templates/rhde_gitops/create_iso_kickstart.yml.j2
+    dest: playbooks/create_iso_kickstart.yml
+    
 
 additional_repos:
   - name: device-edge-images
@@ -327,19 +368,31 @@ additional_repos:
     private: true
     webhook: true
     directories:
-      - etc/ssh
-      - APPs
+      - OS/greenboot/check/required.d
+      - OS/greenboot/red.d
+      - APPs/podman/quadlet
+      - APPs/microshift/motioneye
+      - APPs/microshift/retail
+      - APPs/microshift/2048
     files: 
-      - src: templates/rhde_gitops/ssh_config.j2
-        dest: etc/ssh/ssh_config
       - src: templates/rhde_gitops/app_motioneye-microshift.yml.j2
-        dest: APPs/app_motioneye-microshift.yml
+        dest: APPs/microshift/motioneye/app_motioneye-microshift.yml
       - src: templates/rhde_gitops/app_2048-microshift.yml.j2
-        dest: APPs/app_2048-microshift.yml
+        dest: APPs/microshift/2048/app_2048-microshift.yml
       - src: templates/rhde_gitops/kafka.yml.j2
-        dest: APPs/kafka-microshift.yml
+        dest: APPs/microshift/retail/kafka-microshift.yml
       - src: templates/rhde_gitops/app_self-checkout.yml.j2
-        dest: APPs/app_self-checkout.yml
+        dest: APPs/microshift/retail/app_self-checkout.yml
+      - src: templates/rhde_gitops/app_fuxa_scada.container.j2
+        dest: APPs/podman/quadlet/app_fuxa_scada.container
+      - src: templates/rhde_gitops/os_01-check-packages.sh.j2
+        dest: OS/greenboot/check/required.d/01-check-packages.sh
+      - src: templates/rhde_gitops/os_01-slack-notification.sh.j2
+        dest: OS/greenboot/red.d/01-slack-notification.sh
+      - src: templates/rhde_gitops/os_sudoers.j2
+        dest: OS/sudoers
+      - src: templates/rhde_gitops/os_rpm-ostreed.conf.j2
+        dest: OS/rpm-ostreed.conf
 
 
 
@@ -350,6 +403,7 @@ allowed_external_services:
   - port: 9090
   - port: 3001
   - port: 8080
+  - port: 9001
   - port: 3000
   - port: 80
   - port: 443
