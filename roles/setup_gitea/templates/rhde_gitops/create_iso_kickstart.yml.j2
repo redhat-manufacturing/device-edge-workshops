@@ -63,7 +63,7 @@
           shell: mkisofs -o {% raw %}{{ iso_dst_path }}/{{ iso_name }}{% endraw %} -b isolinux/isolinux.bin -c isolinux/boot.cat --joliet-long --no-emul-boot --boot-load-size 4 --boot-info-table -J -R -V "{% raw %}{{ iso_label.stdout }}{% endraw %}" /tmp/student{{ student_number }}/rhel-iso
           changed_when: false
           args:
-            chdir: /tmp/student1/rhel-iso/
+            chdir: /tmp/student{{ student_number }}/rhel-iso/
 
         - name: Add MD5 checksum
           shell: implantisomd5 {% raw %}{{ iso_dst_path }}/{{ iso_name }}
