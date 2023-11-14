@@ -152,7 +152,7 @@ class Overview extends React.Component {
                   </CardBody>
                 </Card>
                 <Card component="div">
-                  <CardTitle>Etherpad (Source Control)</CardTitle>
+                  <CardTitle>Etherpad</CardTitle>
                   <CardBody>
                     <DescriptionListTerm className='Description-list'>Internal IP Address:</DescriptionListTerm>
                     <DescriptionListDescription className ><a href="https://{{ internal_address }}">{{ internal_address }}</a></DescriptionListDescription>
@@ -165,7 +165,7 @@ class Overview extends React.Component {
                     <DescriptionListDescription className ><a href="{{ edge_remote_management_ext_ip }}">{{ edge_remote_management_ext_ip }}</a></DescriptionListDescription>
 {% endif %}
                     <DescriptionListTerm className='Description-list'>DNS Hostname:</DescriptionListTerm>
-                    <DescriptionListDescription className ><a href="https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}">https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}</a></DescriptionListDescription>
+                    <DescriptionListDescription className ><a href="https://etherpad.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/p/lab">https://etherpad.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}</a></DescriptionListDescription>
                   </CardBody>
                 </Card>
 {% if lab_wifi_network.ssid is defined and lab_wifi_network.password is defined %}
