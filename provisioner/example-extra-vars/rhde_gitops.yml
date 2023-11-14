@@ -5,7 +5,31 @@
 # export AWS_ACCESS_KEY_ID=xxxxxxxxxxxxxxxxxxxxxxx
 # export AWS_SECRET_ACCESS_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+
+# DNS settings
+# If using an AWS Open Environment, a DNS zone will be provisioned for you, or feel free to use your own deletated to Rout53
+base_zone: sandbox524.opentlc.com
+# The subdomain for the workshop - usually the customer name or event
+sub_domain: training
+
+
+
+# Set the number of student slots
+student_total: 15
+
+
 slack_app_token: "xoxp-xxxxxxxxxxxxxx-xxxxxxxxxxxxxx-xxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+
+apps:
+  app1:
+    registry: quay.io/luisarizmendi
+    image: 2048
+    prodtag: prod
+  app2:
+    registry: quay.io/luisarizmendi
+    image: simple-http
+    prodtag: prod
 
 attendance: false
 
@@ -14,10 +38,6 @@ pull_secret: '{"auths":{"cloud.openshift.com":{"auth":"b3BlbnNoaWZ0LXJlbGVXXXXXX
 # Set the right workshop type
 workshop_or_demo: workshop
 workshop_type: rhde_gitops
-
-
-# Set the number of student slots
-student_total: 2
 
 # Wifi network for the workshop
 lab_wifi_network:
@@ -28,13 +48,6 @@ lab_wifi_network:
 redhat_username: xxxxxxx
 redhat_password: 'xxxxxxxxxxxxxxxxxxxxxx'
   
-# DNS settings
-# If using an AWS Open Environment, a DNS zone will be provisioned for you, or feel free to use your own deletated to Rout53
-base_zone: sandbox524.opentlc.com
-# The subdomain for the workshop - usually the customer name or event
-sub_domain: training
-
-
 # Use zeroSSL
 use_zerossl: true
 
