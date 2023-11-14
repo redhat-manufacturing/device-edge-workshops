@@ -244,6 +244,10 @@ repo_files:
     dest: README.md
   - src: templates/sps_2023/hello-world.yml.j2
     dest: playbooks/hello-world.yml
+  - src: templates/sps_2023/manage-hosts-in-controller.yml.j2
+    dest: playbooks/manage-hosts-in-controller.yml
+  - src: templates/sps_2023/setup-pacemaker-cluster.yml.j2
+    dest: playbooks/setup-pacemaker-cluster.yml
 
 allowed_external_services:
   - port: 5000
