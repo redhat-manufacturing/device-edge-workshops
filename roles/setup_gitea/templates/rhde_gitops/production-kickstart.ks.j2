@@ -297,6 +297,9 @@ ExecStop=/usr/bin/podman stop --ignore --cidfile=%t/%n.ctr-id
 ExecStopPost=/usr/bin/podman rm -f --ignore --cidfile=%t/%n.ctr-id
 Type=notify
 NotifyAccess=all
+RestartSec=10
+StartLimitIntervalSec=120
+StartLimitBurst=5
 
 [Install]
 WantedBy=default.target
@@ -435,6 +438,15 @@ EOF
 
 cat << EOF > /var/usrlocal/bin/pre-pull-container-image.sh
 #!/bin/bash
+while true; do
+    if curl -s --head http://quay.io | grep "301" > /dev/null; then
+        echo "Connectivity to http://quay.io established successfully."
+        break
+    else
+        echo "Unable to connect to http://quay.io. Retrying in 10 seconds..."
+        sleep 10
+    fi
+done
 while true
 do 
   podman pull {{ apps.app2.registry }}/{{ apps.app2.image }}:{{ apps.app1.prodtag }}
@@ -456,8 +468,11 @@ After=network-online.target
 Wants=network-online.target
 
 [Service]
-Type=simple
-ExecStart=/bin/bash -c 'while true; do /var/usrlocal/bin/pre-pull-container-image.sh && break; done'
+Type=oneshot
+Restart=on-failure
+RestartSec=10
+TimeoutStartSec=30
+ExecStart=/var/usrlocal/bin/pre-pull-container-image.sh
 
 [Install]
 WantedBy=multi-user.target default.target
