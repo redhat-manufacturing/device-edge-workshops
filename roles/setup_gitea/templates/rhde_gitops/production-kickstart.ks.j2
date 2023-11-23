@@ -456,8 +456,8 @@ After=network-online.target
 Wants=network-online.target
 
 [Service]
-Type=oneshot
-ExecStart=/var/usrlocal/bin/pre-pull-container-image.sh
+Type=simple
+ExecStart=/bin/bash -c 'while true; do /var/usrlocal/bin/pre-pull-container-image.sh && break; done'
 
 [Install]
 WantedBy=multi-user.target default.target
