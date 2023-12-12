@@ -1,0 +1,7 @@
+---
+
+- name: Update OCP ingress cert
+  hosts:
+    - edge_management
+  roles:
+    - ../roles/update_ocp_ingress_cert
