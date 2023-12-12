@@ -9,6 +9,16 @@
     - name: print warning
       ansible.builtin.debug:
         msg: "This is for a specific setup: if your base domain is in cloudflare and you want to use route53 for DNS, this will help"
+    - name: create internal vars
+      when:
+        - top_level_domain is defined
+      block:
+        - name: set _tld
+          ansible.builtin.set_fact:
+            _tld: "{{ workshop_dns_zone.split('.')[-2:] | join('.') }}"
+        - name: set _sub_domain
+          ansible.builtin.set_fact:
+            _sub_domain: "{{ sub_domain + '.' + base_zone | regex_replace(_tld, '') | regex_replace ('\\.$', '') }}"
   tasks:
     - name: create zone in route53
       amazon.aws.route53_zone:
@@ -23,9 +33,9 @@
       register: _route53_zone_nameservers
     - name: setup PTRs in cloudflare
       community.general.cloudflare_dns:
-        zone: "{{ base_zone }}"
+        zone: "{{ _tld | default(base_zone) }}"
         type: NS
-        record: "{{ sub_domain }}"
+        record: "{{ _sub_domain | default(sub_domain) }}"
         value: "{{ nameserver | replace('\\.$', '') }}"
         account_email: "{{ cloudflare.email }}"
         api_token: "{{ cloudflare.token }}"
