@@ -23,6 +23,7 @@ valid_workshop_types:
   - rhde_tse
   - rhde_gitops
   - rhde_fdo_rtk
+  - rhde_aap_rhsi
 valid_demo_types:
   - summit_connect_2023
 network_type: multivendor
