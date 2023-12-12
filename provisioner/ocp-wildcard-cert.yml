@@ -1,0 +1,41 @@
+---
+
+- name: Get wildcard cert that OCP can use
+  hosts:
+    - edge_remote_management
+    - edge_local_management
+    - edge_management
+  serial: 1
+  pre_tasks:
+    - name: Become for these tasks
+      become: true
+      block:
+        - name: Ensure pip is available
+          ansible.builtin.dnf:
+            name: python3-pip
+        - name: Install python libraries
+          ansible.builtin.pip:
+            name:
+              - cryptography
+              - botocore
+              - boto3
+        - name: Set vars
+          ansible.builtin.set_fact:
+            _domain_name: "{{ sub_domain }}.{{ base_zone }}"
+            _subject_alternate_names: "DNS:*.apps.{{ sub_domain }}.{{ base_zone }}"
+
+  tasks:
+    - name: Make a directory for cert storage
+      ansible.builtin.file:
+        path: "/home/{{ ansible_user }}/workshop-certs/{{ _domain_name }}"
+        state: directory
+    - name: Issue base domain cert
+      ansible.builtin.include_role:
+        name: ../roles/zerossl_cert
+      vars:
+        domain_name: "{{ _domain_name }}"
+        subject_alternate_names: "{{ _subject_alternate_names }}"
+        _cert_dir: "/home/{{ ansible_user }}/workshop-certs/{{ _domain_name }}"
+        _cert_owner: "{{ ansible_user }}"
+        _cert_group: "{{ ansible_user }}"
+        wildcard: true
