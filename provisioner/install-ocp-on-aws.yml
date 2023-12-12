@@ -1,0 +1,7 @@
+---
+
+- name: Install an OCP cluster on AWS
+  hosts:
+    - edge_management
+  roles:
+    - ../roles/install_ocp_on_aws
