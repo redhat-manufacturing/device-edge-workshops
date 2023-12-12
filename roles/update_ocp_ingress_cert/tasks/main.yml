@@ -1,0 +1,13 @@
+---
+
+- name: Get current ingress cert
+  community.crypto.get_certificate:
+    host: "console-openshift-console.apps.{{ sub_domain }}.{{ base_zone }}"
+    port: 443
+  register: _current_cert
+
+- name: Include cert update tasks
+  ansible.builtin.include_tasks:
+    file: update-ingress-cert.yml
+  when:
+    - "'ingress-operator' in _current_cert.issuer.CN"
