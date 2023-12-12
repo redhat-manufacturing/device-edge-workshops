@@ -24,3 +24,4 @@
     path: "{{ _cert_dir }}/{{ domain_name_short }}.csr"
     privatekey_path: "{{ _cert_dir }}/{{ domain_name_short }}.pem"
     common_name: "{{ common_name | default(domain_name) }}"
+    subject_alt_name: "{{ subject_alternate_names | default(omit) }}"
