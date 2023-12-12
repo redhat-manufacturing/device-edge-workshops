@@ -12,7 +12,8 @@
     - name: System is already subscribed
       debug:
         msg: "System is already subscribed"
-      when: "subscription_facts.stdout == 'Current'"
+      when: "subscription_facts.stdout == 'Current' or
+             subscription_facts.stdout == 'Disabled'"
 
 # This is not working for the AWS node
 #    - name: register to the customer portal
