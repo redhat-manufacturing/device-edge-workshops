@@ -205,7 +205,6 @@ local_services:
   - name: etherpad
     containerfile: etherpad-containerfile      
 
-
 pods:
   - name: workshop-rhde_gitops-priv
     privileged: true
@@ -393,7 +392,6 @@ additional_repos:
         dest: OS/sudoers
       - src: templates/rhde_gitops/os_rpm-ostreed.conf.j2
         dest: OS/rpm-ostreed.conf
-
 
 
 allowed_external_services:

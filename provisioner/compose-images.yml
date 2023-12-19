@@ -87,9 +87,7 @@
           ansible.builtin.systemd:
             name: httpd
             state: restarted
-          when:
-            - _httpd_config.changed is defined
-            - _httpd_config.changed
+
 
     - name: Download standard RHEL ISO
       when:

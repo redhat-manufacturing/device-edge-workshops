@@ -407,4 +407,3 @@ allowed_external_services:
   - port: 443
 
 build_net-installer_isos: true
-edge_remote_management_ext_ip: 52.213.96.93
