@@ -34,6 +34,7 @@ ConditionPathExists=!/var/tmp/aap-registered
 
 [Service]
 Type=oneshot
+ExecStartPre=/usr/bin/sleep 10
 ExecStart=/bin/bash /var/tmp/aap-auto-registration.sh
 ExecStopPost=/usr/bin/touch /var/tmp/aap-registered
 

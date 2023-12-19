@@ -1,0 +1,35 @@
+---
+
+- name: Download ocp installer
+  ansible.builtin.get_url:
+    url: "https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/{{ openshift.version | default('stable') }}/openshift-install-linux.tar.gz"
+    dest: "{{ install_dir }}"
+    mode: '0755'
+
+- name: Extract install tooling
+  ansible.builtin.unarchive:
+    src: "{{ install_dir }}/openshift-install-linux.tar.gz"
+    dest: "{{ install_dir }}"
+    remote_src: true
+
+- name: Download oc CLI tool
+  ansible.builtin.get_url:
+    url: "https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/{{ openshift.version | default('stable') }}/openshift-client-linux.tar.gz"
+    dest: "{{ install_dir }}"
+    mode: '0755'
+
+- name: Extract oc CLI tool
+  ansible.builtin.unarchive:
+    src: "{{ install_dir }}/openshift-client-linux.tar.gz"
+    dest: "{{ install_dir }}"
+    remote_src: true
+
+- name: Copy OC tool to /bin
+  ansible.builtin.copy:
+    src: "{{ install_dir }}/oc"
+    dest: /bin/oc
+    owner: root
+    group: root
+    mode: '0755'
+    remote_src: true
+  become: true

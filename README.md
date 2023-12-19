@@ -36,7 +36,8 @@ The Red Hat Ansible Automation Workshops project is intended for effectively dem
 |---|---|---|---|---|
 | **[Red Hat Device Edge - Trade Show Edition](./exercises/rhde_tse)** <br> A polished experience with device edge  | [PDF](./decks/rhde_tse.pdf) | [Google Source](https://docs.google.com/presentation/d/1RZTqdKSXVhbguuidvNMx3fkR77lD4cM41N7S95Xb7HA) | [Exercises](./exercises/rhde_tse)  | `workshop_type: rhde_tse`
 | **[Red Hat Device Edge - FDO Secure Onboarding and the Realtime Kernel](./exercises/rhde_fdo_rtk)** <br> A deep dive into FDO and using the realtime kernel  | [PDF](./decks/rhde_fdo_rtk.pdf) | [Google Source](https://docs.google.com/presentation/d/1RZTqdKSXVhbguuidvNMx3fkR77lD4cM41N7S95Xb7HA) | [Exercises](./exercises/rhde_fdo_rtk)  | `workshop_type: rhde_fdo_rtk`
-
+| **[Red Hat Device Edge - FDO Secure Onboarding and the Realtime Kernel](./exercises/rhde_fdo_rtk)** <br> A deep dive into FDO and using the realtime kernel  | [PDF](./decks/rhde_fdo_rtk.pdf) | [Google Source](https://docs.google.com/presentation/d/1RZTqdKSXVhbguuidvNMx3fkR77lD4cM41N7S95Xb7HA) | [Exercises](./exercises/rhde_fdo_rtk)  | `workshop_type: rhde_fdo_rtk`
+| **[Red Hat Device Edge - Management with AAP in Advanced Networks](./exercises/rhde_aap_rhsi)** <br> A look at using RHSI(Skupper) to manage edge devices through hostile networks | [PDF](./decks/rhde_aap_rhsi.pdf) | [Google Source](https://docs.google.com/presentation/d/1RZTqdKSXVhbguuidvNMx3fkR77lD4cM41N7S95Xb7HA) | [Exercises](./exercises/rhde_aap_rhsi) | `workshop_type: rhde_aap_rhsi`
 ---
 ### Special Thanks
 

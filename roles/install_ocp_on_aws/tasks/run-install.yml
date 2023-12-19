@@ -1,0 +1,22 @@
+---
+
+- name: Make ocp install dir
+  ansible.builtin.file:
+    path: "{{ install_dir }}/install"
+    state: directory
+
+- name: copy install-config.yaml into ocp install dir
+  ansible.builtin.copy:
+    src: "{{ install_dir }}/install-config.yaml"
+    dest: "{{ install_dir }}/install/"
+    remote_src: true
+
+- name: Run cluster install
+  ansible.builtin.shell:
+    cmd: ./openshift-install --dir ./install create cluster
+  args:
+    chdir: "{{ install_dir }}/"
+    creates: "{{ install_dir }}/install/auth"
+  environment:
+    AWS_ACCESS_KEY_ID: "{{ lookup('ansible.builtin.env', 'AWS_ACCESS_KEY_ID') }}"
+    AWS_SECRET_ACCESS_KEY: "{{ lookup('ansible.builtin.env', 'AWS_SECRET_ACCESS_KEY') }}"

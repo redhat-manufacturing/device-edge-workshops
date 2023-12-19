@@ -1,0 +1,7 @@
+---
+
+- name: Template out install-config.yaml
+  ansible.builtin.template:
+    src: templates/install-config.yaml.j2
+    dest: "{{ install_dir }}/install-config.yaml"
+    mode: '0644'

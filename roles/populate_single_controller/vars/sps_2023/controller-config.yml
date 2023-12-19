@@ -61,6 +61,7 @@ controller_hosts:
     variables:
       ansible_connection: local
       ansible_python_interpreter: "{  { ansible_playbook_python }}"
+    enabled: true
   - name: "image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
     inventory: Edge Utilities
     variables:
@@ -103,4 +104,43 @@ controller_projects:
     credential: Gitea Credentials
 
 controller_templates:
-  # TO FINISH
+  - name: Test DCN Connectivity
+    organization: Switt Motors
+    inventory: Distributed Control Nodes
+    project: DCN Codebase
+    playbook: playbooks/hello-world.yml
+    credentials:
+      - Device Credentials
+    execution_environment: Device Edge Workshops Execution Environment
+  - name: Create Host in Controller Inventory
+    organization: Switt Motors
+    inventory: Local Actions
+    project: DCN Codebase
+    playbook: playbooks/manage-hosts-in-controller.yml
+    credentials:
+      - Controller API Credentials
+    execution_environment: Device Edge Workshops Execution Environment
+  - name: Setup Pacemaker Cluster
+    organization: Switt Motors
+    inventory: Distributed Control Nodes
+    project: DCN Codebase
+    playbook: playbooks/setup-pacemaker-cluster.yml
+    credentials:
+      - Controller API Credentials
+    execution_environment: Device Edge Workshops Execution Environment
+    become_enabled: true
+
+controller_workflows:
+  - name: Provision Distributed Control Node
+    organization: Switt Motors
+    state: present
+    allow_simultaneous: true
+    survey_enabled: false
+    ask_variables_on_launch: true
+    simplified_workflow_nodes:
+      - identifier: Create Host in Controller Inventory
+        unified_job_template: Create Host in Controller Inventory
+        success_nodes:
+          - Test Device Connectivity
+      - identifier: Test Device Connectivity
+        unified_job_template: Test Device Connectivity
