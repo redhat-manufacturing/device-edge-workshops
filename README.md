@@ -18,6 +18,7 @@ The Red Hat Ansible Automation Workshops project is intended for effectively dem
 |---|---|---|---|---|
 | **[Summit Connect 2023](./exercises/summit_connect_2023)** <br> A demo walkthrough of embedding applications and configuration into RHDE images with Image Builder  | [PDF](./decks/summit_connect_2023-RHDE_deep_dive.pdf) | [Google Source](https://docs.google.com/presentation/d/1Nxa7rX1fmQiy6uTuWPxdBWe46jso9x9CYIkurDBT8mA) | [Exercises](./exercises/summit_connect_2023)  | `workshop_type: summit_connect_2023`
 | **[SPS 2023](./exercises/sps_2023)** <br> A demo walkthrough of a small-scale ACP managing DCNs running a softPLC with clustering failover | [PDF](./decks/rhde_aw_120.pdf) | [Google Source](https://docs.google.com/presentation/d/1RZTqdKSXVhbguuidvNMx3fkR77lD4cM41N7S95Xb7HA) | [Exercises](./exercises/sps_2023)  | `workshop_type: sps_2023`
+| **[Red Hat Device Edge GitOps](./exercises/rhde_gitops/demo)** <br> Use a GitOps approach not only with your workloads, but also with your device lifecycle  | [Video](https://youtu.be/XCtfy7AqLLY) | [Google Slide deck](https://docs.google.com/presentation/d/1DbA-beFKhfb7GO6Snm5Cmf6uVm3QiLDEmy-b9nyjsFE/edit?usp=sharing) | [Demo steps and preparation](./exercises/rhde_gitops/demo)  | `workshop_type: rhde_gitops`
 
 >**Note**
 >
@@ -28,16 +29,18 @@ The Red Hat Ansible Automation Workshops project is intended for effectively dem
 | Workshop   | Public Deck | Red Hat Internal  | Exercises  | Workshop Type Var   |
 |---|---|---|---|---|
 | **[Red Hat Device Edge Any Workload](./exercises/rhde_aw_120)** <br> focused on deploying different workloads to Device Edge  | [PDF](./decks/rhde_aw_120.pdf) | [Google Source](https://docs.google.com/presentation/d/1RZTqdKSXVhbguuidvNMx3fkR77lD4cM41N7S95Xb7HA) | [Exercises](./exercises/rhde_aw_120)  | `workshop_type: rhde_aw_120`
-| **[Red Hat Device Edge GitOps](./exercises/rhde_gitops)** <br> Use a GitOps approach not only with your workloads, but also with your device lifecycle  | [TBD](./decks/rhde_gitops.pdf) | [TBD](TBD) | [TBD](./exercises/rhde_gitops)  | `workshop_type: rhde_gitops`
+
 
 ### All day workshops:
 
 | Workshop   | Public Deck | Red Hat Internal  | Exercises  | Workshop Type Var   |
 |---|---|---|---|---|
+| **[Red Hat Device Edge GitOps](./exercises/rhde_gitops/workshop)** <br> Use a GitOps approach not only with your workloads, but also with your device lifecycle  | [TBD](./decks/rhde_gitops.pdf) | [TBD](TBD) | [TBD](./exercises/rhde_gitops)  | `workshop_type: rhde_gitops`
 | **[Red Hat Device Edge - Trade Show Edition](./exercises/rhde_tse)** <br> A polished experience with device edge  | [PDF](./decks/rhde_tse.pdf) | [Google Source](https://docs.google.com/presentation/d/1RZTqdKSXVhbguuidvNMx3fkR77lD4cM41N7S95Xb7HA) | [Exercises](./exercises/rhde_tse)  | `workshop_type: rhde_tse`
 | **[Red Hat Device Edge - FDO Secure Onboarding and the Realtime Kernel](./exercises/rhde_fdo_rtk)** <br> A deep dive into FDO and using the realtime kernel  | [PDF](./decks/rhde_fdo_rtk.pdf) | [Google Source](https://docs.google.com/presentation/d/1RZTqdKSXVhbguuidvNMx3fkR77lD4cM41N7S95Xb7HA) | [Exercises](./exercises/rhde_fdo_rtk)  | `workshop_type: rhde_fdo_rtk`
 | **[Red Hat Device Edge - FDO Secure Onboarding and the Realtime Kernel](./exercises/rhde_fdo_rtk)** <br> A deep dive into FDO and using the realtime kernel  | [PDF](./decks/rhde_fdo_rtk.pdf) | [Google Source](https://docs.google.com/presentation/d/1RZTqdKSXVhbguuidvNMx3fkR77lD4cM41N7S95Xb7HA) | [Exercises](./exercises/rhde_fdo_rtk)  | `workshop_type: rhde_fdo_rtk`
 | **[Red Hat Device Edge - Management with AAP in Advanced Networks](./exercises/rhde_aap_rhsi)** <br> A look at using RHSI(Skupper) to manage edge devices through hostile networks | [PDF](./decks/rhde_aap_rhsi.pdf) | [Google Source](https://docs.google.com/presentation/d/1RZTqdKSXVhbguuidvNMx3fkR77lD4cM41N7S95Xb7HA) | [Exercises](./exercises/rhde_aap_rhsi) | `workshop_type: rhde_aap_rhsi`
+
 ---
 ### Special Thanks
 
