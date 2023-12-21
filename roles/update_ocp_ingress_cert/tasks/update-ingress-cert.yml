@@ -11,7 +11,7 @@
   ansible.builtin.shell:
     cmd: > 
       oc create configmap custom-ca
-      --from-file=/home/{{ ansible_user }}/workshop-certs/{{ sub_domain }}.{{ base_zone }}/root-ca.crt
+      --from-file=/home/{{ ansible_user }}/workshop-certs/{{ sub_domain }}.{{ base_zone }}/{{ sub_domain }}-intermediate.crt
       --namespace openshift-config
   args:
     chdir: "/home/{{ ansible_user }}/ocp-install/"
