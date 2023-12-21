@@ -273,7 +273,7 @@ and if you choose the external architecture:
 cp <your-git-clone-path>/provisioner/workshop_vars/rhde-gitops-external.yml <your-git-clone-path>/provisioner/workshop_vars/rhde-gitops.yml
 ```
 
-You don't have to customize any value in that file, except if you ahve any conflict while using physical servers with the internal (isolated) IP range used (by default the 192.168.40.0/24 ). 
+You don't have to customize any value in that file, except if you have any conflict while using physical servers with the internal (isolated) IP range used (by default the 192.168.40.0/24 ). Remember that as part of the deployment, the Ansible Playbooks will configure the secondary NIC interface in the local server (the one connected to the "isolated network") and add there a DHCP server as well. That network will use the values from this `workshop_vars/rhde-gitops.yml` file, so if you plan to use physical hardware and you have to connect the external server interface to an 192.168.40.0/24 network (ok, that would be a really bad luck) there will be an overlap between the internal an external interfaces because you will be using the same network in bouth... then is the case where you will need to change this network default value in `workshop_vars/rhde-gitops.yml`.   
 
 
 4) Create the local inventory file
@@ -297,8 +297,13 @@ all:
     ansible_become_password: XXXXXXXX
 
     external_connection: XXXXXX # Connection name for the external connection
-    internal_connection: XXXXXXX # Interface for the internal lab network
+    internal_connection: XXXXXXX # Interface name for the internal lab network
 ```
+
+  >**Note**
+  >
+  >  The `external_connection` variable expect the Connection name that you can get connecting to the local server and running `nmcli con list` ("NAME" column) while the  `internal_connection` expects the interface name (which is the name on the "DEVICE" column in the ouput of the `nmcli con list` command). Usually the connection name is the same than the interface name, but in some cases (ie. wireless connections) the connection name is different (in that case it will be the SSID).
+
 
 If you are using the external architecture (where `edge_management` has been changed by `edge_local_management` ):
 
@@ -317,7 +322,7 @@ all:
     ansible_become_password: XXXXXXXX
 
     external_connection: XXXXXX # Connection name for the external connection
-    internal_connection: XXXXXXX # Interface for the internal lab network
+    internal_connection: XXXXXXX # Interface name for the internal lab network
 ```
 
   >**Note**
