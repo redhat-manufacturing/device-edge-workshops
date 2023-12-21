@@ -18,13 +18,27 @@ This lab walks participants through the act of managing Red Hat Device Edge for 
 - [x] Install OCP
 - [x] Use valid cert # Confirm this
 - [x] htpasswd for student auth
-- [ ] Namespace for each student
+- [ ] Workshop namespace
 - [x] Install AAP
 - [ ] Configure AAP
+- [ ] Install skupper
+- [ ] Configure skupper
+- [ ] Host workshop pages?
 
 ## Section 2 - Local Edge Manager Setup
+- [ ] Standard services (minus workshop pages?)
 
 ## Section 3 - Local Devices Setup
+- [ ] Pre-provision devices?
 
 ## Section 4 - Cloud Devices Setup
+- [ ] Bare-metal AWS Instance
+- [ ] Cockpit
+- [ ] Virtual machines
+- [ ] Student logins
 
+## Section 5 - Exercises
+- [ ] Device provisioning?
+- [ ] Deploy skupper
+- [ ] Register with AAP
+- [ ] Deploy application
