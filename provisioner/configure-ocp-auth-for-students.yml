@@ -1,0 +1,121 @@
+---
+
+- name: Configure htpasswd auth for students
+  hosts:
+    - edge_management
+  vars:
+    install_dir: "/home/{{ ansible_user }}/ocp-install/install"
+  module_defaults:
+    redhat.openshift.k8s:
+      kubeconfig: "{{ install_dir }}/auth/kubeconfig"
+  pre_tasks:
+    - name: Become for these tasks
+      become: true
+      block:
+        - name: Ensure htpasswd command is present
+          ansible.builtin.dnf:
+            name: httpd-tools
+        - name: Ensure passlib is present
+          ansible.builtin.pip:
+            name: passlib
+    - name: Set student-auth directory path
+      ansible.builtin.set_fact:
+        _student_auth_dir: "/home/{{ ansible_user }}/student-auth"
+    - name: Ensure {{ _student_auth_dir }} exists
+      ansible.builtin.file:
+        path: "{{ _student_auth_dir }}"
+        state: directory
+  tasks:
+    - name: Add students to htpasswd file
+      community.general.htpasswd:
+        path: "{{ _student_auth_dir }}/students.htpasswd"
+        name: "student{{ student_number }}"
+        password: "{{ admin_password }}"
+      loop: "{{ (range(1, (student_total + 1), 1)|list) }}"
+      loop_control:
+        loop_var: student_number
+    - name: Slurp up htpasswd file
+      ansible.builtin.slurp:
+        src: "{{ _student_auth_dir }}/students.htpasswd"
+      register: _htpasswd_file
+    - name: Create secret with htpasswd data
+      redhat.openshift.k8s:
+        definition:
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: students-htpass
+            namespace: openshift-config
+          type: Opaque
+          data:
+            htpasswd: "{{ _htpasswd_file['content'] }}" 
+    - name: Create OAuth CR
+      redhat.openshift.k8s:
+        definition:
+          apiVersion: config.openshift.io/v1
+          kind: OAuth
+          metadata:
+            name: cluster
+          spec:
+            identityProviders:
+            - name: students-htpasswd-auth
+              mappingMethod: claim 
+              type: HTPasswd
+              htpasswd:
+                fileData:
+                  name: students-htpass
+  post_tasks:
+    - name: Test student logins
+      ansible.builtin.shell:
+        cmd: >
+          oc login
+          -u 'student{{ student_number }}'
+          -p '{{ admin_password }}'
+          -s 'https://api.{{ sub_domain }}.{{ base_zone }}:6443'
+      environment:
+        KUBECONFIG: "{{ install_dir }}/auth/kubeconfig"
+      register: _login_test
+      retries: 10
+      delay: 10
+      loop: "{{ (range(1, (student_total + 1), 1)|list) }}"
+      loop_control:
+        loop_var: student_number
+      changed_when: false
+    - name: Reset oc to kubeadmin
+      block:
+        - name: Get kubeadmin password
+          ansible.builtin.slurp:
+            path: "{{ install_dir }}/auth/kubeadmin-password"
+          register: _kubeadmin_password_file
+          no_log: true
+        - name: Log back in as kubeadmin
+          ansible.builtin.shell:
+            cmd: >
+              oc login
+              -u kubeadmin
+              -p "{{ _kubeadmin_password_file['content'] | b64decode }}"
+          environment:
+            KUBECONFIG: "{{ install_dir }}/auth/kubeconfig"
+          no_log: true
+          changed_when: false
+
+    # - name: Create student namespaces
+    #   redhat.openshift.k8s:
+    #     definition:
+    #       apiVersion: project.openshift.io/v1
+    #       description: "Namespace for workshop"
+    #       displayName: "workshop_{{ workshop_type }}"
+    #       kind: ProjectRequest
+    #       metadata:
+    #           name: "workshop_{{ workshop_type }}"
+    #     username: "student{{ student_number }}"
+    #     password: "{{ admin_password }}"
+    #     host: "https://api.{{ sub_domain }}.{{ base_zone }}:6443"
+    #     validate_certs: false
+    #   register: _login_test
+    #   retries: 10
+    #   delay: 10
+    #   loop: "{{ (range(1, (student_total + 1), 1)|list) }}"
+    #   loop_control:
+    #     loop_var: student_number
+
