@@ -98,24 +98,3 @@
             KUBECONFIG: "{{ install_dir }}/auth/kubeconfig"
           no_log: true
           changed_when: false
-
-    # - name: Create student namespaces
-    #   redhat.openshift.k8s:
-    #     definition:
-    #       apiVersion: project.openshift.io/v1
-    #       description: "Namespace for workshop"
-    #       displayName: "workshop_{{ workshop_type }}"
-    #       kind: ProjectRequest
-    #       metadata:
-    #           name: "workshop_{{ workshop_type }}"
-    #     username: "student{{ student_number }}"
-    #     password: "{{ admin_password }}"
-    #     host: "https://api.{{ sub_domain }}.{{ base_zone }}:6443"
-    #     validate_certs: false
-    #   register: _login_test
-    #   retries: 10
-    #   delay: 10
-    #   loop: "{{ (range(1, (student_total + 1), 1)|list) }}"
-    #   loop_control:
-    #     loop_var: student_number
-

@@ -4,24 +4,24 @@ _namespace:
   apiVersion: v1
   kind: Namespace
   metadata:
-    name: ansible-automation-platform
+    name: "workshop_{{ workshop_type }}"
 
 _operator_group:
   apiVersion: operators.coreos.com/v1
   kind: OperatorGroup
   metadata:
     name: ansible-automation-platform-operator
-    namespace: ansible-automation-platform
+    namespace: "{{ _namespace.metadata.name }}"
   spec:
     targetNamespaces:
-      - ansible-automation-platform
+      - "{{ _namespace.metadata.name }}"
 
 _subscription:
   apiVersion: operators.coreos.com/v1alpha1
   kind: Subscription
   metadata:
     name: ansible-automation-platform
-    namespace: ansible-automation-platform
+    namespace: "{{ _namespace.metadata.name }}"
   spec:
     channel: 'stable-2.4'
     installPlanApproval: Automatic
@@ -34,7 +34,7 @@ _controller:
   kind: AutomationController
   metadata:
     name: controller
-    namespace: ansible-automation-platform
+    namespace: "{{ _namespace.metadata.name }}"
   spec:
     replicas: 1
     postgres_storage_class: gp3-csi
