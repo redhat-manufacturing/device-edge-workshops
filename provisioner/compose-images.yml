@@ -115,7 +115,7 @@
             headers:
               accept: "application/json"
               Authorization: "Bearer {{ temp_token.json.access_token }}"
-            dest: "/home/ansible/rhel.iso"
+            dest: "/home/{{ ansible_user }}/rhel.iso"
             checksum: "sha256: {{ rhel_iso_sha_value }}"
           register: download_rhel_iso
           until: download_rhel_iso is not failed

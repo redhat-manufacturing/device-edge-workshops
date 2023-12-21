@@ -14,7 +14,7 @@
 * [Deploy the lab](#deploy-the-lab)
 * [If something goes wrong during the deployment...](#if-something-goes-wrong-during-the-deployment)
 * [Pre-flight checks](#pre-flight-checks)
-* [BONUS - If not enough time for your demo...](#bonus---if-not-enough-time-for-your-demo)
+* [BONUS - If there is not enough time for your demo...](#bonus---if-there-is-not-enough-time-for-your-demo)
 
 
 
@@ -397,7 +397,11 @@ ssh-keygen -R <server ip>
 
 These pre-flight checks should be performed just right after the deployment. You can also use them to double-check that everything is ok before your demo...
 
-Go (`ssh ansible@<ip>`) to the server where AAP, Gitea, ... are deployed, so either the local server or the server deployed in AWS (external lab architecture) and check:
+### Both local and external lab architectures
+
+Go (`ssh ansible@<ip>`) to the server where AAP, Gitea, ... are deployed. In case that you have two servers, so when using external lab architecture, the server running those services is the one in AWS). 
+
+Check:
 
 * SOCKS proxy:
 
@@ -420,6 +424,10 @@ After that, with the Web Browser where you configured the SOCKS proxy, try to "S
 
 
 * Containers:
+
+  >**Note**
+  >
+  > The CLI outputs are from a local lab architecture, where both the network services and AAP + Gitea + Image-Buider are installed. If you run these commands in the AWS server when you are using the external lab architecture (where network services are running in the local server) be aware of what services need to be running in each server.
 
   - Non-root containers:
 
@@ -458,13 +466,19 @@ CONTAINER ID  IMAGE                                    COMMAND               CRE
 b20d3154d26f  localhost/dnsmasq:latest                 -c /usr/sbin/dnsm...  26 hours ago  Up 10 minutes              workshop-rhde_gitops-priv-dnsmasq
 ```
 
-* Services:
+* Access to services:
 
 Open the following:
-  - AAP Controller: https://controller.training.sandbox<your-number>.opentlc.com/
-  - Gitea: https://gitea.training.sandbox<your-number>.opentlc.com/
-  - Image Builder: image-builder.sandbox<your-number>.opentlc.com/
+  - AAP Controller: https://controller.<sub_domain>.<base_zone>/
+  - Gitea: https://gitea.<sub_domain>.<base_zone>/
+  - Image Builder: image-builder.<sub_domain>.<base_zone>/
 
+  >**Note**
+  >
+  > The values of `sub_domain` and `base_zone` are the ones defined in the `extra-vars.yml` file
+
+
+### Only in external lab architecture
 
 If you deployed the external lab architecture you should also double check:
 
@@ -481,7 +495,7 @@ ssh -g -N -T -o ServerAliveInterval=10 -o ExitOnForwardFailure=yes -o StrictHost
 
 
 
-## BONUS - If not enough time for your demo...
+## BONUS - If there is not enough time for your demo...
 
 Sometimes it could happen that you don't have the 120 minutes to run the demo. One way to reduce the time is by creating the OS images in advance instead of running the build during the demo.
 
@@ -496,4 +510,4 @@ Then, during the demo, you can just use the "Publish" task. After showing the on
 
 
 
-Enjoy the demo!
+Enjoy the lab!
