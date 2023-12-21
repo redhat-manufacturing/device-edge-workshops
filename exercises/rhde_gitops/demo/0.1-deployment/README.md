@@ -64,7 +64,7 @@ This token is used to authenticate to the customer portal and download software.
 
   >**Note**
   >
-  >  Remember that the Offline tokens will expire after 30 days of inactivity.
+  >  Remember that the Offline tokens will expire after 30 days of inactivity. If your offline Token is not valid, you won't be able to download the `aap.tar.gz` with an `HTTP Error 403: Forbidden` error.
 
 
 Take note of the token.
