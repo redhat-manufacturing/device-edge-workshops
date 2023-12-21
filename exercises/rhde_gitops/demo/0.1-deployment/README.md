@@ -533,6 +533,9 @@ Last login: Thu Dec 21 22:11:09 2023 from ::1
 [root@edge-manager-local ~]# 
 ```
 
+  >**Note**
+  >
+  > Remember that the tunnel is started by the local server, that means that if you reboot the local server the tunnel will start again with no issue (or if you start both local and AWS servers at the same time), but it you restart the AWS server the tunnel will turn down and you will need to start it manually...(maybe I implement it with `autossh` in the future)
 
 
 ## BONUS - If there is not enough time for your demo...

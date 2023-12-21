@@ -31,6 +31,10 @@
     chdir: "{{ aap_dir }}"
   async: 2500
   poll: 15
+  retries: 3  
+  delay: 10   
+  until: result.rc == 0
+  register: result
 
 - name: wait for Automation Controller to be up
   uri:
