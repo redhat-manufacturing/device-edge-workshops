@@ -96,7 +96,7 @@
       become: true
       lineinfile:
         dest: /etc/hosts
-        line: "127.0.0.1 execution-node"
+        line: "127.0.0.1 execution-node edge-manager-aws.local"
 
     - block:
       - name: create password in ec2-user if we created an AWS server

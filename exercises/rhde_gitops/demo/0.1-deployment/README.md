@@ -76,7 +76,7 @@ Take note of the token.
 
   >**Note**
   >
-  > This step is optional, since in case that the file is not found, the Ansible playbooks will use the offline token to download it. Nevertheless is recomended to download it manually since from time to time the AAP Setup file SHA could change, preventing the playbook from downloading it (You get a `HTTP Error 403: Forbidden` error while trying to download the `aap.tar.gz` file). 
+  > This step is optional, since in case that the file is not found, the Ansible playbooks will use the offline token to download it. Nevertheless is recomended to download it manually since from time to time the AAP releases a new minor version and then the Setup file SHA will change, preventing the playbook from downloading it (You get a `HTTP Error 403: Forbidden` error while trying to download the `aap.tar.gz` file). 
 
 You need to download the `Ansible Automation Platform Setup` (not the Setup Bundle). [Here](https://access.redhat.com/downloads/content/480/ver=2.4/rhel---9/2.4/x86_64/product-software) you can find the 2.4 version, the most recent and last version tested so far (Dec. 2023).
 
@@ -372,7 +372,7 @@ ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.
 
   >**Note**
   >
-  > If you deployed the external lab architecture, you can find the AWS VM IP by just resolving any of the main services, for example controller.training.sandbox<your-number>.opentlc.com. If you need to jump into the AWS server you can go to `<your-git-clone-path>/provisioner/inventory` and use the SSH keys that you will find there.
+  > If you deployed the external lab architecture, you can find the AWS VM IP by just resolving any of the main services, for example controller.<sub_domain>.<base_zone>. If you need to jump into the AWS server you can go to `<your-git-clone-path>/provisioner/<sub_domain>.<base_zone>` directory and use the SSH private key (`ssh-key.pem`) that you will find with the `ec2-user` user there by running a command like `ssh -i <your-git-clone-path>/provisioner/<sub_domain>.<base_zone>/ssh-key.pem ec2-user@controller.<sub_domain>.<base_zone>`.
 
 I've seen that sometimes, depending on the DNS servers that you have in your laptop/servers, the "populate-xxx" playbooks fail because the server does not find the new domain names configured in AWS (because it could take some time to refresh on your DNS server to get the new values). In order to solve this I use to either configure the static entries in my laptop when running VMs or configure them on the physical Router when using physical hardware, so I'm sure those will be ready when the automation reaches the populate-XXX playbooks (so I don't need to wait for the DNS refresh). 
 
@@ -497,12 +497,29 @@ If you deployed the external lab architecture you should also double check:
 
 * The reverse SSH tunnel between your local server and the AWS server:
 
-Loging into the AAP controller using the admin user (password is the one defined in extra-vars.yml file). Go to Administration > Topology View and be sure that the execution node is green. If it is ok, that means that there is connectivity between the AWS server and your local server through the reverse SSH tunnel.
+Loging into the AAP controller Web page at https://controller.<sub_doamin>.<base_zone> using the admin user (password is the one defined in `extra-vars.yml` file). Go to `Administration` > `Topology View` and be sure that the execution node is green. If it is ok, that means that there is connectivity between the AWS server and your local server through the reverse SSH tunnel.
 
-If it's not green you have to jump into your local server and check the `reverse-ssh-tunnel.service` Systemd unit status. If it failed try to restart it again, and if not directly run the system unit command, that must be something like this:
+If it's not green you have to jump into your *local server* (the reverse SSH tunnel is started from the local server to the AWS server). You can check that you have a background SSH service opening a port 2022 in the remote server:
+
+```bash
+$ ps aux | grep ssh | grep 2022
+root       83015  0.0  0.0  11288  4268 ?        Ss   21:47   0:00 ssh -o StrictHostKeyChecking=no -i /home/<ansible_user>/.ssh/id_rsa -fNT -R 2022:localhost:22 ec2-user@<AWS public IP>
+```
+
+If the service is not there you can try to restart the `reverse-ssh-tunnel.service` systemd unit or even better, just run the following command to open the tunnel manually: 
 
 ```bash
 ssh -g -N -T -o ServerAliveInterval=10 -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -i /home/<probably 'ansible'>/.ssh/id_rsa -R 2022:localhost:22 ec2-user@< IP of the AWS server>
+```
+
+There is also another way to test the reverse SSH tunnel, if you are in the AWS server you can try to ssh to the port 2022 using the root user:
+
+```bash
+[ec2-user@<AAP local IP> aap_install]$  ssh -p 2022 root@localhost
+Activate the web console with: systemctl enable --now cockpit.socket
+
+Last login: Thu Dec 21 22:11:09 2023 from ::1
+[root@edge-manager-local ~]# 
 ```
 
 
