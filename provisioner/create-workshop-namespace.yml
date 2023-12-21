@@ -1,0 +1,42 @@
+---
+
+- name: Create workshop namespace workshop_{{ workshop_type }}
+  hosts:
+    - edge_management
+  vars:
+    install_dir: "/home/{{ ansible_user }}/ocp-install/install"
+  module_defaults:
+    redhat.openshift.k8s:
+      kubeconfig: "{{ install_dir }}/auth/kubeconfig"
+  pre_tasks:
+    - name: Set workshop namespace fact
+      ansible.builtin.set_fact:
+        _workshop_namespace: "workshop-{{ workshop_type | regex_replace('_', '-') }}"
+  tasks:
+    - name: Create namespace workshop_{{ workshop_type }}
+      redhat.openshift.k8s:
+        name: "{{ _workshop_namespace }}"
+        api_version: v1
+        kind: Namespace
+        state: present
+    - name: Render subjects for rbac
+      ansible.builtin.set_fact:
+        _rbac_subjects: |-
+          {% for student_number in range(1, student_total + 1) %}
+          - apiGroup: rbac.authorization.k8s.io
+            kind: User
+            name: "student{{ student_number }}"
+          {% endfor %}
+    - name: Give students access to workshop namespace
+      redhat.openshift.k8s:
+        definition:
+          apiVersion: rbac.authorization.k8s.io/v1
+          kind: RoleBinding
+          metadata:
+            name: edit
+            namespace: workshop-rhde-aap-rhsi
+          roleRef:
+            apiGroup: rbac.authorization.k8s.io
+            kind: ClusterRole
+            name: edit
+          subjects: "{{ _rbac_subjects | from_yaml }}" 
