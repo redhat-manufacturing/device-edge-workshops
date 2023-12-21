@@ -40,6 +40,6 @@ import.json*
 ssh-key.pem
 ssh-key.pub
 provisioner/training.sandbox*/
+provisioner/workshop_vars/rhde_gitops.yml
 test_*
 provision_files/
-provisioner/workshop_vars/rhde_gitops.yml
