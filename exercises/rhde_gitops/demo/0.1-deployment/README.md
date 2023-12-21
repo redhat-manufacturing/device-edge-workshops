@@ -60,7 +60,7 @@ Take note of both the KID and Key.
 
 ## Get your Red Hat Customer Portal Offline Token
 
-This token is used to authenticate to the customer portal and download software. It can be generated [here].
+This token is used to authenticate to the customer portal and download software. It can be generated [here](https://access.redhat.com/management/api).
 
   >**Note**
   >
@@ -150,7 +150,7 @@ If you don't have it already on your machine you can [follow these steps to inst
 You will also need `git` to clone the repo in the next step and, if using VMs, a virtualization hypervisor (`libvirt` and  Virtual Machine Manager are recommended).
 
 
-You will also need to configure a SOCKS proxy to reach out to the internal services published in the edge device. What I usually do is to configure it in a separate Web Browser. The settings are:
+You will also need to configure a SOCKS proxy to reach out to the internal services published in the edge device. Remember that we will be attached to the "external network" of the local server, while the edge device will be in the internal isolated network, so for this demo we need to either connect us to that isolated environment or, easier for us, to jump into the local server to reach out to the edge server using a SOCKS proxy (already configured as part of the deployment). What I usually do is to configure it in a separate Web Browser. The settings are:
 
 
 ```
@@ -236,7 +236,7 @@ c. Download the manifest.zip from a URL by specifying the following variables in
 
 2) Create the `extra-vars.yml` file
 
-Copy the example extra-vars file from `<your-git-clone-path>/provisioner/example-extra-vars/rhde-gitops.yml` to the root of the project with the name extra-vars.yml (`<your-git-clone-path>/extra-vars.yml`)
+Copy the example extra-vars file from `<your-git-clone-path>/provisioner/example-extra-vars/rhde_gitops.yml` to the root of the project with the name extra-vars.yml (`<your-git-clone-path>/extra-vars.yml`)
 
 Fill in all the `XXXXX` with the right values, more specifically:
 * Domain name in `base_zone`
@@ -264,7 +264,7 @@ Besides the variables in `extra-vars.yml` the deployment will use morevariables 
 To make it easier, two different workshop_var files have been created, you just need to copy the right one into the `rhde-gitops.yml` file, so if you want to run the local architecture:
 
 ```
-cp <your-git-clone-path>/provisioner/workshop_vars/rhde-gitops-local.yml <your-git-clone-path>/provisioner/workshop_vars/rhde-gitops.yml
+cp <your-git-clone-path>/provisioner/workshop_vars/rhde_gitops-local.yml <your-git-clone-path>/provisioner/workshop_vars/rhde_gitops.yml
 ```
 
 and if you choose the external architecture:
@@ -333,7 +333,7 @@ In order to deploy you just need to:
 
 1. Open a bash CLI in `<your-git-clone-path>`
 
-2. Export the AWS credentials (I use to include them in `extra-vars.yml` file as reference as well)
+2. Export the AWS credentials (I use to include them in `extra-vars.yml` file as reference as well). Remember to do this again if you open a new bash interpreter before running the Ansible playbooks if you don't include these exports as part of basrc. 
 
 ```
 export AWS_ACCESS_KEY_ID=XXXXXXXXXXXXXXXXXXXXXX
@@ -352,6 +352,13 @@ ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.
 
 ## If something goes wrong during the deployment...
 
+  >**Note**
+  >
+  > If you deployed the external lab architecture, you can find the AWS VM IP by just resolving any of the main services, for example controller.training.sandbox<your-number>.opentlc.com. If you need to jump into the AWS server you can go to `<your-git-clone-path>/provisioner/inventory` and use the SSH keys that you will find there.
+
+I've seen that sometimes, depending on the DNS servers that you have in your laptop/servers, the "populate-xxx" playbooks fail because the server does not find the new domain names configured in AWS (because it could take some time to refresh on your DNS server to get the new values). In order to solve this I use to either configure the static entries in my laptop when running VMs or configure them on the physical Router when using physical hardware, so I'm sure those will be ready when the automation reaches the populate-XXX playbooks (so I don't need to wait for the DNS refresh). 
+
+
 Sometimes due to the limited VM resources, the physical Hardware odds, network connectivity or the "Demo Gods" the deployment fails. Do not panic, if you followed the previous steps and have the right variables in place the first thing that you should do is to re-launch the deployment, that probably will do the trick...
 
   >**Tip**
@@ -365,14 +372,13 @@ ansible-navigator run provisioner/teardown_lab.yml --inventory local-inventory.y
 ```
 
 
+
+
 ## Pre-flight checks
 
+These pre-flight checks should be performed just right after the deployment. You can also use them to double-check that everything is ok before your demo...
+
 Go (`ssh ansible@<ip>`) to the server where AAP, Gitea, ... are deployed, so either the local server or the server deployed in AWS (external lab architecture) and check:
-
-  >**Note**
-  >
-  > If you deployed the external lab architecture, you can find the AWS VM IP by just resolving any of the main services, for example controller.training.sandbox<your-number>.opentlc.com. If you need to jump into the AWS server you can go to `<your-git-clone-path>/provisioner/inventory` and use the SSH keys that you will find there.
-
 
 * SOCKS proxy:
 
