@@ -357,6 +357,7 @@ ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.
 
 ## If something goes wrong during the deployment...
 
+
   >**Note**
   >
   > If you deployed the external lab architecture, you can find the AWS VM IP by just resolving any of the main services, for example controller.training.sandbox<your-number>.opentlc.com. If you need to jump into the AWS server you can go to `<your-git-clone-path>/provisioner/inventory` and use the SSH keys that you will find there.
@@ -376,7 +377,20 @@ If re-deployment does not work and you don't find the issue, try to start over f
 ansible-navigator run provisioner/teardown_lab.yml --inventory local-inventory.yml --extra-vars @extra-vars.yml -vvv
 ```
 
+Lastly, if you are re-using VMs or Hardware, you might find that when you re-install the RHEL Operating System in the servers (ie. after completing a demo/workshop), the system UUID will change, and thus you laptop won't be able to ssh to it due to an SSH validation mismatching (you will find the error in the `wait for all nodes to have SSH reachability` step). You can check if that's the case by trying to ssh to the server, if you have this issue you will find a message like this one:
 
+```
+ssh ansible@192.168.140.202
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+```
+
+In order to solve it just remove the old hash by running:
+
+```
+ssh-keygen -R <server ip>
+```
 
 
 ## Pre-flight checks
