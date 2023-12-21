@@ -42,8 +42,18 @@
 - name: import wildcard cert playbook
   ansible.builtin.import_playbook: ocp-wildcard-cert.yml
 
-- name: import ocp install playbook
+- name: Import OCP install playbook
   ansible.builtin.import_playbook: install-ocp-on-aws.yml
 
-- name: import ocp ingress cert playbook
+- name: Import OCP ingress cert playbook
   ansible.builtin.import_playbook: update-ocp-ingress-cert.yml
+
+- name: Import student auth playbook
+  ansible.builtin.import_playbook: configure-ocp-auth-for-students.yml
+
+- name: Import workshop namespace playbook
+  ansible.builtin.import_playbook: create-workshop-namespace.yml
+
+- name: Import AAP install playbook
+  ansible.builtin.import_playbook: install-aap-on-ocp.yml
+
