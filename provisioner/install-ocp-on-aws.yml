@@ -5,3 +5,15 @@
     - edge_management
   roles:
     - ../roles/install_ocp_on_aws
+  post_tasks:
+    - name: Install pip
+      ansible.builtin.package:
+        name: python3-pip
+      become: true
+      tags:
+        - always
+    - name: Install kubernetes python library
+      ansible.builtin.pip:
+        name: kubernetes
+      tags:
+        - always
