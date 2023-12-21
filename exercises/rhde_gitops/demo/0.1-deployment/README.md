@@ -376,8 +376,6 @@ Go (`ssh ansible@<ip>`) to the server where AAP, Gitea, ... are deployed, so eit
 
 * SOCKS proxy:
 
-Let's start with this service that many times starts with failures (I still need to fix this)
-
 Check if the service is listening in port 1080 (be sure that is 1080 and not just 11080)
 
 ```

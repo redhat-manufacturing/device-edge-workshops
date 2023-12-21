@@ -63,7 +63,7 @@
           Description="SOCKs Tunnel"
 
           [Service]
-          ExecStart=/bin/bash -c "ssh -o StrictHostKeyChecking=no -N -f -D *:1080 {{ hostvars['edge-manager-local']['ansible_user'] }}@localhost -p 2022"
+          ExecStart=/bin/bash -c "ssh -o StrictHostKeyChecking=no -N -D *:1080 {{ hostvars['edge-manager-local']['ansible_user'] }}@localhost -p 2022"
 
           [Install]
           WantedBy=multi-user.target
