@@ -78,7 +78,7 @@ Take note of the token.
   >
   > This step is optional, since in case that the file is not found, the Ansible playbooks will use the offline token to download it. Nevertheless is recomended to download it manually since from time to time the AAP Setup file SHA could change, preventing the playbook from downloading it (You get a `HTTP Error 403: Forbidden` error while trying to download the `aap.tar.gz` file). 
 
-You need to download the `Ansible Automation Platform Setup`. [Here](https://access.redhat.com/downloads/content/480/ver=2.4/rhel---9/2.4/x86_64/product-software) you can find the 2.4 version.
+You need to download the `Ansible Automation Platform Setup` (not the Setup Bundle). [Here](https://access.redhat.com/downloads/content/480/ver=2.4/rhel---9/2.4/x86_64/product-software) you can find the 2.4 version, the most recent and last version tested so far (Dec. 2023).
 
 Save your file as `aap.tar.gz`.
 

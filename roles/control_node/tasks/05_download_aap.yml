@@ -5,6 +5,13 @@
   become: false
   run_once: true
   block:
+
+    - name: check if aap.tar.gz exists
+      stat:
+        path: "{{ playbook_dir }}/aap.tar.gz"
+        checksum_algorithm: sha256
+      register: stat_var
+
     - name: Generating an access token
       uri:
         url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
@@ -19,6 +26,7 @@
       until: temp_token is not failed
       retries: 15
       delay: 20
+      when: not stat_var.stat.exists
 
     - name: Download aap.tar.gz
       delegate_to: localhost
@@ -33,3 +41,4 @@
       until: download_aap_tarball is not failed
       retries: 15
       delay: 20
+      when: not stat_var.stat.exists
