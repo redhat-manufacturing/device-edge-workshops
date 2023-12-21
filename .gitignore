@@ -42,3 +42,4 @@ ssh-key.pub
 provisioner/training.sandbox*/
 test_*
 provision_files/
+provisioner/workshop_vars/rhde_gitops.yml

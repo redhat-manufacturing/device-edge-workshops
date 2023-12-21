@@ -270,7 +270,10 @@ You also need to configure an important parameter here, that will deploy either 
 
 Besides the variables in `extra-vars.yml` the deployment will use morevariables that can be found in `<your-git-clone-path>/provisioner/workshop_vars/rhde-gitops.yml`. Those variables are slightly different depending if you are deploying the local architecture or the external architecture.
 
-To make it easier, two different workshop_var files have been created, you just need to copy the right one into the `rhde-gitops.yml` file, so if you want to run the local architecture:
+The `rhde-gitops.yml` file does not exist in the repo, and you will need to create it by copying the right file depending if you want to use the local or the external lab architecture.
+
+For local lab architecture:
+
 
 ```bash
 cp <your-git-clone-path>/provisioner/workshop_vars/rhde_gitops-local.yml <your-git-clone-path>/provisioner/workshop_vars/rhde_gitops.yml
@@ -497,7 +500,15 @@ If you deployed the external lab architecture you should also double check:
 
 * The reverse SSH tunnel between your local server and the AWS server:
 
-Loging into the AAP controller Web page at https://controller.<sub_doamin>.<base_zone> using the admin user (password is the one defined in `extra-vars.yml` file). Go to `Administration` > `Topology View` and be sure that the execution node is green. If it is ok, that means that there is connectivity between the AWS server and your local server through the reverse SSH tunnel.
+Loging into the AAP controller Web page at https://controller.<sub_doamin>.<base_zone> using the admin user (password is the one defined in `extra-vars.yml` file). Go to `Administration` > `Topology View` and be sure that the execution node is green: 
+
+
+![Remote Execution Node](../images/rhde_gitops_remote-execution-node.png)
+
+
+
+If it is ok, that means that there is connectivity between the AWS server and your local server through the reverse SSH tunnel.
+
 
 If it's not green you have to jump into your *local server* (the reverse SSH tunnel is started from the local server to the AWS server). You can check that you have a background SSH service opening a port 2022 in the remote server:
 
