@@ -130,7 +130,7 @@
       become: true
       lineinfile:
         dest: /etc/hosts
-        line: "127.0.0.1 controller-node"
+        line: "127.0.0.1 controller-node edge-manager-local edge-manager-local.local"
       when: run_in_aws is not defined or not run_in_aws | bool
 
     - name: Add entries to /etc/hosts
