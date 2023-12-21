@@ -19,7 +19,7 @@ This lab walks participants through the act of managing Red Hat Device Edge for 
 - [x] Use valid cert # Confirm this
 - [x] htpasswd for student auth
 - [ ] Namespace for each student
-- [ ] Install AAP
+- [x] Install AAP
 - [ ] Configure AAP
 
 ## Section 2 - Local Edge Manager Setup
