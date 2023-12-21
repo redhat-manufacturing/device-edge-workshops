@@ -16,11 +16,11 @@ This lab walks participants through the act of managing Red Hat Device Edge for 
 ## Section 1 - AWS Setup
 - [x] Configure OCP tooling
 - [x] Install OCP
-- [x] Use valid cert
-- [ ] Setup storage
-- [ ] Install AAP
-- [ ] Configure AAP
+- [x] Use valid cert # Confirm this
+- [x] htpasswd for student auth
 - [ ] Namespace for each student
+- [x] Install AAP
+- [ ] Configure AAP
 
 ## Section 2 - Local Edge Manager Setup
 
