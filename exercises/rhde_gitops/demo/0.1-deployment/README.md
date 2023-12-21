@@ -58,17 +58,28 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXX
 Take note of both the KID and Key.
 
 
+
 ## Get your Red Hat Customer Portal Offline Token
 
 This token is used to authenticate to the customer portal and download software. It can be generated [here](https://access.redhat.com/management/api).
 
   >**Note**
   >
-  >  Remember that the Offline tokens will expire after 30 days of inactivity. If your offline Token is not valid, you won't be able to download the `aap.tar.gz` with an `HTTP Error 403: Forbidden` error.
-
+  >  Remember that the Offline tokens will expire after 30 days of inactivity. If your offline Token is not valid, you won't be able to download the `aap.tar.gz`. 
 
 Take note of the token.
 
+
+
+## Get your AAP Setup TAR file
+
+  >**Note**
+  >
+  > This step is optional, since in case that the file is not found, the Ansible playbooks will use the offline token to download it. Nevertheless is recomended to download it manually since from time to time the aap.tar.gz file sha could change, making impossible for the playbook to download it (You get a `HTTP Error 403: Forbidden` error while trying to download the `aap.tar.gz` file). 
+
+You need to download the `Ansible Automation Platform Setup`. [Here](https://access.redhat.com/downloads/content/480/ver=2.4/rhel---9/2.4/x86_64/product-software) you can find the 2.4 version.
+
+Save your file as `aap.tar.gz`.
 
 
 
@@ -329,6 +340,9 @@ all:
   >
   >  Even thought in the external architecture you will have the local "server" and the one running in AWS, you will only need to include the local one, since the inventory for the remote server will be created dynamically once the deployment playbooks create the VM in EC2. 
 
+
+
+5) Move your `aap.tar.gz` file to `<your-git-clone-path>/provisioner/aap.tar.gz`. Remember that this step is optional but highly recomended.
 
 
 
