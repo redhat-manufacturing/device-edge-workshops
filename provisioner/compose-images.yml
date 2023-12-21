@@ -6,6 +6,7 @@
     - edge_remote_management
   vars:
     image_builder_http_port: 18080
+    ansible_become_timeout: 120 
   become: true
   pre_tasks:
 

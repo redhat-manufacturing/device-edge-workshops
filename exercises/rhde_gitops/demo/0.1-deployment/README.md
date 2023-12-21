@@ -121,13 +121,13 @@ Save apart your `manifest.zip` file.
 
 During the demo you will need to push or move tags in certain container images (take a look at [minute 25:25 in the video](https://www.youtube.com/watch?v=XCtfy7AqLLY&t=25m25s)), so you will need to have access to a container image repository. Probably you want to use Quay.io so first, check that you can login:
 
-```
+```bash
 podman login -u <your-quay-user> quay.io
 ```
 
 Once you have access to the registry, copy the container images that we will be using (those are public in my Quay.io user `luisarizmendi`). You can pull them to your laptop and then push it to your registry, or you can just use `skopeo`:
 
-```
+```bash
 skopeo copy docker://quay.io/luisarizmendi/2048:v1 docker://quay.io/<your-quay-user>/2048:v1
 skopeo copy docker://quay.io/luisarizmendi/2048:v2 docker://quay.io/<your-quay-user>/2048:v2
 skopeo copy docker://quay.io/luisarizmendi/2048:v3 docker://quay.io/<your-quay-user>/2048:v3
@@ -202,7 +202,7 @@ You will also need to connect the video output to a screen (or use a [Video Capt
 
 Clone the main branch of this repo:
 
-```
+```bash
 git clone https://github.com/redhat-manufacturing/device-edge-workshops
 ```
 
@@ -216,7 +216,7 @@ a. You can put the Manifest file into the `provisioner` folder of the cloned rep
 
 b. Turn the `manifest.zip` into a base64 variable and include it in the `extra-vars.yml` file (see next point):
 
-```
+```bash
 base64 manifest.zip > base64_platform_manifest.txt
 ```
 
@@ -227,7 +227,7 @@ base64 manifest.zip > base64_platform_manifest.txt
 
 c. Download the manifest.zip from a URL by specifying the following variables in the  `extra-vars.yml` file (see next point)
 
-  ```
+  ```yaml
   manifest_download_url: https://www.example.com/protected/manifest.zip
   manifest_download_user: username
   manifest_download_password: password
@@ -263,13 +263,13 @@ Besides the variables in `extra-vars.yml` the deployment will use morevariables 
 
 To make it easier, two different workshop_var files have been created, you just need to copy the right one into the `rhde-gitops.yml` file, so if you want to run the local architecture:
 
-```
+```bash
 cp <your-git-clone-path>/provisioner/workshop_vars/rhde_gitops-local.yml <your-git-clone-path>/provisioner/workshop_vars/rhde_gitops.yml
 ```
 
 and if you choose the external architecture:
 
-```
+```bash
 cp <your-git-clone-path>/provisioner/workshop_vars/rhde-gitops-external.yml <your-git-clone-path>/provisioner/workshop_vars/rhde-gitops.yml
 ```
 
@@ -282,7 +282,7 @@ You have to create an inventory file in `<your-git-clone-path>/local-inventory.y
 
 If you are using the local architecture:
 
-```
+```yaml
 all:
   children:
     local:
@@ -307,7 +307,7 @@ all:
 
 If you are using the external architecture (where `edge_management` has been changed by `edge_local_management` ):
 
-```
+```yaml
 all:
   children:
     local:
@@ -340,14 +340,14 @@ In order to deploy you just need to:
 
 2. Export the AWS credentials (I use to include them in `extra-vars.yml` file as reference as well). Remember to do this again if you open a new bash interpreter before running the Ansible playbooks if you don't include these exports as part of basrc. 
 
-```
+```bash
 export AWS_ACCESS_KEY_ID=XXXXXXXXXXXXXXXXXXXXXX
 export AWS_SECRET_ACCESS_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
 3. Run the playbooks with `ansible-navigator`:
 
-```
+```bash
 ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.yml --extra-vars @extra-vars.yml -vvvv
 ```
 
@@ -373,14 +373,14 @@ Sometimes due to the limited VM resources, the physical Hardware odds, network c
 
 If re-deployment does not work and you don't find the issue, try to start over from scratch by re-installing RHEL on the server and, if using the external architecture, by running the following playbook that will delete the EC2 instance in AWS:
 
-```
+```bash
 ansible-navigator run provisioner/teardown_lab.yml --inventory local-inventory.yml --extra-vars @extra-vars.yml -vvv
 ```
 
 Lastly, if you are re-using VMs or Hardware, you might find that when you re-install the RHEL Operating System in the servers (ie. after completing a demo/workshop), the system UUID will change, and thus you laptop won't be able to ssh to it due to an SSH validation mismatching (you will find the error in the `wait for all nodes to have SSH reachability` step). You can check if that's the case by trying to ssh to the server, if you have this issue you will find a message like this one:
 
-```
-ssh ansible@192.168.140.202
+```bash
+$ ssh ansible@192.168.140.202
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -388,7 +388,7 @@ ssh ansible@192.168.140.202
 
 In order to solve it just remove the old hash by running:
 
-```
+```bash
 ssh-keygen -R <server ip>
 ```
 
@@ -403,8 +403,8 @@ Go (`ssh ansible@<ip>`) to the server where AAP, Gitea, ... are deployed, so eit
 
 Check if the service is listening in port 1080 (be sure that is 1080 and not just 11080)
 
-```
-[ansible@edge-manager-local ~]$ ss -ltn | grep 1080
+```bash
+$ ss -ltn | grep 1080
 LISTEN 0      128          0.0.0.0:1080       0.0.0.0:*          
 LISTEN 0      511                *:11080            *:*          
 LISTEN 0      128             [::]:1080          [::]:*  
@@ -412,7 +412,7 @@ LISTEN 0      128             [::]:1080          [::]:*
 
 If not, run this command and check it again:
 
-```
+```bash
 sudo ssh -o StrictHostKeyChecking=no -N -f -D *:1080 localhost
 ```
 
@@ -423,13 +423,13 @@ After that, with the Web Browser where you configured the SOCKS proxy, try to "S
 
   - Non-root containers:
 
-```
-[ansible@edge-manager-local ~]$ podman pod ps
+```bash
+$ podman pod ps
 POD ID        NAME                  STATUS      CREATED       INFRA ID      # OF CONTAINERS
 c48dcb7aced7  workshop-rhde_gitops  Running     26 hours ago  fe4b2d9148f1  10
 
 
-[ansible@edge-manager-local ~]$  podman ps
+$  podman ps
 CONTAINER ID  IMAGE                                    COMMAND               CREATED       STATUS        PORTS       NAMES
 fe4b2d9148f1  localhost/podman-pause:4.6.1-1701529524                        26 hours ago  Up 9 minutes              c48dcb7aced7-infra
 fa40ba18c4d7  localhost/etherpad:latest                /bin/sh -c etherp...  26 hours ago  Up 9 minutes              workshop-rhde_gitops-etherpad
@@ -445,8 +445,9 @@ fbad94197407  localhost/tftp:latest                    /sbin/init            26 
 ```
 
   - Root containers:
-```
-[ansible@edge-manager-local ~]$ sudo podman pod ps
+
+```bash
+$ sudo podman pod ps
 [sudo] password for ansible: 
 POD ID        NAME                       STATUS      CREATED       INFRA ID      # OF CONTAINERS
 ea07ed978253  workshop-rhde_gitops-priv  Running     26 hours ago  587a47ad5e76  2
@@ -455,7 +456,6 @@ ea07ed978253  workshop-rhde_gitops-priv  Running     26 hours ago  587a47ad5e76 
 CONTAINER ID  IMAGE                                    COMMAND               CREATED       STATUS         PORTS       NAMES
 587a47ad5e76  localhost/podman-pause:4.6.1-1701529524                        26 hours ago  Up 10 minutes              ea07ed978253-infra
 b20d3154d26f  localhost/dnsmasq:latest                 -c /usr/sbin/dnsm...  26 hours ago  Up 10 minutes              workshop-rhde_gitops-priv-dnsmasq
-
 ```
 
 * Services:
@@ -475,7 +475,7 @@ Loging into the AAP controller using the admin user (password is the one defined
 
 If it's not green you have to jump into your local server and check the `reverse-ssh-tunnel.service` Systemd unit status. If it failed try to restart it again, and if not directly run the system unit command, that must be something like this:
 
-```
+```bash
 ssh -g -N -T -o ServerAliveInterval=10 -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -i /home/<probably 'ansible'>/.ssh/id_rsa -R 2022:localhost:22 ec2-user@< IP of the AWS server>
 ```
 
