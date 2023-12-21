@@ -5,6 +5,7 @@
 * [Prepare your AWS environment](#prepare-your-aws-environment)
 * [Get your ZeroSSL free Account](#get-your-zerossl-free-account)
 * [Get your Red Hat Customer Portal Offline Token](#get-your-red-hat-customer-portal-offline-token)
+* [Get your AAP Setup TAR file](#get-your-aap-setup-tar-file)
 * [Get your Pull Secret](#get-your-pull-secret)
 * [Get your Slack Token](#get-your-slack-token)
 * [Get your Ansible Controller Manifest](#get-your-ansible-controller-manifest)
@@ -75,7 +76,7 @@ Take note of the token.
 
   >**Note**
   >
-  > This step is optional, since in case that the file is not found, the Ansible playbooks will use the offline token to download it. Nevertheless is recomended to download it manually since from time to time the aap.tar.gz file sha could change, making impossible for the playbook to download it (You get a `HTTP Error 403: Forbidden` error while trying to download the `aap.tar.gz` file). 
+  > This step is optional, since in case that the file is not found, the Ansible playbooks will use the offline token to download it. Nevertheless is recomended to download it manually since from time to time the AAP Setup file SHA could change, preventing the playbook from downloading it (You get a `HTTP Error 403: Forbidden` error while trying to download the `aap.tar.gz` file). 
 
 You need to download the `Ansible Automation Platform Setup`. [Here](https://access.redhat.com/downloads/content/480/ver=2.4/rhel---9/2.4/x86_64/product-software) you can find the 2.4 version.
 
@@ -122,9 +123,6 @@ In order to use Automation controller you need to have a valid subscription via 
 
 
 Save apart your `manifest.zip` file.
-
-
-
 
 
 
