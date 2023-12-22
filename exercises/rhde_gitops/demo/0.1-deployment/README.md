@@ -114,13 +114,17 @@ xoxp-XXXXXXXXXXXXX-XXXXXXXXXXXXX-XXXXXXXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 ## Get your Ansible Controller Manifest
 
-In order to use Automation controller you need to have a valid subscription via a `manifest.zip` file.  To retrieve your manifest.zip file you need to download it from access.redhat.com.  
+In order to use Automation controller you need to have a valid subscription via a `manifest.zip` file.  To retrieve your manifest.zip file you need to download it from access.redhat.com.
 
-- Here is a video by Colin McNaughton to help you retrieve your manifest.zip:
- [https://youtu.be/FYtilnsk7sM](https://youtu.be/FYtilnsk7sM).
-- If you need to get a temporary license, get a trial here [http://red.ht/try_ansible](http://red.ht/try_ansible).
-- Follow the following KCS on how to generate the manifest file https://access.redhat.com/solutions/5586461
+You have the steps in the [Ansible Platform Documentation](https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.4/html/red_hat_ansible_automation_platform_operations_guide/assembly-aap-obtain-manifest-files)
 
+1. Go to [Subscription Allocation](https://access.redhat.com/management/subscription_allocations) and click "New Subscription Allocation"
+
+2. Enter a name for the allocation and select `Satellite 6.8` as "Type".
+
+3. Add the subscription entitlements needed (click the tab and click "Add Subscriptions") where Ansible Automation Platform is available.
+
+4. Go back to "Details" tab and click "Export Manifest" 
 
 Save apart your `manifest.zip` file.
 
