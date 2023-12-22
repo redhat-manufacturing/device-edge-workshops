@@ -42,7 +42,7 @@ Once you have your environment, take note of:
 ## Get your ZeroSSL free Account
 
 The Ansible playbooks will create Certificates to be used by the HTTPS services, so you need to issue valid SSL certs. An easy way to do it is by using ZeroSSL.
-You will need to verify the ownership of your domain (e.g. sandboxVXYZ.opentlc.com). The easiest way is via a DNS based verify by creating a CNAME entry under Route53 > Hosted Zones > sandboxVXYZ.opentlc.com with the values displayed on the ZeroSSL webpage.
+You will need to verify the ownership of your domain (e.g. sandboxVXYZ.opentlc.com). The easiest way is via a DNS based verification by creating a new CNAME entry under Route53 > Hosted Zones > sandboxVXYZ.opentlc.com with the values displayed on the ZeroSSL webpage.
 
 This is totally free to set up and allows wildcard certificates to be issued. Once registered, create an API key on the [developer page](https://app.zerossl.com/developer).
 
