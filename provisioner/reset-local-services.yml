@@ -3,6 +3,7 @@
 - name: reset local services completely
   hosts:
     - 'edge_management:&local'
+    - edge_local_management
   pre_tasks:
     - name: attempt to load in vars for workshop
       ansible.builtin.include_vars:

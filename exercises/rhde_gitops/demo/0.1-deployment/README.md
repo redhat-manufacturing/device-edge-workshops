@@ -128,7 +128,9 @@ You have the steps in the [Ansible Platform Documentation](https://access.redhat
 
 Save apart your `manifest.zip` file.
 
-
+  >**Note**
+  >
+  > If you want to check the contents of the ZIP file you will see a `consumer_export.zip` file and a `signature` inside.
 
 ## Copy the container images to your Quay account
 
@@ -266,6 +268,10 @@ You can also change these values:
 * The AWS region to be used in `ec2_region`
 * SSH public key to be injected in the server in `builder_pub_key`
 * The AAP Manifest as base64 (if you chosed this option) in `base64_manifest`
+
+  >**Note**
+  >
+  > Be sure that if you don't use variable method to include the Manifest (ie. if you are using directy the file, as shown in the method "a") you have to have the `base64_manifest` commented out, so you keep the variable "undefined" in order to make direct use of the file (base64_manifest: "" does not work, so be sure to undefine the var).
 
 You also need to configure an important parameter here, that will deploy either the local or external architecture. If you want to run the local architecture you should configure `run_in_aws: false` and if you want in contrast to deploy the lab external architecture this variable should be `run_in_aws: true` 
 
