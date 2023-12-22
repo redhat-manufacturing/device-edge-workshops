@@ -302,14 +302,13 @@ all:
         edge_management:
           hosts:
             edge-manager-local:
-  vars:
-    ansible_host: XXX.XXX.XXX.XXX
-    ansible_user: XXXXXX 
-    ansible_password: XXXXXXXX
-    ansible_become_password: XXXXXXXX
+              ansible_host: XXX.XXX.XXX.XXX
+              ansible_user: XXXXXX 
+              ansible_password: XXXXXXXX
+              ansible_become_password: XXXXXXXX
 
-    external_connection: XXXXXX # Connection name for the external connection
-    internal_connection: XXXXXXX # Interface name for the internal lab network
+              external_connection: XXXXXX # Connection name for the external connection
+              internal_connection: XXXXXXX # Interface name for the internal lab network
 ```
 
   >**Note**
@@ -317,7 +316,7 @@ all:
   >  The `external_connection` variable expect the Connection name that you can get connecting to the local server and running `nmcli con list` ("NAME" column) while the  `internal_connection` expects the interface name (which is the name on the "DEVICE" column in the ouput of the `nmcli con list` command). Usually the connection name is the same than the interface name, but in some cases (ie. wireless connections) the connection name is different (in that case it will be the SSID).
 
 
-If you are using the external architecture (where `edge_management` has been changed by `edge_local_management` ):
+If you are using the external lab architecture (where `edge_management` has been changed by `edge_local_management` ):
 
 ```yaml
 all:
@@ -327,14 +326,13 @@ all:
         edge_local_management:
           hosts:
             edge-manager-local:
-  vars:
-    ansible_host: XXX.XXX.XXX.XXX
-    ansible_user: XXXXXX 
-    ansible_password: XXXXXXXX
-    ansible_become_password: XXXXXXXX
+              ansible_host: XXX.XXX.XXX.XXX
+              ansible_user: XXXXXX 
+              ansible_password: XXXXXXXX
+              ansible_become_password: XXXXXXXX
 
-    external_connection: XXXXXX # Connection name for the external connection
-    internal_connection: XXXXXXX # Interface name for the internal lab network
+              external_connection: XXXXXX # Connection name for the external connection
+              internal_connection: XXXXXXX # Interface name for the internal lab network
 ```
 
   >**Note**
@@ -377,7 +375,7 @@ ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.
   >
   > If you deployed the external lab architecture, you can find the AWS VM IP by just resolving any of the main services, for example controller.<sub_domain>.<base_zone>. If you need to jump into the AWS server you can go to `<your-git-clone-path>/provisioner/<sub_domain>.<base_zone>` directory and use the SSH private key (`ssh-key.pem`) that you will find with the `ec2-user` user there by running a command like `ssh -i <your-git-clone-path>/provisioner/<sub_domain>.<base_zone>/ssh-key.pem ec2-user@controller.<sub_domain>.<base_zone>`.
 
-I've seen that sometimes, depending on the DNS servers that you have in your laptop/servers, the "populate-xxx" playbooks fail because the server does not find the new domain names configured in AWS (because it could take some time to refresh on your DNS server to get the new values). In order to solve this I use to either configure the static entries in my laptop when running VMs or configure them on the physical Router when using physical hardware, so I'm sure those will be ready when the automation reaches the populate-XXX playbooks (so I don't need to wait for the DNS refresh). 
+I've seen that sometimes, depending on the DNS servers that you have in your laptop/servers (if you can, configure your DHCP to configure the AWS DNS servers for this lab), the "populate-xxx" playbooks fail because the server does not find the new domain names configured in AWS (because it could take some time to refresh on your DNS server to get the new values). In order to solve this I use to either configure the static entries in my laptop when running VMs or configure them on the physical Router when using physical hardware, so I'm sure those will be ready when the automation reaches the populate-XXX playbooks (so I don't need to wait for the DNS refresh). 
 
 
 Sometimes due to the limited VM resources, the physical Hardware odds, network connectivity or the "Demo Gods" the deployment fails. Do not panic, if you followed the previous steps and have the right variables in place the first thing that you should do is to re-launch the deployment, that probably will do the trick...
