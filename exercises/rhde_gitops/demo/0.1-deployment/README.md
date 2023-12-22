@@ -437,10 +437,16 @@ LISTEN 0      511                *:11080            *:*
 LISTEN 0      128             [::]:1080          [::]:*  
 ```
 
-If not, run this command and check it again:
+If not, run this command in the local server if you are using the local architecture:
 
 ```bash
 sudo ssh -o StrictHostKeyChecking=no -N -f -D *:1080 localhost
+```
+
+or this one on the remote aws server if you used the external lab : 
+
+```bash
+ssh -o StrictHostKeyChecking=no -f -N -D *:1080 <local server ansible_user>@localhost -p 2022
 ```
 
 After that, with the Web Browser where you configured the SOCKS proxy, try to "Surf" (why we stopped using this word?) the Web .
