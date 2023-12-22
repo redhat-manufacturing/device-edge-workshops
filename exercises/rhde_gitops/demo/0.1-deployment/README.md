@@ -271,7 +271,7 @@ You can also change these values:
 
   >**Note**
   >
-  > Be sure that if you don't use variable method to include the Manifest (ie. if you are using directy the file, as shown in the method "a") you have to have the `base64_manifest` commented out, so you keep the variable "undefined" in order to make direct use of the file (base64_manifest: "" does not work, so be sure to undefine the var).
+  > Be sure that if you don't use variable method to include the Manifest (ie. if you are using directy the file as shown in the method "a") you have to have the `base64_manifest` var commented out. Keep the variable "undefined" in order to make direct use of the file (`base64_manifest: ""` does not work because it will overwrite your `manifest.zip` converting it into a 0 bit file, so be sure to undefine the var).
 
 You also need to configure an important parameter here, that will deploy either the local or external architecture. If you want to run the local architecture you should configure `run_in_aws: false` and if you want in contrast to deploy the lab external architecture this variable should be `run_in_aws: true` 
 
