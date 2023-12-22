@@ -110,6 +110,14 @@
           line: 'PasswordAuthentication yes'
           state: present
 
+      - name: Enforce PasswordAuthentication
+        become: true
+        shell: |
+          echo "PasswordAuthentication yes" > /etc/ssh/sshd_config.d/1-ssh-pass.conf
+
+
+
+
 
 ## Restart of SSHD service fails in AWS instances so I restart the instance
 #      - name: Restart SSH Service
