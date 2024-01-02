@@ -385,7 +385,37 @@ ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.
   >
   > If you deployed the external lab architecture, you can find the AWS VM IP by just resolving any of the main services, for example controller.<sub_domain>.<base_zone>. If you need to jump into the AWS server you can go to `<your-git-clone-path>/provisioner/<sub_domain>.<base_zone>` directory and use the SSH private key (`ssh-key.pem`) that you will find with the `ec2-user` user there by running a command like `ssh -i <your-git-clone-path>/provisioner/<sub_domain>.<base_zone>/ssh-key.pem ec2-user@controller.<sub_domain>.<base_zone>`.
 
-I've seen that sometimes, depending on the DNS servers that you have in your laptop/servers (if you can, configure your DHCP to configure the AWS DNS servers for this lab), the "populate-xxx" playbooks fail because the server does not find the new domain names configured in AWS (because it could take some time to refresh on your DNS server to get the new values). In order to solve this I use to either configure the static entries in my laptop when running VMs or configure them on the physical Router when using physical hardware, so I'm sure those will be ready when the automation reaches the populate-XXX playbooks (so I don't need to wait for the DNS refresh). 
+I've seen that sometimes, depending on the DNS servers that you have in your laptop/servers the "populate-xxx" playbooks fail because the server does not find the new domain names configured in AWS (because it could take some time to refresh on your DNS server to get the new values). 
+
+You can try to check if that's the case after the lab deployment by running `dig gitea.<sub_domain>.<base_zone>` in your laptop, for example you can see here how the domain is not translated to any IP address:
+
+
+```bash
+dig gitea.training.sandbox2464.opentlc.com
+
+; <<>> DiG 9.18.20 <<>> gitea.training.sandbox2464.opentlc.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 34535
+;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 65494
+;; QUESTION SECTION:
+;gitea.training.sandbox2464.opentlc.com.        IN A
+
+;; Query time: 819 msec
+;; SERVER: 127.0.0.53#53(127.0.0.53) (UDP)
+;; WHEN: Tue Jan 02 16:05:18 CET 2024
+;; MSG SIZE  rcvd: 67
+
+```
+
+In order to solve this I use to either configure the static entries in my laptop when running VMs or configure them on the physical Router when using physical hardware, so I'm sure those will be ready when the automation reaches the populate-XXX playbooks (so I don't need to wait for the DNS refresh). 
+
+  >**Note**
+  >
+  > You can also wait until the DNS entry is resolved before launching the deployment again (there is no need to start over, just run the provisioner again).
 
 
 Sometimes due to the limited VM resources, the physical Hardware odds, network connectivity or the "Demo Gods" the deployment fails. Do not panic, if you followed the previous steps and have the right variables in place the first thing that you should do is to re-launch the deployment, that probably will do the trick...
