@@ -14,9 +14,20 @@ This lab walks participants through the act of managing Red Hat Device Edge for 
 - [x] Wildcard cert
  
 ## Section 1 - AWS Setup
+- [x] Generate ssh keypair
+- [x] Create storage bucket for keypair
+- [x] Create vpc for hypervisor
+- [x] Create internet gateway
+- [x] Create routes
+- [x] Provision hypervisor node
+- [x] Add host to running inventory
+- [ ] Create DNS entry
+
+## Section 2 - OpenShift Setup
 - [x] Configure OCP tooling
 - [x] Install OCP
-- [x] Use valid cert # Confirm this
+- [x] Use valid cert
+      - Update to use yaml not `oc` commands
 - [x] htpasswd for student auth
 - [x] Workshop namespace
 - [x] Install AAP
@@ -28,12 +39,12 @@ This lab walks participants through the act of managing Red Hat Device Edge for 
 
 ## Section 2 - Local Edge Manager Setup
 - [ ] Standard services (minus workshop pages?)
+      - Move DNS from dnsmasq to bind, locally resolve AWS resources
 
 ## Section 3 - Local Devices Setup
 - [ ] Pre-provision devices
 
-## Section 4 - Cloud Devices Setup
-- [ ] Bare-metal AWS Instance
+## Section 4 - Hypervisor setup
 - [ ] Cockpit
 - [ ] Virtual machines
 - [ ] Student logins
