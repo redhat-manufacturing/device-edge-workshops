@@ -1,0 +1,9 @@
+---
+
+- name: Create Namespaces
+  kubernetes.core.k8s:
+    template: templates/namespaces.yaml.j2
+
+- name: Give students permissions on their namespaces
+  kubernetes.core.k8s:
+    template: templates/rbac.yaml.j2
