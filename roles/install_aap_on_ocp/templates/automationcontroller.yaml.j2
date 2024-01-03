@@ -1,0 +1,11 @@
+{% for student_number in range(1, student_total + 1) %}
+---
+apiVersion: automationcontroller.ansible.com/v1beta1
+kind: AutomationController
+metadata:
+  name: controller
+  namespace: "student{{ student_number }}-workshop-{{ workshop_type | regex_replace('_', '-') }}"
+spec:
+  replicas: 1
+  postgres_storage_class: gp3-csi
+{% endfor %}
