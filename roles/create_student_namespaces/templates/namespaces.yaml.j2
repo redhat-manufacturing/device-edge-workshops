@@ -1,0 +1,9 @@
+{% for student_number in range(1, student_total + 1) %}
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: "student{{ student_number }}-workshop-{{ workshop_type | regex_replace('_', '-') }}"
+  labels:
+    name: "student{{ student_number }}-workshop-{{ workshop_type | regex_replace('_', '-') }}"
+{% endfor %}
