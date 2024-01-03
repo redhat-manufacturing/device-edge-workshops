@@ -1,13 +1,22 @@
 ---
 
-- name: Import pre-flight tasks
-  ansible.builtin.import_tasks: pre-flight.yml
+- name: Install cluster
+  ansible.builtin.include_tasks:
+    file: "{{ tasks_file }}"
+  loop:
+    - pre-flight.yml
+    - setup-tooling.yml
+    - create-configs.yml
+    - run-install.yml
+  loop_control:
+    loop_var: tasks_file
+  when:
+    - teardown is not defined or
+      not teardown|bool
 
-- name: Import tooling tasks
-  ansible.builtin.import_tasks: setup-tooling.yml
-
-- name: Import configs tasks
-  ansible.builtin.import_tasks: create-configs.yml
-
-- name: Import installation tasks
-  ansible.builtin.import_tasks: run-install.yml
+- name: Teardown if requested
+  ansible.builtin.include_tasks:
+    file: teardown.yml
+  when:
+    - teardown is defined
+    - teardown|bool

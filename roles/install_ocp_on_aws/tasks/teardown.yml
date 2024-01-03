@@ -1,0 +1,10 @@
+---
+
+- name: Destroy cluster
+  ansible.builtin.shell:
+    cmd: ./openshift-install --dir ./install destroy cluster
+  args:
+    chdir: "{{ install_dir }}/"
+  environment:
+    AWS_ACCESS_KEY_ID: "{{ lookup('ansible.builtin.env', 'AWS_ACCESS_KEY_ID') }}"
+    AWS_SECRET_ACCESS_KEY: "{{ lookup('ansible.builtin.env', 'AWS_SECRET_ACCESS_KEY') }}"
