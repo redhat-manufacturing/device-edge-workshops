@@ -1,8 +1,8 @@
 ---
 
-- name: configure hypervisor
+- name: configure hypervisors
   hosts:
-    - edge_hypervisor
+    - hypervisors
   become: true
   tasks:
     - name: include student user config role
