@@ -46,8 +46,8 @@ This lab walks participants through the act of managing Red Hat Device Edge for 
 
 ## Section 4 - Hypervisor setup
 - [ ] Cockpit
-- [ ] Virtual machines
-- [ ] Student logins
+- [x] Virtual machines
+- [x] Student logins
 
 ## Section 5 - Exercises
 - [ ] Device provisioning?
