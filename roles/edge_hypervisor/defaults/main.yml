@@ -1,12 +1,12 @@
 ---
 
-use_rhsm_repos: false
+use_rhsm_repos: true
 
 cockpit_enabled: true
 cockpit_started: true
 cockpit_manage_firewall: true
 
-cockpit_packages:
+_cockpit_packages:
   - cockpit
   - cockpit-networkmanager
   - cockpit-packagekit
@@ -22,9 +22,15 @@ cockpit_config:
     IdleTimeout: 60
     Banner: "{{ ec2_name_prefix }} Device Edge Workshop"
 
-hypervisor_packages:
+_extra_hypervisor_packages:
   - genisoimage
   - isomd5sum
+
+_kvm_packages:
+  - qemu-kvm
+  - libvirt
+  - virt-install
+  - virt-viewer
 
 virtual_machines_yaml: |-
   {% for student_number in range(1, student_total + 1) %}

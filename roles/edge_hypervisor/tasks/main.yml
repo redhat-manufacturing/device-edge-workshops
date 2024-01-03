@@ -18,5 +18,3 @@
 - name: import cockpit tasks
   ansible.builtin.import_tasks: cockpit.yml
 
-- name: import student auth tasks
-  ansible.builtin.import_tasks: student-auth.yml

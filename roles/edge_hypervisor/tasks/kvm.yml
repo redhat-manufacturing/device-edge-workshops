@@ -2,15 +2,8 @@
 
 - name: install virt module
   ansible.builtin.dnf:
-    name: '@virt'
+    name: "{{ _kvm_packages }}"
   register: virt_installed
-
-- name: install additional packages
-  ansible.builtin.dnf:
-    name:
-      - virt-install
-      - virt-viewer
-  register: virt_additional_installed
 
 - name: start/enable services
   ansible.builtin.systemd:
@@ -23,8 +16,7 @@
     cmd: virt-host-validate
   register: virt_host_validate_output
   when:
-    - virt_installed.changed or
-      virt_additional_installed.changed
+    - virt_installed.changed
   
 - name: create storage directory for VMs
   ansible.builtin.file:
