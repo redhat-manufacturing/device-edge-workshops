@@ -1,0 +1,29 @@
+---
+
+- name: Hypervisor node tasks
+  block:
+    - name: grab facts for hypervisor node
+      amazon.aws.ec2_instance_info:
+        region: "{{ ec2_region }}"
+        filters:
+          instance-state-name: running
+          "tag:Workshop_hypervisor_node": "{{ ec2_name_prefix }}-hypervisor"
+      register: hypervisor_node_facts
+
+      # This doesn't _really_ need to loop, as only one instance is ever provisioned
+    - name: add hosts to groups | edge management node
+      ansible.builtin.add_host:
+        name: 'hypervisor'
+        username: "{{ student_user }}"
+        students: "{{ student_total }}"
+        short_name: "{{ item.tags.short_name }}"
+        ansible_host: "{{ item.public_ip_address }}"
+        ansible_user: "{{ item.tags.username }}"
+        ansible_port: "{{ ssh_port }}"
+        ansible_ssh_private_key_file: "{{ workshop_folder }}/ssh-key.pem"
+        dns:
+          
+        groups: hypervisors
+      with_items:
+        - "{{ hypervisor_node_facts.instances }}"
+      changed_when: false
