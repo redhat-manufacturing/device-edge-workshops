@@ -1,0 +1,16 @@
+{% for student_number in range(1, student_total + 1) %}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: edit
+  namespace: "student{{ student_number }}-workshop-{{ workshop_type | regex_replace('_', '-') }}"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: edit
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: "student{{ student_number }}"
+{% endfor %}
