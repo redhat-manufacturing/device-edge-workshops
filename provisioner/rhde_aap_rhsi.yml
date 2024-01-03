@@ -30,6 +30,9 @@
 - name: import selection validator playbook
   ansible.builtin.import_playbook: selection-validator.yml
 
+- name: Import aws setup playbook
+  ansible.builtin.import_playbook: setup-aws-instances.yml
+
 - name: import connectivity playbook
   ansible.builtin.import_playbook: ensure-connectivity.yml
 
@@ -51,9 +54,13 @@
 - name: Import student auth playbook
   ansible.builtin.import_playbook: configure-ocp-auth-for-students.yml
 
-- name: Import workshop namespace playbook
-  ansible.builtin.import_playbook: create-workshop-namespace.yml
+- name: Import student namespaces playbook
+  ansible.builtin.import_playbook: create-student-namespaces.yml
 
 - name: Import AAP install playbook
   ansible.builtin.import_playbook: install-aap-on-ocp.yml
+
+
+- name: Import hypervisor playbook
+  ansible.builtin.import_playbook: hypervisor.yml
 
