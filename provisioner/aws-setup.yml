@@ -5,8 +5,8 @@
   connection: local
   become: false
   gather_facts: false
-  vars_files:
-    - "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
+  # vars_files:
+  #   - "{{ _vars_file_path }}"
   tasks:
     - include_role:
         name: ../roles/manage_ec2_instances
