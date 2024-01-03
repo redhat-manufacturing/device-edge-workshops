@@ -4,17 +4,7 @@ _namespace:
   apiVersion: v1
   kind: Namespace
   metadata:
-    name: "workshop_{{ workshop_type }}"
-
-_operator_group:
-  apiVersion: operators.coreos.com/v1
-  kind: OperatorGroup
-  metadata:
-    name: ansible-automation-platform-operator
-    namespace: "{{ _namespace.metadata.name }}"
-  spec:
-    targetNamespaces:
-      - "{{ _namespace.metadata.name }}"
+    name: ansible-automation-platform
 
 _subscription:
   apiVersion: operators.coreos.com/v1alpha1
@@ -28,13 +18,3 @@ _subscription:
     name: ansible-automation-platform-operator
     source: redhat-operators
     sourceNamespace: openshift-marketplace
-
-_controller:
-  apiVersion: automationcontroller.ansible.com/v1beta1
-  kind: AutomationController
-  metadata:
-    name: controller
-    namespace: "{{ _namespace.metadata.name }}"
-  spec:
-    replicas: 1
-    postgres_storage_class: gp3-csi
