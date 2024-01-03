@@ -436,8 +436,14 @@ repo_files:
     dest: playbooks/publish-image.yml
   - src: templates/rhde_gitops/update-devices.yml.j2
     dest: playbooks/update-devices.yml
-  - src: templates/rhde_gitops/deploy_app_microshift.yml.j2
-    dest: playbooks/deploy_app_microshift.yml
+  - src: templates/rhde_gitops/deploy_app_microshift_oc.yml.j2
+    dest: playbooks/deploy_app_microshift_oc.yml
+  - src: templates/rhde_gitops/deploy_app_microshift_manifest.yml.j2
+    dest: playbooks/deploy_app_microshift_manifest.yml
+  - src: templates/rhde_gitops/deploy_app_microshift_helm.yml.j2
+    dest: playbooks/deploy_app_microshift_helm.yml
+  - src: templates/rhde_gitops/deploy_app_microshift_kustomize.yml.j2
+    dest: playbooks/deploy_app_microshift_kustomize.yml
   - src: templates/rhde_gitops/update_app_microshift.yml.j2
     dest: playbooks/update_app_microshift.yml
   - src: templates/rhde_gitops/copy-os-files.yml.j2
@@ -469,8 +475,12 @@ additional_repos:
         dest: examples/production-blueprint-v2.yml
       - src: templates/rhde_gitops/production-blueprint-v3.yml.j2
         dest: examples/production-blueprint-v3.yml
-      - src: templates/rhde_gitops/production-microshift-blueprint.yml.j2
-        dest: examples/production-microshift-blueprint.yml
+      - src: templates/rhde_gitops/production-microshift-blueprint-v1.yml.j2
+        dest: examples/production-microshift-blueprint-v1.yml
+      - src: templates/rhde_gitops/production-microshift-blueprint-v2.yml.j2
+        dest: examples/production-microshift-blueprint-v2.yml
+      - src: templates/rhde_gitops/production-microshift-blueprint-v3.yml.j2
+        dest: examples/production-microshift-blueprint-v3.yml
       - src: templates/rhde_gitops/production-kickstart.ks.j2
         dest: production-kickstart.ks
       - src: templates/rhde_gitops/production-kickstart.ks.j2

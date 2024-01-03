@@ -196,11 +196,11 @@ controller_templates:
         tag: tag
     ask_variables_on_launch: true
 
-  - name: Deploy Manifest in Microshift
+  - name: Microshift APP Deploy - oc CLI
     organization: "Student{{ student_number }} Organization"
     inventory: Edge Devices
     project: Device Edge Codebase
-    playbook: playbooks/deploy_app_microshift.yml
+    playbook: playbooks/deploy_app_microshift_oc.yml
     credentials:
       - Device Credentials
     execution_environment: Device Edge Workshops Execution Environment
@@ -208,6 +208,50 @@ controller_templates:
     ask_variables_on_launch: true
     extra_vars: 
         manifest: https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-configs/raw/branch/main/APPs/microshift/2048/app_2048-microshift.yml
+
+  - name: Microshift APP Deploy - Manifest
+    organization: "Student{{ student_number }} Organization"
+    inventory: Edge Devices
+    project: Device Edge Codebase
+    playbook: playbooks/deploy_app_microshift_manifest.yml
+    credentials:
+      - Device Credentials
+    execution_environment: Device Edge Workshops Execution Environment
+    become_enabled: true
+    ask_variables_on_launch: true
+    extra_vars: 
+        manifest: https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-configs/raw/branch/main/APPs/microshift/motioneye/app_motioneye-microshift.yml
+
+
+  - name: Microshift APP Deploy - Helm
+    organization: "Student{{ student_number }} Organization"
+    inventory: Edge Devices
+    project: Device Edge Codebase
+    playbook: playbooks/deploy_app_microshift_helm.yml
+    credentials:
+      - Device Credentials
+    execution_environment: Device Edge Workshops Execution Environment
+    become_enabled: true
+    ask_variables_on_launch: true
+    extra_vars: 
+        manifest: https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-configs/raw/branch/main/APPs/microshift/2048/app_2048-microshift.yml
+
+
+  - name: Microshift APP Deploy - Kustomize
+    organization: "Student{{ student_number }} Organization"
+    inventory: Edge Devices
+    project: Device Edge Codebase
+    playbook: playbooks/deploy_app_microshift_kustomize.yml
+    credentials:
+      - Device Credentials
+    execution_environment: Device Edge Workshops Execution Environment
+    become_enabled: true
+    ask_variables_on_launch: true
+    extra_vars: 
+        manifest: https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-configs/raw/branch/main/APPs/microshift/2048/app_2048-microshift.yml
+
+
+
 
   - name: Publish Image
     organization: "Student{{ student_number }} Organization"

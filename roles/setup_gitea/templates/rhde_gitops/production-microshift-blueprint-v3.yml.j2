@@ -13,11 +13,21 @@ builder_compose_pkgs:
   - microshift-greenboot
   - NetworkManager-wifi
   - firewalld
-  - git
   - openshift-clients
+  - podman
+  - vim-enhanced
+  - NetworkManager-wifi
+  - "fuse-overlayfs"
+  - "setroubleshoot-server"
+  - "slirp4netns"
+  - "net-tools"
+  - "git"
+  - "python3-pip"
+  - "python3-inotify"
+  - "zsh"
 builder_compose_customizations:
   user:
-    name: "admin"
+    name: "ansible"
     description: "Admin user"
     password: "{{ admin_password }}"
     groups: ["users", "wheel"]

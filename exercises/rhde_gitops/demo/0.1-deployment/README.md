@@ -21,9 +21,9 @@
 
 
 
-## Prepare your AWS environment
+## Prepare your AWS environment (even for the local lab architecture)
 
-The lab environment needs a valid domain name. As the playbooks are prepared to use AWS, the easier way is to use the AWS Route53 service.
+The lab needs a valid public DNS domain name. The playbooks that deploy the lab are prepared to configure AWS Route53 service to provide the required public DNS names (it was the easier way to assure valid domain names), so even though you are using the local lab architecture, you will need access to AWS to let the playbooks configure the names for you.
 
 If you are a Red Hatter you can order an [AWS Blank Open Environment in the Red Hat Demo Platform](https://demo.redhat.com/catalog?search=aws+open+blank+environment&item=babylon-catalog-prod%2Fsandboxes-gpte.sandbox-open.prod) than can be used just for the Route53 service (local lab architecture) or for both Route53 and EC2 to run the Management node (AAP + EDA + Image-builder + Gitea) in case of the remote lab architecture.
  
@@ -225,7 +225,7 @@ Now you have to perform some actions on the cloned repo:
 
 1) Include the AAP Manifest
 
-You have three options to use the Manifest during the deployment.
+You have two options to use the Manifest during the deployment.
 
 a. You can put the Manifest file into the `provisioner` folder of the cloned repo (with the exact name `manifest.zip`), so: `<your-git-clone-path>/provisioner/manifest.zip`
 
@@ -239,14 +239,6 @@ base64 manifest.zip > base64_platform_manifest.txt
   >
   >  On macs, specify the `-i` flag: `base64 -i manifest.zip`
 
-
-c. Download the manifest.zip from a URL by specifying the following variables in the  `extra-vars.yml` file (see next point)
-
-  ```yaml
-  manifest_download_url: https://www.example.com/protected/manifest.zip
-  manifest_download_user: username
-  manifest_download_password: password
-  ```
 
 
 2) Create the `extra-vars.yml` file
@@ -266,7 +258,6 @@ You can also change these values:
 
 * Number of AAP,Gitea,... accounts in `student_total` (it could be useful to have more than one to run a dry-run before the demo)
 * The AWS region to be used in `ec2_region`
-* SSH public key to be injected in the server in `builder_pub_key`
 * The AAP Manifest as base64 (if you chosed this option) in `base64_manifest`
 
   >**Note**
