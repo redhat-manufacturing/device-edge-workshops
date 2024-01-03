@@ -68,7 +68,18 @@ ec2_info:
     disk_iops: 3000
     disk_throughput: 125
     architecture: x86_64
-    filter: 'RHEL-8*HVM-*Hourly*'
+    filter: 'RHEL-9.0.0_HVM-*Hourly*'
+    username: ec2-user
+  hypervisor:
+    owners: 309956199498
+    size: c5n.metal
+    os_type: linux
+    disk_volume_type: gp3
+    disk_space: 1000
+    disk_iops: 3000
+    disk_throughput: 125
+    architecture: x86_64
+    filter: 'RHEL-9.3.0_HVM-*Hourly*'
     username: ec2-user
   attendance_host:
     owners: 309956199498
@@ -95,3 +106,6 @@ pre_build_controller_ami:
 
 # For edge
 student_total: 0
+aws_user: ec2-user
+attendance: false
+automation_hub: false
