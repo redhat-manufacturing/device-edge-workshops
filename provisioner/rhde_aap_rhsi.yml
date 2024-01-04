@@ -54,12 +54,25 @@
 - name: Import student auth playbook
   ansible.builtin.import_playbook: configure-ocp-auth-for-students.yml
 
+- name: Import workshop namespace playbook
+  ansible.builtin.import_playbook: create-workshop-namespace.yml
+
 - name: Import student namespaces playbook
   ansible.builtin.import_playbook: create-student-namespaces.yml
 
 - name: Import AAP install playbook
   ansible.builtin.import_playbook: install-aap-on-ocp.yml
 
+- name: Import RHSI install playbook
+  ansible.builtin.import_playbook: install-rhsi-on-ocp.yml
+
+- name: Import image registry config playbook
+  ansible.builtin.import_playbook: configure-ocp-registry.yml
+
+- name: Import remote services playbook
+  ansible.builtin.import_playbook: deploy-remote-services.yml
+
+# Let OpenShift cook, do other things here
 
 - name: Import hypervisor playbook
   ansible.builtin.import_playbook: hypervisor.yml
