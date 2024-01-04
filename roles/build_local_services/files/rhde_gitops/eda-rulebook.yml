@@ -38,7 +38,7 @@
 
 
     - name: Create APPs
-      condition: "'APPs/' in event.payload.commits[0].modified"
+      condition: "'APPs/podman' in event.payload.commits[0].modified"
       action:
         run_playbook:
           name: run-task-create-apps.yml
@@ -90,3 +90,27 @@
             tag: "{{ event.payload.updated_tags[0] }}"
             student: "{{ event.payload.student }}"
 ############
+
+    - name: Deploy Microshift APP with manifest
+      condition: "'APPs/microshift/manifest' in event.payload.commits[0].modified"
+      action:
+        run_playbook:
+          name: app-microshift-manifest.yml
+          extra_vars:
+            username: "{{ event.payload.repository.owner.login | capitalize }}"
+
+    - name: Deploy Microshift APP with helm
+      condition: "'APPs/microshift/helm' in event.payload.commits[0].modified"
+      action:
+        run_playbook:
+          name: app-microshift-helm.yml
+          extra_vars:
+            username: "{{ event.payload.repository.owner.login | capitalize }}"
+
+    - name: Deploy Microshift APP with kustomize
+      condition: "'APPs/microshift/kustomize' in event.payload.commits[0].modified"
+      action:
+        run_playbook:
+          name: app-microshift-kustomize.yml
+          extra_vars:
+            username: "{{ event.payload.repository.owner.login | capitalize }}"

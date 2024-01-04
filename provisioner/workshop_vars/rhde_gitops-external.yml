@@ -39,6 +39,12 @@ remote_services:
         dest: run-task-publish-device-image.yml
       - src: eda-run-update-container-image-microshift.yml.j2
         dest: update-container-image-microshift.yml
+      - src: eda-run-microshift-manifest.yml.j2
+        dest: app-microshift-manifest.yml
+      - src: eda-run-microshift-helm.yml.j2
+        dest: app-microshift-helm.yml
+      - src: eda-run-microshift-kustomize.yml.j2
+        dest: app-microshift-kustomize.yml
       - src: eda-run-task-create-apps.yml.j2
         dest: run-task-create-apps.yml
       - src: eda-run-workflow-configure-devices.yml.j2
@@ -494,12 +500,16 @@ additional_repos:
       - OS/greenboot/check/required.d
       - OS/greenboot/red.d
       - APPs/podman/quadlet
-      - APPs/microshift/motioneye
+      - APPs/microshift/manifest
+      - APPs/microshift/helm
+      - APPs/microshift/kustomize
       - APPs/microshift/retail
       - APPs/microshift/2048
     files: 
+      - src: templates/rhde_gitops/app_helm_vars.yml.j2
+        dest: APPs/microshift/helm/helm_vars.yml
       - src: templates/rhde_gitops/app_motioneye-microshift.yml.j2
-        dest: APPs/microshift/motioneye/app_motioneye-microshift.yml
+        dest: APPs/microshift/manifest/manifest.yml
       - src: templates/rhde_gitops/app_2048-microshift.yml.j2
         dest: APPs/microshift/2048/app_2048-microshift.yml
       - src: templates/rhde_gitops/kafka.yml.j2
