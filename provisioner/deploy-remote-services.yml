@@ -1,0 +1,8 @@
+---
+
+- name: Build and deploy remote services
+  hosts:
+    - edge_management
+  roles:
+    - ../roles/deploy_remote_services
+ 
