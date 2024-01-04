@@ -30,12 +30,15 @@ This lab walks participants through the act of managing Red Hat Device Edge for 
       - Update to use yaml not `oc` commands
 - [x] htpasswd for student auth
 - [x] Workshop namespace
-- [x] Install AAP
-- [ ] Configure AAP
-- [ ] Install skupper
-- [ ] Configure skupper
-- [ ] Host workshop pages?
-- [ ] Install sample application
+
+## Section 3 - Core Services Setup
+| Service | Platform | Installation | Configuration |
+| ------- | -------- | ------------ | ------------- |
+| Ansible Controller | OCP | <ul><li>[x]</li></ul> | <ul><li>[ ]</li></ul> |
+| Service Interconnect | OCP | <ul><li>[x]</li></ul> | <ul><li>[x]</li></ul> |
+| Attendance Pages | OCP | <ul><li>[x]</li></ul> | <ul><li>[ ]</li></ul> |
+| Gitea | OCP | <ul><li>[ ]</li></ul> | <ul><li>[ ]</li></ul> |
+| Sample Application | OCP | <ul><li>[ ]</li></ul> | <ul><li>[ ]</li></ul> |
 
 ## Section 2 - Local Edge Manager Setup
 - [ ] Standard services (minus workshop pages?)
