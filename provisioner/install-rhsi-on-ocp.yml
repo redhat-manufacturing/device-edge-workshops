@@ -1,0 +1,13 @@
+---
+
+- name: Install RHSI on OCP cluster
+  hosts:
+    - edge_management
+  vars:
+    install_dir: "/home/{{ ansible_user }}/ocp-install/install"
+  module_defaults:
+    redhat.openshift.k8s:
+      kubeconfig: "{{ install_dir }}/auth/kubeconfig"
+  roles:
+    - ../roles/install_rhsi_on_ocp
+
