@@ -1,5 +1,25 @@
 ---
 
+remote_services:
+  - name: attendance
+    containerfile: attendance-containerfile
+    pre_tasks:
+      - attendance-rsync-site.yml
+      - attendance-student-pages.yml
+    templates:
+      - src: attendance-App.js.j2
+        dest: app-src/src/App.js
+      - src: attendance-index.js.j2
+        dest: app-src/src/pages/index.js
+    deployment: attendance-deployment.yaml.j2
+  - name: gitea
+    custom: true
+    build: false
+    push: false
+    deploy: false
+    deployment_tasks_file: gitea-deploy.yml
+  
+
 local_services:
   - name: dnsmasq
     privileged: true
@@ -21,42 +41,17 @@ local_services:
           dns_entries:
             - record: "ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
-            - record: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
             - record: "image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
             - record: "gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
-            - record: "eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
             - record: "ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
             - record: "attendance.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
-            - record: "exercises.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
-          dhcp_reservations:
-            - mac_address: 'e4:90:69:a2:b7:41'
-              ip_address: 192.168.1.141
-              name: plc
-            - mac_address: 'e4:90:69:a2:b7:42'
-              ip_address: 192.168.1.142
-              name: drive
     post_tasks:
       - dnsmasq-update-etc-hosts.yml
     containerfile: dnsmasq-containerfile
-  - name: eda
-    containerfile: eda-containerfile
-    templates:
-      - src: eda-run-workflow.yml.j2
-        dest: run-workflow.yml
-    files:
-      - src: eda-rulebook.yml
-        dest: rulebook.yml
-      - src: eda-inventory.yml
-        dest: inventory.yml
-      - src: eda-ansible.cfg
-        dest: ansible.cfg
   - name: reverse-proxy
     containerfile: reverse-proxy-containerfile
     pre_tasks:
@@ -101,26 +96,6 @@ local_services:
     files:
       - src: ipxe-nginx.conf
         dest: nginx.conf
-  - name: database
-    containerfile: database-containerfile
-    templates:
-      - src: database-postgresql.conf.j2
-        dest: postgresql.conf
-      - src: database-db-start.sh.j2
-        dest: db-start.sh
-        vars:
-          databases:
-            - name: gitea
-              username: gitea
-              password: gitea
-            - name: attendance
-              username: attendance
-              password: attendance
-  - name: gitea
-    containerfile: gitea-containerfile
-    templates:
-      - src: gitea-app.ini.j2
-        dest: app.ini
   - name: tftp
     containerfile: tftp-containerfile
     pre_tasks:
@@ -132,18 +107,6 @@ local_services:
     files:
       - src: ostree-repo-nginx.conf
         dest: nginx.conf
-  - name: attendance
-    containerfile: attendance-containerfile
-    pre_tasks:
-      - attendance-student-pages.yml
-      - attendance-rsync-site.yml
-    templates:
-      - src: attendance-App.js.j2
-        dest: attendance/src/App.js
-      - src: attendance-index.js.j2
-        dest: attendance/src/pages/index.js
-      
-
 
 pods:
   - name: workshop-rhde_tse-priv
