@@ -143,6 +143,11 @@
             state: restarted
           when: pull_secret is defined
 
+        - name: Disable OCP repo 
+          community.general.rhsm_repository:
+            state: disabled
+            name: "rhocp-{{ microshift_release }}-for-rhel-9-{{ ansible_architecture }}-rpms"
+
   tasks:
     - name: handle image builder being image builder
       when:
