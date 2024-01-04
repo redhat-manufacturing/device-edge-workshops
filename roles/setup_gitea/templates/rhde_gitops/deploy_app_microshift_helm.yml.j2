@@ -1,19 +1,22 @@
+{% raw %}
 ---
+- name: Fetch File Paths from Gitea Repository
+  hosts: all
+  gather_facts: false
 
-- name: Create resources from manifest in Gitea
-  hosts:
-    - all
   tasks:
-    - name: Download manifest
+    - name: Download Helm vars file
       shell: |
-        curl -k -o app.yaml -H "Authorization: Basic $(echo -n 'student{{ student_number }}:{{ admin_password }}' | base64)" {% raw %}{{ manifest }} {% endraw %}     
-        
-    - name: Deploy YAML files
-      become: true
-      shell: |
-        oc --kubeconfig /var/lib/microshift/resources/kubeadmin/kubeconfig create -f app.yaml
+        curl -k -o helm_var_file.yaml -H {% endraw %} "Authorization: Basic $(echo -n 'student{{ student_number }}:{{ admin_password }}' | base64)" {% raw %}{{ helm_var_file }} 
 
-    - name: remove app manifest
-      ansible.builtin.file:
-        path: "app.yaml"
-        state: absent
+    - name: Add stable chart repo
+      community.kubernetes.helm_repository:
+        name: stable
+        repo_url: "{{ helm_repo }}"
+
+    - name: Deploy latest version of Grafana chart
+      community.kubernetes.helm:
+        name: {{ helm_chart_name }}
+        values: "{{ lookup('template', 'helm_var_file.yaml') | from_yaml }}"
+
+{% endraw %}

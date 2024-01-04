@@ -235,7 +235,12 @@ controller_templates:
     become_enabled: true
     ask_variables_on_launch: true
     extra_vars: 
-        manifest: https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-configs/raw/branch/main/APPs/microshift/2048/app_2048-microshift.yml
+        helm_repo: https://raw.githubusercontent.com/luisarizmendi/helm-chart-repo/main/packages
+        helm_var_file: https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-configs/raw/branch/main/APPs/microshift/wordpress/helm_vars.yml
+        helm_chart_name: wordpress
+
+
+
 
 
   - name: Microshift APP Deploy - Kustomize

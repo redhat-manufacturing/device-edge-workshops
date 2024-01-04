@@ -81,13 +81,13 @@
 
         - name: Getting microshift-release-info package
           ansible.builtin.shell:
-            cmd: dnf download microshift-release-info
+            cmd: dnf download -y microshift-release-info
           register: _dnf_output
 
           #bug with cmd output
         - name: Getting microshift-release-info package
           ansible.builtin.shell:
-            cmd: dnf download microshift-release-info
+            cmd: dnf download -y microshift-release-info
           register: _dnf_output
 
         - name: Display captured _dnf_output string

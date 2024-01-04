@@ -1,11 +1,12 @@
 {% raw %}
 ---
 - name: Fetch File Paths from Gitea Repository
-  hosts: localhost
+  hosts: all
   gather_facts: false
 
   tasks:
       - name: Local Tasks
+        delegate_to: localhost
         block:
           - name: Extract gitea_base_url from manifest_repo
             set_fact:
