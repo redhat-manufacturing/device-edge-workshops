@@ -1,0 +1,21 @@
+---
+
+- name: Configure OCP's default registry
+  hosts:
+    - edge_management
+  vars:
+    _config:
+    apiVersion: imageregistry.operator.openshift.io/v1
+    kind: Config
+    spec:
+      defaultRoute: true
+  tasks:
+    - name: Update imageregistry config
+      ansible.builtin.shell:
+        cmd: >
+          oc patch configs.imageregistry.operator.openshift.io/cluster
+          --patch '{"spec":{"defaultRoute":true}}'
+          --type=merge
+      register: _default_route_config_update
+      changed_when:
+        - "'no change' not in _default_route_config_update.stdout"
