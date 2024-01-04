@@ -111,7 +111,7 @@
           ansible.builtin.shell:
             cmd: jq -r '.images | .[] | ("[[containers]]\nsource = \"" + . + "\"\n")' "./usr/share/microshift/release/release-{{ ansible_architecture }}.json" >> "/var/www/html/microshift-offline-images"
 
-        - name: Set permissions on the /var/www/html/microshift-offline-images directory
+        - name: Set permissions on the /var/www/html/microshift-offline-images 
           file:
             path: "/var/www/html/microshift-offline-images"
             mode: "0755"
