@@ -1,0 +1,14 @@
+---
+
+- name: Install operator
+  redhat.openshift.k8s:
+    definition: "{{ _subscription }}"
+
+- name: Create skupper sites
+  redhat.openshift.k8s:
+    template: templates/configmap.yaml.j2
+  register: _instance_deploy
+  until:
+    - not _instance_deploy.failed
+  retries: 30
+  delay: 30
