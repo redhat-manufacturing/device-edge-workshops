@@ -6,22 +6,27 @@
   roles:
     - ../roles/install_ocp_on_aws
   post_tasks:
-    - name: Install pip
-      ansible.builtin.package:
-        name: python3-pip
-      become: true
-      tags:
-        - always
-    - name: Install kubernetes python library
-      ansible.builtin.pip:
-        name: kubernetes
-      tags:
-        - always
-    - name: Link kubeconfig to default location
-      ansible.builtin.file:
-        src: "{{ install_dir }}/install/auth/kubeconfig"
-        dest: "/home/{{ ansible_user }}/.kube/config"
-        state: link
-      tags:
-        - always
-        - link_kubeconfig
+    - name: Post-install tasks
+      when:
+        - teardown is not defined or
+          not teardown|bool
+      block:
+        - name: Install pip
+          ansible.builtin.package:
+            name: python3-pip
+          become: true
+          tags:
+            - always
+        - name: Install kubernetes python library
+          ansible.builtin.pip:
+            name: kubernetes
+          tags:
+            - always
+        - name: Link kubeconfig to default location
+          ansible.builtin.file:
+            src: "{{ install_dir }}/install/auth/kubeconfig"
+            dest: "/home/{{ ansible_user }}/.kube/config"
+            state: link
+          tags:
+            - always
+            - link_kubeconfig
