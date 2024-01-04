@@ -79,11 +79,11 @@
 #"student": "1"
 #}
 #
-    - name: Update image in microshift
+    - name: Update APP container image in microshift
       condition: event.payload.name is defined and event.payload.repository is defined and event.payload.updated_tags is defined and event.payload.student is defined
       action:
         run_playbook:
-          name: update-image-microshift.yml
+          name: update-container-image-microshift.yml
           extra_vars:
             name: "{{ event.payload.name }}"
             image: "{{ event.payload.repository }}"
