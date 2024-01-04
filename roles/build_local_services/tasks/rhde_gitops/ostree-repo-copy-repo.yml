@@ -49,7 +49,6 @@
     state: present
   become: true
   loop:
-    - "'/var/www/html/microshift-offline-images'" 
     - "'/var/www/html/student-repos(/.*)?'" 
     - "'/var/www/html/student-kickstarts(/.*)?'" 
     - "'/var/www/html/student-isos(/.*)?'" 
@@ -58,8 +57,24 @@
   ansible.builtin.command: restorecon -R {{ item }}
   become: true
   loop:
-    - "/var/www/html/microshift-offline-images" 
     - "/var/www/html/student-repos" 
     - "/var/www/html/student-kickstarts" 
     - "/var/www/html/student-isos" 
 
+
+- name: Allow containers to access and modify files
+  community.general.sefcontext:
+    target: "{{ item }}" 
+    setype: container_file_t
+    state: present
+  become: true
+  when: microshift_release is defined
+  loop:
+    - "'/var/www/html/microshift-offline-images'" 
+
+- name: Apply new SELinux file context to filesystem
+  ansible.builtin.command: restorecon -R {{ item }}
+  become: true
+  when: microshift_release is defined
+  loop:
+    - "/var/www/html/microshift-offline-images" 
