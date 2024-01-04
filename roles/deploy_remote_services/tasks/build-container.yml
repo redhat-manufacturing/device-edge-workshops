@@ -1,0 +1,67 @@
+---
+
+- name: create directory
+  ansible.builtin.file:
+    path: "{{ build_dir }}/{{ service.name }}"
+    state: directory
+
+- name: run pretasks if needed
+  ansible.builtin.include_tasks:
+    file: "{{ workshop_type }}/{{ task_file }}"
+  loop: "{{ service.pre_tasks }}"
+  loop_control:
+    loop_var: task_file
+  when:
+    - service.pre_tasks is defined
+
+- name: copy out static files
+  ansible.builtin.copy:
+    src: "files/{{ workshop_type }}/{{ file.src }}"
+    dest: "{{ build_dir }}/{{ service.name }}/{{ file.dest }}"
+  loop: "{{ service.files }}"
+  loop_control:
+    loop_var: file
+  when:
+    - service.files is defined
+
+- name: template out templates
+  ansible.builtin.template:
+    src: templates/{{ workshop_type }}/{{ template.src }}
+    dest: "{{ build_dir }}/{{ service.name }}/{{ template.dest }}"
+  loop: "{{ service.templates }}"
+  loop_control:
+    loop_var: template
+  when:
+    - service.templates is defined
+
+- name: copy Containerfile
+  ansible.builtin.copy:
+    src: "files/{{ workshop_type }}/{{ service.containerfile }}"
+    dest: "{{ build_dir }}/{{ service.name }}/Containerfile"
+
+- name: Check containers dir
+  stat:
+    path: "{{ ansible_env.HOME }}/.local/share/containers" 
+  register: register_name
+
+- name: "restorecon"
+  shell: |
+    restorecon -RFv {{ ansible_env.HOME }}/.local/share/containers
+    ausearch -c 'ansible-playboo' --raw | audit2allow -M my-ansibleplayboo
+    semodule -X 300 -i my-ansibleplayboo.pp
+  ignore_errors: true
+  when: containers_dir.stat.exists
+
+- name: "build container {{ service.name }}"
+  containers.podman.podman_image:
+    name: "{{ _image_registry.host }}/{{ _workshop_namespace }}/{{ service.name }}:latest"
+    path: "{{ build_dir }}/{{ service.name }}/"
+
+- name: run post tasks if needed
+  ansible.builtin.include_tasks:
+    file: "{{ workshop_type }}/{{ task_file }}"
+  loop: "{{ service.post_tasks }}"
+  loop_control:
+    loop_var: task_file
+  when:
+    - service.post_tasks is defined

@@ -1,0 +1,5 @@
+---
+
+- name: Deploy remote service
+  redhat.openshift.k8s:
+    template: "templates/{{ workshop_type }}/{{ service.deployment }}"
