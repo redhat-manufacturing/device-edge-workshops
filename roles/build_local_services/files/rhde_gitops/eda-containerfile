@@ -32,7 +32,7 @@ COPY run-workflow.yml .
 
 COPY run-workflow-create-device-image.yml .
 COPY run-task-publish-device-image.yml .
-COPY update-image-microshift.yml .
+COPY update-container-image-microshift.yml .
 COPY run-task-create-apps.yml .
 COPY run-workflow-configure-devices.yml .
 
