@@ -1,0 +1,9 @@
+---
+
+- name: template out student pages
+  ansible.builtin.template:
+    src: "templates/{{ workshop_type }}/attendance-Overview.js.j2"
+    dest: "{{ build_dir }}/attendance/app-src/src/Overview{{ student_number }}.js"
+  loop: "{{ range(1, (student_total + 1), 1)|list }}"
+  loop_control:
+    loop_var: student_number
