@@ -37,8 +37,8 @@ remote_services:
         dest: run-workflow-create-device-image.yml
       - src: eda-run-task-publish-device-image.yml.j2
         dest: run-task-publish-device-image.yml
-      - src: eda-run-update-image-microshift.yml.j2
-        dest: update-image-microshift.yml
+      - src: eda-run-update-container-image-microshift.yml.j2
+        dest: update-container-image-microshift.yml
       - src: eda-run-task-create-apps.yml.j2
         dest: run-task-create-apps.yml
       - src: eda-run-workflow-configure-devices.yml.j2
