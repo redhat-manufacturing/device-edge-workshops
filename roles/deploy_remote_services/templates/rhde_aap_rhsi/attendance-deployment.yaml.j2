@@ -1,0 +1,36 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: attendance-deployment
+  namespace: workshop-{{ workshop_type | regex_replace('_', '-') }}
+spec:
+  selector:
+    matchLabels:
+      app: attendance
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: attendance
+    spec:
+      containers:
+        - name: attendance
+          image: image-registry.openshift-image-registry.svc:5000/workshop-rhde-aap-rhsi/attendance:latest
+          ports:
+            - containerPort: 3000
+              name: attendance-port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: attendance-service
+  namespace: workshop-{{ workshop_type | regex_replace('_', '-') }}
+spec:
+  selector:
+    app: attendance
+  ports:
+  - port: 3000
+    protocol: TCP
+    targetPort: 3000
+  type: NodePort
