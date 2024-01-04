@@ -10,16 +10,10 @@
     controller_password: "{{ admin_password }}"
     controller_validate_certs: false
     controller_launch_jobs:
-      - name: Update Microshift APP
+      - name: Microshift APP Deploy - Kustomize
         wait: true
 {% raw %}
         organization: "Student{{ student }} Organization"
-        extra_vars:
-          namespace: "{{ name }}" 
-          deployment: "{{ name }}" 
-          container: "{{ name }}" 
-          image: "{{ image }}"
-          tag: "{{ tag }}"
 {% endraw %}
   roles:
     - /opt/eda/collections/ansible_collections/redhat_cop/controller_configuration/roles/job_launch
