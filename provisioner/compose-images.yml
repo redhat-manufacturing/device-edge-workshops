@@ -38,6 +38,110 @@
       ansible.builtin.include_role:
         name: infra.osbuild.setup_server
 
+
+    - name: Add Microshift repositories and offline image assets
+      when: microshift_release is defined
+      block: 
+        - name: Create rhocp-{{ microshift_release }}.toml configuration file
+          copy:
+            dest: "/tmp/rhocp-{{ microshift_release }}.toml"
+            content: |
+              id = "rhocp-{{ microshift_release }}"
+              name = "Red Hat OpenShift Container Platform {{ microshift_release }} for RHEL 9"
+              type = "yum-baseurl"
+              url = "https://cdn.redhat.com/content/dist/layered/rhel9/{{ ansible_architecture }}/rhocp/{{ microshift_release }}/os"
+              check_gpg = true
+              check_ssl = true
+              system = false
+              rhsm = true
+
+        - name: Create fast-datapath.toml configuration file
+          copy:
+            dest: "/tmp/fast-datapath.toml"
+            content: |
+              id = "fast-datapath"
+              name = "Fast Datapath for RHEL 9"
+              type = "yum-baseurl"
+              url = "https://cdn.redhat.com/content/dist/layered/rhel9/{{ ansible_architecture }}/fast-datapath/os"
+              check_gpg = true
+              check_ssl = true
+              system = false
+              rhsm = true
+
+        - name: Add sources to Image Builder
+          command: "sudo composer-cli sources add {{ item }}"
+          loop:
+            - "/tmp/rhocp-{{ microshift_release }}.toml"
+            - "/tmp/fast-datapath.toml"
+
+        - name: Enable OCP repo on the host for Microshift
+          community.general.rhsm_repository:
+            state: enabled
+            name: "rhocp-{{ microshift_release }}-for-rhel-9-{{ ansible_architecture }}-rpms"
+
+        - name: Getting microshift-release-info package
+          ansible.builtin.shell:
+            cmd: dnf download microshift-release-info
+          register: _dnf_output
+
+        - name: Display captured _dnf_output string
+          debug:
+            var: _dnf_output
+
+
+        - name: Capture filename from the output
+          set_fact:
+            _microshift_release_info_string: >-
+              {{
+                _dnf_output.stdout
+                | regex_search('microshift-release-info-[^\n:]*')
+                | default('')
+                | regex_replace(':$', '')
+              }}
+
+        - name: Display captured microshift-release-info string
+          debug:
+            var: _microshift_release_info_string
+
+        - name: Running rpm2cpio for the microshift-release-info package
+          ansible.builtin.shell:
+            cmd: rpm2cpio {{ _microshift_release_info_string }} | cpio -idmv
+
+        - name: Extracting the Microshift images to a file in the HTTP server
+          ansible.builtin.shell:
+            cmd: jq -r '.images | .[] | ("[[containers]]\nsource = \"" + . + "\"\n")' "./usr/share/microshift/release/release-{{ ansible_architecture }}.json" >> "/var/www/html/microshift-offline-images"
+
+        - name: Set permissions on the /var/www/html/microshift-offline-images directory
+          file:
+            path: "/var/www/html/microshift-offline-images"
+            mode: "0755"
+
+        - name: Create /etc/osbuild-worker/ directory
+          file:
+            path: /etc/osbuild-worker/
+            state: directory
+          when: pull_secret is defined
+
+        - name: Put pull_secret into /etc/osbuild-worker/pull-secret.json
+          copy:
+            content: "{{ pull_secret }}"
+            dest: /etc/osbuild-worker/pull-secret.json
+          when: pull_secret is defined
+
+        - name: Create /etc/osbuild-worker/osbuild-worker.toml
+          copy:
+            content: |
+              [containers]
+              auth_file_path = "/etc/osbuild-worker/pull-secret.json"
+            dest: /etc/osbuild-worker/osbuild-worker.toml
+          when: pull_secret is defined
+
+        - name: Restart osbuild-worker@1.service
+          systemd:
+            name: osbuild-worker@1
+            state: restarted
+          when: pull_secret is defined
+
   tasks:
     - name: handle image builder being image builder
       when:
