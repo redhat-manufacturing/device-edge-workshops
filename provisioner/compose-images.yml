@@ -117,11 +117,6 @@
           ansible.builtin.shell:
             cmd: jq -r '.images | .[] | ("[[containers]]\nsource = \"" + . + "\"\n")' "./usr/share/microshift/release/release-{{ ansible_architecture }}.json" >> "microshift-offline-images"
 
-        - name: Set permissions on the /var/www/html/microshift-offline-images 
-          file:
-            path: "microshift-offline-images"
-            mode: "0755"
-
         - name: Create /etc/osbuild-worker/ directory
           file:
             path: /etc/osbuild-worker/
