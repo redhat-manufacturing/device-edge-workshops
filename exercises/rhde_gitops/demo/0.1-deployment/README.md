@@ -293,7 +293,7 @@ You don't have to customize any value in that file, except if you have any confl
 
 You have to create an inventory file in `<your-git-clone-path>/local-inventory.yml` with the following contents.
 
-If you are using the local architecture:
+If you are using the local architecture create the `local-inventory.yml` with these contents changing `XXX` with your own values for the local server (AAP + Gitea + Image Builder + Net. tools) where you pre-installed RHEL:
 
 ```yaml
 all:
@@ -311,13 +311,15 @@ all:
               external_connection: XXXXXX # Connection name for the external connection
               internal_connection: XXXXXXX # Interface name for the internal lab network
 ```
+The `ansible_host` and other variables are related to the VM/Physical server where you installed RHEL that will host the AAP + Gitea + Image Builder + Net tools in the local lab architecture or just the Net tools in the external lab architecture.
+
+The `external_connection` variable expect the Connection name that you can get connecting to the local server and running `nmcli con list` ("NAME" column) while the  `internal_connection` expects the interface name (which is the name on the "DEVICE" column in the ouput of the `nmcli con list` command). Usually the connection name is the same than the interface name, but in some cases (ie. wireless connections) the connection name is different (in that case it will be the SSID).
 
   >**Note**
   >
-  >  The `external_connection` variable expect the Connection name that you can get connecting to the local server and running `nmcli con list` ("NAME" column) while the  `internal_connection` expects the interface name (which is the name on the "DEVICE" column in the ouput of the `nmcli con list` command). Usually the connection name is the same than the interface name, but in some cases (ie. wireless connections) the connection name is different (in that case it will be the SSID).
+  >  When using physical servers I suggest using an external access point / router as part of the lab infrastructure, so you will maintain the cabled interface to the servers instead of using Wireless (in case they have that option), which will keep the network name unaltered. If you finally end up using Physical servers with wireless and no external access point/router then when you move to the venue where you will be running the demo/workshop you probably the SSID will be different, so you will need to change the new network name to the `firewalld` zone `external` to allow traffic outgoing to the external network from internal. You can do it with this command: `nmcli connection modify <new SSID> connection.zone external` and then reload the connection with `nmcli connection up <new SSID>`. (I also recommend going to the venue the day before to prepare everything in advance, including this setup if needed). Another option is to use your mobile hotspot SSID but in events with many people, depending on the location, sometimes the mobile network speed is super slow and that will bring you some headaches.
 
-
-If you are using the external lab architecture (where `edge_management` has been changed by `edge_local_management` ):
+If you are using the external lab architecture use the contents below instead (where `edge_management` has been changed by `edge_local_management` ) but complete the `XXX` with the values for the server that is also local (the one containing just the net. tools) and where you pre-installed RHEL:
 
 ```yaml
 all:
@@ -421,10 +423,10 @@ If re-deployment does not work and you don't find the issue, try to start over f
 ansible-navigator run provisioner/teardown_lab.yml --inventory local-inventory.yml --extra-vars @extra-vars.yml -vvv
 ```
 
-Lastly, if you are re-using VMs or Hardware, you might find that when you re-install the RHEL Operating System in the servers (ie. after completing a demo/workshop), the system UUID will change, and thus you laptop won't be able to ssh to it due to an SSH validation mismatching (you will find the error in the `wait for all nodes to have SSH reachability` step). You can check if that's the case by trying to ssh to the server, if you have this issue you will find a message like this one:
+Lastly, if you are re-using VMs or Hardware, you might find that when you re-install the RHEL Operating System in the servers (ie. after completing a demo/workshop or re-instaling the server after a failed deployment), the system UUID will change, and thus you laptop won't be able to ssh to it due to an SSH validation mismatching (you will find the error in the `wait for all nodes to have SSH reachability` step). You can check if that's the case by trying to ssh to the server, if you have this issue you will find a message like this one:
 
 ```bash
-$ ssh ansible@192.168.140.202
+$ ssh ansible@<your server>
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

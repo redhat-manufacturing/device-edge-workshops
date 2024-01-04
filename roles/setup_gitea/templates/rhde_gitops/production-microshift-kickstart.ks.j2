@@ -40,13 +40,13 @@ dns:
   baseDomain: $(hostname -I | awk '{print $1}').nip.io
 network:
   clusterNetwork:
-    - cidr: 10.42.0.0/16
+    - 10.42.0.0/16
   serviceNetwork:
     - 10.43.0.0/16
   serviceNodePortRange: 30000-32767
 node:
-  hostnameOverride: "microshift"
-  nodeIP: "$(hostname -I | awk '{print $1}')"
+  hostnameOverride: "edge-$(ip addr | grep $(nmcli con show | grep -v UUID | head -n 1 | awk '{print $1}') -A 1 | grep link | awk '{print $2}' | sed 's/://g')"
+  nodeIP: "$(nmcli conn show $(nmcli con show | grep -v UUID | head -n 1 | awk '{print $1}') | grep ip_address | awk '{print $4}')"
 apiServer:
   subjectAltNames: 
     - microshift.lablocal
@@ -55,7 +55,6 @@ debugging:
   logLevel: "Normal"
 
 EOF
-
 
 
 cat > /etc/crio/openshift-pull-secret <<EOF
@@ -627,7 +626,7 @@ while true
 do 
   podman pull {{ apps.app2.registry }}/{{ apps.app2.image }}:{{ apps.app1.prodtag }}
   podman image list | grep {{ apps.app2.image }}
-  if [ $? -eq 0 ]
+  if [ \$? -eq 0 ]
   then 
     break
   fi  

@@ -454,7 +454,7 @@ while true
 do 
   podman pull {{ apps.app2.registry }}/{{ apps.app2.image }}:{{ apps.app1.prodtag }}
   podman image list | grep {{ apps.app2.image }}
-  if [ $? -eq 0 ]
+  if [ \$? -eq 0 ]
   then 
     break
   fi  

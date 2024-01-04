@@ -367,6 +367,12 @@ additional_repos:
         dest: examples/production-microshift-blueprint-v2.yml
       - src: templates/rhde_gitops/production-microshift-blueprint-v3.yml.j2
         dest: examples/production-microshift-blueprint-v3.yml
+      - src: templates/rhde_gitops/production-microshift-embedded-blueprint-v1.yml.j2
+        dest: examples/production-microshift-embedded-blueprint-v1.yml
+      - src: templates/rhde_gitops/production-microshift-embedded-blueprint-v2.yml.j2
+        dest: examples/production-microshift-embedded-blueprint-v2.yml
+      - src: templates/rhde_gitops/production-microshift-embedded-blueprint-v3.yml.j2
+        dest: examples/production-microshift-embedded-blueprint-v3.yml
       - src: templates/rhde_gitops/production-kickstart.ks.j2
         dest: production-kickstart.ks
       - src: templates/rhde_gitops/production-kickstart.ks.j2
