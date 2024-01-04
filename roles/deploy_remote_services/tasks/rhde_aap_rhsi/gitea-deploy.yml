@@ -1,0 +1,24 @@
+---
+
+- name: Ensure helm is available
+  ansible.builtin.get_url:
+    url: https://mirror.openshift.com/pub/openshift-v4/clients/helm/latest/helm-linux-amd64
+    dest: /usr/local/bin/helm
+    mode: '0755'
+  become: true
+
+- name: Add helm chart repo
+  kubernetes.core.helm_repository:
+    name: gitea
+    repo_url: https://redhat-cop.github.io/helm-charts
+
+- name: Deploy gitea
+  kubernetes.core.helm:
+    name: gitea
+    chart_ref: gitea/gitea
+    release_namespace: "workshop-{{ workshop_type | regex_replace('_', '-') }}"
+    set_values:
+      - value: hostname="gitea.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+        value_type: string
+      - value: db.password="{{ admin_password }}"
+        value_type: string
