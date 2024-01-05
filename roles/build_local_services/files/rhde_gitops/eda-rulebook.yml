@@ -38,7 +38,7 @@
 
 
     - name: Create APPs
-      condition: "'APPs/podman' in event.payload.commits[0].modified"
+      condition: "event.payload.commits[0].modified is search('APPs/podman/quadlet',ignorecase=true)"
       action:
         run_playbook:
           name: run-task-app-quadlet.yml
@@ -92,25 +92,25 @@
 ############
 
     - name: Deploy Microshift APP with manifest
-      condition: "'APPs/microshift/manifest' in event.payload.commits[0].modified"
+      condition: "event.payload.commits[0].modified is search('APPs/microshift/manifest',ignorecase=true)"
       action:
         run_playbook:
-          name: app-microshift-manifest.yml
+          name: run-task-microshift-manifest.yml
           extra_vars:
             username: "{{ event.payload.repository.owner.login | capitalize }}"
 
     - name: Deploy Microshift APP with helm
-      condition: "'APPs/microshift/helm' in event.payload.commits[0].modified"
+      condition: "event.payload.commits[0].modified is search('APPs/microshift/helm',ignorecase=true)"
       action:
         run_playbook:
-          name: app-microshift-helm.yml
+          name: run-task-microshift-helm.yml
           extra_vars:
             username: "{{ event.payload.repository.owner.login | capitalize }}"
 
     - name: Deploy Microshift APP with kustomize
-      condition: "'APPs/microshift/kustomize' in event.payload.commits[0].modified"
+      condition: "event.payload.commits[0].modified is search('APPs/microshift/kustomize',ignorecase=true)"
       action:
         run_playbook:
-          name: app-microshift-kustomize.yml
+          name: run-task-microshift-kustomize.yml
           extra_vars:
             username: "{{ event.payload.repository.owner.login | capitalize }}"
