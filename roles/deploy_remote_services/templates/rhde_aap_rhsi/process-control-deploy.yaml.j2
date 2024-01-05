@@ -1,0 +1,129 @@
+{% for student_number in range(1, student_total + 1) %}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mqtt
+  namespace: student{{ student_number }}-workshop-{{ workshop_type | regex_replace('_', '-') }}
+spec:
+  ports:
+  - port: 1883
+    protocol: TCP
+    targetPort: 1883
+  selector:
+    app: mqtt
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mqtt-deployment
+  namespace: student{{ student_number }}-workshop-{{ workshop_type | regex_replace('_', '-') }}
+spec:
+  selector:
+    matchLabels:
+      app: mqtt
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mqtt
+    spec:
+      containers:
+        - name: mqtt
+          image: quay.io/device-edge-workshops/process-control-mqtt:1.0.0
+          ports:
+            - containerPort: 1883
+              name: mqtt-port
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simulate-deployment
+  namespace: student{{ student_number }}-workshop-{{ workshop_type | regex_replace('_', '-') }}
+spec:
+  selector:
+    matchLabels:
+      app: simulate
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: simulate
+    spec:
+      containers:
+        - name: simulate
+          image: quay.io/device-edge-workshops/process-control-simulate-k8s:1.0.0
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: control-deployment
+  namespace: student{{ student_number }}-workshop-{{ workshop_type | regex_replace('_', '-') }}
+spec:
+  selector:
+    matchLabels:
+      app: control
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: control
+    spec:
+      containers:
+      - name: control
+        image: quay.io/device-edge-workshops/process-control-control-k8s:4.0.1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ui
+  namespace: student{{ student_number }}-workshop-{{ workshop_type | regex_replace('_', '-') }}
+spec:
+  ports:
+  - port: 1880
+    protocol: TCP
+    targetPort: 1880
+  selector:
+    app: ui
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui-deployment
+  namespace: student{{ student_number }}-workshop-{{ workshop_type | regex_replace('_', '-') }}
+spec:
+  selector:
+    matchLabels:
+      app: ui
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ui
+    spec:
+      containers:
+      - name: ui
+        image: quay.io/device-edge-workshops/process-control-ui-k8s:4.0.0
+        ports:
+          - containerPort: 1880
+            name: http-ui-port
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: process-control-ui-route
+  namespace: student{{ student_number }}-workshop-{{ workshop_type | regex_replace('_', '-') }}
+  annotations:
+    haproxy.router.openshift.io/rewrite-target: /ui
+spec:
+  host: process-control-ui-student{{ student_number }}.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}
+  to:
+    kind: Service
+    name: ui
+  port:
+    targetPort: 1880
+  tls:
+    termination: edge
+{% endfor %}
