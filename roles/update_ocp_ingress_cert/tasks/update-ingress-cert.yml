@@ -1,55 +1,27 @@
 ---
 
-- name: Extract root CA cert
-  ansible.builtin.shell:
-    cmd: >
-      sed -n '/BEGIN CERTIFICATE/{:a;/END CERTIFICATE/bb;N;ba;:b;$p;d}'
-      /home/{{ ansible_user }}/workshop-certs/{{ sub_domain }}.{{ base_zone }}/{{ sub_domain }}-fullchain.crt >
-      /home/{{ ansible_user }}/workshop-certs/{{ sub_domain }}.{{ base_zone }}/root-ca.crt
-
-- name: Create configmap
-  ansible.builtin.shell:
-    cmd: > 
-      oc create configmap custom-ca
-      --from-file=/home/{{ ansible_user }}/workshop-certs/{{ sub_domain }}.{{ base_zone }}/{{ sub_domain }}-intermediate.crt
-      --namespace openshift-config
-  args:
-    chdir: "/home/{{ ansible_user }}/ocp-install/"
-  environment:
-    KUBECONFIG: "/home/{{ ansible_user }}/ocp-install/install/auth/kubeconfig"
-
-- name: Update proxy
-  ansible.builtin.shell:
-    cmd: >
-      oc patch proxy/cluster
-      --type=merge
-      --patch='{"spec":{"trustedCA":{"name":"custom-ca"}}}'
-  args:
-    chdir: "/home/{{ ansible_user }}/ocp-install/"
-  environment:
-    KUBECONFIG: "/home/{{ ansible_user }}/ocp-install/install/auth/kubeconfig"
-
 - name: Create secret
-  ansible.builtin.shell:
-    cmd: >
-      oc create secret tls wildcard-cert
-      --cert=/home/{{ ansible_user }}/workshop-certs/{{ sub_domain }}.{{ base_zone }}/{{ sub_domain }}-fullchain.crt
-      --key=/home/{{ ansible_user }}/workshop-certs/{{ sub_domain }}.{{ base_zone }}/{{ sub_domain }}.pem
-      --namespace openshift-ingress
-  args:
-    chdir: "/home/{{ ansible_user }}/ocp-install/"
-  environment:
-    KUBECONFIG: "/home/{{ ansible_user }}/ocp-install/install/auth/kubeconfig"
+  redhat.openshift.k8s:
+    template: templates/secrets.yaml.j2
+  register: _create_secret
+  retries: 30
+  delay: 10
+  
+- name: Create CertManager
+  redhat.openshift.k8s:
+    definition: "{{ _certmanager }}"
 
-- name: Update ingress controller
-  ansible.builtin.shell:
-    cmd: >
-      oc patch ingresscontroller.operator default
-      --type=merge
-      -p '{"spec":{"defaultCertificate": {"name": "wildcard-cert"}}}'
-      -n openshift-ingress-operator
-  args:
-    chdir: "/home/{{ ansible_user }}/ocp-install/"
-  environment:
-    KUBECONFIG: "/home/{{ ansible_user }}/ocp-install/install/auth/kubeconfig"
+- name: Create ClusterIssuer
+  redhat.openshift.k8s:
+    template: templates/clusterissuer.yaml.j2
+  register: _create_clusterissuer
+  retries: 30
+  delay: 10
 
+- name: Request certificates
+  redhat.openshift.k8s:
+    template: templates/certificates.yaml.j2
+
+- name: Update ingress
+  redhat.openshift.k8s:
+    definition: "{{ _ingresscontroller }}"

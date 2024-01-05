@@ -1,0 +1,58 @@
+---
+
+_namespace:
+  apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: cert-manager-operator
+
+_operatorgroup:
+  apiVersion: operators.coreos.com/v1
+  kind: OperatorGroup
+  metadata:
+    name: cert-manager-operator
+    namespace: cert-manager-operator
+  spec:
+    upgradeStrategy: Default
+    targetNamespaces:
+      - cert-manager-operator
+
+_subscription:
+  apiVersion: operators.coreos.com/v1alpha1
+  kind: Subscription
+  metadata:
+    name: openshift-cert-manager-operator
+    namespace: cert-manager-operator
+  spec:
+    channel: stable-v1
+    installPlanApproval: Automatic
+    name: openshift-cert-manager-operator
+    source: redhat-operators
+    sourceNamespace: openshift-marketplace
+    startingCSV: cert-manager-operator.v1.12.1
+
+_ingresscontroller:
+  apiVersion: operator.openshift.io/v1
+  kind: IngressController
+  metadata:
+    name: default
+    namespace: openshift-ingress-operator
+  spec:
+    defaultCertificate:
+      name: router-cert
+
+_certmanager:
+  apiVersion: operator.openshift.io/v1alpha1
+  kind: CertManager
+  metadata:
+    name: cluster
+  spec:
+    logLevel: Normal
+    managementState: Managed
+    observedConfig: null
+    operatorLogLevel: Normal
+    unsupportedConfigOverrides: null
+    controllerConfig:
+      overrideArgs:
+        - "--dns01-recursive-nameservers=8.8.8.8:53,1.1.1.1:53"
+        - "--dns01-recursive-nameservers-only"

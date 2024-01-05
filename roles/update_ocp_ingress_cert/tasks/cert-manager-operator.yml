@@ -1,0 +1,13 @@
+---
+
+- name: Create namespace
+  redhat.openshift.k8s:
+    definition: "{{ _namespace }}"
+
+- name: Create OperatorGroup
+  redhat.openshift.k8s:
+    definition: "{{ _operatorgroup }}"
+
+- name: Create subscription
+  redhat.openshift.k8s:
+    definition: "{{ _subscription }}"
