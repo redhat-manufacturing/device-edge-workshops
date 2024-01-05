@@ -34,11 +34,11 @@ This lab walks participants through the act of managing Red Hat Device Edge for 
 ## Section 3 - Core Services Setup
 | Service | Platform | Installation | Configuration |
 | ------- | -------- | ------------ | ------------- |
-| Ansible Controller | OCP | <ul><li>[x]</li></ul> | <ul><li>[ ]</li></ul> |
+| Ansible Controller | OCP | <ul><li>[x]</li></ul> | <ul><li>[x]</li></ul> |
 | Service Interconnect | OCP | <ul><li>[x]</li></ul> | <ul><li>[x]</li></ul> |
-| Attendance Pages | OCP | <ul><li>[x]</li></ul> | <ul><li>[ ]</li></ul> |
-| Gitea | OCP | <ul><li>[ ]</li></ul> | <ul><li>[ ]</li></ul> |
-| Sample Application | OCP | <ul><li>[ ]</li></ul> | <ul><li>[ ]</li></ul> |
+| Attendance Pages | OCP | <ul><li>[x]</li></ul> | <ul><li>[x]</li></ul> |
+| Gitea | OCP | <ul><li>[x]</li></ul> | <ul><li>[x]</li></ul> |
+| Sample Application | OCP | <ul><li>[x]</li></ul> | <ul><li>[x]</li></ul> |
 
 ## Section 2 - Local Edge Manager Setup
 - [ ] Standard services (minus workshop pages?)
@@ -57,3 +57,6 @@ This lab walks participants through the act of managing Red Hat Device Edge for 
 - [ ] Deploy skupper
 - [ ] Register with AAP
 - [ ] Deploy application
+
+## Section 6 - Provision Resources
+- [ ] Example vars file
