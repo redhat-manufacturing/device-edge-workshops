@@ -8,7 +8,7 @@ controller_configuration_credentials_secure_logging: false
 # These are configured for global use
 controller_execution_environments:
   - name: Device Edge Workshops Execution Environment
-    image: quay.io/device-edge-workshops/provisioner-execution-environment:latest
+    image: quay.io/luisarizmendi/provisioner-execution-environment:latest
     pull: missing
 
 controller_credential_types:
