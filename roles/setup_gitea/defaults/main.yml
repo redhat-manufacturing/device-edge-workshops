@@ -55,3 +55,9 @@ repo_files:
     dest: playbooks/hello-world.yml
 
 _internal_url: https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}
+
+_gitea_protocol: http
+_gitea_short_host: "{{ ansible_host }}:3001"
+_gitea_full_host: "{{ _gitea_protocol }}://{{ ansible_host }}:3001"
+_gitea_users_endpoint: "/api/v1/admin/users"
+_gitea_admin_user: lab-instructor

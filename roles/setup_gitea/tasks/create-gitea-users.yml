@@ -2,9 +2,9 @@
 
 - name: create student users in gitea
   ansible.builtin.uri:
-    url: "http://{{ ansible_host }}:3001/api/v1/admin/users"
+    url: "{{ _gitea_full_host }}{{ _gitea_users_endpoint }}"
     validate_certs: false
-    user: lab-instructor
+    user: "{{ _gitea_admin_user }}"
     password: '{{ admin_password }}'
     force_basic_auth: true
     body_format: json
@@ -26,9 +26,9 @@
 
 - name: Create single user for demos
   ansible.builtin.uri:
-    url: "http://{{ ansible_host }}:3001/api/v1/admin/users"
+    url: "{{ _gitea_full_host }}{{ _gitea_users_endpoint }}"
     validate_certs: false
-    user: lab-instructor
+    user: "{{ _gitea_admin_user }}"
     password: '{{ admin_password }}'
     force_basic_auth: true
     body_format: json
