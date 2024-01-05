@@ -7,18 +7,244 @@
     mode: '0755'
   become: true
 
+- name: Set namespace var
+  ansible.builtin.set_fact:
+    __workshop_namespace: "workshop-{{ workshop_type | regex_replace('_', '-') }}"
+
+- name: Create OperatorGroup
+  redhat.openshift.k8s:
+    definition:
+      apiVersion: operators.coreos.com/v1
+      kind: OperatorGroup
+      metadata:
+        name: "{{ __workshop_namespace }}"
+        namespace: "{{ __workshop_namespace }}"
+      spec:
+        targetNamespaces:
+          - "{{ __workshop_namespace }}"
+
+- name: Install crunchy operator
+  redhat.openshift.k8s:
+    definition:
+      apiVersion: operators.coreos.com/v1alpha1
+      kind: Subscription
+      metadata:
+        name: crunchy-postgres-operator
+        namespace: "workshop-{{ workshop_type | regex_replace('_', '-') }}"
+      spec:
+        channel: v5
+        installPlanApproval: Automatic
+        name: crunchy-postgres-operator
+        source: certified-operators
+        sourceNamespace: openshift-marketplace
+        startingCSV: postgresoperator.v5.5.0
+
+- name: Create simple db cluster
+  redhat.openshift.k8s:
+    definition:
+      apiVersion: postgres-operator.crunchydata.com/v1beta1
+      kind: PostgresCluster
+      metadata:
+        name: gitea-database
+        namespace: "workshop-{{ workshop_type | regex_replace('_', '-') }}"
+      spec:
+        users:
+          - name: gitea
+            databases:
+              - gitea
+            options: "SUPERUSER"
+        image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi8-15.5-0
+        postgresVersion: 15
+        instances:
+          - name: pgha1
+            replicas: 2
+            dataVolumeClaimSpec:
+              accessModes:
+              - "ReadWriteOnce"
+              resources:
+                requests:
+                  storage: 1Gi
+            affinity:
+              podAntiAffinity:
+                preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 1
+                  podAffinityTerm:
+                    topologyKey: kubernetes.io/hostname
+                    labelSelector:
+                      matchLabels:
+                        postgres-operator.crunchydata.com/cluster: gitea-database
+                        postgres-operator.crunchydata.com/instance-set: pgha1
+        backups:
+          pgbackrest:
+            image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.47-2
+            repos:
+            - name: repo1
+              volume:
+                volumeClaimSpec:
+                  accessModes:
+                  - "ReadWriteOnce"
+                  resources:
+                    requests:
+                      storage: 1Gi
+        proxy:
+          pgBouncer:
+            image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbouncer:ubi8-1.21-0
+            replicas: 2
+            affinity:
+              podAntiAffinity:
+                preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 1
+                  podAffinityTerm:
+                    topologyKey: kubernetes.io/hostname
+                    labelSelector:
+                      matchLabels:
+                        postgres-operator.crunchydata.com/cluster: gitea-database
+                        postgres-operator.crunchydata.com/role: pgbouncer
+  register: _db_instance_install
+  retries: 30
+
+- name: Get db info
+  ansible.builtin.shell:
+    cmd: >
+      oc get secret gitea-database-pguser-gitea
+      -n workshop-rhde-aap-rhsi
+      -o yaml
+  register: _db_info_raw
+  changed_when: false
+  retries: 30
+
+- name: Set DB info facts
+  ansible.builtin.set_fact:
+    _db_info: "{{ _db_info_raw.stdout | from_yaml }}"
+
+- name: Set DB info facts | round 2
+  ansible.builtin.set_fact:
+    #_db_host: "{{ _db_info | json_query(query) | b64decode }}"
+    _db_host: "{{ _db_info.data.host | b64decode }}"
+    _db_name: "{{ _db_info.data.dbname | b64decode }}"
+    _db_user: "{{ _db_info.data.user | b64decode }}"
+    _db_password: "{{ _db_info.data.password | b64decode }}"
+  vars:
+    query: 'data."pgbouncer-host"'
+
 - name: Add helm chart repo
   kubernetes.core.helm_repository:
-    name: gitea
-    repo_url: https://redhat-cop.github.io/helm-charts
+    name: gitea-charts
+    repo_url: https://dl.gitea.com/charts/
+
+- name: Create service account
+  redhat.openshift.k8s:
+    definition:
+      apiVersion: v1
+      kind: ServiceAccount
+      metadata:
+        name: gitea
+        namespace: "workshop-{{ workshop_type | regex_replace('_', '-') }}"
+
+- name: Create SCC
+  redhat.openshift.k8s:
+    definition:
+      kind: SecurityContextConstraints
+      apiVersion: security.openshift.io/v1
+      metadata:
+        name: gitea-scc
+      runAsUser:
+        type: MustRunAsRange
+        uidRangeMin: 1000
+        uidRangeMax: 1001
+      seLinuxContext:
+        type: MustRunAs
+      fsGroup:
+        type: RunAsAny
+      supplementalGroups:
+        type: RunAsAny
+      allowHostNetwork: false
+      allowHostPID: false
+      allowHostPorts: false
+      allowHostDirVolumePlugin: false
+      allowHostIPC: false
+      allowPrivilegeEscalation: true
+      allowPrivilegedContainer: false
+      readOnlyRootFilesystem: false
+      volumes:
+      - secret
+      - projected
+      - persistentVolumeClaim
+      - emptyDir
+      - downwardAPI
+      - configMap
+      allowedCapabilities:
+      - NET_BIND_SERVICE
+      - SYS_CHROOT
+      defaultAddCapabilities:
+      - NET_BIND_SERVICE
+      - SYS_CHROOT
+      requiredDropCapabilities:
+      - KILL
+      - MKNOD
+      - SETUID
+      - SETGID
+      users:
+      - "system:serviceaccount:workshop-{{ workshop_type | regex_replace('_', '-') }}:gitea"
+
+- name: Give service account permissions
+  redhat.openshift.k8s:
+    definition:
+      apiVersion: rbac.authorization.k8s.io/v1
+      kind: ClusterRoleBinding
+      metadata:
+        creationTimestamp: null
+        name: system:openshift:scc:gitea-scc
+      roleRef:
+        apiGroup: rbac.authorization.k8s.io
+        kind: ClusterRole
+        name: system:openshift:scc:gitea-scc
+      subjects:
+      - kind: ServiceAccount
+        name: gitea
+        namespace: "workshop-{{ workshop_type | regex_replace('_', '-') }}"
 
 - name: Deploy gitea
   kubernetes.core.helm:
     name: gitea
-    chart_ref: gitea/gitea
+    chart_ref: gitea-charts/gitea
     release_namespace: "workshop-{{ workshop_type | regex_replace('_', '-') }}"
-    set_values:
-      - value: hostname="gitea.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-        value_type: string
-      - value: db.password="{{ admin_password }}"
-        value_type: string
+    values:
+      serviceAccount:
+        name: gitea
+      postgresql-ha:
+        enabled: false
+      redis-cluster:
+        enabled: false
+      gitea:
+        admin:
+          username: instructor
+          password: "{{ admin_password }}"
+          email: 'dont@email.me'
+        config:
+          database:
+            DB_TYPE: postgres
+            HOST: "{{ _db_host }}"
+            NAME: "{{ _db_name }}"
+            USER: "{{ _db_user }}"
+            PASSWD: "{{ _db_password }}"
+            SSL_MODE: require
+
+- name: Create Route for gitea
+  redhat.openshift.k8s:
+    definition:
+      kind: Route
+      apiVersion: route.openshift.io/v1
+      metadata:
+        name: gitea-route
+        namespace: "workshop-{{ workshop_type | regex_replace('_', '-') }}"
+      spec:
+        host: "gitea.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+        to:
+          kind: Service
+          name: gitea-http
+          weight: 100
+        port:
+          targetPort: http
+        tls:
+          termination: edge
