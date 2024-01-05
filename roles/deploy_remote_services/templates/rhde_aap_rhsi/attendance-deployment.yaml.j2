@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: attendance
-          image: image-registry.openshift-image-registry.svc:5000/workshop-rhde-aap-rhsi/attendance:latest
+          image: image-registry.openshift-image-registry.svc:5000/workshop-{{ workshop_type | regex_replace('_', '-') }}/attendance:latest
           ports:
             - containerPort: 3000
               name: attendance-port
@@ -34,3 +34,20 @@ spec:
     protocol: TCP
     targetPort: 3000
   type: NodePort
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: attendance-route
+  namespace: workshop-{{ workshop_type | regex_replace('_', '-') }}
+spec:
+  host: attendance.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}
+  to:
+    kind: Service
+    name: attendance-service
+    weight: 100
+  port:
+    targetPort: 3000
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: None
