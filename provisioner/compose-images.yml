@@ -113,7 +113,11 @@
           ansible.builtin.shell:
             cmd: rpm2cpio {{ _microshift_release_info_string }} | cpio -idmv
 
-        - name: Extracting the Microshift images to a file in the HTTP server
+        - name: Be sure that jq is installed
+          ansible.builtin.dnf:
+            name: jq
+
+        - name: Extracting the Microshift images
           ansible.builtin.shell:
             cmd: jq -r '.images | .[] | ("[[containers]]\nsource = \"" + . + "\"\n")' "./usr/share/microshift/release/release-{{ ansible_architecture }}.json" >> "microshift-offline-images"
 
