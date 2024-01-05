@@ -12,3 +12,4 @@
     push: true
     username: "{{ _image_registry.username }}"
     password: "{{ _auth_token.stdout }}"
+    validate_certs: false
