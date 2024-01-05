@@ -41,7 +41,7 @@
       condition: "'APPs/podman' in event.payload.commits[0].modified"
       action:
         run_playbook:
-          name: run-task-create-apps.yml
+          name: run-task-app-quadlet.yml
           extra_vars:
             username: "{{ event.payload.repository.owner.login | capitalize }}"
 

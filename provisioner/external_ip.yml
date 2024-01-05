@@ -1,7 +1,7 @@
 ---
 
     - name: Get Default Route Interface
-      shell: "ip route | awk '/^default/ {print $5}'"
+      shell: "ip route | awk '/^default/ {print $5}' | head -n 1"
       register: default_route_interface
       changed_when: false  
 

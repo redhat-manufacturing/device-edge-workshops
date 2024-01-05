@@ -183,7 +183,11 @@ You can use either VMs or physical hardware, also bear in mind that depending on
 
 Let's start with the server VM.
 
-That VM must have two NICs, one that can be attached to the default NAT virtual network and an additional that could be attached to a new "isolated" virtual network (with no DHCP enabled) that you have to create in advance.
+That VM must have two NICs: external and internal. The external must have access to Internet and the internal will be the one where the edge devices that will be installed during the lab/workshop will be attached (and where the local server will act as gateway, DHCP, PXE,...).
+
+When using VMs, the external network can be directly the default NAT virtual network (you can always create a new network with NAT and use that one for external). You don't strictly need DHCP since you are installing manually (or with Kickstart) your RHEL in the local server you can configure static IPs too but DHCP is more convenient.
+
+The internal network must not have DHCP or NAT configured (you will need to configure a new "isolated" network) since the local server will be the DHCP and default Gateway.
 
 The minimum resources for that VM will depend on the chosen lab architecture. 
 
@@ -191,7 +195,7 @@ If you plan to use the lab local architecture, the VM should have 4 cores/16GB R
 
 If you choose the lab external architecture, this VM will only host the Ansible Execution Node and some network services (DHCP, PXE, ...) so you could go with 2 cores / 4GB RAM / 50GB+ Disk.
 
-Once you have the server VM created, you have to to deploy RHEL 9 on it (lab tested with RHEL 9.2), "minimal install" is enough.
+Once you have the server VM created, you have to to deploy RHEL 9 on it (lab tested with RHEL 9.2), "minimal install". When you configure your network you don't need to configure the internal network, just the interface that will be the external (with either DHCP or static IP) since the playbooks will configure it for you.
 
 In addition to the server, you will need enough resources (2 cores, 2 GB RAM, 10GB disk) to create an additional VM that will act as edge device. That edge device VM will be attached with a single NIC to the isolated (with no DHCP) virtual network that you have created and where the previous server is attached to.
 

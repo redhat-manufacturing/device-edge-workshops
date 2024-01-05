@@ -39,14 +39,14 @@ remote_services:
         dest: run-task-publish-device-image.yml
       - src: eda-run-update-container-image-microshift.yml.j2
         dest: update-container-image-microshift.yml
-      - src: eda-run-microshift-manifest.yml.j2
-        dest: app-microshift-manifest.yml
-      - src: eda-run-microshift-helm.yml.j2
-        dest: app-microshift-helm.yml
-      - src: eda-run-microshift-kustomize.yml.j2
-        dest: app-microshift-kustomize.yml
-      - src: eda-run-task-create-apps.yml.j2
-        dest: run-task-create-apps.yml
+      - src: eda-run-task-microshift-manifest.yml.j2
+        dest: run-task-microshift-manifest.yml
+      - src: eda-run-task-microshift-helm.yml.j2
+        dest: run-task-microshift-helm.yml
+      - src: eda-run-task-microshift-kustomize.yml.j2
+        dest: run-task-microshift-kustomize.yml
+      - src: eda-run-task-app-quadlet.yml.j2
+        dest: run-task-app-quadlet.yml
       - src: eda-run-workflow-configure-devices.yml.j2
         dest: run-workflow-configure-devices.yml
     files:
