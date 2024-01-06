@@ -1,0 +1,87 @@
+---
+
+# Required Variables
+
+# Set the content type
+workshop_or_demo: workshop
+
+# Set the right workshop or demo type
+workshop_type: rhde_aap_rhsi
+
+# Set the number of student slots
+student_total: 10
+
+# Authentication to the container registry
+redhat_username: your-redhat-username
+redhat_password: your-redhat-password
+  
+# DNS settings
+# If using an AWS Open Environment, a DNS zone will be provisioned for you, or feel free to use your own deletated to Rout53
+base_zone: example.workshop.com
+# The subdomain for the workshop - usually the customer name or event
+sub_domain: customer-name
+# If you're using a sub.sub domain example, define the TLD here
+top_level_domain: workshop.com
+# This is a legacy thing
+workshop_dns_zone: "{{ base_zone }}"
+
+aws_region: us-east-2
+
+openshift:
+  name: customer-name
+  version: stable
+
+lab_wifi_network:
+  ssid: wifi-ssid
+  password: wifi-password
+
+# Your zerossl information from https://app.zerossl.com/developer
+zerossl_account:
+  kid: your
+  key: info
+  email: here
+  alg: HS256
+
+pull_secret: 'your-pull-secret'
+
+# The base64 of your controller manifest (may be long)
+base64_manifest: 'your-base64-manifest-here'
+
+# Generate offline token to authenticate the calls to Red Hat's APIs
+# Can be accessed at https://access.redhat.com/management/api
+offline_token: 'your-offline-token-here'
+
+# admin password for workshop services
+admin_password: 'pick-a-good-password'
+
+# Optional Variables - shouldn't need to be configured
+
+# turn DNS on for control nodes, and set to type in valid_dns_type
+dns_type: aws
+
+# name prefix for all the VMs
+ec2_name_prefix: "{{ sub_domain }}"
+
+# where the workshop is being run
+run_in_aws: false
+run_locally: true
+
+# if local hypervisor nodes should be configured
+manage_local_hypervisor: false
+
+# region where the nodes will live
+ec2_region: us-east-2
+
+# Use zeroSSL
+use_zerossl: true
+
+# automatically installs Tower to control node
+controllerinstall: true
+
+# forces ansible.workshops collection to install latest edits every time
+developer_mode: false
+
+# Don't need automation hub
+automation_hub: false
+
+#builder_pub_key: 'ssh-rsa abc123'
