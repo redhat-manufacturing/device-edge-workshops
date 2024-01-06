@@ -41,11 +41,11 @@ This lab walks participants through the act of managing Red Hat Device Edge for 
 | Sample Application | OCP | <ul><li>[x]</li></ul> | <ul><li>[x]</li></ul> |
 
 ## Section 2 - Local Edge Manager Setup
-- [ ] Standard services (minus workshop pages?)
-      - Move DNS from dnsmasq to bind, locally resolve AWS resources
+- [x] Standard services (minus workshop pages?)
+      - Move DNS from dnsmasq to bind, locally resolve AWS resources | maybe
 
 ## Section 3 - Local Devices Setup
-- [ ] Pre-provision devices
+- [?] Pre-provision devices
 
 ## Section 4 - Hypervisor setup
 - [ ] Cockpit
@@ -60,3 +60,8 @@ This lab walks participants through the act of managing Red Hat Device Edge for 
 
 ## Section 6 - Provision Resources
 - [ ] Example vars file
+
+# Known Issues
+- The OpenShift pieces are too fast, often failing because certain other parts aren't ready yet
+- The hypervisor playbook needs updating
+- The hypervisor playbook needs a remote proxy with valid SSL
