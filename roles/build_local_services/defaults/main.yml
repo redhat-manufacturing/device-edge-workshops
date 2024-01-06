@@ -4,7 +4,8 @@ build_dir: "/home/{{ ansible_user }}/workshop-build"
 
 services: "{{ local_services }}"
 
-rhel_boot_iso_sha256: 087f5387f28e6edf1f770ec7eb41e56823b6c3c4d4c3ef09b3b61f59440c229c
+#rhel_boot_iso_sha256: 087f5387f28e6edf1f770ec7eb41e56823b6c3c4d4c3ef09b3b61f59440c229c
+rhel_boot_iso_sha256: 6a9f135b8836edd06aba1b94fd6d0e72bd97b4115a3d2a61496b33f73e0a13a5
 
 internal_address: 192.168.1.1 
 internal_netmask: 24

@@ -1,0 +1,44 @@
+domain-needed
+bogus-priv
+local=/{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/
+{% for server in template.vars.upstream_dns_servers %}
+server={{ server }}
+{% endfor %}
+expand-hosts
+domain={{ ec2_name_prefix }}.{{ workshop_dns_zone }}
+addn-hosts=/etc/dnsmasq.hosts
+interface={{ internal_connection }}
+
+dhcp-range={{ template.vars.dhcp_range_start }},{{ template.vars.dhcp_range_end }},{{ template.vars.dhcp_lease_time }}
+dhcp-option=option:router,{{ template.vars.internal_address }}
+dhcp-option=option:dns-server,{{ template.vars.internal_address }}
+dhcp-authoritative
+
+# enable logging
+log-queries
+log-dhcp
+
+# First, catch pxe boots
+# Catch BIOS boots
+dhcp-match=set:bios-x86_64,option:client-arch,0
+# Boot EFI PXE
+dhcp-boot=tag:bios-x86_64,undionly.kpxe,{{ internal_address }}
+# Catch EFI boots
+dhcp-match=set:efi-x86_64,option:client-arch,7
+# Boot EFI PXE
+dhcp-boot=tag:efi-x86_64,ipxe.efi,{{ internal_address }}
+
+# Once booted into ipxe
+# Catch userclass or option 175
+dhcp-userclass=set:ENH,iPXE
+dhcp-match=set:ENH,175
+# Boot ipxe
+dhcp-boot=tag:ENH,http://ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/workshop.ipxe
+
+{% if template.vars.dhcp_reservations is defined %}
+{% for dhcp_reservation in template.vars.dhcp_reservations %}
+dhcp-host={{ dhcp_reservation.mac_address }},{{ dhcp_reservation.name }},{{ dhcp_reservation.ip_address }}
+{% endfor %}
+{% endif %}
+
+dhcp-no-override
