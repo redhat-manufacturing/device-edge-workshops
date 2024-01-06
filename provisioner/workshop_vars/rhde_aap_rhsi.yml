@@ -188,8 +188,8 @@ skip_builder_services: true
 install_gitea: false
 _create_initial_gitea_user: false
 _gitea_protocol: https
-_gitea_short_host: gitea.apps.rho.apac.redhat-workshops.com
-_gitea_full_host: "{{ _gitea_protocol }}://gitea.apps.rho.apac.redhat-workshops.com"
+_gitea_short_host: "gitea.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+_gitea_full_host: "{{ _gitea_protocol }}://gitea.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
 _gitea_admin_user: instructor
 
 allowed_external_services:
@@ -267,3 +267,4 @@ controller_configuration:
       credentials:
         - Device Credentials
       execution_environment: Device Edge Workshops Execution Environment
+
