@@ -74,6 +74,26 @@
 
 # Let OpenShift cook, do other things here
 
+- name: compose images
+  ansible.builtin.import_playbook: compose-images.yml
+
+- name: Populate Gitea
+  ansible.builtin.import_playbook: gitea.yml
+
+- name: Populate Ansible Controller
+  ansible.builtin.import_playbook: populate-controllers-on-ocp.yml
+
 - name: Import hypervisor playbook
   ansible.builtin.import_playbook: hypervisor.yml
 
+- name: setup local connection
+  ansible.builtin.import_playbook: local-connection.yml
+
+- name: setup wildcard cert
+  ansible.builtin.import_playbook: wildcard-cert.yml
+
+- name: build local services
+  ansible.builtin.import_playbook: build-local-services.yml
+
+- name: run local services
+  ansible.builtin.import_playbook: run-local-services.yml
