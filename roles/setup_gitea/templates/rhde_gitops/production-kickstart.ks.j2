@@ -166,7 +166,7 @@ for event in i.event_gen(yield_nones=False):
       # Check the file extension and skip unwanted extensions
       _, file_extension = os.path.splitext(filename)
 
-      if file_extension not in ('.swp', '.ddf'):
+      if file_extension not in ('.swp', '.ddf', '.db'):
         #print("variable: {}".format(type_names))
         if any(event_type in ['IN_CREATE', 'IN_MODIFY', 'IN_DELETE', 'IN_MOVE'] for event_type in type_names):
             print("PATH=[{}] FILENAME=[{}] EVENT_TYPES={}".format(path, filename, type_names))
@@ -536,24 +536,26 @@ restorecon -vFr /var/home/ansible
 
 ######## Greenboot
 
-sudo cat << 'EOF' > /etc/greenboot/check/required.d/01-check-packages.sh
-#!/bin/bash
+## This script is deployed by AAP but I keep it here in the KS for future reference
 
-# List of required packages
-required_packages=("python3-pip" "python3-inotify" "git")
-
-# Check if each package is installed
-for package in "\${required_packages[@]}"; do
-    if ! rpm -q "\$package" &>/dev/null; then
-        echo "Error: \$package is not installed."
-        exit 1
-    fi
-done
-
-echo "All required packages are installed."
-EOF
-
-chmod +x /etc/greenboot/check/required.d/01-check-packages.sh
+#sudo cat << 'EOF' > /etc/greenboot/check/required.d/01-check-packages.sh
+##!/bin/bash
+#
+## List of required packages
+#required_packages=("python3-pip" "python3-inotify" "git")
+#
+## Check if each package is installed
+#for package in "\${required_packages[@]}"; do
+#    if ! rpm -q "\$package" &>/dev/null; then
+#        echo "Error: \$package is not installed."
+#        exit 1
+#    fi
+#done
+#
+#echo "All required packages are installed."
+#EOF
+#
+#chmod +x /etc/greenboot/check/required.d/01-check-packages.sh
 
 
 

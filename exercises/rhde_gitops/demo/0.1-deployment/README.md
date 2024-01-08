@@ -534,6 +534,16 @@ Open the following:
   > The values of `sub_domain` and `base_zone` are the ones defined in the `extra-vars.yml` file
 
 
+* 2024 APP images:
+
+Go to `quay.io` in the 2024 repository and check that the "prod" tag is pointing to "v1". If not just create a new Tag "prod" by pressing the gearwheel on the "v1" label (at the right).
+
+
+![2048 tags](../images/rhde_gitops_quay-2048.png)
+
+If this environment was never used probably it will be correctly assigned but if you already ran the demo the "prod" tag will be probably pointing to "v3".
+
+
 ### Only in external lab architecture
 
 If you deployed the external lab architecture you should also double check:
