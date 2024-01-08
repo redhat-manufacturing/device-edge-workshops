@@ -36,20 +36,20 @@ test                       test-hello-f9974746-52fjv                  1/1     Ru
 
 In the manifest `deployment.yaml` file you can see how we are using the 2048 app `v1`, the one with the problem (image not loading). You can take advantage of that and show how to perform a day-2 action: update the image version, but just changing it on the manifest on Gitea.
 
-1. Be sure that you have AAP "Jobs" and the edge device CLI Terminal running `watch` visible.
+5. Be sure that you have AAP "Jobs" and the edge device CLI Terminal running `watch` visible.
 
-2. Open the `device-edge-configs/APPs/microshift/manifest/2-deployment.yml` in Gitea and change the image tag from `v1` to `v3` (remember that `v2` does not work).
+6. Open the `device-edge-configs/APPs/microshift/manifest/2-deployment.yml` in Gitea and change the image tag from `v1` to `v3` (remember that `v2` does not work).
 
-3. Wait until the new POD is running (you can see it on the CLI running `watch`)
+7. Wait until the new POD is running (you can see it on the CLI running `watch`)
 
-4. Clear the cache of the Web Browser where SOCKS proxy is configured (or use Private/Incognito mode) and open again the 2048 game app. This time the image will be loaded since we are using the new version.
+8. Clear the cache of the Web Browser where SOCKS proxy is configured (or use Private/Incognito mode) and open again the 2048 game app in `http://frontend-game2048.apps.<edge device ip>.nip.io`. This time the image will be loaded since we are using the new version.
 
 
 ## Deploy an APP on Microsift with external Helm repo and vars file on Gitea 
 
 Now we are going to deploy an APP on Microshift by using Helm from AAP and by gathering the vars from a file hosted in Gitea.
 
-1. Be sure that you have AAP "Jobs" and the edge device CLI Terminal running `watch` visible.
+1. Be sure that you have AAP "Jobs" and the edge device CLI Terminal running `watch "oc --kubeconfig /var/lib/microshift/resources/kubeadmin/kubeconfig get pod --all-namespace"` visible.
 
 2. Open `device-edge-configs/APPs/microshift/helm/wordpress_vars.yml` where you will find the definition of the variables for a Helm Chart that deploys `Wordpress`.
 
@@ -63,11 +63,9 @@ Now we are going to deploy an APP on Microshift by using Helm from AAP and by ga
 
 Now you can show how to modify the APP by just changing the values on the Gitea.
 
-1. Be sure that you have AAP "Jobs" and the edge device CLI Terminal running `watch` visible.
+5. Open `device-edge-configs/APPs/microshift/helm/wordpress_vars.yml` and change the `replicaCount` number
 
-2. Open `device-edge-configs/APPs/microshift/helm/wordpress_vars.yml` and change the `replicaCount` number
-
-3. Wait and see how that number of replicas is deployed on Microshift.
+6. Wait and see how that number of replicas is deployed on Microshift.
 
   >**Note**
   >

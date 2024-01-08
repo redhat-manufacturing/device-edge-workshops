@@ -143,5 +143,6 @@ CONTAINER ID  IMAGE                             COMMAND     CREATED         STAT
 a164ed35c012  docker.io/frangoteam/fuxa:latest  npm start   17 seconds ago  Up 17 seconds  0.0.0.0:1882->1882/tcp  systemd-app_fuxa_scada
 ```
 
-4. Show the APP by visiting http:<edge device IP>:<configured port>
+4. Show the APP by visiting `http:<edge device IP>:<configured port>`
 
+5. (Optional) You can go back to Gitea and change something (ie. the port) in the `device-edge-configs/APPs/podman/quadlet/app_fuxa_scada.container` file and see how that change is applied to the application.

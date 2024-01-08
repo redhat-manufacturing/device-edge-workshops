@@ -541,6 +541,9 @@ Go to `quay.io` in the 2024 repository and check that the "prod" tag is pointing
 
 ![2048 tags](../images/rhde_gitops_quay-2048.png)
 
+
+You should also check that the image in the `device-edge-configs/APPs/microshift/manifest/2-deployment.yml` file on Gitea is `v1` and not `v3`.
+
 If this environment was never used probably it will be correctly assigned but if you already ran the demo the "prod" tag will be probably pointing to "v3".
 
 
