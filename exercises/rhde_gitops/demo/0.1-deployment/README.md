@@ -317,7 +317,7 @@ all:
 ```
 The `ansible_host` and other variables are related to the VM/Physical server where you installed RHEL that will host the AAP + Gitea + Image Builder + Net tools in the local lab architecture or just the Net tools in the external lab architecture.
 
-The `external_connection` variable expect the Connection name that you can get connecting to the local server and running `nmcli con list` ("NAME" column) while the  `internal_connection` expects the interface name (which is the name on the "DEVICE" column in the ouput of the `nmcli con list` command). Usually the connection name is the same than the interface name, but in some cases (ie. wireless connections) the connection name is different (in that case it will be the SSID).
+The `external_connection` variable expects the Connection name that you get when running `nmcli con list` ("NAME" column) in the local edge server (so where AAP + Gitea + Image Builder + Net tools will be installed). The  `internal_connection` expects the interface name (which is the name on the "DEVICE" column in the ouput of the `nmcli con list` command). Usually the connection name is the same than the interface name, but in some cases (ie. wireless connections) the connection name is different (in that case it will be the SSID).
 
   >**Note**
   >
