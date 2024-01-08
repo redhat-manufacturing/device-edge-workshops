@@ -387,10 +387,14 @@ additional_repos:
       - APPs/microshift/retail
       - APPs/microshift/2048
     files: 
-      - src: templates/rhde_gitops/app_helm_vars.yml.j2
-        dest: APPs/microshift/helm/helm_vars.yml
-      - src: templates/rhde_gitops/app_motioneye-microshift.yml.j2
-        dest: APPs/microshift/manifest/manifest.yml
+      - src: templates/rhde_gitops/app_helm_wordpress_vars.yml.j2
+        dest: APPs/microshift/helm/wordpress_vars.yml
+      - src: templates/rhde_gitops/app_2048-microshift-1-ns.yml.j2
+        dest: APPs/microshift/manifest/1-namespace.yml
+      - src: templates/rhde_gitops/app_2048-microshift-2-deploy.yml.j2
+        dest: APPs/microshift/manifest/2-deployment.yml
+      - src: templates/rhde_gitops/app_2048-microshift-3-net.yml.j2
+        dest: APPs/microshift/manifest/3-network.yml
       - src: templates/rhde_gitops/app_2048-microshift.yml.j2
         dest: APPs/microshift/2048/app_2048-microshift.yml
       - src: templates/rhde_gitops/kafka.yml.j2
