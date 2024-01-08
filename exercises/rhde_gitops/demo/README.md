@@ -111,19 +111,51 @@ During this demo/workshop will explore how to achieve this consistency using the
 
 ## Section 1 - Creating RHEL Images the GitOps way
 
+First, we want to create a new Red Hat Device Edge (RHDE) image, and we have two options for doing this. The first is through `console.redhat.com`, but we'll choose the other option, the self-provisioned image builder installed on a RHEL machine. 
+
+However, we won't interact with the image builder directly. We will be following the GitOps methodology, which means we have a source of truth, typically a source code control repository like git, where we host the desired configuration for our environment using descriptive configuration files. 
+
+Instead of configuring the image builder directly, we've created a file that describes our desired image, including user settings and software packages, and pushed it to `git`.
+
+To ensure that any changes in this source of truth are applied to our environment, we've configured webhooks. When a change occurs, the Ansible Automation Platform (AAP) automatically enforces the new state by creating a new image using the image builder and publishing it so that end devices can use it.
+
+The demo step descriptions can be found in the following document: 
 
 
 * [Creating RHEL Images the GitOps way](s1-creating_RHEL_images.md)
 
+After running those steps, we've completed the creation of a new RHDE image using the GitOps approach. 
+
+By following this methodology, we benefit from GitOps features such as increased reliability and stability due to Git's rollback and version tracking capabilities. All of this is possible thanks to the Image builder, which allows us to create images in a descriptive way, and the Ansible Automation Platform, where we can configure Event-Driven Automations, as seen in this Workflow, making it possible to adapt the platform's state to changes in the environment.
+
 
 ## Section 2 - Automated device onboarding
 
+In the first section we created the image and placed it on a web server. Now, we're going to deploy that image on the end device.
+
+In this demo/workshop we will be booting the device directly from the network (the local edge manager server will act as PXE server), eliminating the need for creating a USB with the ISO image, and creating a hands-off installation.
+
+These are the step descriptions for this section:
+
 * [Automated device onboarding](s2-automated-onboarding.md)
+
+The steps above shown a fully automated onboarding experience, and now we have a ready-to-use edge device system included in Ansible Automation Platform for lifecycle management. 
+
+It's important to notice that this means you won't need to send specialized personnel to various locations, saving time and reducing costs in many cases.
+
+
 
 ## Section 3 - Consistent edge device configuration at scale
 
+Managing device configurations at scale is not easy. There is always a risk of config drifts between systems or config version mismatch. We need to enforce a consistency in our platform, otherwise we could head into situations where the behaviour of our solution is not the expected.
+
+By using GitOps, where we have a single source of truth for all our configurations, we can rest assure that a config drift won't happen in our environment, even in the case that someone manually misconfigure something on the end devices, let's see how it works.
+
+In the following steps we demonstrate how this can be done with RHDE and AAP:
 
 * [Consistent edge device configuration at scale](s3-consistent_configuration.md)
+
+The steps above shown how powerful is the usage of event driven automation, since we have made a solution that adapts to events such as someone trying to reconfigure my end devices in a non-desireble way. This will not only save time by automating device configuration at scale, but for sure will reduce the risk of issues in your solution due to configuration drifts.
 
 
 ## Section 4 - Edge computing APPs lifecycle management
@@ -178,6 +210,7 @@ Now an idea of how you could manage Microshift using Ansible Collections through
 
 In this demo/workshop we are bringing some ideas about how to build a gitops-like environment using just Ansible Automation Platform (AAP). This is a great approach when using applications deployed using Podman, but when you introduce a Kubernetes API it's even better to complement the AAP with the use of any of the existing GitOps tools (ie. ArgoCD) or Kubernetes API-focused management products, for example, Red Hat Advance Cluster Management (ACM). In the specific case of Microshift, at this moment (January'24) the management of applications on top of Microshift using ACM is a technical preview feature and in the near future Microshift will be supporting dedicated GitOps tools.
 
+Demo/workshop steps for APP lifecycle ideas with AAP and Microshift:
 
 * [Edge computing APPs lifecycle management - APPs with Microshift](s4-app-lifecycle-microshift.md)
 
@@ -192,6 +225,8 @@ In summary, it's all about deciding where to place your workload and how you wan
 Imagine that you have a system running in a windmill in the middle of a mountain. You decide to upgrade you Operating System... and then in the process suddenly.. nothing works, you dont' even have access to the system to try to recover it...You will need to send someone to that remote mountain in an off-road truck who knows how to connect and fix the issue. That means a lot of time and money.
 
 What if you system detects the failure or that something is not working as expected and then, automatically rolls back to the previous version where things were working correctly? that's possible thanks to OSTree images and Greenboot.
+
+The following steps go thought this upgrade experience:
 
 * [Bulletproof system upgrades](s5-system-upgrades.md)
 
