@@ -17,14 +17,12 @@
 4. Section 4 - Edge computing APPs lifecycle management
 
     a. APPs with Podman and Systemd
-
         I. Serverless APP with Podman and Systemd
             1. Run `podman ps`
             2. Run `watch podman ps`
             3. Visit `http://<edge device IP>:8080` from your laptop
             4. Show what happened in the terminal where `watch podman ps`
             5. Wait 90 seconds and show how the Container is stopped automatically
-
         II. Podman container image auto-update
             1. Open `http:<edge device ip>:8081` in your laptop
             2. Show the image load problem in the APP
@@ -34,7 +32,6 @@
             6. Move the `prod` container image tag to `v2` in Quay.io
             7. Show how the new image is detected and deployed but how Podman rollback to the previous version due to the issue
             8. Move the `prod` container image tag to `v3` where the image locad problem is solved and show the fixed app in your Browser 
-
         III. Deploying an APP in Podman in a declarative way
             1. Show `device-edge-configs/APPs/podman/quadlet` folder in Gitea
             2. Run the "Create Quadlet APP" Template in AAP
@@ -43,7 +40,6 @@
             5. Change something in the `device-edge-configs/APPs/podman/quadlet/app_fuxa_scada.container` file and see the change in the APP
         
     b. APPs with Microshift
-
         I. Deploy an APP on Microsift from Manifest files on Gitea
             1. Show manifests located in `device-edge-configs/APPs/microshift/manifest` in Gitea.
             2. Run `watch "oc --kubeconfig /var/lib/microshift/resources/kubeadmin/kubeconfig get pod --all-namespace"` as root
@@ -53,7 +49,6 @@
             6. Change image version to `v3` in `device-edge-configs/APPs/microshift/manifest/2-deployment.yml`
             7. Check the `watch` command and wait until the new POD is running
             8. Open `http://frontend-game2048.apps.<edge device ip>.nip.io` in your laptop and show the 2048 app with the image loaded
-
         II. Deploy an APP on Microsift with external Helm repo and vars file on Gitea
             1. Open "Jobs" in AAP and `watch "oc --kubeconfig /var/lib/microshift/resources/kubeadmin/kubeconfig get pod --all-namespace"`
             2. Show `device-edge-configs/APPs/microshift/helm/wordpress_vars.yml` in Gitea
