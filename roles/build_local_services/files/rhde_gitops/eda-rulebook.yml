@@ -96,8 +96,6 @@
       action:
         run_playbook:
           name: run-task-microshift-manifest.yml
-          extra_vars:
-            username: "{{ event.payload.repository.owner.login | capitalize }}"
 
     - name: Deploy Microshift APP with helm
       condition: "event.payload.commits[0].modified is search('APPs/microshift/helm',ignorecase=true)"
@@ -107,10 +105,3 @@
           extra_vars:
             username: "{{ event.payload.repository.owner.login | capitalize }}"
 
-    - name: Deploy Microshift APP with kustomize
-      condition: "event.payload.commits[0].modified is search('APPs/microshift/kustomize',ignorecase=true)"
-      action:
-        run_playbook:
-          name: run-task-microshift-kustomize.yml
-          extra_vars:
-            username: "{{ event.payload.repository.owner.login | capitalize }}"

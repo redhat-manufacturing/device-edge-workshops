@@ -51,6 +51,7 @@ apiServer:
   subjectAltNames: 
     - microshift.lablocal
     - microshift.$(hostname -I | awk '{print $1}').nip.io
+    - $(hostname -I | awk '{print $1}')
 debugging:
   logLevel: "Normal"
 

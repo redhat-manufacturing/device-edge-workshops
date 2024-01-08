@@ -1,0 +1,109 @@
+
+image:
+  registry: docker.io
+  repository: bitnami/wordpress
+  tag: 5.7.1-debian-10-r2
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+  debug: false
+
+
+wordpressUsername: user
+wordpressPassword: "R3dh4t1!"
+wordpressEmail: user@example.com
+wordpressFirstName: FirstName
+wordpressLastName: LastName
+wordpressBlogName: User's Blog!
+wordpressTablePrefix: wp_
+wordpressScheme: http
+wordpressSkipInstall: false
+wordpressExtraConfigContent:
+wordpressConfiguration:
+existingWordPressConfigurationSecret:
+wordpressConfigureCache: false
+
+
+replicaCount: 1
+
+
+updateStrategy:
+  type: RollingUpdate
+  rollingUpdate: {}
+
+resources:
+  limits: {}
+  requests:
+    memory: 512Mi
+    cpu: 300m
+
+containerPorts:
+  http: 8080
+  https: 8443
+
+podSecurityContext:
+  enabled: false
+  fsGroup: 1000660001
+
+
+containerSecurityContext:
+  enabled: false
+  runAsUser: 1000660001
+  runAsNonRoot: true
+
+
+livenessProbe:
+  enabled: true
+  httpGet:
+    path: /wp-admin/install.php
+    port: http
+    scheme: HTTP
+    httpHeaders: []
+  initialDelaySeconds: 120
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
+
+readinessProbe:
+  enabled: true
+  httpGet:
+    path: /wp-login.php
+    port: http
+    scheme: HTTP
+    httpHeaders: []
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
+
+
+persistence:
+  enabled: true
+  storageClass:
+  accessModes:
+    - ReadWriteOnce
+  accessMode: ReadWriteOnce
+  size: 1Gi
+  dataSource: {}
+  existingClaim:
+
+
+mariadb:
+  enabled: true
+  architecture: standalone
+  auth:
+    rootPassword: "R3dh4t1!"
+    database: bitnami_wordpress
+    username: bn_wordpress
+    password: "R3dh4t1!"
+  primary:
+    persistence:
+      enabled: true
+      storageClass:
+      accessModes:
+        - ReadWriteOnce
+      size: 1Gi
+
+route:
+  enabled: true

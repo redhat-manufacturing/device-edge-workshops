@@ -90,8 +90,6 @@ local_services:
         dest: run-task-microshift-manifest.yml
       - src: eda-run-task-microshift-helm.yml.j2
         dest: run-task-microshift-helm.yml
-      - src: eda-run-task-microshift-kustomize.yml.j2
-        dest: run-task-microshift-kustomize.yml
       - src: eda-run-task-app-quadlet.yml.j2
         dest: run-task-app-quadlet.yml
       - src: eda-run-workflow-configure-devices.yml.j2
@@ -334,8 +332,6 @@ repo_files:
     dest: playbooks/deploy_app_microshift_manifest.yml
   - src: templates/rhde_gitops/deploy_app_microshift_helm.yml.j2
     dest: playbooks/deploy_app_microshift_helm.yml
-  - src: templates/rhde_gitops/deploy_app_microshift_kustomize.yml.j2
-    dest: playbooks/deploy_app_microshift_kustomize.yml
   - src: templates/rhde_gitops/update_app_microshift.yml.j2
     dest: playbooks/update_app_microshift.yml
   - src: templates/rhde_gitops/copy-os-files.yml.j2
@@ -388,7 +384,6 @@ additional_repos:
       - APPs/podman/quadlet
       - APPs/microshift/manifest
       - APPs/microshift/helm
-      - APPs/microshift/kustomize
       - APPs/microshift/retail
       - APPs/microshift/2048
     files: 

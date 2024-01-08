@@ -35,7 +35,6 @@ COPY run-task-publish-device-image.yml .
 COPY update-container-image-microshift.yml .
 COPY run-task-microshift-manifest.yml .
 COPY run-task-microshift-helm.yml .
-COPY run-task-microshift-kustomize.yml .
 COPY run-task-app-quadlet.yml .
 COPY run-workflow-configure-devices.yml .
 

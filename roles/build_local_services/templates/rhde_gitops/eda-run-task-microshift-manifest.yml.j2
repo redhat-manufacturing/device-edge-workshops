@@ -14,6 +14,10 @@
         wait: true
 {% raw %}
         organization: "Student{{ student }} Organization"
+        extra_vars:
+          manifest_repo: "https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-configs/src/branch/main/APPs/microshift/manifest"
+          gitea_username: "student{{ student_number }}"
+          gitea_password: "{{ admin_password }}"
 {% endraw %}
   roles:
     - /opt/eda/collections/ansible_collections/redhat_cop/controller_configuration/roles/job_launch
