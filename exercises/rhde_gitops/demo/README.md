@@ -98,7 +98,14 @@ This is the summarized list of the steps (below you will find the detailed descr
 
 
 ## Introduction
+In various scenarios, there's a need to deploy applications close to where data is generated due to factors such as limited connectivity, bandwidth, or latency, and sometimes to avoid the high costs of sending data to the cloud or a data center.
 
+In such cases, you encounter unique challenges related to compatibility, security, and especially the scale of the solution. 
+Edge computing solutions often involve deploying and managing numerous small devices. It can get even more challenging when you think about deploying devices in remote or costly-to-reach locations, like windmills, offshore oil platforms, or even satellites in space.
+
+To address these challenges you need highly smart automated solutions that will enable you to manage these devices' lifecycle seamlessly, even without direct human intervention, ensuring consistent configuration and behavior across a large scale.
+
+During this demo/workshop will explore how to achieve this consistency using the GitOps approach and how you can simplify lifecycle management in edge locations with the help of features available in OSTree image-based RHEL systems such as Red Hat Device Edge.
 
 
 
@@ -180,19 +187,49 @@ In summary, it's all about deciding where to place your workload and how you wan
 
 
 
-
 ## Section 5 - Bulletproof system upgrades
 
+Imagine that you have a system running in a windmill in the middle of a mountain. You decide to upgrade you Operating System... and then in the process suddenly.. nothing works, you dont' even have access to the system to try to recover it...You will need to send someone to that remote mountain in an off-road truck who knows how to connect and fix the issue. That means a lot of time and money.
 
-
-
+What if you system detects the failure or that something is not working as expected and then, automatically rolls back to the previous version where things were working correctly? that's possible thanks to OSTree images and Greenboot.
 
 * [Bulletproof system upgrades](s5-system-upgrades.md)
+
+We have seen an automatic OS rollback and, what is more important, we assured that our edge devices will be working as expected after an upgrade that, in other circumstances, would have headed into a system with unexpected failures.
+
+This time we shown just with a simple script that checks OS packages, but you can also write health-checks that monitor the status of your applications right after the upgrade, or the connectivity, or any benchmark that you define.
+
+With Greenboot you can create a trully bulletproof system upgrades, you won't find again problems like the ones described before that imply high costs and delays in case of edge computing use cases.
+
 
 
 
 ## Closing
-TBD
+During the demo/workshot we saw:
+
+* How we created a RHEL image by just defining it in a file descriptor located in a source code repository
+
+* How that image was deployed with a hands-off-installation where there was no human interaction, and how besides the OS installation the complete onboarding process was performed automatically in external tools such as the Ansible Controller.
+
+* Then we show how with just Podman we created a serverless self-healing application with auto-updates enabled, using few system resources, which is a great benefit for edge computing systems
+
+* We configured our systems following the GitOps approach, enforcing the right configurations at scale in all our systems assuring the consistency even in case of a manual override locally
+
+* And finally we show how we prevent an OS system upgrade to break the desired behaviour of our edge computing edge devices, by performing a system rollback automatically when a failure was detected.
+
+The demo of Ansible Automation Platform and Red Hat Device Edge showcased several compelling features and capabilities that promise to bring significant benefits to our edge computing solutions. In particular, the self-healing capabilities and automation at scale offer the following advantages for our use cases in edge computing:
+
+* Simplified Management: The demo illustrated how Ansible Automation Platform can provide a centralized management solution for your distributed edge computing infrastructure. This simplified management is crucial for our organization as it allows us to oversee and control a large number of edge devices and applications from a single point. This streamlined management approach not only reduces operational complexity but also enhances our team's efficiency by providing a unified interface for configuration, monitoring, and troubleshooting.
+
+* Efficient Over-the-Air Updates: One of the key challenges in edge computing is keeping devices up-to-date with the latest software and security patches. The demonstration highlighted how Red Hat Device Edge enables efficient over-the-air updates. This feature is essential for maintaining the health and security of our edge devices without manual intervention. By automating the update process, we can ensure that all edge devices are running the latest software, reducing vulnerabilities and improving overall system reliability.
+
+* Platform Consistency: Ensuring platform consistency across all edge devices is critical for maintaining a robust and predictable edge computing environment. The demo showcased how Ansible Automation Platform can enforce consistent configurations and policies across diverse hardware and software platforms. This standardization minimizes configuration drift and reduces the chances of compatibility issues, ultimately leading to a more stable and reliable edge infrastructure.
+
+* Unattended Resilience: The self-healing capabilities of Ansible Automation Platform and Red Hat Device Edge are particularly valuable for our edge computing use cases. These capabilities allow the system to detect and respond to failures automatically, minimizing downtime and ensuring uninterrupted operation. Whether it's rebooting a malfunctioning device, load balancing traffic, or handling system errors, the ability to achieve unattended resilience is a significant advantage in edge computing, where human intervention may not always be practical.
+
+In addition to these benefits, the demo also emphasized the scalability and adaptability of these solutions. As our edge computing infrastructure continues to grow, the ability to automate tasks and processes at scale becomes increasingly important. Ansible Automation Platform and Red Hat Device Edge can help us meet these demands by efficiently managing and orchestrating our edge devices and applications.
+
+Overall, the combination of Ansible Automation Platform and Red Hat Device Edge, with their self-healing capabilities and automation at scale, promises to simplify management, enable efficient over-the-air updates, ensure platform consistency, and provide unattended resilience for our edge computing solutions. These advantages are essential for our organization's success in the rapidly evolving world of edge computing.
 
 
 
