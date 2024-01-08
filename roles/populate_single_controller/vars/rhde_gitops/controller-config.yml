@@ -218,7 +218,7 @@ controller_templates:
       - Device Credentials
     execution_environment: Device Edge Workshops Execution Environment
     become_enabled: true
-    ask_variables_on_launch: true
+    ask_inventory_on_launch: true
     extra_vars: 
         manifest_repo: "https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-configs/src/branch/main/APPs/microshift/manifest"
         gitea_username: "student{{ student_number }}"
@@ -234,6 +234,7 @@ controller_templates:
     execution_environment: Device Edge Workshops Execution Environment
     become_enabled: true
     ask_variables_on_launch: true
+    ask_inventory_on_launch: true
     extra_vars: 
         helm_repo: https://raw.githubusercontent.com/luisarizmendi/helm-chart-repo/main/packages
         helm_var_file: https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-configs/raw/branch/main/APPs/microshift/helm/wordpress_vars.yml

@@ -13,12 +13,12 @@
       - name: Microshift APP Deploy - Helm
         wait: true
 {% raw %}
-        organization: "Student{{ student }} Organization"
+        organization: "{{ username }} Organization"
+{% endraw %}
         extra_vars: 
             helm_repo: https://raw.githubusercontent.com/luisarizmendi/helm-chart-repo/main/packages
             helm_var_file: https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-configs/raw/branch/main/APPs/microshift/helm/wordpress_vars.yml
             helm_chart_name: wordpress
-            release_namespace: "test"
-{% endraw %}
+            release_namespace: "wordpress"
   roles:
     - /opt/eda/collections/ansible_collections/redhat_cop/controller_configuration/roles/job_launch

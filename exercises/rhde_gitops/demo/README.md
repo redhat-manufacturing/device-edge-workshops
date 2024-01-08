@@ -140,7 +140,7 @@ By configuring the edge local server as SOCKS server in our Web Browser we will 
 
   >**Note**
   >
-  > Remember to run the [Pre-flight checks](0.1-deployment/README.md.md#pre---flight-checks) which involves the SOCKS server testing before running the demo/workshop.
+  > Remember to run the [Pre-flight checks](0.1-deployment/README.md#pre-flight-checks) which involves the SOCKS server testing before running the demo/workshop.
 
 
 
@@ -160,7 +160,7 @@ The "simple HTTP server" is deployed as a Serverless container at the port `8080
 ```bash
 [ansible@edge-848bcd4d1537 ~]$ podman ps
 CONTAINER ID  IMAGE                            COMMAND     CREATED         STATUS         PORTS                          NAMES
-ef90da4894db  quay.io/luisarizmendi/2048:prod              35 minutes ago  Up 35 minutes  192.168.40.200:8081->8081/tcp  app1
+ef90da4894db  quay.io/luisarizmendi/2048:prod              35 minutes ago  Up 35 minutes  <edge device ip>:8081->8081/tcp  app1
 ```
 
 The Serverless container will be created as soon as a request comes to the port `8080`.  Bear in mind that to prevent starting pulling the container image on the first request, there is a Systemd unit pre-configured in the server that pre-pulls that image, so when you query the Serverless service you get the answer instantaneously, without having to wait to get the Container image ready on the server.
@@ -184,7 +184,7 @@ watch podman ps
 ```bash
 [ansible@edge-848bcd4d1537 ~]$ podman ps
 CONTAINER ID  IMAGE                                   COMMAND               CREATED         STATUS         PORTS                          NAMES
-ef90da4894db  quay.io/luisarizmendi/2048:prod                               36 minutes ago  Up 36 minutes  192.168.40.200:8081->8081/tcp  app1
+ef90da4894db  quay.io/luisarizmendi/2048:prod                               36 minutes ago  Up 36 minutes  <edge device ip>:8081->8081/tcp  app1
 823e10fa4a3c  quay.io/luisarizmendi/simple-http:prod  /usr/sbin/nginx -...  35 seconds ago  Up 35 seconds  127.0.0.1:8080->8080/tcp       httpd
 ```
 
@@ -204,7 +204,7 @@ This time we will be using the game app deployed on port `8081` in the edge devi
 
   >**Note**
   >
-  > Remember to run the [Pre-flight checks](0.1-deployment/README.md.md#pre---flight-checks) before demo to be sure that the 2048 container image tags are correctly set in `quay.io`.
+  > Remember to run the [Pre-flight checks](0.1-deployment/README.md#pre-flight-checks) before demo to be sure that the 2048 container image tags are correctly set in `quay.io`.
 
 2. Show a problem with the APP: an embed image is not loading:
 
@@ -241,7 +241,7 @@ Every 2.0s: podman auto-update --dry-run; echo ""; podman ps                    
             container-app1.service  1ec5693e0e3d (app1)  quay.io/luisarizmendi/2048:prod  registry    false
 
 CONTAINER ID  IMAGE                            COMMAND     CREATED         STATUS         PORTS                          NAMES
-1ec5693e0e3d  quay.io/luisarizmendi/2048:prod              34 minutes ago  Up 34 minutes  192.168.40.200:8081->8081/tcp  app1
+1ec5693e0e3d  quay.io/luisarizmendi/2048:prod              34 minutes ago  Up 34 minutes  <edge device ip>:8081->8081/tcp  app1
 ```
 
 
@@ -275,10 +275,13 @@ There is Job already created to deploy (root) container images based on a file d
   > That application needs quite large container images. If you are running the demo/workshop in an environment with low bandwidth you might use any other container image that you know would work better.
 
 
-2. Here you have two options. First you can go into the AAP and run the Job "Create Quadlet APP" or you can change something (for example, change the port) on the descriptor on Gitea and see how EDA gets the Job launched for you. If you choose the second option remember to open first the "Jobs" page in the AAP so people can see how the Job is auto-launched. 
+2. Here you have two options. First you can go into the AAP and run the Template "Create Quadlet APP" or you can change something (for example, change the port) on the descriptor on Gitea and see how EDA gets the Job launched for you. If you choose the second option remember to open first the "Jobs" page in the AAP so people can see how the Job is auto-launched. 
 
+  >**Note**
+  >
+  > You can also open a Terminal in the edge device and run `watch podman ps` command as root and keep that CLI visible to check how the new Containers created right after running the AAP Template or changing the file in Gitea.
 
-3. Go the edge device Terminal and as the root user (this time we deployed a root container in contrast with all the rest of containers that were rootless) check the running containers:
+3. Go to the edge device Terminal and as the root user (this time we deployed a root container in contrast with all the rest of containers that were rootless) check the running containers:
 
 ```bash
 [root@edge-848bcd4d1537 ~]# podman ps
@@ -292,10 +295,78 @@ a164ed35c012  docker.io/frangoteam/fuxa:latest  npm start   17 seconds ago  Up 1
 
 ### APPs with Microshift
 
+Before starting this section is a good idea to double-check that Microshift is running by reviewing if all pods are in "running state". As root user in the edge device run:
+
+```bash
+[root@edge-848bcd4d1537 ~]# oc --kubeconfig /var/lib/microshift/resources/kubeadmin/kubeconfig get pod --all-namespaces
+NAMESPACE                  NAME                                       READY   STATUS    RESTARTS       AGE
+kube-system                csi-snapshot-controller-85cc4fd76b-v2hp8   1/1     Running   0              168m
+kube-system                csi-snapshot-webhook-869fcd59f8-ljrs8      1/1     Running   0              168m
+openshift-dns              dns-default-5wk47                          2/2     Running   0              164m
+openshift-dns              node-resolver-s87rt                        1/1     Running   0              168m
+openshift-ingress          router-default-7bf6cc7bbd-rnfx8            1/1     Running   0              168m
+openshift-ovn-kubernetes   ovnkube-master-vpgbf                       4/4     Running   1 (164m ago)   168m
+openshift-ovn-kubernetes   ovnkube-node-czhfw                         1/1     Running   2 (164m ago)   168m
+openshift-service-ca       service-ca-585c8dc78-bzbmd                 1/1     Running   0              168m
+openshift-storage          topolvm-controller-6457fbcd6c-ld9sz        5/5     Running   0              168m
+openshift-storage          topolvm-node-62sbm                         4/4     Running   0              164m
+test                       test-hello-f9974746-52fjv                  1/1     Running   0              168m
+```
+
+  >**Note**
+  >
+  > Microshift, which is a Kubernetes node, will rely on a wildcard domain name to publish the APPs. Since the edge device IP is not fixed by the playbooks we don't setup any DNS entry on the edge local server. The easiest way to obtain a wildcard for this demo is by using the [nio.ip](http://nio.io) service which resolves to the IP that you use as a prefix on the domain name (so `http://1.1.1.1.nip.io` will resolve to `1.1.1.1`). As you can see there is already a deployed test app that you can check on `http://test.apps.<edge device ip>.nip.io` on the Web Browser with the SOCKS proxy configured..
 
 
+### Deploy an APP on Microsift from Manifest files on Gitea
+
+1. Go to `device-edge-configs/APPs/microshift/manifest` in Gitea. There you will find example manifest files that you can use to deploy the 2048 Web Browser application on top Microshift. Show the files.
+
+2. Go to the edge device and as root user run `watch "oc --kubeconfig /var/lib/microshift/resources/kubeadmin/kubeconfig get pod --all-namespace"`. Keep the terminal visible to show how new PODs are created while proceeding with the steps below.
+
+3. Again two options: Launch manually the Template "Microshift APP Deploy - Manifest" or change something on those Manifest files (ie. adding `demo: gitops` label on the deployment.yaml) to use EDA (again, if you choose this option let visible the AAP "Jobs" list while pushing your change in Gitea). 
+
+4. Once you see the new POD "Running" (namespace `game2048`) on the edge device CLI Terminal running `watch` you can show the application using the Web Browser with the SOCKS proxy configured at `http://frontend-game2048.apps.<edge device ip>.nip.io`
 
 
+In the manifest `deployment.yaml` file you can see how we are using the 2048 app `v1`, the one with the problem (image not loading). You can take advantage of that and show how to perform a day-2 action: update the image version, but just changing it on the manifest on Gitea.
+
+1. Be sure that you have AAP "Jobs" and the edge device CLI Terminal running `watch` visible.
+
+2. Open the `device-edge-configs/APPs/microshift/manifest/2-deployment.yml` in Gitea and change the image tag from `v1` to `v3` (remember that `v2` does not work).
+
+3. Wait until the new POD is running (you can see it on the CLI running `watch`)
+
+4. Clear the cache of the Web Browser where SOCKS proxy is configured (or use Private/Incognito mode) and open again the 2048 game app. This time the image will be loaded since we are using the new version.
+
+
+### Deploy an APP on Microsift with external Helm repo and vars file on Gitea 
+
+Now we are going to deploy an APP on Microshift by using Helm from AAP and by gathering the vars from a file hosted in Gitea.
+
+1. Be sure that you have AAP "Jobs" and the edge device CLI Terminal running `watch` visible.
+
+2. Open `device-edge-configs/APPs/microshift/helm/wordpress_vars.yml` where you will find the definition of the variables for a Helm Chart that deploys `Wordpress`.
+
+3. Either change something in that file (ie. the `wordpressBlogName`) or launch manually the AAP Template "Microshift APP Deploy - Helm" to get installed the APP on the edge device
+
+  >**Note**
+  >
+  > The Helm Chart repo (`https://raw.githubusercontent.com/luisarizmendi/helm-chart-repo/main/packages`) and Chart (the one that deploys `Wordpress`) are defined on the variables associated to the AAP Template. This is just an example for the demo, in production there might be better ways to do it, more if you use many different Helm Charts.
+
+4. Wait until the PODs are running and show the APP on the Web Browser with the SOCKS proxy configured at `http://wordpress-wordpress.apps.<edge device ip>.nip.io`
+
+Now you can show how to modify the APP by just changing the values on the Gitea.
+
+1. Be sure that you have AAP "Jobs" and the edge device CLI Terminal running `watch` visible.
+
+2. Open `device-edge-configs/APPs/microshift/helm/wordpress_vars.yml` and change the `replicaCount` number
+
+3. Wait and see how that number of replicas is deployed on Microshift.
+
+  >**Note**
+  >
+  > That will be the replicaCount of just the Wordpress frontend, the mysql database will keep one single replica.
 
 ## Section 5 - Bulletproof system upgrades
 TBD
