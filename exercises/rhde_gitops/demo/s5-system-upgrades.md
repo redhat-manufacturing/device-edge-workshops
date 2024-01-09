@@ -189,7 +189,7 @@ If you follow the CLI option, you can run `sudo rpm-ostree upgrade` as root user
   >
   > Ostree images work like your IOS or Android phones, where you reboot to use a new upgraded image, so we will need to reboot our system. 
 
-No matter if you are using the AAP Job or the CLI, before performing the upgrade be sure that you are showing the edge device Console terminal to see the device booting. This terminal is not an SSH terminal but the actual video output of the system. If you are using VMs for your demo/workshop you can do it just by opening the VM's console but if you are using physical servers you will need either an external screen connected to your device or a Video Capture Card (as the one shown in the [Recommended Hardware Section](README.md#recommended-hardware)) to show the output on your laptop.
+No matter if you are using the AAP Job or the CLI, before performing the upgrade be sure that you are showing the edge device Console terminal to see the device booting. This terminal is not an SSH terminal but the actual video output of the system. If you are using VMs for your demo/workshop you can do it just by opening the VM's console but if you are using physical servers you will need either an external screen connected to your device or a Video Capture Card (as the one shown in the [Recommended Hardware Section](README.md#recommended-hardware) to show the output on your laptop.
 
 
 

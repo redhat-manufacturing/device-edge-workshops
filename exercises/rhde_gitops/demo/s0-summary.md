@@ -14,7 +14,10 @@
     11. Open the ostree-repo contents published, including `student-kickstarts` and the `student-repos` directories.
 
 2. Section 2 - Automated device onboarding
-    1. Bo
+    1. Open the "Jobs" page in the AAP and keep it visible while performing the following steps.
+    2. Boot the edge server from Network and select the right Image in the PXE menu
+    3. Wait until the server bootsand review the Workflow Jobs in AAP
+    4. SSH into the edge device and explain how AAP auto-registration is done
 
 3. Section 3 - Consistent edge device configuration at scale
     - Configuration consistency across all devices
