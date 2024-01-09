@@ -129,7 +129,7 @@ There is Job already created to deploy (root) container images based on a file d
   > That application needs quite large container images. If you are running the demo/workshop in an environment with low bandwidth you might use any other container image that you know would work better.
 
 
-2. Here you have two options. First you can go into the AAP and run the Template "Create Quadlet APP" or you can change something (for example, change the port) on the descriptor on Gitea and see how EDA gets the Job launched for you. If you choose the second option remember to open first the "Jobs" page in the AAP so people can see how the Job is auto-launched. 
+2. Here you have two options. First you can go into the AAP and run the Template "Create Quadlet APP" or you can change something (for example, change the port where it is published on the host, from `PublishPort=1881:1881`to `PublishPort=1882:1881`) on the descriptor on Gitea and see how EDA gets the Job launched for you. If you choose the second option remember to open first the "Jobs" page in the AAP so people can see how the Job is auto-launched. 
 
   >**Note**
   >
