@@ -7,17 +7,30 @@
     1. Bo
 
 3. Section 3 - Consistent edge device configuration at scale
-    1. Bo
+    - Configuration consistency across all devices
+        1. Show that sudo is not asking for a password by running `sudo cat /etc/hosts` on the edge device
+        2. Open "Jobs" page in AAP and keep it visible while performing the next step
+        3. Change the `device-edge-configs/OS/sudoers` file in Gitea to force sudo to ask for a password
+        4. Review Jobs running in AAP
+        5. Check that `/etc/sudoers` in the edge device has the desired configuration
+        6. Show how now `sudo cat /etc/hosts` command ask for a password
+
+    - Preventing manual configuration overwrite
+        1. Open an SSH Terminal in the edge device as root user and keep the "Jobs" page in AAP visible while performing the next step
+        2. Overwrite manually the `/etc/sudoers` file and remove password authentication again
+        3. Show how the "Configure Edge Device" Workflow Job is being launched automatically in AAP
+        4. Run `cat /etc/sudoers` in the edge device to check that you have the "right" configuration back 
+        5. Show the Python script that monitors file changes in `/etc/` with `cat /usr/local/bin/watch_etc.py`
 
 4. Section 4 - Edge computing APPs lifecycle management
 
     - APPs with Podman and Systemd
 
         - Serverless APP with Podman and Systemd
-            1. Run `podman ps`
-            2. Run `watch podman ps`
+            1. Run `podman ps` on the edge device
+            2. Run `watch podman ps` on the edge device
             3. Visit `http://<edge device IP>:8080` from your laptop
-            4. Show what happened in the terminal where `watch podman ps`
+            4. Show what happened in the `watch podman ps` terminal
             5. Wait 90 seconds and show how the Container is stopped automatically
 
         - Podman container image auto-update
