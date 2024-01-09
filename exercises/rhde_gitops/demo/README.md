@@ -15,6 +15,7 @@ GitOps principles enable a seamless and auditable approach to infrastructure and
   - [Required connectivity](#required-connectivity)
   - [Recommended Hardware](#recommended-hardware)
   - [Pre-recorded video](#pre-recorded-video)
+- [Lab deployment and demo steps](#lab-deployment-and-demo-steps)
   - [Preparation - Deployment and Pre-Flight Checks](#preparation---deployment-and-pre-flight-checks)
   - [Summary and demo step guide](#summary-and-demo-step-guide)
   - [Introduction](#introduction)
@@ -28,7 +29,7 @@ GitOps principles enable a seamless and auditable approach to infrastructure and
 
 ## Demo duration
 
-The demo can take between 90 and 120 minutes (closer to 120 min.) with no breaks. If you have time, a break after each main section is recommended. 
+The demo takes at least 120 minutes with no breaks. If you have time, a break after each main section is recommended. 
 
 
 ## Lab Architecture
@@ -80,11 +81,15 @@ You can [take a look at this video](https://youtu.be/XCtfy7AqLLY) where you can 
   > The demo steps below have some differences with the video due to the addition of Microshift. First the order of the sections `Consistent edge device configuration at scale` and `Edge computing APPs lifecycle management` are swapped in order to give more time to Microshift to start. Second, in the section `Edge computing APPs lifecycle management` additional steps relative to Microshift were introduced.
 
 
+
+# Red Hat Device Edge GitOps Lab deployment and demo steps
+
+
 ## Preparation - Deployment and Pre-Flight Checks
 
 You can find the steps to deploy the lab here:
 
-* [Lab deployment](0.1-deployment)
+* [Lab deployment](lab-deployment.md)
 
 
 
@@ -188,7 +193,7 @@ By configuring the edge local server as SOCKS server in our Web Browser we will 
 
   >**Note**
   >
-  > Remember to run the [Pre-flight checks](0.1-deployment/README.md#pre-flight-checks) which involves the SOCKS server testing before running the demo/workshop.
+  > Remember to run the [Pre-flight checks](lab-deployment.md#pre-flight-checks) which involves the SOCKS server testing before running the demo/workshop.
 
 
 ### APPs with Podman and Systemd
