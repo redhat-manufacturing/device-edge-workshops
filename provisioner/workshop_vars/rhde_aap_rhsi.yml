@@ -155,32 +155,19 @@ images_to_compose:
       - nano
       - NetworkManager-wifi
       - podman
-      - microshift
       - cockpit
+      - skupper-cli
+      - openshift-clients
     customizations:
-      files:
-        - path: /etc/systemd/system/deploy-pull-secret.service
-          mode: '0644'
-          user: root
-          group: root
-          data: "[Unit]\nDescription=Deploy pull secret\n\n[Service]\nType=oneshot\nExecStart=/bin/bash /etc/deploy-pull-secret.sh\nRemainAfterExit=yes\n\n[Install]\nWantedBy=multi-user.target"
-        - path: /etc/deploy-pull-secret.sh
-          mode: '0755'
-          user: root
-          group: root
-          data: "#!/bin/bash\n\n/usr/bin/echo '{{ pull_secret | ansible.builtin.b64encode }}' | base64 -d > /etc/crio/openshift-pull-secret"
       firewall:
         ports:
-          - '6443:tcp'
           - '9090:tcp'
       services:
         enabled:
-          - microshift
-          - deploy-pull-secret
           - cockpit.socket
     rhsm_repos:
-      - "rhocp-4.13-for-rhel-{{ ansible_distribution_major_version }}-{{ ansible_architecture }}-rpms"
-      - "fast-datapath-for-rhel-{{ ansible_distribution_major_version }}-{{ ansible_architecture }}-rpms"
+      - service-interconnect-1-for-rhel-{{ ansible_distribution_major_version }}-x86_64-rpms
+      - "rhocp-4.14-for-rhel-{{ ansible_distribution_major_version }}-x86_64-rpms"
 image_builder_http_port: 11080
 
 skip_builder_services: true
