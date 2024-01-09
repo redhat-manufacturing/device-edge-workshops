@@ -1,10 +1,5 @@
 # Summary and demo step guide
 
-
-
-0. Introduction
-    1. De
-
 1. Section 1 - Creating RHEL Images the GitOps way
     1. De
 
@@ -62,7 +57,18 @@
             6. Wait and see how that number of replicas is deployed on Microshift
 
 5. Section 5 - Bulletproof system upgrades
-    1. Bo
 
-6. Closing
-    1. Bo
+    1. Check that there are no pending upgrades with `watch "rpm-ostree upgrade --preview"`
+    2. Modify the `builder_compose_pkgs` in the image definition by removing `python-inotify` and adding `zsh`
+    3. Show the Image Creation Workflow in AAP
+    4. Explain Greenboot meanwhile the image is created and show the `01-check-packages.sh` script
+    5. Publish the new image in AAP
+    6. Check the upgrade availability with `rpm-ostree upgrade --preview` in the edge system
+    7. Perform the upgrade by either running `rpm-ostree upgrade` and rebooting using the CLI or by launching the "	OSTree Upgrade" Job Template in AAP
+    8. Watch the system console while the edge device tries to boot the new system image (and how to finally it fallbacks to the previous image)
+    9. Show the "Upgrade Failed" message in Slack
+    10. SSH to the edge device and review Greenboot and Journal messages
+    11. Show with `rpm-ostree upgrade --check` that we still have pending the upgrade
+    12. Create and publish the new Image by modifying the Image description in Gitea adding again the `python-inotify` package.
+    13. Perform again the upgrade and check that this time the system is able to complete it.
+

@@ -6,7 +6,7 @@ In this section we will modify the image that we created in Section 1 by removin
   >
   > We will remove (intentionally) some of the packages that are, in fact, needed to make the manual overwrite prevention system that we have seen in Section 3 work (such as `python3-inotify`). We will do it in order to demonstrate how the system will realize that we made a mistake excluding those packages and how it will rolback to the previous image version were those packages were present.   
 
-1. Open a Terminal en the edge system and run ` watch "rpm-ostree upgrade --preview"` command as root to verify that there are no system updates available and to watch changes while we publish the new image in the following steps. Keep this CLI Terminal visible.
+1. Open a Terminal en the edge system and run `watch "rpm-ostree upgrade --preview"` command as root to verify that there are no system updates available and to watch changes while we publish the new image in the following steps. Keep this CLI Terminal visible.
 
 
 ```bash
@@ -17,9 +17,7 @@ Note: --check and --preview may be unreliable.  See https://github.com/coreos/rp
 No updates available
 ```
 
-2. Open `device-edge-images/production-image-definition.yaml` in Gitea and review the `builder_compose_pkgs` packages
-
-3. Remove the `python3-inotify` packages and include an additional one (ie. `zsh`)
+2. Open `device-edge-images/production-image-definition.yaml` in Gitea and review the `builder_compose_pkgs` packages. Remove the `python3-inotify` packages and include an additional one (ie. `zsh`), so we are simulating that someone wants to add a package but, when he reviews the image definition, he thinks that the `python3-inotify` package can be safely removed (which is not the case) too.
 
 ```bash
 ---
@@ -61,14 +59,14 @@ builder_compose_customizations:
   > You can find Blueprints for versions v2 and v3 on `device-edge-images/examples` in Gitea. 
 
 
-4. As soon as you change the image definition you can open the AAP and show the Workflow running in the "Jobs" page which will use the Image Builder service to create the new Red Hat Device Edge.
+3. As soon as you change the image definition you can open the AAP and show the Workflow running in the "Jobs" page which will use the Image Builder service to create the new Red Hat Device Edge.
 
   >**Note**
   >
   > Again, this can take a while depending on the machine resources.
 
 
-5. Meanwhile the image is being created, open a new CLi terminal in the edge device as root user and show the Greenboot scripts and configuration files in `ls /etc/greenboot/`. There you will see how Greenboot configuration has mainly 4 different parts:
+4. Meanwhile the image is being created, open a new CLi terminal in the edge device as root user and show the Greenboot scripts and configuration files in `ls /etc/greenboot/`. There you will see how Greenboot configuration has mainly 4 different parts:
 
 * `greenboot.conf` configuration file where we can setup, for example, the number of boot attempts before marking a system as failed
 * scripts under `green.d` directory that are executed when a sucesfull upgrade is completed
@@ -102,12 +100,12 @@ echo "python3-inotify is installed."
 You can also show that there is an additional script (`01-slack-notification.sh`) configured in Gitea under `red.d` which will send a message to Slack in case of a system upgrade failure.
 
 
-6. Check "Jobs" page in AAP until the "Compose Image" Job finish. Then click the "New Edge Device Image" Workflow Job, click the "Publish Image Approval" box and finally click on "Approve" (button left) to let the workflow progress
+5. Check "Jobs" page in AAP until the "Compose Image" Job finish. Then click the "New Edge Device Image" Workflow Job, click the "Publish Image Approval" box and finally click on "Approve" (button left) to let the workflow progress
 
 ![Image workflow](../images/rhde_gitops_image-workflow.png)
 
 
-7. Once the Worflow has finished publishing the new image, you will see in the edge device opened CLI Terminal that there was a change indicating that there is an upgrade available. If you want to have a better view just close the `watch` command and directly run `rpm-ostree upgrade --preview`. That will show the changes introduced with that new version.
+6. Once the Worflow has finished publishing the new image, you will see in the edge device opened CLI Terminal that there was a change indicating that there is an upgrade available. If you want to have a better view just close the `watch` command and directly run `rpm-ostree upgrade --preview`. That will show the changes introduced with that new version.
 
   >**Note**
   >
@@ -182,7 +180,7 @@ AvailableUpdate:
 
  ```
 
-8. You have two options now. You can perform the upgrade manually from that same edge device CLI terminal, or you can use the pre-configured "OSTree Upgrade" Workflow Template in AAP that will upgrade all devices contained in the inventory (in our case just one...). If you choose to run manually the Template, a new Workflow Job will be launched. It will execute the "Run command" Job and then wait for "Reboot approval". 
+7. You have two options now. You can perform the upgrade manually from that same edge device CLI terminal, or you can use the pre-configured "OSTree Upgrade" Workflow Template in AAP that will upgrade all devices contained in the inventory (in our case just one...). If you choose to run manually the Template, a new Workflow Job will be launched. It will execute the "Run command" Job and then wait for "Reboot approval". 
 
 If you follow the CLI option, you can run `sudo rpm-ostree upgrade` as root user in the edge system and that will download the system image changes. Then you will need to reboot your system (`systemctl reboot`) to move the system to the new image version. 
 
@@ -195,7 +193,7 @@ No matter if you are using the AAP Job or the CLI, before performing the upgrade
 
 
 
-9. Once you launch the reboot, you will see in the Console output this behaviour:
+8. Once you launch the reboot, you will see in the Console output this behaviour:
 
   1. System shutdown
   2. System boots and chooses `ostree:0` on the Brub menu. That means that it selects the most recent version of the OSTree image, so the one recently published.
@@ -209,12 +207,12 @@ No matter if you are using the AAP Job or the CLI, before performing the upgrade
   5. This time the system will rollback to the previous image (`ostree:1` in our case) where the `python-inotify` package was available, so this time the Greenboot scripts won't fail and the reboot won't be trigger again.
 
 
-10. You can show how the `01-slack-notification.sh` script located in the `red.d` greenboot directory was executed by showing the messages in your Slack channel.
+9. You can show how the `01-slack-notification.sh` script located in the `red.d` greenboot directory was executed by showing the messages in your Slack channel.
 
 ![Slack upgrade fail](../images/rhde_gitops_slack_update.png)
 
 
-11. After the third boot SSH to the edge device again and show the warning message that says that a fallback action was taken in the system:
+10. After the third boot SSH to the edge device again and show the warning message that says that a fallback action was taken in the system:
 
 
 ```bash
@@ -228,7 +226,7 @@ Script '01-check-packages.sh' FAILURE (exit code '1'). Continuing...
 
 You can also check the Journal and show the errors with this command: `journalctl | grep 01-check-packages.sh | grep Error`
 
-12. Show how the system still detects that there is a system upgrade with `rpm-ostree upgrade --check`, because we are actually using the "old image":
+11. Show how the system still detects that there is a system upgrade with `rpm-ostree upgrade --check`, because we are actually using the "old image":
 
 
 ```bash
@@ -245,7 +243,7 @@ AvailableUpdate:
   >
   > This output is for `rpm-ostree upgrade --check` not `rpm-ostree upgrade --preview`. The difference is that with `--check` we hide the package change datails
 
-13. Do not perform again the upgrade since you will hit the same behaviour, first create a third image where we add `zsh` but keep `python-inotify` using this Blueprint:
+12. Do not perform again the upgrade since you will hit the same behaviour, first create a third image where we add `zsh` but keep `python-inotify` using this Blueprint:
 
 
 ```bash
@@ -284,7 +282,7 @@ builder_compose_customizations:
     enabled: ["80/tcp", "443/tcp", "6443/tcp"]
 ```
 
-14. After creating and publishing the new image perform the system upgrade again (either with the CLI on the edge device or using the "	OSTree Upgrade" Job in AAP) and show how this time the system was sucesfully upgraded.
+13. After creating and publishing the new image perform the system upgrade again (either with the CLI on the edge device or using the "	OSTree Upgrade" Job in AAP) and show how this time the system was sucesfully upgraded.
 
 
 
