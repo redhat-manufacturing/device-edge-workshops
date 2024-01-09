@@ -381,6 +381,7 @@ additional_repos:
     directories:
 #      - OS/greenboot/check/required.d
 #      - OS/greenboot/red.d
+      - OS/
       - APPs/podman/quadlet
       - APPs/microshift/manifest
       - APPs/microshift/helm

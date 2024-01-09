@@ -44,24 +44,43 @@ AAP does not bring out of the box any "agent" that could be installed in the edg
 
 During the next steps we will see an example where we created a python script that monitors changes in `/etc/` and if it detects any, it will inform AAP, who will enforce again the desired configuration file, overwritting the manually configured changes.
 
-1. 
+1. Open an SSH Terminal in the edge device as root user and keep the "Jobs" page in AAP visible while performing the next step.
+
+2. Edit the `sudoers` file with `vi /etc/sudoers` command and revert the change made while demonstrating "Configuration consistency across all devices" in the step 3. The file will have this content in the file:
+
+```bash
+...
+## Allows people in group wheel to run all commands
+#%wheel  ALL=(ALL)       ALL
+
+## Same thing without a password
+%wheel        ALL=(ALL)       NOPASSWD: ALL
+...
+```
+
+
+3. Few seconds after that change you will see that a new "" Job is being launched automatically in AAP. That Job will put the right configuration in our device again.
+
+
+4. After the Job completion, use your SSH Terminal in the edge device to check the `sudoers` file with the `cat /etc/sudoers` and see how the "right" configuration is back in place.
+
+  >**Note**
+  >
+  > 
+
+5. (optional) If you want to show the magic behind you can show the systemd unit and the Python scripts that is monitoring changes in `/etc/` and calling Event Driven Automation in case that it detects a change:
+
+
+```bash
+
+```
+
+
+```bash
+
+```
 
 
 
 
 
-  - Let's say that I want to enforce password authentication for sudo in our devices, at this moment the current configuration let's admins to run root commands without a password (which is not a good idea).
-
-  (show current config in device and run sudo)
-
-  Instead of configuring system by system I just change the file in the source code repository, end then a webhook will start a Job in Ansible Controller which will update the end devices configuration. Let's try it out
-
-  (make change)
-  (Show  AAP)
-  (show change in device)
-
-  - Ok, we have all our devices configured in the same way, but what happens if someone like me, with privileges, go to device and re-configure this setting manually to remove the password authentication again? well, I've configured a simple python script using inotify that monitors changes in /etc and if it detects that someone create, change or delete a file it notifies that to Ansible Controller, who will enforce again the configurations that we have in our single source of truth. Let's try this
-
-  (Make change in sudoers)
-  (Check AAP)
-  (Check reconfiguration)
