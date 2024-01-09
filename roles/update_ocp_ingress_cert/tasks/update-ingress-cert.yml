@@ -18,6 +18,19 @@
   retries: 30
   delay: 10
 
+- name: Wait for ClusterIssuer to be ready
+  ansible.builtin.shell:
+    cmd: >
+      oc get ClusterIssuer zerossl-production
+      -n cert-manager
+      -o yaml
+  register: _clusterissuer_status
+  changed_when: false
+  retries: 60
+  delay: 5
+  until:
+    - _clusterissuer_status.stdout | from_yaml | json_query('status.conditions[0].type') == 'Ready'
+
 - name: Request certificates
   redhat.openshift.k8s:
     template: templates/certificates.yaml.j2
@@ -25,3 +38,17 @@
 - name: Update ingress
   redhat.openshift.k8s:
     definition: "{{ _ingresscontroller }}"
+
+- name: Wait for certificates to be issued
+  ansible.builtin.shell:
+    cmd: >
+      oc get certificate rho-router-default
+      -n openshift-ingress
+      | grep -v ^NAME
+      | awk '{print $2}'
+  register: _certificate_status
+  changed_when: false
+  retries: 300
+  delay: 5
+  until:
+    - _certificate_status.stdout == 'True'
