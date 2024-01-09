@@ -4,11 +4,9 @@
   ansible.builtin.include_vars:
     file: "workshop_vars/{{ workshop_type }}.yml"
 
-- name: Configure subscription
-  ansible.builtin.include_role:
-    name: redhat_cop.controller_configuration.license
-  vars:
-    controller_license: "{{ controller_configuration.license }}"
+- name: Wait/configure subscription
+  ansible.builtin.include_tasks:
+    file: wait_for_controller.yml
 
 - name: Configure organizations
   ansible.builtin.include_role:
