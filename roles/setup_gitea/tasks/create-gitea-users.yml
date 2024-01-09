@@ -23,6 +23,9 @@
   when:
     - workshop_or_demo == 'workshop' or
       demo_type == 'summit_connect_2023'
+  # Added for OCP-based installs
+  retries: 300
+  delay: 10
 
 - name: Create single user for demos
   ansible.builtin.uri:
