@@ -496,7 +496,6 @@ c48dcb7aced7  workshop-rhde_gitops  Running     26 hours ago  fe4b2d9148f1  10
 $  podman ps
 CONTAINER ID  IMAGE                                    COMMAND               CREATED       STATUS        PORTS       NAMES
 fe4b2d9148f1  localhost/podman-pause:4.6.1-1701529524                        26 hours ago  Up 9 minutes              c48dcb7aced7-infra
-fa40ba18c4d7  localhost/etherpad:latest                /bin/sh -c etherp...  26 hours ago  Up 9 minutes              workshop-rhde_gitops-etherpad
 cf8327aa15cf  localhost/reverse-proxy:latest           -c chown -R nginx...  26 hours ago  Up 9 minutes              workshop-rhde_gitops-reverse-proxy
 7c2e3978afc5  localhost/eda:latest                     /bin/sh -c ansibl...  26 hours ago  Up 9 minutes              workshop-rhde_gitops-eda
 0f6ca7a5c32d  localhost/ipxe:latest                    -c exec /usr/sbin...  26 hours ago  Up 9 minutes              workshop-rhde_gitops-ipxe

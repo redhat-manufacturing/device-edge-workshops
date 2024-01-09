@@ -1,7 +1,17 @@
 # Summary and demo step guide
 
 1. Section 1 - Creating RHEL Images the GitOps way
-    1. De
+    1. Open Gitea and review the `device-edge-images` repository files
+    2. Open Gitea webhook settings
+    3. Open "Jobs" page in AAP and keep it visible
+    4. Push `production-image-definition.yml` and `production-kickstart.ks` files with the Microshift values in the `examples` directory
+    5. Show the "New Edge Device Image" Workflow at the AAP
+    6. Open the Image Builder Cockpit Web console and check that the image is being created
+    7. Describe the `production-image-definition.yml` and `production-kickstart.ks` that you used to create the image
+    8. Show the Slack notification saying that the Workflow is waiting for approval
+    9. Go to the "New Edge Device Image" workflow in AAP and Approve the Image Publishing
+    10. Show the Slack notification saying that the workflow was approved an that the image was published
+    11. Open the ostree-repo contents published, including `student-kickstarts` and the `student-repos` directories.
 
 2. Section 2 - Automated device onboarding
     1. Bo

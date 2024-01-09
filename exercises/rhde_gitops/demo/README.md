@@ -78,7 +78,7 @@ You can [take a look at this video](https://youtu.be/XCtfy7AqLLY) where you can 
 
   >**Note**
   >
-  > The demo steps below have some differences with the video due to the addition of Microshift. First the order of the sections `Consistent edge device configuration at scale` and `Edge computing APPs lifecycle management` are swapped in order to give more time to Microshift to start. Second, in the section `Edge computing APPs lifecycle management` additional steps relative to Microshift were introduced.
+  > The demo steps below have some differences with the video due to the addition of Microshift. First, the order of the sections `Consistent edge device configuration at scale` and `Edge computing APPs lifecycle management` are swapped in order to give more time to Microshift to start. Second, in the section `Edge computing APPs lifecycle management` additional steps relative to Microshift were introduced. Third, in the video the edge device was onboarded using a custom ISO, in this demo/workshop steps we are using the PXE boot approach (although you can also try out the ISO if you want).
 
 
 
@@ -112,6 +112,9 @@ To address these challenges you need highly smart automated solutions that will 
 
 During this demo/workshop will explore how to achieve this consistency using the GitOps approach and how you can simplify lifecycle management in edge locations with the help of features available in OSTree image-based RHEL systems such as Red Hat Device Edge.
 
+  >**Note**
+  >
+  > The lab creates multiple users (`student1`, `student2`,...) with the `admin_password` provided password during the lab deployment. If you are running a demo just choose one of them for the following sections.
 
 
 ## Section 1 - Creating RHEL Images the GitOps way

@@ -68,7 +68,7 @@ During the next steps we will see an example where we created a python script th
   >
   > Bear in mind that your TTY SSH Terminal session caches the sudo password, so if you perform again the test with `sudo cat /etc/hosts` command,even thought the `sudoers` file is configured to ask for a password, since the password is cached in your Terminal, it won't ask for it. You could logout and login again or open a new SSH Terminal to perform that test.  
 
-5. (optional) If you want to show the magic behind you can show Python script (`cat /usr/local/bin/watch_etc.py`) that is monitoring changes in `/etc/` and calling Event Driven Automation in case that it detects a change:
+5. (optional) If you want to show the magic behind you can show Python script (`cat /usr/local/bin/watch_etc.py`) that is monitoring changes in `/etc/` and calling Event Driven Automation in case that it detects a change. It is important to notice that this script is dependant on the package `python-inotify` since this will be relevant during "Section 5 - Bulletproof system upgrades".
 
 ```bash
 #!/usr/bin/env python3
