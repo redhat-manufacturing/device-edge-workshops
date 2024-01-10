@@ -25,7 +25,6 @@ const getCurrYear = () => {
 
 const App = () => {
   return (
-    <Router>
       <span>
         <footer className="footer">&#169; {getCurrYear()} - Red Hat</footer> 
       </span>
@@ -36,7 +35,6 @@ const App = () => {
         <Route path='/Student{{ student_number }}' element={<Overview{{ student_number }} />} />
 {% endfor %}
       </Routes>     
-    </Router>
   );
 }
 
