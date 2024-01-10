@@ -3,6 +3,7 @@
 - name: build and start local services
   hosts:
     - 'edge_management:&local'
+    - edge_local_management
   pre_tasks:
     - name: Include workshop or demo variables
       include_vars:

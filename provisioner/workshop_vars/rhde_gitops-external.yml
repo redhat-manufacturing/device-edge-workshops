@@ -18,8 +18,8 @@ route53_domains:
     domain: "eda.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
   ostree-repo:
     domain: "ostree-repo.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
-  etherpad:
-    domain: "etherpad.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
+#  etherpad:
+#    domain: "etherpad.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
   attendance:
     domain: "attendance.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
     
@@ -60,8 +60,8 @@ remote_services:
         dest: nginx.conf
         vars:
           proxied_services:
-            - name: etherpad
-              proxy_pass: "http://localhost:9001/"
+#            - name: etherpad
+#              proxy_pass: "http://localhost:9001/"
             - name: eda
               proxy_pass: "http://localhost:5000/"
 #            - name: ipxe
@@ -130,8 +130,8 @@ remote_services:
 
 
 
-  - name: etherpad
-    containerfile: etherpad-containerfile      
+#  - name: etherpad
+#    containerfile: etherpad-containerfile      
 
 remote_pods:
 
@@ -151,8 +151,8 @@ remote_pods:
       spec:
         hostNetwork: true
         containers:
-          - name: etherpad
-            image: etherpad:latest
+#          - name: etherpad
+#            image: etherpad:latest
           - name: reverse-proxy
             image: reverse-proxy:latest
           - name: eda
@@ -197,10 +197,10 @@ allowed_external_remote_services:
   - port: 9090
   - port: 3001
   - port: 8080
-  - port: 9001
   - port: 3000
   - port: 80
   - port: 443
+#  - port: 9001
 
 
 
@@ -228,8 +228,8 @@ local_services:
               address: "{{ internal_address }}"
             - record: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ edge_remote_management_ext_ip }}"
-            - record: "etherpad.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ edge_remote_management_ext_ip }}"
+#            - record: "etherpad.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+#              address: "{{ edge_remote_management_ext_ip }}"
             - record: "image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ edge_remote_management_ext_ip }}"
             - record: "gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"

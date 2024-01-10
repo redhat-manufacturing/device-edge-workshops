@@ -121,6 +121,15 @@
       become: true
       lineinfile:
         dest: /etc/hosts
+        line: "{{ edge_remote_management_ext_ip }} edge-manager-aws.local"
+      when:
+        - run_in_aws is defined
+        - run_in_aws | bool
+
+    - name: Add entries to /etc/hosts
+      become: true
+      lineinfile:
+        dest: /etc/hosts
         line: "127.0.0.1 controller-node"
       when: run_in_aws is not defined or not run_in_aws | bool
 

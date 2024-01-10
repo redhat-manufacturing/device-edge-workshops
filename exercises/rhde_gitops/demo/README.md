@@ -33,8 +33,8 @@ The demo can take between 90 and 120 minutes (closer to 120 min.) with no breaks
 
 This lab has two different setups:
 
-1. In the "local" lab architecture you will deploy a Server with all services (AAP, Gitea, Image-builder, Network services, ...) and the Edge device locally
-2. In the "external" lab architecture option you will deploy a Server running the main services (AAP, Gitea, Image-builder) on AWS and locally you will deploy an additional server (Ansible execution node and local Network services) and the Edge Device.
+1. In the "local" lab architecture you will deploy a Server with all services (AAP, Gitea, Image-builder, Network services, ...) and the Edge device locally, either in your laptop/virtualization server or in your local physical environment (when using physical servers)
+2. In the "external" lab architecture option you will deploy a Server running the main services (AAP, Gitea, Image-builder) on AWS (no other cloud providers have been configured on the Ansible playbooks that deploy this lab) and additionally, you will also deploy a local server (Ansible execution node and local Network services) and the Edge Device locally (again, either in VMs or physical servers).
 
 This is the diagram for the "local" lab architecture:
 
