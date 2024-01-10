@@ -197,6 +197,8 @@ If you choose the lab external architecture, this VM will only host the Ansible 
 
 Once you have the server VM created, you have to to deploy RHEL 9 on it (lab tested with RHEL 9.2), "minimal install". When you configure your network you don't need to configure the internal network, just the interface that will be the external (with either DHCP or static IP) since the playbooks will configure it for you.
 
+Add the `ansible` user to that server and be sure that you add it into the `sudoers` group.
+
 In addition to the server, you will need enough resources (2 cores, 2 GB RAM, 10GB disk) to create an additional VM that will act as edge device. That edge device VM will be attached with a single NIC to the isolated (with no DHCP) virtual network that you have created and where the previous server is attached to.
 
 You don't need to create the VM before the lab, you just need to have enough resources to create it during the lab steps (you can take a look at [minute 11:57 of the recorded demo video](https://www.youtube.com/watch?v=XCtfy7AqLLY&t=11m57s) to check how it will be created with `libvirt` and Virtual Machine Manager. 
@@ -308,7 +310,7 @@ all:
           hosts:
             edge-manager-local:
               ansible_host: XXX.XXX.XXX.XXX
-              ansible_user: XXXXXX 
+              ansible_user: ansible 
               ansible_password: XXXXXXXX
               ansible_become_password: XXXXXXXX
 
@@ -316,6 +318,8 @@ all:
               internal_connection: XXXXXXX # Interface name for the internal lab network
 ```
 The `ansible_host` and other variables are related to the VM/Physical server where you installed RHEL that will host the AAP + Gitea + Image Builder + Net tools in the local lab architecture or just the Net tools in the external lab architecture.
+
+The `ansible_password` and `ansible_become_password` are the credentials created for the `ansible` user that was included in the local edge manager server when you installed RHEL.
 
 The `external_connection` variable expects the Connection name that you get when running `nmcli con list` ("NAME" column) in the local edge server (so where AAP + Gitea + Image Builder + Net tools will be installed). The  `internal_connection` expects the interface name (which is the name on the "DEVICE" column in the ouput of the `nmcli con list` command). Usually the connection name is the same than the interface name, but in some cases (ie. wireless connections) the connection name is different (in that case it will be the SSID).
 
