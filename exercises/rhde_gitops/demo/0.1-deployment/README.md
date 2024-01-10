@@ -5,6 +5,7 @@
 * [Prepare your AWS environment](#prepare-your-aws-environment)
 * [Get your ZeroSSL free Account](#get-your-zerossl-free-account)
 * [Get your Red Hat Customer Portal Offline Token](#get-your-red-hat-customer-portal-offline-token)
+* [Get your AAP Setup TAR file](#get-your-aap-setup-tar-file)
 * [Get your Pull Secret](#get-your-pull-secret)
 * [Get your Slack Token](#get-your-slack-token)
 * [Get your Ansible Controller Manifest](#get-your-ansible-controller-manifest)
@@ -14,7 +15,7 @@
 * [Deploy the lab](#deploy-the-lab)
 * [If something goes wrong during the deployment...](#if-something-goes-wrong-during-the-deployment)
 * [Pre-flight checks](#pre-flight-checks)
-* [BONUS - If not enough time for your demo...](#bonus---if-not-enough-time-for-your-demo)
+* [BONUS - If there is not enough time for your demo...](#bonus---if-there-is-not-enough-time-for-your-demo)
 
 
 
@@ -58,17 +59,28 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXX
 Take note of both the KID and Key.
 
 
+
 ## Get your Red Hat Customer Portal Offline Token
 
-This token is used to authenticate to the customer portal and download software. It can be generated [here].
+This token is used to authenticate to the customer portal and download software. It can be generated [here](https://access.redhat.com/management/api).
 
   >**Note**
   >
-  >  Remember that the Offline tokens will expire after 30 days of inactivity.
-
+  >  Remember that the Offline tokens will expire after 30 days of inactivity. If your offline Token is not valid, you won't be able to download the `aap.tar.gz`. 
 
 Take note of the token.
 
+
+
+## Get your AAP Setup TAR file
+
+  >**Note**
+  >
+  > This step is optional, since in case that the file is not found, the Ansible playbooks will use the offline token to download it. Nevertheless is recomended to download it manually since from time to time the AAP releases a new minor version and then the Setup file SHA will change, preventing the playbook from downloading it (You get a `HTTP Error 403: Forbidden` error while trying to download the `aap.tar.gz` file). 
+
+You need to download the `Ansible Automation Platform Setup` (not the Setup Bundle). [Here](https://access.redhat.com/downloads/content/480/ver=2.4/rhel---9/2.4/x86_64/product-software) you can find the 2.4 version, the most recent and last version tested so far (Dec. 2023).
+
+Save your file as `aap.tar.gz`.
 
 
 
@@ -102,32 +114,35 @@ xoxp-XXXXXXXXXXXXX-XXXXXXXXXXXXX-XXXXXXXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 ## Get your Ansible Controller Manifest
 
-In order to use Automation controller you need to have a valid subscription via a `manifest.zip` file.  To retrieve your manifest.zip file you need to download it from access.redhat.com.  
+In order to use Automation controller you need to have a valid subscription via a `manifest.zip` file.  To retrieve your manifest.zip file you need to download it from access.redhat.com.
 
-- Here is a video by Colin McNaughton to help you retrieve your manifest.zip:
- [https://youtu.be/FYtilnsk7sM](https://youtu.be/FYtilnsk7sM).
-- If you need to get a temporary license, get a trial here [http://red.ht/try_ansible](http://red.ht/try_ansible).
-- Follow the following KCS on how to generate the manifest file https://access.redhat.com/solutions/5586461
+You have the steps in the [Ansible Platform Documentation](https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.4/html/red_hat_ansible_automation_platform_operations_guide/assembly-aap-obtain-manifest-files)
 
+1. Go to [Subscription Allocation](https://access.redhat.com/management/subscription_allocations) and click "New Subscription Allocation"
+
+2. Enter a name for the allocation and select `Satellite 6.8` as "Type".
+
+3. Add the subscription entitlements needed (click the tab and click "Add Subscriptions") where Ansible Automation Platform is available.
+
+4. Go back to "Details" tab and click "Export Manifest" 
 
 Save apart your `manifest.zip` file.
 
-
-
-
-
+  >**Note**
+  >
+  > If you want to check the contents of the ZIP file you will see a `consumer_export.zip` file and a `signature` inside.
 
 ## Copy the container images to your Quay account
 
 During the demo you will need to push or move tags in certain container images (take a look at [minute 25:25 in the video](https://www.youtube.com/watch?v=XCtfy7AqLLY&t=25m25s)), so you will need to have access to a container image repository. Probably you want to use Quay.io so first, check that you can login:
 
-```
+```bash
 podman login -u <your-quay-user> quay.io
 ```
 
 Once you have access to the registry, copy the container images that we will be using (those are public in my Quay.io user `luisarizmendi`). You can pull them to your laptop and then push it to your registry, or you can just use `skopeo`:
 
-```
+```bash
 skopeo copy docker://quay.io/luisarizmendi/2048:v1 docker://quay.io/<your-quay-user>/2048:v1
 skopeo copy docker://quay.io/luisarizmendi/2048:v2 docker://quay.io/<your-quay-user>/2048:v2
 skopeo copy docker://quay.io/luisarizmendi/2048:v3 docker://quay.io/<your-quay-user>/2048:v3
@@ -150,7 +165,7 @@ If you don't have it already on your machine you can [follow these steps to inst
 You will also need `git` to clone the repo in the next step and, if using VMs, a virtualization hypervisor (`libvirt` and  Virtual Machine Manager are recommended).
 
 
-You will also need to configure a SOCKS proxy to reach out to the internal services published in the edge device. What I usually do is to configure it in a separate Web Browser. The settings are:
+You will also need to configure a SOCKS proxy to reach out to the internal services published in the edge device. Remember that we will be attached to the "external network" of the local server, while the edge device will be in the internal isolated network, so for this demo we need to either connect us to that isolated environment or, easier for us, to jump into the local server to reach out to the edge server using a SOCKS proxy (already configured as part of the deployment). What I usually do is to configure it in a separate Web Browser. The settings are:
 
 
 ```
@@ -202,7 +217,7 @@ You will also need to connect the video output to a screen (or use a [Video Capt
 
 Clone the main branch of this repo:
 
-```
+```bash
 git clone https://github.com/redhat-manufacturing/device-edge-workshops
 ```
 
@@ -216,7 +231,7 @@ a. You can put the Manifest file into the `provisioner` folder of the cloned rep
 
 b. Turn the `manifest.zip` into a base64 variable and include it in the `extra-vars.yml` file (see next point):
 
-```
+```bash
 base64 manifest.zip > base64_platform_manifest.txt
 ```
 
@@ -227,7 +242,7 @@ base64 manifest.zip > base64_platform_manifest.txt
 
 c. Download the manifest.zip from a URL by specifying the following variables in the  `extra-vars.yml` file (see next point)
 
-  ```
+  ```yaml
   manifest_download_url: https://www.example.com/protected/manifest.zip
   manifest_download_user: username
   manifest_download_password: password
@@ -236,7 +251,7 @@ c. Download the manifest.zip from a URL by specifying the following variables in
 
 2) Create the `extra-vars.yml` file
 
-Copy the example extra-vars file from `<your-git-clone-path>/provisioner/example-extra-vars/rhde-gitops.yml` to the root of the project with the name extra-vars.yml (`<your-git-clone-path>/extra-vars.yml`)
+Copy the example extra-vars file from `<your-git-clone-path>/provisioner/example-extra-vars/rhde_gitops.yml` to the root of the project with the name extra-vars.yml (`<your-git-clone-path>/extra-vars.yml`)
 
 Fill in all the `XXXXX` with the right values, more specifically:
 * Domain name in `base_zone`
@@ -254,6 +269,10 @@ You can also change these values:
 * SSH public key to be injected in the server in `builder_pub_key`
 * The AAP Manifest as base64 (if you chosed this option) in `base64_manifest`
 
+  >**Note**
+  >
+  > Be sure that if you don't use variable method to include the Manifest (ie. if you are using directy the file as shown in the method "a") you have to have the `base64_manifest` var commented out. Keep the variable "undefined" in order to make direct use of the file (`base64_manifest: ""` does not work because it will overwrite your `manifest.zip` converting it into a 0 bit file, so be sure to undefine the var).
+
 You also need to configure an important parameter here, that will deploy either the local or external architecture. If you want to run the local architecture you should configure `run_in_aws: false` and if you want in contrast to deploy the lab external architecture this variable should be `run_in_aws: true` 
 
 
@@ -261,19 +280,22 @@ You also need to configure an important parameter here, that will deploy either 
 
 Besides the variables in `extra-vars.yml` the deployment will use morevariables that can be found in `<your-git-clone-path>/provisioner/workshop_vars/rhde-gitops.yml`. Those variables are slightly different depending if you are deploying the local architecture or the external architecture.
 
-To make it easier, two different workshop_var files have been created, you just need to copy the right one into the `rhde-gitops.yml` file, so if you want to run the local architecture:
+The `rhde-gitops.yml` file does not exist in the repo, and you will need to create it by copying the right file depending if you want to use the local or the external lab architecture.
 
-```
-cp <your-git-clone-path>/provisioner/workshop_vars/rhde-gitops-local.yml <your-git-clone-path>/provisioner/workshop_vars/rhde-gitops.yml
+For local lab architecture:
+
+
+```bash
+cp <your-git-clone-path>/provisioner/workshop_vars/rhde_gitops-local.yml <your-git-clone-path>/provisioner/workshop_vars/rhde_gitops.yml
 ```
 
 and if you choose the external architecture:
 
-```
+```bash
 cp <your-git-clone-path>/provisioner/workshop_vars/rhde-gitops-external.yml <your-git-clone-path>/provisioner/workshop_vars/rhde-gitops.yml
 ```
 
-You don't have to customize any value in that file, except if you ahve any conflict while using physical servers with the internal (isolated) IP range used (by default the 192.168.40.0/24 ). 
+You don't have to customize any value in that file, except if you have any conflict while using physical servers with the internal (isolated) IP range used (by default the 192.168.40.0/24 ). Remember that as part of the deployment, the Ansible Playbooks will configure the secondary NIC interface in the local server (the one connected to the "isolated network") and add there a DHCP server as well. That network will use the values from this `workshop_vars/rhde-gitops.yml` file, so if you plan to use physical hardware and you have to connect the external server interface to an 192.168.40.0/24 network (ok, that would be a really bad luck) there will be an overlap between the internal an external interfaces because you will be using the same network in bouth... then is the case where you will need to change this network default value in `workshop_vars/rhde-gitops.yml`.   
 
 
 4) Create the local inventory file
@@ -282,7 +304,7 @@ You have to create an inventory file in `<your-git-clone-path>/local-inventory.y
 
 If you are using the local architecture:
 
-```
+```yaml
 all:
   children:
     local:
@@ -290,19 +312,23 @@ all:
         edge_management:
           hosts:
             edge-manager-local:
-  vars:
-    ansible_host: XXX.XXX.XXX.XXX
-    ansible_user: XXXXXX 
-    ansible_password: XXXXXXXX
-    ansible_become_password: XXXXXXXX
+              ansible_host: XXX.XXX.XXX.XXX
+              ansible_user: XXXXXX 
+              ansible_password: XXXXXXXX
+              ansible_become_password: XXXXXXXX
 
-    external_connection: XXXXXX # Connection name for the external connection
-    internal_connection: XXXXXXX # Interface for the internal lab network
+              external_connection: XXXXXX # Connection name for the external connection
+              internal_connection: XXXXXXX # Interface name for the internal lab network
 ```
 
-If you are using the external architecture (where `edge_management` has been changed by `edge_local_management` ):
+  >**Note**
+  >
+  >  The `external_connection` variable expect the Connection name that you can get connecting to the local server and running `nmcli con list` ("NAME" column) while the  `internal_connection` expects the interface name (which is the name on the "DEVICE" column in the ouput of the `nmcli con list` command). Usually the connection name is the same than the interface name, but in some cases (ie. wireless connections) the connection name is different (in that case it will be the SSID).
 
-```
+
+If you are using the external lab architecture (where `edge_management` has been changed by `edge_local_management` ):
+
+```yaml
 all:
   children:
     local:
@@ -310,20 +336,22 @@ all:
         edge_local_management:
           hosts:
             edge-manager-local:
-  vars:
-    ansible_host: XXX.XXX.XXX.XXX
-    ansible_user: XXXXXX 
-    ansible_password: XXXXXXXX
-    ansible_become_password: XXXXXXXX
+              ansible_host: XXX.XXX.XXX.XXX
+              ansible_user: XXXXXX 
+              ansible_password: XXXXXXXX
+              ansible_become_password: XXXXXXXX
 
-    external_connection: XXXXXX # Connection name for the external connection
-    internal_connection: XXXXXXX # Interface for the internal lab network
+              external_connection: XXXXXX # Connection name for the external connection
+              internal_connection: XXXXXXX # Interface name for the internal lab network
 ```
 
   >**Note**
   >
   >  Even thought in the external architecture you will have the local "server" and the one running in AWS, you will only need to include the local one, since the inventory for the remote server will be created dynamically once the deployment playbooks create the VM in EC2. 
 
+
+
+5) Move your `aap.tar.gz` file to `<your-git-clone-path>/provisioner/aap.tar.gz`. Remember that this step is optional but highly recomended.
 
 
 
@@ -333,16 +361,16 @@ In order to deploy you just need to:
 
 1. Open a bash CLI in `<your-git-clone-path>`
 
-2. Export the AWS credentials (I use to include them in `extra-vars.yml` file as reference as well)
+2. Export the AWS credentials (I use to include them in `extra-vars.yml` file as reference as well). Remember to do this again if you open a new bash interpreter before running the Ansible playbooks if you don't include these exports as part of basrc. 
 
-```
+```bash
 export AWS_ACCESS_KEY_ID=XXXXXXXXXXXXXXXXXXXXXX
 export AWS_SECRET_ACCESS_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
 
 3. Run the playbooks with `ansible-navigator`:
 
-```
+```bash
 ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.yml --extra-vars @extra-vars.yml -vvvv
 ```
 
@@ -352,6 +380,14 @@ ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.
 
 ## If something goes wrong during the deployment...
 
+
+  >**Note**
+  >
+  > If you deployed the external lab architecture, you can find the AWS VM IP by just resolving any of the main services, for example controller.<sub_domain>.<base_zone>. If you need to jump into the AWS server you can go to `<your-git-clone-path>/provisioner/<sub_domain>.<base_zone>` directory and use the SSH private key (`ssh-key.pem`) that you will find with the `ec2-user` user there by running a command like `ssh -i <your-git-clone-path>/provisioner/<sub_domain>.<base_zone>/ssh-key.pem ec2-user@controller.<sub_domain>.<base_zone>`.
+
+I've seen that sometimes, depending on the DNS servers that you have in your laptop/servers (if you can, configure your DHCP to configure the AWS DNS servers for this lab), the "populate-xxx" playbooks fail because the server does not find the new domain names configured in AWS (because it could take some time to refresh on your DNS server to get the new values). In order to solve this I use to either configure the static entries in my laptop when running VMs or configure them on the physical Router when using physical hardware, so I'm sure those will be ready when the automation reaches the populate-XXX playbooks (so I don't need to wait for the DNS refresh). 
+
+
 Sometimes due to the limited VM resources, the physical Hardware odds, network connectivity or the "Demo Gods" the deployment fails. Do not panic, if you followed the previous steps and have the right variables in place the first thing that you should do is to re-launch the deployment, that probably will do the trick...
 
   >**Tip**
@@ -360,35 +396,57 @@ Sometimes due to the limited VM resources, the physical Hardware odds, network c
 
 If re-deployment does not work and you don't find the issue, try to start over from scratch by re-installing RHEL on the server and, if using the external architecture, by running the following playbook that will delete the EC2 instance in AWS:
 
-```
+```bash
 ansible-navigator run provisioner/teardown_lab.yml --inventory local-inventory.yml --extra-vars @extra-vars.yml -vvv
+```
+
+Lastly, if you are re-using VMs or Hardware, you might find that when you re-install the RHEL Operating System in the servers (ie. after completing a demo/workshop), the system UUID will change, and thus you laptop won't be able to ssh to it due to an SSH validation mismatching (you will find the error in the `wait for all nodes to have SSH reachability` step). You can check if that's the case by trying to ssh to the server, if you have this issue you will find a message like this one:
+
+```bash
+$ ssh ansible@192.168.140.202
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+```
+
+In order to solve it just remove the old hash by running:
+
+```bash
+ssh-keygen -R <server ip>
 ```
 
 
 ## Pre-flight checks
 
-Go (`ssh ansible@<ip>`) to the server where AAP, Gitea, ... are deployed, so either the local server or the server deployed in AWS (external lab architecture) and check:
+These pre-flight checks should be performed just right after the deployment. You can also use them to double-check that everything is ok before your demo...
 
-  >**Note**
-  >
-  > If you deployed the external lab architecture, you can find the AWS VM IP by just resolving any of the main services, for example controller.training.sandbox<your-number>.opentlc.com. If you need to jump into the AWS server you can go to `<your-git-clone-path>/provisioner/inventory` and use the SSH keys that you will find there.
+### Both local and external lab architectures
 
+Go (`ssh ansible@<ip>`) to the server where AAP, Gitea, ... are deployed. In case that you have two servers, so when using external lab architecture, the server running those services is the one in AWS). 
+
+Check:
 
 * SOCKS proxy:
 
 Check if the service is listening in port 1080 (be sure that is 1080 and not just 11080)
 
-```
-[ansible@edge-manager-local ~]$ ss -ltn | grep 1080
+```bash
+$ ss -ltn | grep 1080
 LISTEN 0      128          0.0.0.0:1080       0.0.0.0:*          
 LISTEN 0      511                *:11080            *:*          
 LISTEN 0      128             [::]:1080          [::]:*  
 ```
 
-If not, run this command and check it again:
+If not, run this command in the local server if you are using the local architecture:
 
-```
+```bash
 sudo ssh -o StrictHostKeyChecking=no -N -f -D *:1080 localhost
+```
+
+or this one on the remote aws server if you used the external lab : 
+
+```bash
+ssh -o StrictHostKeyChecking=no -f -N -D *:1080 <local server ansible_user>@localhost -p 2022
 ```
 
 After that, with the Web Browser where you configured the SOCKS proxy, try to "Surf" (why we stopped using this word?) the Web .
@@ -396,15 +454,19 @@ After that, with the Web Browser where you configured the SOCKS proxy, try to "S
 
 * Containers:
 
+  >**Note**
+  >
+  > The CLI outputs are from a local lab architecture, where both the network services and AAP + Gitea + Image-Buider are installed. If you run these commands in the AWS server when you are using the external lab architecture (where network services are running in the local server) be aware of what services need to be running in each server.
+
   - Non-root containers:
 
-```
-[ansible@edge-manager-local ~]$ podman pod ps
+```bash
+$ podman pod ps
 POD ID        NAME                  STATUS      CREATED       INFRA ID      # OF CONTAINERS
 c48dcb7aced7  workshop-rhde_gitops  Running     26 hours ago  fe4b2d9148f1  10
 
 
-[ansible@edge-manager-local ~]$  podman ps
+$  podman ps
 CONTAINER ID  IMAGE                                    COMMAND               CREATED       STATUS        PORTS       NAMES
 fe4b2d9148f1  localhost/podman-pause:4.6.1-1701529524                        26 hours ago  Up 9 minutes              c48dcb7aced7-infra
 fa40ba18c4d7  localhost/etherpad:latest                /bin/sh -c etherp...  26 hours ago  Up 9 minutes              workshop-rhde_gitops-etherpad
@@ -420,8 +482,9 @@ fbad94197407  localhost/tftp:latest                    /sbin/init            26 
 ```
 
   - Root containers:
-```
-[ansible@edge-manager-local ~]$ sudo podman pod ps
+
+```bash
+$ sudo podman pod ps
 [sudo] password for ansible: 
 POD ID        NAME                       STATUS      CREATED       INFRA ID      # OF CONTAINERS
 ea07ed978253  workshop-rhde_gitops-priv  Running     26 hours ago  587a47ad5e76  2
@@ -430,33 +493,66 @@ ea07ed978253  workshop-rhde_gitops-priv  Running     26 hours ago  587a47ad5e76 
 CONTAINER ID  IMAGE                                    COMMAND               CREATED       STATUS         PORTS       NAMES
 587a47ad5e76  localhost/podman-pause:4.6.1-1701529524                        26 hours ago  Up 10 minutes              ea07ed978253-infra
 b20d3154d26f  localhost/dnsmasq:latest                 -c /usr/sbin/dnsm...  26 hours ago  Up 10 minutes              workshop-rhde_gitops-priv-dnsmasq
-
 ```
 
-* Services:
+* Access to services:
 
 Open the following:
-  - AAP Controller: https://controller.training.sandbox<your-number>.opentlc.com/
-  - Gitea: https://gitea.training.sandbox<your-number>.opentlc.com/
-  - Image Builder: image-builder.sandbox<your-number>.opentlc.com/
+  - AAP Controller: https://controller.<sub_domain>.<base_zone>/
+  - Gitea: https://gitea.<sub_domain>.<base_zone>/
+  - Image Builder: image-builder.<sub_domain>.<base_zone>/
 
+  >**Note**
+  >
+  > The values of `sub_domain` and `base_zone` are the ones defined in the `extra-vars.yml` file
+
+
+### Only in external lab architecture
 
 If you deployed the external lab architecture you should also double check:
 
 
 * The reverse SSH tunnel between your local server and the AWS server:
 
-Loging into the AAP controller using the admin user (password is the one defined in extra-vars.yml file). Go to Administration > Topology View and be sure that the execution node is green. If it is ok, that means that there is connectivity between the AWS server and your local server through the reverse SSH tunnel.
+Loging into the AAP controller Web page at https://controller.<sub_doamin>.<base_zone> using the admin user (password is the one defined in `extra-vars.yml` file). Go to `Administration` > `Topology View` and be sure that the execution node is green: 
 
-If it's not green you have to jump into your local server and check the `reverse-ssh-tunnel.service` Systemd unit status. If it failed try to restart it again, and if not directly run the system unit command, that must be something like this:
 
+![Remote Execution Node](../images/rhde_gitops_remote-execution-node.png)
+
+
+
+If it is ok, that means that there is connectivity between the AWS server and your local server through the reverse SSH tunnel.
+
+
+If it's not green you have to jump into your *local server* (the reverse SSH tunnel is started from the local server to the AWS server). You can check that you have a background SSH service opening a port 2022 in the remote server:
+
+```bash
+$ ps aux | grep ssh | grep 2022
+root       83015  0.0  0.0  11288  4268 ?        Ss   21:47   0:00 ssh -o StrictHostKeyChecking=no -i /home/<ansible_user>/.ssh/id_rsa -fNT -R 2022:localhost:22 ec2-user@<AWS public IP>
 ```
+
+If the service is not there you can try to restart the `reverse-ssh-tunnel.service` systemd unit or even better, just run the following command to open the tunnel manually: 
+
+```bash
 ssh -g -N -T -o ServerAliveInterval=10 -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -i /home/<probably 'ansible'>/.ssh/id_rsa -R 2022:localhost:22 ec2-user@< IP of the AWS server>
 ```
 
+There is also another way to test the reverse SSH tunnel, if you are in the AWS server you can try to ssh to the port 2022 using the root user:
+
+```bash
+[ec2-user@<AAP local IP> aap_install]$  ssh -p 2022 root@localhost
+Activate the web console with: systemctl enable --now cockpit.socket
+
+Last login: Thu Dec 21 22:11:09 2023 from ::1
+[root@edge-manager-local ~]# 
+```
+
+  >**Note**
+  >
+  > Remember that the tunnel is started by the local server, that means that if you reboot the local server the tunnel will start again with no issue (or if you start both local and AWS servers at the same time), but it you restart the AWS server the tunnel will turn down and you will need to start it manually...(maybe I implement it with `autossh` in the future)
 
 
-## BONUS - If not enough time for your demo...
+## BONUS - If there is not enough time for your demo...
 
 Sometimes it could happen that you don't have the 120 minutes to run the demo. One way to reduce the time is by creating the OS images in advance instead of running the build during the demo.
 
@@ -471,4 +567,4 @@ Then, during the demo, you can just use the "Publish" task. After showing the on
 
 
 
-Enjoy the demo!
+Enjoy the lab!

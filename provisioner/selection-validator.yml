@@ -26,7 +26,8 @@
           - base_zone is defined
           - sub_domain is defined
           - zerossl_account is defined
-          - base64_manifest is defined
+# only needed if not using the file directly
+#          - base64_manifest is defined
           - offline_token is defined
           - admin_password is defined
           - external_connection is defined

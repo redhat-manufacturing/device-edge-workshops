@@ -1,4 +1,8 @@
 ---
 # Last Modified 2022-08-04
-provided_sha_value: 858539b3423066a496decc4c4d03e2ed9756de63db983189efdee3290d50586b
+#provided_sha_value: 858539b3423066a496decc4c4d03e2ed9756de63db983189efdee3290d50586b
+
+#Modified 2023-12-21
+provided_sha_value: 1358f60bea02a1d37f16de1be3a9bca765d82fd383f4072815946de8e7b40c2b
+
 provided_sha_value_rhel_iso: 

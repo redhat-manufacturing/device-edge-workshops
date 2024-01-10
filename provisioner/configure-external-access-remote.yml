@@ -96,7 +96,7 @@
       become: true
       lineinfile:
         dest: /etc/hosts
-        line: "127.0.0.1 execution-node"
+        line: "127.0.0.1 execution-node edge-manager-aws.local"
 
     - block:
       - name: create password in ec2-user if we created an AWS server
@@ -109,6 +109,14 @@
           regexp: '^#?PasswordAuthentication'
           line: 'PasswordAuthentication yes'
           state: present
+
+      - name: Enforce PasswordAuthentication
+        become: true
+        shell: |
+          echo "PasswordAuthentication yes" > /etc/ssh/sshd_config.d/1-ssh-pass.conf
+
+
+
 
 
 ## Restart of SSHD service fails in AWS instances so I restart the instance
