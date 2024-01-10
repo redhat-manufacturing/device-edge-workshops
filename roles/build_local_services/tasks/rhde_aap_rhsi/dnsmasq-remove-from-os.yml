@@ -1,0 +1,7 @@
+---
+
+- name: ensure dnsmasq isn't installed locally
+  ansible.builtin.dnf:
+    name: dnsmasq
+    state: absent
+  become: true

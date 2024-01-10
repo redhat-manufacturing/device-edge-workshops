@@ -28,6 +28,8 @@ remote_services:
 local_services:
   - name: dnsmasq
     privileged: true
+    pre_tasks:
+      - dnsmasq-remove-from-os.yml 
     templates:
       - src: dnsmasq.conf.j2
         dest: dnsmasq.conf
