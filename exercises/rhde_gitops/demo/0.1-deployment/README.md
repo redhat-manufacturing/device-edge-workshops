@@ -115,17 +115,23 @@ xoxp-XXXXXXXXXXXXX-XXXXXXXXXXXXX-XXXXXXXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 ## Get your Ansible Controller Manifest
 
-In order to use Automation controller you need to have a valid subscription via a `manifest.zip` file.  To retrieve your manifest.zip file you need to download it from access.redhat.com.  
+In order to use Automation controller you need to have a valid subscription via a `manifest.zip` file.  To retrieve your manifest.zip file you need to download it from access.redhat.com.
 
-- Here is a video by Colin McNaughton to help you retrieve your manifest.zip:
- [https://youtu.be/FYtilnsk7sM](https://youtu.be/FYtilnsk7sM).
-- If you need to get a temporary license, get a trial here [http://red.ht/try_ansible](http://red.ht/try_ansible).
-- Follow the following KCS on how to generate the manifest file https://access.redhat.com/solutions/5586461
+You have the steps in the [Ansible Platform Documentation](https://access.redhat.com/documentation/en-us/red_hat_ansible_automation_platform/2.4/html/red_hat_ansible_automation_platform_operations_guide/assembly-aap-obtain-manifest-files)
 
+1. Go to [Subscription Allocation](https://access.redhat.com/management/subscription_allocations) and click "New Subscription Allocation"
+
+2. Enter a name for the allocation and select `Satellite 6.8` as "Type".
+
+3. Add the subscription entitlements needed (click the tab and click "Add Subscriptions") where Ansible Automation Platform is available.
+
+4. Go back to "Details" tab and click "Export Manifest" 
 
 Save apart your `manifest.zip` file.
 
-
+  >**Note**
+  >
+  > If you want to check the contents of the ZIP file you will see a `consumer_export.zip` file and a `signature` inside.
 
 ## Copy the container images to your Quay account
 
@@ -264,6 +270,10 @@ You can also change these values:
 * SSH public key to be injected in the server in `builder_pub_key`
 * The AAP Manifest as base64 (if you chosed this option) in `base64_manifest`
 
+  >**Note**
+  >
+  > Be sure that if you don't use variable method to include the Manifest (ie. if you are using directy the file as shown in the method "a") you have to have the `base64_manifest` var commented out. Keep the variable "undefined" in order to make direct use of the file (`base64_manifest: ""` does not work because it will overwrite your `manifest.zip` converting it into a 0 bit file, so be sure to undefine the var).
+
 You also need to configure an important parameter here, that will deploy either the local or external architecture. If you want to run the local architecture you should configure `run_in_aws: false` and if you want in contrast to deploy the lab external architecture this variable should be `run_in_aws: true` 
 
 
@@ -303,14 +313,13 @@ all:
         edge_management:
           hosts:
             edge-manager-local:
-  vars:
-    ansible_host: XXX.XXX.XXX.XXX
-    ansible_user: XXXXXX 
-    ansible_password: XXXXXXXX
-    ansible_become_password: XXXXXXXX
+              ansible_host: XXX.XXX.XXX.XXX
+              ansible_user: XXXXXX 
+              ansible_password: XXXXXXXX
+              ansible_become_password: XXXXXXXX
 
-    external_connection: XXXXXX # Connection name for the external connection
-    internal_connection: XXXXXXX # Interface name for the internal lab network
+              external_connection: XXXXXX # Connection name for the external connection
+              internal_connection: XXXXXXX # Interface name for the internal lab network
 ```
 
   >**Note**
@@ -318,7 +327,7 @@ all:
   >  The `external_connection` variable expect the Connection name that you can get connecting to the local server and running `nmcli con list` ("NAME" column) while the  `internal_connection` expects the interface name (which is the name on the "DEVICE" column in the ouput of the `nmcli con list` command). Usually the connection name is the same than the interface name, but in some cases (ie. wireless connections) the connection name is different (in that case it will be the SSID).
 
 
-If you are using the external architecture (where `edge_management` has been changed by `edge_local_management` ):
+If you are using the external lab architecture (where `edge_management` has been changed by `edge_local_management` ):
 
 ```yaml
 all:
@@ -328,14 +337,13 @@ all:
         edge_local_management:
           hosts:
             edge-manager-local:
-  vars:
-    ansible_host: XXX.XXX.XXX.XXX
-    ansible_user: XXXXXX 
-    ansible_password: XXXXXXXX
-    ansible_become_password: XXXXXXXX
+              ansible_host: XXX.XXX.XXX.XXX
+              ansible_user: XXXXXX 
+              ansible_password: XXXXXXXX
+              ansible_become_password: XXXXXXXX
 
-    external_connection: XXXXXX # Connection name for the external connection
-    internal_connection: XXXXXXX # Interface name for the internal lab network
+              external_connection: XXXXXX # Connection name for the external connection
+              internal_connection: XXXXXXX # Interface name for the internal lab network
 ```
 
   >**Note**
@@ -378,7 +386,7 @@ ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.
   >
   > If you deployed the external lab architecture, you can find the AWS VM IP by just resolving any of the main services, for example controller.<sub_domain>.<base_zone>. If you need to jump into the AWS server you can go to `<your-git-clone-path>/provisioner/<sub_domain>.<base_zone>` directory and use the SSH private key (`ssh-key.pem`) that you will find with the `ec2-user` user there by running a command like `ssh -i <your-git-clone-path>/provisioner/<sub_domain>.<base_zone>/ssh-key.pem ec2-user@controller.<sub_domain>.<base_zone>`.
 
-I've seen that sometimes, depending on the DNS servers that you have in your laptop/servers, the "populate-xxx" playbooks fail because the server does not find the new domain names configured in AWS (because it could take some time to refresh on your DNS server to get the new values). In order to solve this I use to either configure the static entries in my laptop when running VMs or configure them on the physical Router when using physical hardware, so I'm sure those will be ready when the automation reaches the populate-XXX playbooks (so I don't need to wait for the DNS refresh). 
+I've seen that sometimes, depending on the DNS servers that you have in your laptop/servers (if you can, configure your DHCP to configure the AWS DNS servers for this lab), the "populate-xxx" playbooks fail because the server does not find the new domain names configured in AWS (because it could take some time to refresh on your DNS server to get the new values). In order to solve this I use to either configure the static entries in my laptop when running VMs or configure them on the physical Router when using physical hardware, so I'm sure those will be ready when the automation reaches the populate-XXX playbooks (so I don't need to wait for the DNS refresh). 
 
 
 Sometimes due to the limited VM resources, the physical Hardware odds, network connectivity or the "Demo Gods" the deployment fails. Do not panic, if you followed the previous steps and have the right variables in place the first thing that you should do is to re-launch the deployment, that probably will do the trick...
@@ -430,10 +438,16 @@ LISTEN 0      511                *:11080            *:*
 LISTEN 0      128             [::]:1080          [::]:*  
 ```
 
-If not, run this command and check it again:
+If not, run this command in the local server if you are using the local architecture:
 
 ```bash
 sudo ssh -o StrictHostKeyChecking=no -N -f -D *:1080 localhost
+```
+
+or this one on the remote aws server if you used the external lab : 
+
+```bash
+ssh -o StrictHostKeyChecking=no -f -N -D *:1080 <local server ansible_user>@localhost -p 2022
 ```
 
 After that, with the Web Browser where you configured the SOCKS proxy, try to "Surf" (why we stopped using this word?) the Web .

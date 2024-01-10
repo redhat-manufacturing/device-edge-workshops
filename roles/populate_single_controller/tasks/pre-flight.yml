@@ -28,12 +28,33 @@
           become_password: "{{ ansible_become_password }}"        
         source_control_hostname: "{{ ansible_host }}"
 
+- name: load license block
+  block:
+    - name: check for base64 variable first
+      copy:
+        dest: '{{ playbook_dir }}/manifest.zip'
+        content: '{{ base64_manifest | b64decode }}'
+      delegate_to: localhost
+      become: false
+      when: base64_manifest is defined
+    - name: unable to load base64_manifest
+      debug:
+        msg: 'No base64_manifest variable found, trying to open manifest.zip'
+      when: base64_manifest is undefined
+    - name: Load manifest into variable
+      local_action:
+        module: slurp
+        src: "{{ playbook_dir }}/manifest.zip"
+      register: manifest_file
+      become: false
+
+
 - name: push license
   ansible.builtin.include_role:
     name: redhat_cop.controller_configuration.license
   vars:
     controller_license:
-      manifest_content: "{{ base64_manifest }}"
+      manifest_content: "{{ manifest_file.content }}"
 
 - name: I have no idea why the installer stopped doing this
   ansible.builtin.shell:

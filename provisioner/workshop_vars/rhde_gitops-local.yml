@@ -19,8 +19,8 @@ route53_domains:
     domain: "eda.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
   ostree-repo:
     domain: "ostree-repo.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
-  etherpad:
-    domain: "etherpad.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
+#  etherpad:
+#    domain: "etherpad.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
   attendance:
     domain: "attendance.{{ ec2_name_prefix|lower }}.{{workshop_dns_zone }}"
 
@@ -48,8 +48,8 @@ local_services:
               address: "{{ internal_address }}"
             - record: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
-            - record: "etherpad.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
+#            - record: "etherpad.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+#              address: "{{ internal_address }}"
             - record: "image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
             - record: "gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
@@ -108,8 +108,8 @@ local_services:
         dest: nginx.conf
         vars:
           proxied_services:
-            - name: etherpad
-              proxy_pass: "http://localhost:9001/"
+#            - name: etherpad
+#              proxy_pass: "http://localhost:9001/"
             - name: eda
               proxy_pass: "http://localhost:5000/"
             - name: ipxe
@@ -202,8 +202,8 @@ local_services:
         dest: attendance/src/pages/index.js
 
 
-  - name: etherpad
-    containerfile: etherpad-containerfile      
+#  - name: etherpad
+#    containerfile: etherpad-containerfile      
 
 pods:
   - name: workshop-rhde_gitops-priv
@@ -244,8 +244,8 @@ pods:
       spec:
         hostNetwork: true
         containers:
-          - name: etherpad
-            image: etherpad:latest
+#          - name: etherpad
+#            image: etherpad:latest
           - name: reverse-proxy
             image: reverse-proxy:latest
           - name: eda
@@ -401,9 +401,9 @@ allowed_external_services:
   - port: 9090
   - port: 3001
   - port: 8080
-  - port: 9001
   - port: 3000
   - port: 80
   - port: 443
+#  - port: 9001
 
 build_net-installer_isos: true
