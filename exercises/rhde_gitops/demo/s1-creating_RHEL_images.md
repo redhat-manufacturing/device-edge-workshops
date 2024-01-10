@@ -30,7 +30,7 @@ Besides the main files, you will also find an `examples` folder where you have i
 
   >**Note**
   >
-  > This first time we will take this approach (clone the repo in our laptop) because we will need to modify two files (`production-image-definition.yml` and `production-kickstart.ks`) to prepare and publish our image. If we were using the Gitea Web to modify the files we will need to do it secuentially (you cannot modify two files and push the changes, you need to modify-push and then modify-push). That would mean that we will activate the " New Edge Device Image" Workflow Job (which involves "Compose Image" and "Publish Image" Jobs as we will see below ) when we modify the `production-image-definition.yml` and we will trigger again the "Publish Image" Job when we modify the `production-kickstart.ks` file.
+  > This first time we will take this approach (clone the repo in our laptop) because we will need to modify two files (`production-image-definition.yml` and `production-kickstart.ks`) to prepare and publish our image. If we were using the Gitea Web to modify the files we will need to do it sequentially (you cannot modify two files and push the changes, you need to modify-push and then modify-push). That would mean that we will activate the " New Edge Device Image" Workflow Job (which involves "Compose Image" and "Publish Image" Jobs as we will see below ) when we modify the `production-image-definition.yml` and we will trigger again the "Publish Image" Job when we modify the `production-kickstart.ks` file.
 
 
 
@@ -93,7 +93,7 @@ Open the "New Edge Device Image" Workflow and show the three steps:
 
 * "Compose Image": Build the image using the Image Builder service using the values provided in the files that we modified.
 
-* "Publish Image Approval": We introduced an approvation as part of the workflow, so you can create an image without "making it accesible" by the edge devices
+* "Publish Image Approval": We introduced an approvation as part of the workflow, so you can create an image without "making it accessible" by the edge devices
 
 * "Publish Image": This will publish the image so the edge devices can use it.
 
