@@ -100,7 +100,7 @@ The demo will send notifications to a Slack Channel, so you will need to generat
 
 3. Once the application is created in the Add features and functionality section click on the Permissions button to set the token scopes. Enable the `chat:write` permission
 
-3. Next step is to install the application in the desired workspace and allow access to the requested scopes. Click on the Install App to Workspace button
+3. Next step go to the "Install App" menu on the left and install the application in the desired workspace and allow access to the requested scopes. Click on the Install App to Workspace button
 
 4. Then you get the OAuth Access Token.
 
