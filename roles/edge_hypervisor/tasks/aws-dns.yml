@@ -10,5 +10,6 @@
     overwrite: true
     value: "{{ ansible_host }}"
     wait: true
-  delegate_to: localhost
+    access_key: "{{ lookup('ansible.builtin.env', 'AWS_ACCESS_KEY_ID') }}"
+    secret_key: "{{ lookup('ansible.builtin.env', 'AWS_SECRET_ACCESS_KEY') }}"
   register: route53_status
