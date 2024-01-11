@@ -4,7 +4,6 @@
   hosts:
     - edge_management
     - edge_remote_management
-    - hypervisors
   vars:
     image_builder_http_port: 18080
   become: true
