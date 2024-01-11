@@ -15,7 +15,6 @@
   <vcpu placement='static'>4</vcpu>
   <os>
     <type arch='x86_64' machine='pc-q35-rhel8.0.0'>hvm</type>
-    <boot dev='hd'/>
   </os>
   <features>
     <acpi/>
@@ -29,6 +28,7 @@
     <timer name='pit' tickpolicy='delay'/>
     <timer name='hpet' present='no'/>
   </clock>
+  <on_poweroff>destroy</on_poweroff>
   <on_reboot>restart</on_reboot>
   <on_crash>destroy</on_crash>
   <pm>
@@ -41,7 +41,16 @@
       <driver name='qemu' type='qcow2' discard='unmap'/>
       <source file='/var/virtual-machines/{{ virtual_machine.name }}.qcow2'/>
       <target dev='vda' bus='virtio'/>
+      <boot order='1'/>
       <address type='pci' domain='0x0000' bus='0x04' slot='0x00' function='0x0'/>
+    </disk>
+    <disk type='file' device='cdrom'>
+      <driver name='qemu' type='raw' discard='unmap'/>
+      <source file='/var/virtual-machines/iso/workshop-rhde-installer.iso'/>
+      <target dev='sda' bus='scsi'/>
+      <readonly/>
+      <boot order='2'/>
+      <address type='drive' controller='0' bus='0' target='0' unit='0'/>
     </disk>
     <controller type='usb' index='0' model='qemu-xhci' ports='15'>
       <address type='pci' domain='0x0000' bus='0x02' slot='0x00' function='0x0'/>
@@ -123,8 +132,11 @@
     <controller type='virtio-serial' index='0'>
       <address type='pci' domain='0x0000' bus='0x03' slot='0x00' function='0x0'/>
     </controller>
+    <controller type='scsi' index='0' model='virtio-scsi'>
+      <address type='pci' domain='0x0000' bus='0x07' slot='0x00' function='0x0'/>
+    </controller>
     <interface type='network'>
-      <mac address='52:54:00:43:3c:{{ "%02x" % virtual_machine.num }}'/>
+      <mac address='52:54:00:43:3c:02'/>
       <source network='default'/>
       <model type='virtio'/>
       <address type='pci' domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>
@@ -154,6 +166,7 @@
       <model type='virtio' heads='1' primary='yes'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x0'/>
     </video>
+    <watchdog model='itco' action='reset'/>
     <memballoon model='virtio'>
       <address type='pci' domain='0x0000' bus='0x05' slot='0x00' function='0x0'/>
     </memballoon>
