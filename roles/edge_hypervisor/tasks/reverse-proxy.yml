@@ -1,0 +1,62 @@
+---
+
+- name: Create build directory
+  ansible.builtin.file:
+    path: "{{ _reverse_proxy_build_dir }}"
+    state: directory
+
+- name: Copy cert to correct location
+  ansible.builtin.copy:
+    src: ~/workshop-certs/{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/{{ ec2_name_prefix }}-fullchain.crt
+    dest: "{{ _reverse_proxy_build_dir }}/server.crt"
+    remote_src: true
+  notify:
+    - rebuild_container
+
+- name: Copy key to correct location
+  ansible.builtin.copy:
+    src: ~/workshop-certs/{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/{{ ec2_name_prefix }}.pem
+    dest: "{{ _reverse_proxy_build_dir }}/server.key"
+    remote_src: true
+  notify:
+    - rebuild_container
+
+- name: Copy nginx config
+  ansible.builtin.template:
+    src: "templates/reverse-proxy-nginx.conf.j2"
+    dest: "{{ _reverse_proxy_build_dir }}/nginx.conf"
+  notify:
+    - rebuild_container
+
+- name: copy Containerfile
+  ansible.builtin.copy:
+    src: files/reverse-proxy-containerfile
+    dest: "{{ _reverse_proxy_build_dir }}/Containerfile"
+  notify:
+    - rebuild_container
+
+- name: allow non-root to bind to low ports
+  ansible.builtin.lineinfile:
+    line: net.ipv4.ip_unprivileged_port_start=10
+    path: /etc/sysctl.conf
+  become: true
+  notify:
+    - sysctl_reload
+    - rebuild_container
+
+- name: push out pod ymal
+  ansible.builtin.copy:
+    content: "{{ _reverse_proxy_pod.definition }}"
+    dest: "{{ _reverse_proxy_build_dir }}/pod.yaml"
+    owner: "{{ ansible_user }}"
+  notify:
+    - rebuild_container
+
+- name: Ensure firewall access
+  ansible.posix.firewalld:
+    service: https
+    zone: public
+    permanent: true
+    immediate: true
+    state: enabled
+  become: true
