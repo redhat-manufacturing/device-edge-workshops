@@ -1,0 +1,6 @@
+---
+
+- name: Install some python libraries
+  ansible.builtin.pip:
+    name: "{{ _python_libraries }}"
+  become: true

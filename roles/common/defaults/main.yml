@@ -5,6 +5,11 @@ common_packages:
   - wget
   - git
   - podman
+  - python3-pip
 
 extra_packages:
   - https://mirror.arizona.edu/fedora-epel/9/Everything/x86_64/Packages/h/htop-3.2.2-1.el9.x86_64.rpm
+
+_python_libraries:
+  - botocore
+  - boto3
