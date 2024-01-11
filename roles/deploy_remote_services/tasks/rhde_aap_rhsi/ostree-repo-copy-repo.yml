@@ -1,0 +1,13 @@
+---
+
+- name: dump the lock file
+  ansible.builtin.file:
+    path: "/var/www/html/{{ builder_blueprint_name }}/repo/.lock"
+    state: absent
+  become: true
+
+- name: copy repo dir to {{ build_dir }}/ostree-repo
+  ansible.builtin.copy:
+    src: "/var/www/html/{{ builder_blueprint_name }}/repo"
+    dest: "{{ build_dir }}/ostree-repo/repo"
+    remote_src: true
