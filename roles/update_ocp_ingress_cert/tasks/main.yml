@@ -8,3 +8,6 @@
 
 - name: Import ingress config tasks
   ansible.builtin.import_tasks: update-ingress-cert.yml
+
+- name: Import api config tasks
+  ansible.builtin.import_tasks: update-api-config.yml
