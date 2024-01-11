@@ -4,3 +4,4 @@
   ansible.builtin.dnf:
     name: "{{ _extra_hypervisor_packages }}"
     state: present
+  become: true
