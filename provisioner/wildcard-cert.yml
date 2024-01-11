@@ -5,6 +5,7 @@
     - edge_remote_management
     - edge_local_management
     - edge_management
+    - hypervisors
   serial: 1
   pre_tasks:
     - name: become for these tasks
