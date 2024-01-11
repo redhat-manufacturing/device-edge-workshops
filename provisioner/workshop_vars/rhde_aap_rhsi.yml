@@ -11,6 +11,8 @@ remote_services:
         dest: app-src/src/App.js
       - src: attendance-index.js.j2
         dest: app-src/src/pages/index.js
+      - src: attendance-Password.js.j2
+        dest: app-src/src/Password.js
     deployment: attendance-deployment.yaml.j2
   - name: gitea
     custom: true
@@ -24,6 +26,11 @@ remote_services:
     push: false
     deploy: false
     deployment_tasks_file: process-control-deploy.yml
+  - name: ostree-repo
+    containerfile: ostree-repo-containerfile
+    pre_tasks:
+      - ostree-repo-copy-repo.yml
+    deployment: ostree-repo-deployment.yaml.j2
 
 local_services:
   - name: dnsmasq
@@ -170,6 +177,7 @@ images_to_compose:
     rhsm_repos:
       - service-interconnect-1-for-rhel-{{ ansible_distribution_major_version }}-x86_64-rpms
       - "rhocp-4.14-for-rhel-{{ ansible_distribution_major_version }}-x86_64-rpms"
+    # should add: registry.redhat.io/service-interconnect/skupper-router-rhel9:2.4.3
 image_builder_http_port: 11080
 
 skip_builder_services: true
