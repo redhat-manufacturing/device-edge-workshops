@@ -93,7 +93,7 @@ Open the "New Edge Device Image" Workflow and show the three steps:
 
 * "Compose Image": Build the image using the Image Builder service using the values provided in the files that we modified.
 
-* "Publish Image Approval": We introduced an approvation as part of the workflow, so you can create an image without "making it accessible" by the edge devices
+* "Publish Image Approval": We introduced an approval step as part of the workflow, so you can create an image without "making it accessible" by the edge devices
 
 * "Publish Image": This will publish the image so the edge devices can use it.
 
