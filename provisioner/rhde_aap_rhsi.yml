@@ -42,9 +42,6 @@
 - name: import common roles playbook
   ansible.builtin.import_playbook: common.yml
 
-- name: import wildcard cert playbook
-  ansible.builtin.import_playbook: ocp-wildcard-cert.yml
-
 - name: Import OCP install playbook
   ansible.builtin.import_playbook: install-ocp-on-aws.yml
 
@@ -69,13 +66,16 @@
 - name: Import image registry config playbook
   ansible.builtin.import_playbook: configure-ocp-registry.yml
 
+- name: compose images
+  ansible.builtin.import_playbook: compose-images.yml
+
 - name: Import remote services playbook
   ansible.builtin.import_playbook: deploy-remote-services.yml
 
 # Let OpenShift cook, do other things here
 
-- name: compose images
-  ansible.builtin.import_playbook: compose-images.yml
+- name: import wildcard cert playbook
+  ansible.builtin.import_playbook: wildcard-cert.yml
 
 - name: Populate Gitea
   ansible.builtin.import_playbook: gitea.yml
@@ -83,17 +83,14 @@
 - name: Populate Ansible Controller
   ansible.builtin.import_playbook: populate-controllers-on-ocp.yml
 
-- name: Import hypervisor playbook
-  ansible.builtin.import_playbook: hypervisor.yml
-
 - name: setup local connection
   ansible.builtin.import_playbook: local-connection.yml
-
-- name: setup wildcard cert
-  ansible.builtin.import_playbook: wildcard-cert.yml
 
 - name: build local services
   ansible.builtin.import_playbook: build-local-services.yml
 
 - name: run local services
   ansible.builtin.import_playbook: run-local-services.yml
+
+- name: Import hypervisor playbook
+  ansible.builtin.import_playbook: hypervisor.yml
