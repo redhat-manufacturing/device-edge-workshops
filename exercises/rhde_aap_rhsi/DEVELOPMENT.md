@@ -48,7 +48,7 @@ This lab walks participants through the act of managing Red Hat Device Edge for 
 - [?] Pre-provision devices
 
 ## Section 4 - Hypervisor setup
-- [ ] Cockpit
+- [x] Cockpit
 - [x] Virtual machines
 - [x] Student logins
 
@@ -59,9 +59,15 @@ This lab walks participants through the act of managing Red Hat Device Edge for 
 - [ ] Deploy application
 
 ## Section 6 - Provision Resources
-- [ ] Example vars file
+- [x] Example vars file
+- [ ] Example inventory file
+- [ ] Provisioner documentation addendum
 
 # Known Issues
-- The OpenShift pieces are too fast, often failing because certain other parts aren't ready yet
-- The hypervisor playbook needs updating
-- The hypervisor playbook needs a remote proxy with valid SSL
+- N/A
+
+# To-Dos
+- Refactor on-premise DNS to correctly handle having the same dns zone in the room and in the cloud
+- Add example process control URL to student pages
+- All the VMs are student2? I think the VM template is using the same MAC address for everything
+
