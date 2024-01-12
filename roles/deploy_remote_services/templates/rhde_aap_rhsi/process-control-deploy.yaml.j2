@@ -5,29 +5,37 @@ kind: Service
 metadata:
   name: mqtt
   namespace: student{{ student_number }}-workshop-{{ workshop_type | regex_replace('_', '-') }}
+  labels:
+    app.kubernetes.io/part-of: process-control
 spec:
   ports:
   - port: 1883
     protocol: TCP
     targetPort: 1883
   selector:
-    app: mqtt
+    application: mqtt-broker
   type: NodePort
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mqtt-deployment
+  name: mqtt-broker
   namespace: student{{ student_number }}-workshop-{{ workshop_type | regex_replace('_', '-') }}
+  labels:
+    app.kubernetes.io/name: mqtt-broker
+    app.kubernetes.io/part-of: process-control
+    application: mqtt-broker
 spec:
   selector:
     matchLabels:
-      app: mqtt
+      application: mqtt-broker
   replicas: 1
   template:
     metadata:
       labels:
-        app: mqtt
+        app.kubernetes.io/name: mqtt-broker
+        app.kubernetes.io/part-of: process-control
+        application: mqtt-broker
     spec:
       containers:
         - name: mqtt
@@ -39,17 +47,23 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: simulate-deployment
+  name: simulate
   namespace: student{{ student_number }}-workshop-{{ workshop_type | regex_replace('_', '-') }}
+  labels:
+    app.kubernetes.io/name: simulate
+    app.kubernetes.io/part-of: process-control
+    application: simulate
 spec:
   selector:
     matchLabels:
-      app: simulate
+        application: simulate
   replicas: 1
   template:
     metadata:
       labels:
-        app: simulate
+        app.kubernetes.io/name: simulate
+        app.kubernetes.io/part-of: process-control
+        application: simulate
     spec:
       containers:
         - name: simulate
@@ -58,17 +72,23 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: control-deployment
+  name: control
   namespace: student{{ student_number }}-workshop-{{ workshop_type | regex_replace('_', '-') }}
+  labels:
+    app.kubernetes.io/name: control
+    app.kubernetes.io/part-of: process-control
+    application: control
 spec:
   selector:
     matchLabels:
-      app: control
+      application: control
   replicas: 1
   template:
     metadata:
       labels:
-        app: control
+        app.kubernetes.io/name: control
+        app.kubernetes.io/part-of: process-control
+        application: control
     spec:
       containers:
       - name: control
@@ -79,13 +99,15 @@ kind: Service
 metadata:
   name: ui
   namespace: student{{ student_number }}-workshop-{{ workshop_type | regex_replace('_', '-') }}
+  labels:
+    app.kubernetes.io/part-of: process-control
 spec:
   ports:
   - port: 1880
     protocol: TCP
     targetPort: 1880
   selector:
-    app: ui
+    application: ui
   type: NodePort
 ---
 apiVersion: apps/v1
@@ -93,15 +115,21 @@ kind: Deployment
 metadata:
   name: ui-deployment
   namespace: student{{ student_number }}-workshop-{{ workshop_type | regex_replace('_', '-') }}
+  labels:
+    app.kubernetes.io/name: ui
+    app.kubernetes.io/part-of: process-control
+    application: ui
 spec:
   selector:
     matchLabels:
-      app: ui
+      application: ui
   replicas: 1
   template:
     metadata:
       labels:
-        app: ui
+        app.kubernetes.io/name: ui
+        app.kubernetes.io/part-of: process-control
+        application: ui
     spec:
       containers:
       - name: ui
@@ -117,6 +145,8 @@ metadata:
   namespace: student{{ student_number }}-workshop-{{ workshop_type | regex_replace('_', '-') }}
   annotations:
     haproxy.router.openshift.io/rewrite-target: /ui
+  labels:
+    app.kubernetes.io/part-of: process-control
 spec:
   host: process-control-ui-student{{ student_number }}.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}
   to:
