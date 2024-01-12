@@ -6,11 +6,16 @@ During this section you need to bear in mind two important things:
 
 * When booting the device prior to the onboarding, since we prepared the lab to provision multiple boot images at the same time (explained later), you will need to select the right image in the PXE boot menu, which means that you need a connected keyboard to your server. Again, this is not a problem if you are using VMs, but if you are using physical devices you will need to have a physical keyboard connected to it, that's the reason why I suggested in the [Recommended Hardware Section](README.md#recommended-hardware) to have a mini-keyboard as part of the demo/workshop setup.
 
+Now it's time to prepare your edge device:
+
+* If you are using a physical device: You will need to configure your BIOS to first boot from network using the interface that is connected to the local edge management server.
+
+* If you plan to use a VM: You will need to create a VM with at least 2vCPUs, 2 GB Memory, 10GB disk and 1 NIC connected to the "isolated network" wher you have the secondary interface of your local edge manager server. If you use `Virtual Machine Manager` (so `libvirt`) you should select the `Manual install` mode, then be sure that you select the right network and click `Customize configuration before install` so you can select the boot order in `Boot Options` to use the NIC first (remember than once installed you will need to change this into the local disk by stopping the VM and de-selecting the network boot in this menu). If you are not using  `Virtual Machine Manager` just create an "empty" VM (so no OS installed but with a local disk attached) that boots from NIC and then change the boot order after the install (when you see again the PXE menu page).
 
 1. Open the "Jobs" page in the AAP and keep it visible while performing the following steps.
 
 
-2. It's time to boot our edge device VM or physical server and perform the onboarding. You need to boot from network (using the NIC that is connected to the edge local manager internal network). You will need to configure your VM or Physical BIOS to boot from the right interface. If your edge device was already deployed in a previous test or it already has Linux installed on it you can also use `efibootmgr` to select the "Next boot order" from the CLI:
+2. It's time to boot our edge device VM or physical server and perform the onboarding (if you didn't already). You need to boot from network (using the NIC that is connected to the edge local manager internal network). You will need to configure your VM or Physical BIOS to boot from the right interface. If your edge device was already deployed in a previous test or it already has Linux installed on it you can also use `efibootmgr` to select the "Next boot order" from the CLI:
 
 * Check the enabled boot methods with `efibootmgr` command:
 

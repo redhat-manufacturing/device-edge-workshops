@@ -201,7 +201,7 @@ Add the `ansible` user to that server and be sure that you add it into the `sudo
 
 In addition to the server, you will need enough resources (2 cores, 2 GB RAM, 10GB disk) to create an additional VM that will act as edge device. That edge device VM will be attached with a single NIC to the isolated (with no DHCP) virtual network that you have created and where the previous server is attached to.
 
-You don't need to create the VM before the lab, you just need to have enough resources to create it during the lab steps (you can take a look at [minute 11:57 of the recorded demo video](https://www.youtube.com/watch?v=XCtfy7AqLLY&t=11m57s) to check how it will be created with `libvirt` and Virtual Machine Manager. 
+You don't need to create the VM before the lab, you just need to have enough resources to create it during [Section 2 - Automated device onboarding](#section-2---automated-device-onboarding). 
 
 
 ### Using Physical servers
