@@ -21,7 +21,7 @@ This exercise will cover:
 
 ### Step 1 - Reviewing the Code Repo Location
 
-Your git repository is located in Gitea, which can be accessed via a web interface for viewing, and can be authenticated to via username/password authentication over http. Feel free to also setup authentication via SSH keys if you so desire. You can access the settings to add an SSH key for your Gitea user by clicking on the arrow in the top right next to your randomly-generated profile picture, selecting "Settings," and heading to the "SSH / GPG Keys" tab. You can add any public key you have the private key for locally to this user and use this for local access - it doesn't impact the project sync configuration on the Controller.
+Your git repository is located in Gitea, which can be accessed via a web interface for viewing, and can be authenticated to via username/password authentication over http.
 
 For a reminder on how to access Gitea, review  the [Investigating Source Control](../1.6-gitea-intro) exercise.
 
