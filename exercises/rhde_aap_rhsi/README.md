@@ -34,15 +34,21 @@ Having said that, this workshop is built to take roughly 2 hours.
 
 ![Lab Diagram](images/architecture.jpg)
 
-# TODO BELOW
+
 
 ## Section 1 - Investigating the Lab Environment
 
-* [Exercise 1.1 - Preflight Checks](1.1-preflight)
-* [Exercise 1.2 - Investigating Ansible Controller](1.2-controller-intro)
+* [Exercise 1.1 - Preflight and Introduction](1.1-preflight)
+* [Exercise 1.2 - Accessing the Student Pages](1.2-student-pages)
+* [Exercise 1.3 - Edge Device Introduction](1.3-edge-device-intro)
+* [Exercise 1.4 - Investigating the Example Workload](1.4-application-intro)
+* [Exercise 1.5 - Ansible Controller Introduction](1.5-controller-intro)
+
+
+
+# TODO BELOW
 * [Exercise 1.3 - Investigating Source Control](1.3-source-control-intro)
 * [Exercise 1.4 - Investigating Your Edge Device](1.4-device-intro)
-* [Exercise 1.5 - Investigating the Example Workload](1.5-application-intro)
 * [Exercise 1.6 - Gathering Networking Information](1.6-network-info)
 * [Exercise 1.7 - Investigating the Skupper Site](1.7-skupper-site)
 * [Exercise 1.7 - Cloning Your Code Repository](1.7-coding-intro)
