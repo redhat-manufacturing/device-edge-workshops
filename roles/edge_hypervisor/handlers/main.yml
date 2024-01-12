@@ -1,12 +1,5 @@
 ---
 
-- name: restart cockpit service
-  ansible.builtin.systemd:
-    name: cockpit.service
-    state: restarted
-  listen:
-    - restart_cockpit
-
 - name: restart sshd
   ansible.builtin.systemd:
     name: sshd
