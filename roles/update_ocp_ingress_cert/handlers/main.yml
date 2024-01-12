@@ -1,0 +1,28 @@
+---
+
+- name: Give kube-apiserver 60 seconds to notice it needs to update
+  ansible.builtin.pause:
+    seconds: 60
+  listen:
+    - update_kubeconfig
+
+- name: Update KUBECONFIG
+  ansible.builtin.lineinfile:
+    path: "/home/{{ ansible_user }}/.kube/config"
+    regexp: '^    certificate-authority-data'
+    state: absent
+  listen:
+    - update_kubeconfig
+
+- name: Wait for kube-apiserver
+  ansible.builtin.shell:
+    cmd: >
+      oc get co
+      --insecure-skip-tls-verify=true
+  register: _operator_update_status
+  until:
+    - "'NodeInstallerProgressing' not in _operator_update_status.stdout"
+  retries: 300
+  delay: 10
+  listen:
+    - update_kubeconfig
