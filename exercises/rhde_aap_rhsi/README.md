@@ -43,32 +43,33 @@ Having said that, this workshop is built to take roughly 2 hours.
 * [Exercise 1.3 - Edge Device Introduction](1.3-edge-device-intro)
 * [Exercise 1.4 - Investigating the Example Workload](1.4-application-intro)
 * [Exercise 1.5 - Ansible Controller Introduction](1.5-controller-intro)
-
+* [Exercise 1.6 - Gitea Source Control Introduction](1.6-gitea-intro)
+* [Exercise 1.7 - Cloning Your Code Repository](1.7-coding-intro)
+* [Exercise 1.8 - Getting Logged In to OpenShift](1.8-ocp-login)
+* [Exercise 1.9 - Investigating the Skupper Site](1.9-rhsi-intro)
 
 
 # TODO BELOW
-* [Exercise 1.3 - Investigating Source Control](1.3-source-control-intro)
-* [Exercise 1.4 - Investigating Your Edge Device](1.4-device-intro)
-* [Exercise 1.6 - Gathering Networking Information](1.6-network-info)
-* [Exercise 1.7 - Investigating the Skupper Site](1.7-skupper-site)
-* [Exercise 1.7 - Cloning Your Code Repository](1.7-coding-intro)
+
 
 ## Section 2 - Linking the Edge Device to the Management Plane
 
-* [Exercise 2.1 - Reviewing the Workflow to Build Images](2.1-image-builder-workflow)
-* [Exercise 2.2 - Building an Image via the WebUI](2.2-build-image-webui)
+1. Authenticate to OpenShift
+2. Initialize RHSI
+3. Expose SSH
+4. Create a Host in Controller
+5. Test Device Connectivity
 
-## Section 3 - Using Ansible Automation Platform to Manage the Edge Device
-
-* [Exercise 3.1 - Reviewing Execution Environments](3.1-execution-environment-review)
-* [Exercise 3.2 - Converting Our Image Definition to Code](3.2-image-definition-in-code)
-* [Exercise 3.3 - Using the infra.osbuild Collection in a Playbook](3.3-using-collection-in-playbook)
-* [Exercise 3.4 - Running Our Playbook through Controller](3.4-aap-image-build)
-
-## Section 4 - Deploying an Applicatoin to the Edge Device
+## Section 3 - Deploying an Application to the Edge Device
 
 * [Exercise 4.1 - Creating Automation to Deploy a Containerized Application](5.1-containerized-app-automation)
 * [Exercise 4.2 - Deploying the Application via Ansible Controller](5.2-deploying-the-app)
+
+## Section 4 - Exposing the Application via RHSI
+
+1. Expose Application Web Interface
+2. Creating a Route
+3. Testing Access to the Web Application
 
 ## Supplamental Resources
 * [infra.osbuild](https://github.com/redhat-cop/infra.osbuild)
