@@ -167,6 +167,7 @@ images_to_compose:
       - cockpit
       - skupper-cli
       - openshift-clients
+      - systemd-container
     customizations:
       firewall:
         ports:
@@ -174,11 +175,14 @@ images_to_compose:
       services:
         enabled:
           - cockpit.socket
+    containers:
+      # Switch this to the :latest tag at some point
+      - source: registry.redhat.io/service-interconnect/skupper-router-rhel9:2.4.3
     rhsm_repos:
       - service-interconnect-1-for-rhel-{{ ansible_distribution_major_version }}-x86_64-rpms
       - "rhocp-4.14-for-rhel-{{ ansible_distribution_major_version }}-x86_64-rpms"
-    # should add: registry.redhat.io/service-interconnect/skupper-router-rhel9:2.4.3
 image_builder_http_port: 11080
+image_builder_protected_container: true
 
 skip_builder_services: true
 
