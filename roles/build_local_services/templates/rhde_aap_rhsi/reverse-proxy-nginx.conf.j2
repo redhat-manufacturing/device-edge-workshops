@@ -37,7 +37,7 @@ http {
 {% if 'ipxe' in (template.vars | json_query('proxied_services[*].name') | list) %}
     server {
         listen 80;
-        server_name ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }};
+        server_name ipxe.{{ ec2_name_prefix }}.{{ local_workshop_dns_zone }};
 
         location / {
             proxy_pass http://localhost:8081;
@@ -51,7 +51,7 @@ http {
 {% if 'ostree-repo' in (template.vars | json_query('proxied_services[*].name') | list) %}
     server {
         listen 80;
-        server_name ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }};
+        server_name ostree-repo.{{ ec2_name_prefix }}.{{ local_workshop_dns_zone }};
 
         location / {
             proxy_pass http://localhost:8080;
@@ -73,7 +73,7 @@ http {
     server {
         listen       443 ssl http2;
         listen       [::]:443 ssl http2;
-        server_name  {{ proxied_service.name }}.{{ ec2_name_prefix }}.{{ workshop_dns_zone }};
+        server_name  {{ proxied_service.name }}.{{ ec2_name_prefix }}.{{ local_workshop_dns_zone }};
 
         location / {
             proxy_pass {{ proxied_service.proxy_pass }};
