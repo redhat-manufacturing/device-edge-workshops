@@ -53,13 +53,9 @@ local_services:
         dest: dnsmasq.hosts
         vars:
           dns_entries:
-            - record: "ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+            - record: "ipxe.{{ ec2_name_prefix }}.{{ local_workshop_dns_zone }}"
               address: "{{ internal_address }}"
-            - record: "image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
-            - record: "gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
-            - record: "ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+            - record: "ostree-repo.{{ ec2_name_prefix }}.{{ local_workshop_dns_zone }}"
               address: "{{ internal_address }}"
     post_tasks:
       - dnsmasq-update-etc-hosts.yml
