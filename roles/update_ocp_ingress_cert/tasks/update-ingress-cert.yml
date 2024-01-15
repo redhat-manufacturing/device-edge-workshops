@@ -31,24 +31,14 @@
   until:
     - _clusterissuer_status.stdout | from_yaml | json_query('status.conditions[0].type') == 'Ready'
 
-- name: Request certificates
+- name: Request ingress certificates
   redhat.openshift.k8s:
-    template: templates/certificates.yaml.j2
+    template: templates/ingress-certificates.yaml.j2
+  notify:
+    - wait_for_certs
 
 - name: Update ingress
   redhat.openshift.k8s:
     definition: "{{ _ingresscontroller }}"
-
-- name: Wait for certificates to be issued
-  ansible.builtin.shell:
-    cmd: >
-      oc get certificate rho-router-default
-      -n openshift-ingress
-      | grep -v ^NAME
-      | awk '{print $2}'
-  register: _certificate_status
-  changed_when: false
-  retries: 300
-  delay: 5
-  until:
-    - _certificate_status.stdout == 'True'
+  notify:
+    - wait_for_certs

@@ -1,7 +1,0 @@
----
-
-- name: Update api
-  redhat.openshift.k8s:
-    template: templates/apiserver.yaml.j2
-  notify:
-    - update_kubeconfig

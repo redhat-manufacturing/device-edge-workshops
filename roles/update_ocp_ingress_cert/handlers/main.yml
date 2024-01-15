@@ -1,10 +1,21 @@
 ---
 
-- name: Give kube-apiserver 60 seconds to notice it needs to update
-  ansible.builtin.pause:
-    seconds: 60
+- name: Wait for ingress certificates to be issued
+  ansible.builtin.shell:
+    cmd: >
+      oc get certificate rho-router-default
+      -n openshift-ingress
+      --insecure-skip-tls-verify=true
+      | grep -v ^NAME
+      | awk '{print $2}'
+  register: _certificate_status
+  changed_when: false
+  retries: 300
+  delay: 5
+  until:
+    - _certificate_status.stdout == 'True'
   listen:
-    - update_kubeconfig
+    - wait_for_certs
 
 - name: Update KUBECONFIG
   ansible.builtin.lineinfile:
@@ -13,6 +24,12 @@
     state: absent
   listen:
     - update_kubeconfig
+
+- name: Wait for kube-apiserver to start updating
+  ansible.builtin.pause:
+    seconds: 30
+  listen:
+    - wait_for_certs
 
 - name: Wait for kube-apiserver
   ansible.builtin.shell:
@@ -26,3 +43,4 @@
   delay: 10
   listen:
     - update_kubeconfig
+    - wait_for_certs
