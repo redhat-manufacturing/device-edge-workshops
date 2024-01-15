@@ -17,7 +17,7 @@ graphical
 user --name=ansible --groups=wheel --password='{{ admin_password }}'
 rootpw --plaintext --lock '{{ admin_password }}'
 services --enabled=ostree-remount
-ostreesetup --nogpg --url=http://ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/repo --osname=rhel --ref=rhel/9/x86_64/edge
+ostreesetup --nogpg --url=http://ostree-repo.{{ ec2_name_prefix }}.{{ local_workshop_dns_zone }}/repo --osname=rhel --ref=rhel/9/x86_64/edge
 
 %post
 {% if lab_wifi_network is defined %}
@@ -41,40 +41,8 @@ ExecStopPost=/usr/bin/touch /var/tmp/wifi-connected
 WantedBy=default.target
 EOF
 
-cat > /var/tmp/aap-auto-registration.sh <<EOF
-#!/bin/bash
-IP_ADDRESS=\$(nmcli conn show {{ lab_wifi_network.ssid }} | grep ip_address | awk '{print \$4}')
-MAC_ADDRESS=\$(ip addr | grep wlp -A 1 | grep link | awk '{print \$2}' | sed 's/://g')
-STUDENT='{{ student_number }}'
-
-JSON="{\
-\"ip_address\": \"\$IP_ADDRESS\", \
-\"student\": \"\$STUDENT\", \
-\"mac_address\": \"\$MAC_ADDRESS\" \
-}"
-
-/usr/bin/curl -H 'Content-Type: application/json' --data "\$JSON" https://eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/endpoint
-EOF
-
-cat > /etc/systemd/system/aap-auto-registration.service <<EOF
-[Unit]
-Description=Register to Ansible Automation Platform
-After=network.target
-After=connect-wifi.service
-ConditionPathExists=!/var/tmp/aap-registered
-
-[Service]
-Type=oneshot
-ExecStart=/bin/bash /var/tmp/aap-auto-registration.sh
-ExecStopPost=/usr/bin/touch /var/tmp/aap-registered
-
-[Install]
-WantedBy=default.target
-EOF
-
 systemctl daemon-reload
 systemctl enable connect-wifi.service
-systemctl enable aap-auto-registration.service
 {% endif %}
 
 %end

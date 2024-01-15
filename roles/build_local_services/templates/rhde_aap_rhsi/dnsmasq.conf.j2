@@ -1,11 +1,11 @@
 domain-needed
 bogus-priv
-local=/{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/
+local=/{{ ec2_name_prefix }}.{{ local_workshop_dns_zone }}/
 {% for server in template.vars.upstream_dns_servers %}
 server={{ server }}
 {% endfor %}
 expand-hosts
-domain={{ ec2_name_prefix }}.{{ workshop_dns_zone }}
+domain={{ ec2_name_prefix }}.{{ local_workshop_dns_zone }}
 addn-hosts=/etc/dnsmasq.hosts
 interface={{ internal_connection }}
 
@@ -33,7 +33,7 @@ dhcp-boot=tag:efi-x86_64,ipxe.efi,{{ internal_address }}
 dhcp-userclass=set:ENH,iPXE
 dhcp-match=set:ENH,175
 # Boot ipxe
-dhcp-boot=tag:ENH,http://ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/workshop.ipxe
+dhcp-boot=tag:ENH,http://ipxe.{{ ec2_name_prefix }}.{{ local_workshop_dns_zone }}/workshop.ipxe
 
 {% if template.vars.dhcp_reservations is defined %}
 {% for dhcp_reservation in template.vars.dhcp_reservations %}

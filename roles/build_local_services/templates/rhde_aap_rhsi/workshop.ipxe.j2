@@ -16,8 +16,8 @@ goto ${student}
 
 {% for student_number in (range(1, (student_total+1), 1)|list) %}
 :student{{ student_number }}
-kernel http://ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/pxeboot/vmlinuz inst.stage2=http://ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/pxeboot quiet None inst.ks=http://ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/kickstarts/student{{ student_number }}.ks None initrd=initrd.img || goto download_fail
-initrd http://ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/pxeboot/initrd.img || goto download_fail
+kernel http://ipxe.{{ ec2_name_prefix }}.{{ local_workshop_dns_zone }}/pxeboot/vmlinuz inst.stage2=http://ipxe.{{ ec2_name_prefix }}.{{ local_workshop_dns_zone }}/pxeboot quiet None inst.ks=http://ipxe.{{ ec2_name_prefix }}.{{ local_workshop_dns_zone }}/kickstarts/student{{ student_number }}.ks None initrd=initrd.img || goto download_fail
+initrd http://ipxe.{{ ec2_name_prefix }}.{{ local_workshop_dns_zone }}/pxeboot/initrd.img || goto download_fail
 boot && exit 0 || goto boot_fail
 {% endfor %}
 
