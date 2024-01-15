@@ -199,7 +199,7 @@ Once you have the server VM created, you have to to deploy RHEL 9 on it (lab tes
 
 Add the `ansible` user to that server and be sure that you add it into the `sudoers` group.
 
-In addition to the server, you will need enough resources (2 cores, 2.5 GB RAM, 10GB disk) to create an additional VM that will act as edge device. That edge device VM will be attached with a single NIC to the isolated (with no DHCP) virtual network that you have created and where the previous server is attached to.
+In addition to the server, you will need enough resources (2 cores, at least 2.5 GB RAM, 10GB disk) to create an additional VM that will act as edge device. That edge device VM will be attached with a single NIC to the isolated (with no DHCP) virtual network that you have created and where the previous server is attached to.
 
 You don't need to create the VM before the lab, you just need to have enough resources to create it during [Section 2 - Automated device onboarding](#section-2---automated-device-onboarding). 
 
