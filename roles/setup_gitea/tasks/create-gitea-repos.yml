@@ -2,9 +2,9 @@
 
 - name: create repos
   ansible.builtin.uri:
-    url: "http://{{ ansible_host }}:3001/api/v1/admin/users/student{{ student_number }}/repos"
+    url: "{{ _gitea_full_host }}/api/v1/admin/users/student{{ student_number }}/repos"
     validate_certs: false
-    user: lab-instructor
+    user: "{{ _gitea_admin_user }}"
     password: '{{ admin_password }}'
     force_basic_auth: true
     body_format: json
@@ -26,9 +26,9 @@
 
 - name: create additional repos
   ansible.builtin.uri:
-    url: "http://{{ ansible_host }}:3001/api/v1/admin/users/student{{ item[0] }}/repos"
+    url: "{{ _gitea_full_host }}/api/v1/admin/users/student{{ item[0] }}/repos"
     validate_certs: false
-    user: lab-instructor
+    user: "{{ _gitea_admin_user }}"
     password: '{{ admin_password }}'
     force_basic_auth: true
     body_format: json
@@ -49,9 +49,9 @@
 
 - name: Create repo for demo
   ansible.builtin.uri:
-    url: "http://{{ ansible_host }}:3001/api/v1/admin/users/{{ gitea_demo_user }}/repos"
+    url: "{{ _gitea_full_host }}/api/v1/admin/users/{{ gitea_demo_user }}/repos"
     validate_certs: false
-    user: lab-instructor
+    user: "{{ _gitea_admin_user }}"
     password: '{{ admin_password }}'
     force_basic_auth: true
     body_format: json

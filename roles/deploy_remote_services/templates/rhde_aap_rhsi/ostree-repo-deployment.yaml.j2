@@ -1,0 +1,53 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ostree-repo-deployment
+  namespace: workshop-{{ workshop_type | regex_replace('_', '-') }}
+spec:
+  selector:
+    matchLabels:
+      app: ostree-repo
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: ostree-repo
+    spec:
+      containers:
+        - name: ostree-repo
+          image: image-registry.openshift-image-registry.svc:5000/workshop-{{ workshop_type | regex_replace('_', '-') }}/ostree-repo:latest
+          ports:
+            - containerPort: 8080
+              name: repo-port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ostree-repo-service
+  namespace: workshop-{{ workshop_type | regex_replace('_', '-') }}
+spec:
+  selector:
+    app: ostree-repo
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  type: NodePort
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: ostree-repo-route
+  namespace: workshop-{{ workshop_type | regex_replace('_', '-') }}
+spec:
+  host: ostree-repo.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}
+  to:
+    kind: Service
+    name: ostree-repo-service
+    weight: 100
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: None

@@ -1,0 +1,5 @@
+---
+
+- name: Deploy sample process control application
+  redhat.openshift.k8s:
+    template: "templates/{{ workshop_type }}/process-control-deploy.yaml.j2"

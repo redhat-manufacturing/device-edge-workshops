@@ -1,0 +1,44 @@
+---
+
+- name: create build dir
+  ansible.builtin.file:
+    path: "{{ build_dir }}"
+    state: directory
+
+- name: Build services
+  ansible.builtin.include_tasks:
+    file: build-container.yml
+    apply:
+      become: "{{ service.privileged | default('false') }}"
+  loop: "{{ services }}"
+  loop_control:
+    loop_var: service
+  when:
+    - service.build | default('true')
+
+- name: Push images
+  ansible.builtin.include_tasks:
+    file: push-image.yml
+  loop: "{{ services }}"
+  loop_control:
+    loop_var: service
+  when:
+    - service.push | default('true')
+   
+- name: Deploy services
+  ansible.builtin.include_tasks:
+    file: deploy-service.yml
+  loop: "{{ services }}"
+  loop_control:
+    loop_var: service
+  when:
+    - service.deploy | default('true')
+
+- name: Deploy via custom task file
+  ansible.builtin.include_tasks:
+    file: "{{ workshop_type }}/{{ service.deployment_tasks_file }}"
+  loop: "{{ services }}"
+  loop_control:
+    loop_var: service
+  when:
+    - service.deployment_tasks_file is defined

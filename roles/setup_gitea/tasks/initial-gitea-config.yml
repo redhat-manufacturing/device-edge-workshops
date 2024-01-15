@@ -9,4 +9,6 @@
   failed_when:
     - "'created' not in gitea_user_create.stdout"
     - "'already exists' not in gitea_user_create.stdout"
+  when:
+    - _create_initial_gitea_user
   #no_log: true

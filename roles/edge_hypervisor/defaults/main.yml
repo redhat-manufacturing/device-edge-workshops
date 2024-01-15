@@ -1,12 +1,12 @@
 ---
 
-use_rhsm_repos: false
+use_rhsm_repos: true
 
 cockpit_enabled: true
 cockpit_started: true
 cockpit_manage_firewall: true
 
-cockpit_packages:
+_cockpit_packages:
   - cockpit
   - cockpit-networkmanager
   - cockpit-packagekit
@@ -22,9 +22,15 @@ cockpit_config:
     IdleTimeout: 60
     Banner: "{{ ec2_name_prefix }} Device Edge Workshop"
 
-hypervisor_packages:
+_extra_hypervisor_packages:
   - genisoimage
   - isomd5sum
+
+_kvm_packages:
+  - qemu-kvm
+  - libvirt
+  - virt-install
+  - virt-viewer
 
 virtual_machines_yaml: |-
   {% for student_number in range(1, student_total + 1) %}
@@ -32,3 +38,39 @@ virtual_machines_yaml: |-
     ip: '192.168.122.{{ 10 + student_number }}'
     num: {{ student_number }}
   {% endfor %}
+
+_reverse_proxy_build_dir: "/home/{{ ansible_user }}/workshop-build/reverse-proxy"
+
+image_builder_http_port: 11080
+
+_hypervisor_services:
+  - reverse-proxy
+  - ostree-repo
+
+_installer_iso_build_dir: "/home/{{ ansible_user }}/installer-iso"
+
+_reverse_proxy_pod:
+  definition:
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      annotations:
+        io.podman.annotations.autoremove/hypervisor-services: "FALSE"
+        io.podman.annotations.init/hypervisor-services: "FALSE"
+        io.podman.annotations.privileged/hypervisor-services: "FALSE"
+        io.podman.annotations.publish-all/hypervisor-servicesi: "FALSE"
+      labels:
+        app: hypervisor-services
+      name: hypervisor-services
+    spec:
+      hostNetwork: true
+      containers:
+        - name: reverse-proxy
+          image: reverse-proxy:latest
+
+rhel_boot_iso_sha256: 6a9f135b8836edd06aba1b94fd6d0e72bd97b4115a3d2a61496b33f73e0a13a5
+
+_iso_build_packages:
+  - genisoimage
+  - syslinux
+  - isomd5sum

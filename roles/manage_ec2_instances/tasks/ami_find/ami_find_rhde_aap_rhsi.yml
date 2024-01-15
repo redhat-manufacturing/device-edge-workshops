@@ -1,0 +1,25 @@
+---
+
+- name: Setup for hypervisor in AWS
+  block:
+    - name: find ami for hypervisor node
+      ec2_ami_info:
+        region: "{{ ec2_region }}"
+        owners: "{{ ec2_info['hypervisor'].owners }}"
+        filters:
+          name: "{{ ec2_info['hypervisor'].filter }}"
+          architecture: "{{ ec2_info['hypervisor'].architecture }}"
+      register: hypervisor_node_amis
+
+    - name: save ami for node for hypervisor node
+      set_fact:
+        hypervisor_node_ami: >
+          {{ hypervisor_node_amis.images | selectattr('name', 'defined') | sort(attribute='name') | last }}
+
+- name: common tasks
+  block:
+    - name: Ensure RHEL9
+      ansible.builtin.assert:
+        that:
+          - hypervisor_node_ami.name[5] | int == 9
+        msg: "Please use RHEL9"

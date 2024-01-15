@@ -1,0 +1,117 @@
+---
+
+- name: Install iso build packages
+  ansible.builtin.dnf:
+    name: "{{ _iso_build_packages }}"
+
+- name: Create installer iso path
+  ansible.builtin.file:
+    path: "{{ _installer_iso_build_dir }}"
+    state: directory
+
+- name: Generating an access token
+  ansible.builtin.uri:
+    url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
+    method: POST
+    body_format: form-urlencoded
+    return_content: true
+    body:
+      grant_type: "refresh_token"
+      client_id: "rhsm-api"
+      refresh_token: "{{ offline_token }}"
+  register: temp_token
+  until: temp_token is not failed
+  retries: 15
+  delay: 20
+
+- name: Download rhel boot iso
+  ansible.builtin.get_url:
+    url: "https://api.access.redhat.com/management/v1/images/{{ rhel_boot_iso_sha256 }}/download"
+    headers:
+      accept: "application/json"
+      Authorization: "Bearer {{ temp_token.json.access_token }}"
+    dest: "{{ _installer_iso_build_dir }}/rhel-9-x86_64-boot.iso"
+    checksum: "sha256: {{ rhel_boot_iso_sha256 }}"
+  register: download_rhel_boot_iso
+  until: download_rhel_boot_iso is not failed
+  retries: 15
+  delay: 20
+
+- name: Check for existing ISO
+  ansible.builtin.stat:
+    path: "{{ _installer_iso_build_dir }}/workshop-rhde-installer.iso"
+  register: _installer_iso
+
+- name: Build tasks
+  when:
+    - not _installer_iso.stat.exists
+  block:
+    - name: Create build dir
+      ansible.builtin.file:
+        path: "{{ _installer_iso_build_dir }}/build"
+        state: directory
+
+    - name: Mount boot iso
+      ansible.posix.mount:
+        path: "{{ _installer_iso_build_dir }}/mount"
+        src: "{{ _installer_iso_build_dir }}/rhel-9-x86_64-boot.iso"
+        fstype: iso9660
+        opts: loop
+        state: ephemeral
+      become: true
+    
+    - name: Copy iso files
+      ansible.builtin.shell:
+        cmd: cp -ra mount/. build/
+        chdir: "{{ _installer_iso_build_dir }}"
+
+    - name: Template out grub.cfg
+      ansible.builtin.template:
+        src: templates/grub.cfg.j2
+        dest: "{{ _installer_iso_build_dir }}/build/EFI/BOOT/grub.cfg"
+    
+    - name: Template out isolinux.xfg
+      ansible.builtin.template:
+        src: templates/isolinux.cfg.j2
+        dest: "{{ _installer_iso_build_dir }}/build/isolinux/isolinux.cfg"
+    
+    - name: Template out kickstart
+      ansible.builtin.template:
+        src: templates/kickstart.ks.j2
+        dest: "{{ _installer_iso_build_dir }}/build/kickstart.ks"
+    
+    - name: Build ISO
+      ansible.builtin.shell:
+        cmd: >
+          mkisofs -o ../workshop-rhde-installer.iso -b isolinux/isolinux.bin -J -R -l
+          -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot
+          -e images/efiboot.img -no-emul-boot -graft-points -joliet-long -V "RHEL-9-3-0-BaseOS-x86_64" .
+        chdir: "{{ _installer_iso_build_dir }}/build/"
+      register: _iso_created
+      become: true
+    
+    - name: Run isohybrid
+      ansible.builtin.shell:
+        cmd: "isohybrid --uefi {{ _installer_iso_build_dir }}/workshop-rhde-installer.iso"
+      when:
+        - _iso_created.changed
+      become: true
+    
+    - name: Put in md5sum
+      ansible.builtin.shell:
+        cmd: "implantisomd5 {{ _installer_iso_build_dir }}/workshop-rhde-installer.iso"
+      when:
+        - _iso_created.changed
+      become: true
+
+    - name: Unmount boot iso
+      ansible.posix.mount:
+        path: "{{ _installer_iso_build_dir }}/mount"
+        state: unmounted
+      become: true
+
+- name: Copy to iso dir
+  ansible.builtin.copy:
+    src: "{{ _installer_iso_build_dir }}/workshop-rhde-installer.iso"
+    dest: /var/virtual-machines/iso/
+    remote_src: true

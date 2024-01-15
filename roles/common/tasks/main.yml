@@ -20,3 +20,6 @@
 
 - name: import selinux tasks
   ansible.builtin.import_tasks: selinux.yml
+
+- name: Import python libraries tasks
+  ansible.builtin.import_tasks: python-libraries.yml

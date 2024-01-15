@@ -1,13 +1,15 @@
 ---
 
-- name: configure hypervisor
+- name: Configure hypervisors
   hosts:
-    - edge_hypervisor
-  become: true
+    - hypervisors
   tasks:
-    - name: include student user config role
+    - name: Include student user config role
       ansible.builtin.include_role:
         name: ../roles/student_users
-    - name: include hypervisor config role
+        apply:
+          become: true
+
+    - name: Include hypervisor config role
       ansible.builtin.include_role:
         name: ../roles/edge_hypervisor

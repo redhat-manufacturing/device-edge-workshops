@@ -1,0 +1,8 @@
+---
+
+- name: Retrieve route53 zone info
+  amazon.aws.route53_zone:
+    zone: "{{ workshop_dns_zone }}"
+    access_key: "{{ lookup('ansible.builtin.env', 'AWS_ACCESS_KEY_ID') }}"
+    secret_key: "{{ lookup('ansible.builtin.env', 'AWS_SECRET_ACCESS_KEY') }}"
+  register: _route53_zone_info

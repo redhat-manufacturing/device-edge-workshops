@@ -1,0 +1,38 @@
+---
+
+# Recursively call this task file
+# Attempt to configure license
+# If it doesn't work, wait and retry
+#
+# Not sure if I'm proud or disappointed
+
+- name: Recursive block
+  block:
+    - name: Retry++
+      ansible.builtin.set_fact:
+        retries: "{{ 0 if retries is undefined else retries | int + 1 }}"
+
+    - name: Try to configure license
+      ansible.builtin.include_role:
+        name: redhat_cop.controller_configuration.license
+      vars:
+        controller_license: "{{ controller_configuration.license }}"
+
+    - name: Allow controller to "digest" license
+      ansible.builtin.pause:
+        seconds: 60
+
+  rescue:
+    - name: Fail out if retries > 300
+      ansible.builtin.fail:
+        msg: Controller never came up, failing.
+      when:
+        - retries | int == 300
+
+    - name: Wait for controller
+      ansible.builtin.pause:
+        seconds: 10
+
+    - name: Recurse
+      ansible.builtin.include_tasks:
+        file: wait_for_controller.yml

@@ -43,3 +43,12 @@ provisioner/training.sandbox*/
 provisioner/workshop_vars/rhde_gitops.yml
 test_*
 provision_files/
+# tmp ignores to clean up my vscode window
+kubecon-application.yml
+generate-blueprint.yml
+kubecon_2023.yml
+route53-for-ocp.yml
+route53-records.yml
+provisioner/rho*
+rhde_fdo_rtk.yml
+exercises/rhde_aap_rhsi/hold

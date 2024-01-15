@@ -1,0 +1,7 @@
+---
+
+- name: umount boot iso
+  ansible.posix.mount:
+    path: "{{ build_dir }}/ipxe/boot_iso"
+    state: absent
+  become: true

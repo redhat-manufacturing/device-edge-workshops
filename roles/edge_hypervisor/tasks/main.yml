@@ -1,22 +1,27 @@
 ---
 
-- name: import pre-flight tasks
-  ansible.builtin.import_tasks: pre-flight.yml
+- name: Include become tasks
+  ansible.builtin.include_tasks:
+    file: "{{ _tasks_file }}"
+    apply:
+      become: true
+  loop:
+    - pre-flight.yml
+    - packages.yml
+    - kvm.yml
+    - virtual-networking.yml
+    - create-installer-iso.yml
+    - virtual-machines.yml
+    - cockpit.yml
+    - local-dns.yml
+  loop_control:
+    loop_var: _tasks_file
 
-- name: import packages tasks
-  ansible.builtin.import_tasks: packages.yml
-
-- name: import kvm tasks
-  ansible.builtin.import_tasks: kvm.yml
-
-- name: import virtual networking tasks
-  ansible.builtin.import_tasks: virtual-networking.yml
-
-- name: import virtual machine tasks
-  ansible.builtin.import_tasks: virtual-machines.yml
-
-- name: import cockpit tasks
-  ansible.builtin.import_tasks: cockpit.yml
-
-- name: import student auth tasks
-  ansible.builtin.import_tasks: student-auth.yml
+- name: Include non-become tasks
+  ansible.builtin.include_tasks:
+    file: "{{ _tasks_file }}"
+  loop:
+    - aws-dns.yml
+    - reverse-proxy.yml
+  loop_control:
+    loop_var: _tasks_file 

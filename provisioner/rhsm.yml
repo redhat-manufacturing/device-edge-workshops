@@ -4,7 +4,7 @@
   hosts:
     - edge_management
     - controller
-    - edge_hypervisor
+    - hypervisors
     - edge_local_management
     - edge_remote_management
   become: true

@@ -75,7 +75,7 @@
       environment:
         KUBECONFIG: "{{ install_dir }}/auth/kubeconfig"
       register: _login_test
-      retries: 10
+      retries: 60
       delay: 10
       loop: "{{ (range(1, (student_total + 1), 1)|list) }}"
       loop_control:

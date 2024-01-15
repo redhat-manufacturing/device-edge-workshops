@@ -63,7 +63,7 @@
 
 - name: push repos into local source control
   ansible.builtin.shell:
-    cmd: "git push --set-upstream http://student{{ student_number }}:'{{ admin_password }}'@{{ ansible_host }}:3001/student{{ student_number }}/{{ repo_name }}.git main"
+    cmd: "git push --set-upstream {{ _gitea_protocol }}://student{{ student_number }}:'{{ admin_password }}'@{{ _gitea_short_host }}/student{{ student_number }}/{{ repo_name }}.git main"
     chdir: "{{ repo_root_path }}"
   register: code_push
   #delegate_to: localhost

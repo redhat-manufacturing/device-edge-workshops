@@ -1,12 +1,12 @@
 ---
 
-- name: Create namespace {{ _namespace.metadata.name }}
+- name: Create namespace for operator install
   redhat.openshift.k8s:
     definition: "{{ _namespace }}"
 
-- name: Create operator group {{ _operator_group }}
+- name: Create operator group
   redhat.openshift.k8s:
-    definition: "{{ _operator_group }}"
+    template: templates/operatorgroup.yaml.j2
 
 - name: Install operator
   redhat.openshift.k8s:
@@ -14,7 +14,7 @@
 
 - name: Create instance of controller
   redhat.openshift.k8s:
-    definition: "{{ _controller }}"
+    template: templates/automationcontroller.yaml.j2
   register: _instance_deploy
   until:
     - not _instance_deploy.failed

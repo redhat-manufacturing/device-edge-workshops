@@ -20,5 +20,3 @@
     - name: run connection config role
       ansible.builtin.include_role:
         name: ../roles/workshop_local_network
-      when:
-        - workshop_type == 'rhde_tse' or workshop_type == 'rhde_fdo_rtk' or workshop_type == 'rhde_gitops' or demo_type == 'summit_connect_2023' or demo_type == 'sps_2023'

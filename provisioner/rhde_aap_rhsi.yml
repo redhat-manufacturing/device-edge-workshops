@@ -30,6 +30,9 @@
 - name: import selection validator playbook
   ansible.builtin.import_playbook: selection-validator.yml
 
+- name: Import aws setup playbook
+  ansible.builtin.import_playbook: setup-aws-instances.yml
+
 - name: import connectivity playbook
   ansible.builtin.import_playbook: ensure-connectivity.yml
 
@@ -39,11 +42,55 @@
 - name: import common roles playbook
   ansible.builtin.import_playbook: common.yml
 
-- name: import wildcard cert playbook
-  ansible.builtin.import_playbook: ocp-wildcard-cert.yml
-
-- name: import ocp install playbook
+- name: Import OCP install playbook
   ansible.builtin.import_playbook: install-ocp-on-aws.yml
 
-- name: import ocp ingress cert playbook
+- name: Import OCP ingress cert playbook
   ansible.builtin.import_playbook: update-ocp-ingress-cert.yml
+
+- name: Import student auth playbook
+  ansible.builtin.import_playbook: configure-ocp-auth-for-students.yml
+
+- name: Import workshop namespace playbook
+  ansible.builtin.import_playbook: create-workshop-namespace.yml
+
+- name: Import student namespaces playbook
+  ansible.builtin.import_playbook: create-student-namespaces.yml
+
+- name: Import AAP install playbook
+  ansible.builtin.import_playbook: install-aap-on-ocp.yml
+
+- name: Import RHSI install playbook
+  ansible.builtin.import_playbook: install-rhsi-on-ocp.yml
+
+- name: Import image registry config playbook
+  ansible.builtin.import_playbook: configure-ocp-registry.yml
+
+- name: compose images
+  ansible.builtin.import_playbook: compose-images.yml
+
+- name: Import remote services playbook
+  ansible.builtin.import_playbook: deploy-remote-services.yml
+
+# Let OpenShift cook, do other things here
+
+- name: import wildcard cert playbook
+  ansible.builtin.import_playbook: wildcard-cert.yml
+
+- name: Populate Gitea
+  ansible.builtin.import_playbook: gitea.yml
+
+- name: Populate Ansible Controller
+  ansible.builtin.import_playbook: populate-controllers-on-ocp.yml
+
+- name: setup local connection
+  ansible.builtin.import_playbook: local-connection.yml
+
+- name: build local services
+  ansible.builtin.import_playbook: build-local-services.yml
+
+- name: run local services
+  ansible.builtin.import_playbook: run-local-services.yml
+
+- name: Import hypervisor playbook
+  ansible.builtin.import_playbook: hypervisor.yml

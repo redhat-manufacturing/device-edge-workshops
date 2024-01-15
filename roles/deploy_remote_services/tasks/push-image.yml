@@ -1,0 +1,15 @@
+---
+
+- name: Get token to login to registry
+  ansible.builtin.shell:
+    cmd: oc whoami -t
+  register: _auth_token
+  changed_when: false
+
+- name: Push images to registry
+  containers.podman.podman_image:
+    name: "{{ _image_registry.host }}/{{ _workshop_namespace }}/{{ service.name }}:latest"
+    push: true
+    username: "{{ _image_registry.username }}"
+    password: "{{ _auth_token.stdout }}"
+    validate_certs: false

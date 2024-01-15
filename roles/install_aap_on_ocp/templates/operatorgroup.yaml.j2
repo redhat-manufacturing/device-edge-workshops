@@ -1,0 +1,11 @@
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: ansible-automation-platform-operator
+  namespace: ansible-automation-platform
+spec:
+  targetNamespaces:
+{% for student_number in range(1, student_total + 1) %}
+    - "student{{ student_number }}-workshop-{{ workshop_type | regex_replace('_', '-') }}"
+{% endfor %}

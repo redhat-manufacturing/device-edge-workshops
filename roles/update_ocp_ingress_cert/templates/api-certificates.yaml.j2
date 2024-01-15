@@ -1,0 +1,14 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: openshift-api
+  namespace: openshift-config
+spec:
+  dnsNames:
+    - api.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: zerossl-production
+  secretName: openshift-api-cert

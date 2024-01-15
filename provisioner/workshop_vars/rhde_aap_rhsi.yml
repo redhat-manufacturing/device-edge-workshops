@@ -1,8 +1,42 @@
 ---
 
+remote_services:
+  - name: attendance
+    containerfile: attendance-containerfile
+    pre_tasks:
+      - attendance-rsync-site.yml
+      - attendance-student-pages.yml
+    templates:
+      - src: attendance-App.js.j2
+        dest: app-src/src/App.js
+      - src: attendance-index.js.j2
+        dest: app-src/src/pages/index.js
+      - src: attendance-Password.js.j2
+        dest: app-src/src/Password.js
+    deployment: attendance-deployment.yaml.j2
+  - name: gitea
+    custom: true
+    build: false
+    push: false
+    deploy: false
+    deployment_tasks_file: gitea-deploy.yml
+  - name: process-control
+    custom: true
+    build: false
+    push: false
+    deploy: false
+    deployment_tasks_file: process-control-deploy.yml
+  - name: ostree-repo
+    containerfile: ostree-repo-containerfile
+    pre_tasks:
+      - ostree-repo-copy-repo.yml
+    deployment: ostree-repo-deployment.yaml.j2
+
 local_services:
   - name: dnsmasq
     privileged: true
+    pre_tasks:
+      - dnsmasq-remove-from-os.yml 
     templates:
       - src: dnsmasq.conf.j2
         dest: dnsmasq.conf
@@ -21,42 +55,15 @@ local_services:
           dns_entries:
             - record: "ipxe.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
-            - record: "controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
             - record: "image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
             - record: "gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
-            - record: "eda.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
             - record: "ostree-repo.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
               address: "{{ internal_address }}"
-            - record: "attendance.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
-            - record: "exercises.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
-              address: "{{ internal_address }}"
-          dhcp_reservations:
-            - mac_address: 'e4:90:69:a2:b7:41'
-              ip_address: 192.168.1.141
-              name: plc
-            - mac_address: 'e4:90:69:a2:b7:42'
-              ip_address: 192.168.1.142
-              name: drive
     post_tasks:
       - dnsmasq-update-etc-hosts.yml
     containerfile: dnsmasq-containerfile
-  - name: eda
-    containerfile: eda-containerfile
-    templates:
-      - src: eda-run-workflow.yml.j2
-        dest: run-workflow.yml
-    files:
-      - src: eda-rulebook.yml
-        dest: rulebook.yml
-      - src: eda-inventory.yml
-        dest: inventory.yml
-      - src: eda-ansible.cfg
-        dest: ansible.cfg
   - name: reverse-proxy
     containerfile: reverse-proxy-containerfile
     pre_tasks:
@@ -66,28 +73,15 @@ local_services:
         dest: nginx.conf
         vars:
           proxied_services:
-            - name: eda
-              proxy_pass: "http://localhost:5000/"
             - name: ipxe
               proxy_pass: "http://localhost:8081/"
-            - name: controller
-              proxy_pass: "https://localhost:10443/"
-              proxy_advanced_options:
-                - proxy_ssl_verify off
             - name: image-builder
               proxy_pass: "https://localhost:9090/"
               web_socket: true
               proxy_advanced_options:
                 - proxy_ssl_verify off
-            - name: gitea
-              proxy_pass: "http://localhost:3001/"
             - name: ostree-repo
               proxy_pass: "http://localhost:8080/"
-            - name: attendance
-              proxy_pass: "http://localhost:3000/"
-              web_socket: true
-            - name: exercises
-              proxy_pass: https://redhat-manufacturing.github.io/device-edge-workshops/exercises/rhde_tse/
   - name: ipxe
     containerfile: ipxe-containerfile
     pre_tasks:
@@ -101,26 +95,6 @@ local_services:
     files:
       - src: ipxe-nginx.conf
         dest: nginx.conf
-  - name: database
-    containerfile: database-containerfile
-    templates:
-      - src: database-postgresql.conf.j2
-        dest: postgresql.conf
-      - src: database-db-start.sh.j2
-        dest: db-start.sh
-        vars:
-          databases:
-            - name: gitea
-              username: gitea
-              password: gitea
-            - name: attendance
-              username: attendance
-              password: attendance
-  - name: gitea
-    containerfile: gitea-containerfile
-    templates:
-      - src: gitea-app.ini.j2
-        dest: app.ini
   - name: tftp
     containerfile: tftp-containerfile
     pre_tasks:
@@ -132,34 +106,22 @@ local_services:
     files:
       - src: ostree-repo-nginx.conf
         dest: nginx.conf
-  - name: attendance
-    containerfile: attendance-containerfile
-    pre_tasks:
-      - attendance-student-pages.yml
-      - attendance-rsync-site.yml
-    templates:
-      - src: attendance-App.js.j2
-        dest: attendance/src/App.js
-      - src: attendance-index.js.j2
-        dest: attendance/src/pages/index.js
-      
-
 
 pods:
-  - name: workshop-rhde_tse-priv
+  - name: workshop-rhde_aap_rhsi-priv
     privileged: true
     definition:
       apiVersion: v1
       kind: Pod
       metadata:
         annotations:
-          io.podman.annotations.autoremove/workshop-rhde_tse-priv: "FALSE"
-          io.podman.annotations.init/workshop-rhde_tse-priv: "FALSE"
-          io.podman.annotations.privileged/workshop-rhde_tse-priv: "TRUE"
-          io.podman.annotations.publish-all/workshop-rhde_tse-priv: "FALSE"
+          io.podman.annotations.autoremove/workshop-rhde_aap_rhsi-priv: "FALSE"
+          io.podman.annotations.init/workshop-rhde_aap_rhsi-priv: "FALSE"
+          io.podman.annotations.privileged/workshop-rhde_aap_rhsi-priv: "TRUE"
+          io.podman.annotations.publish-all/workshop-rhde_aap_rhsi-priv: "FALSE"
         labels:
-          app: workshop-rhde_tse-priv
-        name: workshop-rhde_tse-priv
+          app: workshop-rhde_aap_rhsi-priv
+        name: workshop-rhde_aap_rhsi-priv
       spec:
         hostNetwork: true
         containers:
@@ -167,45 +129,30 @@ pods:
             image: dnsmasq:latest
             securityContext:
               privileged: true
-  - name: workshop-rhde_tse
+  - name: workshop-rhde_aap_rhsi
     definition:
       apiVersion: v1
       kind: Pod
       metadata:
         annotations:
-          io.podman.annotations.autoremove/workshop-rhde_tse: "FALSE"
-          io.podman.annotations.init/workshop-rhde_tse: "FALSE"
-          io.podman.annotations.privileged/workshop-rhde_tse: "FALSE"
-          io.podman.annotations.publish-all/workshop-rhde_tse: "FALSE"
+          io.podman.annotations.autoremove/workshop-rhde_aap_rhsi: "FALSE"
+          io.podman.annotations.init/workshop-rhde_aap_rhsi: "FALSE"
+          io.podman.annotations.privileged/workshop-rhde_aap_rhsi: "FALSE"
+          io.podman.annotations.publish-all/workshop-rhde_aap_rhsi: "FALSE"
         labels:
-          app: workshop-rhde_tse
-        name: workshop-rhde_tse
+          app: workshop-rhde_aap_rhsi
+        name: workshop-rhde_aap_rhsi
       spec:
         hostNetwork: true
         containers:
           - name: reverse-proxy
             image: reverse-proxy:latest
-          - name: eda
-            image: eda:latest
           - name: ipxe
             image: ipxe:latest
-          - name: database
-            image: database:latest
-            volumeMounts:
-              - mountPath: /var/lib/pgsql/data
-                name: database-data
-          - name: gitea
-            image: gitea:latest
           - name: tftp
             image: tftp:latest
           - name: ostree-repo
             image: ostree-repo:latest
-          - name: attendance
-            image: attendance:latest
-        volumes:
-          - name: database-data
-            persistentVolumeClaim:
-              claimName: workshop-rhde_tse-database
 
 builder_blueprint_name: rhde-image
 images_to_compose:
@@ -217,21 +164,34 @@ images_to_compose:
       - nano
       - NetworkManager-wifi
       - podman
+      - cockpit
+      - skupper-cli
+      - openshift-clients
+      - systemd-container
+    customizations:
+      firewall:
+        ports:
+          - '9090:tcp'
+      services:
+        enabled:
+          - cockpit.socket
+    containers:
+      # Switch this to the :latest tag at some point
+      - source: registry.redhat.io/service-interconnect/skupper-router-rhel9:2.4.3
+    rhsm_repos:
+      - service-interconnect-1-for-rhel-{{ ansible_distribution_major_version }}-x86_64-rpms
+      - "rhocp-4.14-for-rhel-{{ ansible_distribution_major_version }}-x86_64-rpms"
 image_builder_http_port: 11080
+image_builder_protected_container: true
 
 skip_builder_services: true
 
 install_gitea: false
-gitea_container: workshop-rhde_tse-gitea
-repo_files:
-  - src: templates/README.md.j2
-    dest: README.md
-  - src: templates/hello-world.yml.j2
-    dest: playbooks/hello-world.yml
-  - src: templates/rhde_tse/manage-hosts-in-controller.yml.j2
-    dest: playbooks/manage-hosts-in-controller.yml
-  - src: templates/rhde_tse/initial-configuration.yml.j2
-    dest: playbooks/initial-configuration.yml
+_create_initial_gitea_user: false
+_gitea_protocol: https
+_gitea_short_host: "gitea.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+_gitea_full_host: "{{ _gitea_protocol }}://gitea.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+_gitea_admin_user: instructor
 
 allowed_external_services:
   - port: 5000
@@ -243,3 +203,69 @@ allowed_external_services:
   - port: 3000
   - port: 80
   - port: 443
+
+controller_configuration_projects_async_retries: 300
+controller_configuration:
+  license:
+    manifest_content: "{{ base64_manifest }}"
+  organizations:
+    - name: "Student{{ student_number }} Organization"
+  users:
+    - username: "student{{ student_number }}"
+      password: "{{ admin_password }}"
+      email: "student{{ student_number }}@dont-email.me"
+      organization: "Student{{ student_number }} Organization"
+  roles:
+    - user: "student{{ student_number }}"
+      organization: "Student{{ student_number }} Organization"
+      role: admin
+  inventories:
+    - name: Edge Devices
+      organization: "Student{{ student_number }} Organization"
+      variables:
+        student_number: "{{ student_number }}"
+    - name: Local Actions
+      organization: "Student{{ student_number }} Organization"
+      variables:
+        student_number: "{{ student_number }}"
+  hosts:
+    - name: localhost
+      inventory: Local Actions
+      variables:
+        ansible_connection: local
+        ansible_python_interpreter: "{  { ansible_playbook_python }}"
+  execution_environments:
+    - name: Device Edge Workshops Execution Environment
+      image: quay.io/device-edge-workshops/provisioner-execution-environment:latest
+      pull: missing
+  credentials:
+    - name: Gitea Credentials
+      organization: "Student{{ student_number }} Organization"
+      credential_type: Source Control
+      inputs:
+        username: "student{{ student_number }}"
+        password: "{{ admin_password }}"
+    - name: Device Credentials
+      organization: "Student{{ student_number }} Organization"
+      credential_type: Machine
+      inputs:
+        username: ansible
+        password: "{{ admin_password }}"
+        become_password: "{{ admin_password }}"
+  projects:
+    - name: Device Edge Codebase
+      organization: "Student{{ student_number }} Organization"
+      scm_type: git
+      scm_branch: main
+      scm_url: https://gitea.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-codebase.git
+      credential: Gitea Credentials
+  job_templates:
+    - name: Test Device Connectivity
+      organization: "Student{{ student_number }} Organization"
+      inventory: Edge Devices
+      project: Device Edge Codebase
+      playbook: playbooks/hello-world.yml
+      credentials:
+        - Device Credentials
+      execution_environment: Device Edge Workshops Execution Environment
+

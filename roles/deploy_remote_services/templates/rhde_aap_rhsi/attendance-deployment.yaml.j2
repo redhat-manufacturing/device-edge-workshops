@@ -1,0 +1,53 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: attendance-deployment
+  namespace: workshop-{{ workshop_type | regex_replace('_', '-') }}
+spec:
+  selector:
+    matchLabels:
+      app: attendance
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: attendance
+    spec:
+      containers:
+        - name: attendance
+          image: image-registry.openshift-image-registry.svc:5000/workshop-{{ workshop_type | regex_replace('_', '-') }}/attendance:latest
+          ports:
+            - containerPort: 3000
+              name: attendance-port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: attendance-service
+  namespace: workshop-{{ workshop_type | regex_replace('_', '-') }}
+spec:
+  selector:
+    app: attendance
+  ports:
+  - port: 3000
+    protocol: TCP
+    targetPort: 3000
+  type: NodePort
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: attendance-route
+  namespace: workshop-{{ workshop_type | regex_replace('_', '-') }}
+spec:
+  host: attendance.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}
+  to:
+    kind: Service
+    name: attendance-service
+    weight: 100
+  port:
+    targetPort: 3000
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: None

@@ -3,7 +3,7 @@
 - name: run common role
   hosts:
     - edge_management
-    - edge_hypervisor
+    - hypervisors
     - attendance
     - edge_local_management
   become: true

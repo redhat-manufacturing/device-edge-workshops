@@ -2,5 +2,6 @@
 
 - name: install packges to the system
   ansible.builtin.dnf:
-    name: "{{ hypervisor_packages }}"
+    name: "{{ _extra_hypervisor_packages }}"
     state: present
+  become: true

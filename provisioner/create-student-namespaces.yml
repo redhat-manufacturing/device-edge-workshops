@@ -1,0 +1,7 @@
+---
+
+- name: Create student namespaces
+  hosts:
+    - edge_management
+  roles:
+    - ../roles/create_student_namespaces

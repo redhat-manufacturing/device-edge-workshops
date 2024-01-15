@@ -14,17 +14,60 @@ This lab walks participants through the act of managing Red Hat Device Edge for 
 - [x] Wildcard cert
  
 ## Section 1 - AWS Setup
+- [x] Generate ssh keypair
+- [x] Create storage bucket for keypair
+- [x] Create vpc for hypervisor
+- [x] Create internet gateway
+- [x] Create routes
+- [x] Provision hypervisor node
+- [x] Add host to running inventory
+- [ ] Create DNS entry
+
+## Section 2 - OpenShift Setup
 - [x] Configure OCP tooling
 - [x] Install OCP
-- [x] Use valid cert # Confirm this
+- [x] Use valid cert
+      - Update to use yaml not `oc` commands
 - [x] htpasswd for student auth
-- [ ] Namespace for each student
-- [x] Install AAP
-- [ ] Configure AAP
+- [x] Workshop namespace
+
+## Section 3 - Core Services Setup
+| Service | Platform | Installation | Configuration |
+| ------- | -------- | ------------ | ------------- |
+| Ansible Controller | OCP | <ul><li>[x]</li></ul> | <ul><li>[x]</li></ul> |
+| Service Interconnect | OCP | <ul><li>[x]</li></ul> | <ul><li>[x]</li></ul> |
+| Attendance Pages | OCP | <ul><li>[x]</li></ul> | <ul><li>[x]</li></ul> |
+| Gitea | OCP | <ul><li>[x]</li></ul> | <ul><li>[x]</li></ul> |
+| Sample Application | OCP | <ul><li>[x]</li></ul> | <ul><li>[x]</li></ul> |
 
 ## Section 2 - Local Edge Manager Setup
+- [x] Standard services (minus workshop pages?)
+      - Move DNS from dnsmasq to bind, locally resolve AWS resources | maybe
 
 ## Section 3 - Local Devices Setup
+- [?] Pre-provision devices
 
-## Section 4 - Cloud Devices Setup
+## Section 4 - Hypervisor setup
+- [x] Cockpit
+- [x] Virtual machines
+- [x] Student logins
+
+## Section 5 - Exercises
+- [ ] Device provisioning?
+- [ ] Deploy skupper
+- [ ] Register with AAP
+- [ ] Deploy application
+
+## Section 6 - Provision Resources
+- [x] Example vars file
+- [ ] Example inventory file
+- [ ] Provisioner documentation addendum
+
+# Known Issues
+- N/A
+
+# To-Dos
+- Refactor on-premise DNS to correctly handle having the same dns zone in the room and in the cloud
+- Add example process control URL to student pages
+- All the VMs are student2? I think the VM template is using the same MAC address for everything
 

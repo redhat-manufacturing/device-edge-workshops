@@ -1,0 +1,63 @@
+---
+
+- name: Load in variables
+  ansible.builtin.include_vars:
+    file: "workshop_vars/{{ workshop_type }}.yml"
+
+- name: Wait/configure subscription
+  ansible.builtin.include_tasks:
+    file: wait_for_controller.yml
+
+- name: Configure organizations
+  ansible.builtin.include_role:
+    name: redhat_cop.controller_configuration.organizations
+  vars:
+    controller_organizations: "{{ controller_configuration.organizations }}"
+
+- name: configure execution environments
+  ansible.builtin.include_role:
+    name: redhat_cop.controller_configuration.execution_environments
+  vars:
+    controller_execution_environments: "{{ controller_configuration.execution_environments }}"
+
+- name: Configure users
+  ansible.builtin.include_role:
+    name: redhat_cop.controller_configuration.users
+  vars:
+    controller_user_accounts: "{{ controller_configuration.users }}"
+
+- name: configure roles
+  ansible.builtin.include_role:
+    name: redhat_cop.controller_configuration.roles
+  vars:
+    controller_roles: "{{ controller_configuration.roles }}"
+
+- name: Configure credentials
+  ansible.builtin.include_role:
+    name: redhat_cop.controller_configuration.credentials
+  vars:
+    controller_credentials: "{{ controller_configuration.credentials }}"
+
+- name: configure inventories
+  ansible.builtin.include_role:
+    name: redhat_cop.controller_configuration.inventories
+  vars:
+    controller_inventories: "{{ controller_configuration.inventories }}"
+
+- name: configure hosts
+  ansible.builtin.include_role:
+    name: redhat_cop.controller_configuration.hosts
+  vars:
+    controller_hosts: "{{ controller_configuration.hosts }}"
+
+- name: configure projects
+  ansible.builtin.include_role:
+    name: redhat_cop.controller_configuration.projects
+  vars:
+    controller_projects: "{{ controller_configuration.projects }}"
+
+- name: configure job templates
+  ansible.builtin.include_role:
+    name: redhat_cop.controller_configuration.job_templates
+  vars:
+    controller_templates: "{{ controller_configuration.job_templates }}"

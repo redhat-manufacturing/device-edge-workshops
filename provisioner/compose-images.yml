@@ -9,7 +9,6 @@
     ansible_become_timeout: 120 
   become: true
   pre_tasks:
-
     - name: Include workshop or demo variables
       include_vars:
         file: "{{ playbook_dir }}/workshop_vars/{{ workshop_type }}.yml"
@@ -21,6 +20,12 @@
         file: "{{ playbook_dir }}/demo_vars/{{ demo_type }}.yml"
       when: demo_type is defined
       ignore_errors: yes
+
+    - name: Login to registry.redhat.io if using protected container images
+      containers.podman.podman_login:
+        registry: registry.redhat.io
+        username: "{{ redhat_username }}"
+        password: "{{ redhat_password }}"
 
     - name: rhel8 tasks
       when:

@@ -1,15 +1,51 @@
 ---
 
-- name: restart cockpit service
-  ansible.builtin.systemd:
-    name: cockpit.service
-    state: restarted
-  listen:
-    - restart_cockpit
-
 - name: restart sshd
   ansible.builtin.systemd:
     name: sshd
     state: restarted
   listen:
     - restart_sshd
+
+- name: apply kernel params now
+  ansible.builtin.shell:
+    cmd: sysctl -p
+  become: true
+  listen:
+    - sysctl_reload
+
+- name: Stop existing pod
+  containers.podman.podman_play:
+    kube_file: "{{ _reverse_proxy_build_dir }}/pod.yaml"
+    state: absent
+  listen:
+    - rebuild_container
+
+- name: Remove exiting image
+  containers.podman.podman_image:
+    name: reverse-proxy:latest
+    state: absent
+  listen:
+    - rebuild_container
+
+- name: Build reverse-proxy
+  containers.podman.podman_image:
+    name: reverse-proxy:latest
+    path: "{{ _reverse_proxy_build_dir }}/"
+  listen:
+    - rebuild_container
+
+- name: Push out pod file
+  ansible.builtin.copy:
+    content: "{{ _reverse_proxy_pod.definition }}"
+    dest: "{{ _reverse_proxy_build_dir }}/pod.yaml"
+    owner: "{{ ansible_user }}"
+  listen:
+    - rebuild_container
+
+- name: Run pod
+  containers.podman.podman_play:
+    kube_file: "{{ _reverse_proxy_build_dir }}/pod.yaml"
+    state: started
+  listen:
+    - rebuild_container

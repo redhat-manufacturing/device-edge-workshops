@@ -1,0 +1,45 @@
+import React from 'react';
+import "@patternfly/react-core/dist/styles/base.css";
+import "@patternfly/patternfly/patternfly.css"
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+
+import Homepage from './pages';
+import PassPage from './Password';
+{% for student_number in (range(1, (student_total+1), 1)|list) %}
+import Overview{{ student_number }} from './Overview{{ student_number }}';
+{% endfor %}
+
+import GithubIcon from '@patternfly/react-icons/dist/esm/icons/github-icon';
+import AnisbleIcon from '@patternfly/react-icons/dist/esm/icons/ansible-tower-icon';
+import Background from './images/pfbg_1200.jpg';
+import './App.css';
+import { Button } from '@patternfly/react-core';
+
+// get the current year for the footer
+const getCurrYear = () => {
+  var today = new Date(),
+    currYear = today.getFullYear(); 
+  return currYear;
+}
+
+
+const App = () => {
+  return (
+    <div>
+      <span>
+        <footer className="footer">&#169; {getCurrYear()} - Red Hat</footer> 
+      </span>
+      <Router>
+      <Routes>
+        <Route exact path='/' exact element={<PassPage />} />
+        <Route path='/Homepage' element={<Homepage />} />
+{% for student_number in (range(1, (student_total+1), 1)|list) %}
+        <Route path='/Student{{ student_number }}' element={<Overview{{ student_number }} />} />
+{% endfor %}
+      </Routes>
+      </Router>
+    </div>
+  );
+}
+
+export default App

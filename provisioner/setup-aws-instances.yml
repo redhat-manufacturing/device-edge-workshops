@@ -1,0 +1,9 @@
+---
+
+- name: Create lab instances in AWS
+  hosts: localhost
+  connection: local
+  become: false
+  gather_facts: false
+  roles:
+    - ../roles/manage_ec2_instances

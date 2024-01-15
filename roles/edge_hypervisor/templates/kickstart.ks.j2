@@ -1,0 +1,12 @@
+network --bootproto=dhcp --onboot=true
+keyboard --xlayouts='us'
+lang en_US.UTF-8
+timezone UTC
+zerombr
+clearpart --all --initlabel
+autopart --type=plain --fstype=xfs --nohome
+reboot
+text
+user --name=ansible --groups=wheel --password='{{ admin_password }}'
+services --enabled=ostree-remount
+ostreesetup --nogpg --url=https://ostree-repo.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/repo --osname=rhel --ref=rhel/9/x86_64/edge

@@ -1,0 +1,10 @@
+---
+
+build_dir: "/home/{{ ansible_user }}/workshop-build-remote"
+services: "{{ remote_services }}"
+
+_workshop_namespace: "workshop-{{ workshop_type | regex_replace('_', '-') }}"
+
+_image_registry:
+  host: "default-route-openshift-image-registry.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+  username: kubeadmin
