@@ -214,6 +214,8 @@ The server must have at least two NICs, one connected to the Access Point / Rout
 
 You need to install RHEL 9 on that first server (lab tested with RHEL 9.2), "minimal install" is enough.
 
+Add the `ansible` user to that server and be sure that you add it into the `sudoers` group.
+
 The edge device BIOS needs to be configured to perform boot from network as first option (or you can use `efibootmgr --bootnext XXX` if you have a Linux OS pre-installed)
 
 You will also need to connect the video output to a screen (or use a [Video Capture card](https://m.media-amazon.com/images/I/71hI+11pk-L._AC_SL1500_.jpg) attached to your laptop) because you will need to show the boot console during the steps.
