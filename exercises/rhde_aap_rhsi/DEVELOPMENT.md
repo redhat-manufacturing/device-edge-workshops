@@ -21,7 +21,7 @@ This lab walks participants through the act of managing Red Hat Device Edge for 
 - [x] Create routes
 - [x] Provision hypervisor node
 - [x] Add host to running inventory
-- [ ] Create DNS entry
+- [x] Create DNS entry
 
 ## Section 2 - OpenShift Setup
 - [x] Configure OCP tooling
@@ -41,11 +41,10 @@ This lab walks participants through the act of managing Red Hat Device Edge for 
 | Sample Application | OCP | <ul><li>[x]</li></ul> | <ul><li>[x]</li></ul> |
 
 ## Section 2 - Local Edge Manager Setup
-- [x] Standard services (minus workshop pages?)
-      - Move DNS from dnsmasq to bind, locally resolve AWS resources | maybe
+- [x] Standard services
 
 ## Section 3 - Local Devices Setup
-- [?] Pre-provision devices
+- [x] Pre-provision devices
 
 ## Section 4 - Hypervisor setup
 - [x] Cockpit
@@ -53,10 +52,10 @@ This lab walks participants through the act of managing Red Hat Device Edge for 
 - [x] Student logins
 
 ## Section 5 - Exercises
-- [ ] Device provisioning?
-- [ ] Deploy skupper
-- [ ] Register with AAP
-- [ ] Deploy application
+- [x] Device provisioning?
+- [x] Deploy skupper
+- [x] Register with AAP
+- [x] Deploy application
 
 ## Section 6 - Provision Resources
 - [x] Example vars file
@@ -67,7 +66,4 @@ This lab walks participants through the act of managing Red Hat Device Edge for 
 - N/A
 
 # To-Dos
-- Refactor on-premise DNS to correctly handle having the same dns zone in the room and in the cloud
-- Add example process control URL to student pages
-- All the VMs are student2? I think the VM template is using the same MAC address for everything
-
+- N/A
