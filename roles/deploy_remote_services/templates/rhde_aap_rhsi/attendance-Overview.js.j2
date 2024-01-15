@@ -87,18 +87,23 @@ class Overview extends React.Component {
             <Title headingLevel='h1' size={TitleSizes['4xl']}></Title>
             <Card isCompact isRounded className='Overview-card' alignSelf={{ default: 'alignSelfCenter' }}>
               <DescriptionList isVertical columnModifier={{ lg: '2Col' }} termWidth="10ch">
+{% endraw %}
+                <Card component="div">
+                  <CardTitle>Example Workload</CardTitle>
+                  <CardBody>
+                    <DescriptionListTerm className='Description-list'>URL:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="https://process-control-ui-student{{ student_number }}.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}">https://process-control-ui-student{{ student_number }}.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}</a></DescriptionListDescription>
+                  </CardBody>
+                </Card>
                 <Card component="div">
                   <CardTitle>Anisble Controller</CardTitle>
                   <CardBody>
-{% endraw %}
                     <DescriptionListTerm className='Description-list'>Username:</DescriptionListTerm>
                     <DescriptionListDescription className >student{{ student_number }}</DescriptionListDescription>
                     <DescriptionListTerm className='Description-list'>Password:</DescriptionListTerm>
                     <DescriptionListDescription className ><code>{{ admin_password }}</code></DescriptionListDescription>
-                    <DescriptionListTerm className='Description-list'>IP Address:</DescriptionListTerm>
-                    <DescriptionListDescription className ><a href="test-address">test-address</a></DescriptionListDescription>
-                    <DescriptionListTerm className='Description-list'>DNS Hostname:</DescriptionListTerm>
-                    <DescriptionListDescription className ><a href="https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}">https://controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}</a></DescriptionListDescription>
+                    <DescriptionListTerm className='Description-list'>URL:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="https://controller-student{{ student_number }}-workshop-rhde-aap-rhsi.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}">https://controller-student{{ student_number }}-workshop-rhde-aap-rhsi.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}</a></DescriptionListDescription>
                   </CardBody>
                 </Card>
                 <Card component="div">
@@ -108,23 +113,19 @@ class Overview extends React.Component {
                     <DescriptionListDescription className >student{{ student_number }}</DescriptionListDescription>
                     <DescriptionListTerm className='Description-list'>Password:</DescriptionListTerm>
                     <DescriptionListDescription className ><code>{{ admin_password }}</code></DescriptionListDescription>
-                    <DescriptionListTerm className='Description-list'>IP Address:</DescriptionListTerm>
-                    <DescriptionListDescription className ><a href="https://test-address">test-address</a></DescriptionListDescription>
-                    <DescriptionListTerm className='Description-list'>DNS Hostname:</DescriptionListTerm>
-                    <DescriptionListDescription className ><a href="https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}">https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}</a></DescriptionListDescription>
+                    <DescriptionListTerm className='Description-list'>URL:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="https://gitea.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}">https://gitea.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}</a></DescriptionListDescription>
                   </CardBody>
                 </Card>
                 <Card component="div">
-                  <CardTitle>Image Builder</CardTitle>
+                  <CardTitle>OpenShift Web Console</CardTitle>
                   <CardBody>
                   <DescriptionListTerm className='Description-list'>Username:</DescriptionListTerm>
                     <DescriptionListDescription className >student{{ student_number }}</DescriptionListDescription>
                     <DescriptionListTerm className='Description-list'>Password:</DescriptionListTerm>
                     <DescriptionListDescription className ><code>{{ admin_password }}</code></DescriptionListDescription>
-                    <DescriptionListTerm className='Description-list'>IP Address:</DescriptionListTerm>
-                    <DescriptionListDescription className ><a href="https://test-address">test-address</a></DescriptionListDescription>
-                    <DescriptionListTerm className='Description-list'>DNS Hostname:</DescriptionListTerm>
-                    <DescriptionListDescription className ><a href="https://image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}">https://image-builder.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}</a></DescriptionListDescription>
+                    <DescriptionListTerm className='Description-list'>URL:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="https://console-openshift-console.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}">https://console-openshift-console.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}</a></DescriptionListDescription>
                   </CardBody>
                 </Card>
                 <Card component="div">
@@ -134,6 +135,37 @@ class Overview extends React.Component {
                     <DescriptionListDescription className >{{ lab_wifi_network.ssid }}</DescriptionListDescription>
                     <DescriptionListTerm className='Description-list'>Password:</DescriptionListTerm>
                     <DescriptionListDescription className ><code>{{ lab_wifi_network.password }}</code></DescriptionListDescription>
+                  </CardBody>
+                </Card>
+                <Card component="div">
+                  <CardTitle>RHSI (Skupper) Web Console</CardTitle>
+                  <CardBody>
+                  <DescriptionListTerm className='Description-list'>Username:</DescriptionListTerm>
+                    <DescriptionListDescription className >student{{ student_number }}</DescriptionListDescription>
+                    <DescriptionListTerm className='Description-list'>Password:</DescriptionListTerm>
+                    <DescriptionListDescription className ><code>{{ admin_password }}</code></DescriptionListDescription>
+                    <DescriptionListTerm className='Description-list'>URL:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="https://skupper-student{{ student_number }}-workshop-rhde-aap-rhsi.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}">https://skupper-student{{ student_number }}-workshop-rhde-aap-rhsi.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}</a></DescriptionListDescription>
+                  </CardBody>
+                </Card>
+                <Card component="div">
+                  <CardTitle>Virtual Edge Device</CardTitle>
+                  <CardBody>
+                  <DescriptionListTerm className='Description-list'>Username:</DescriptionListTerm>
+                    <DescriptionListDescription className >student{{ student_number }}</DescriptionListDescription>
+                    <DescriptionListTerm className='Description-list'>Password:</DescriptionListTerm>
+                    <DescriptionListDescription className ><code>{{ admin_password }}</code></DescriptionListDescription>
+                    <DescriptionListTerm className='Description-list'>URL:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="https://hypervisor.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/machines#vm?name=student{{ student_number }}-edge-device&connection=system">https://hypervisor.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/machines#vm?name=student{{ student_number }}-edge-device&connection=system</a></DescriptionListDescription>
+                  </CardBody>
+                </Card>
+                <Card component="div">
+                  <CardTitle>Edge Device Credentials</CardTitle>
+                  <CardBody>
+                  <DescriptionListTerm className='Description-list'>Username:</DescriptionListTerm>
+                    <DescriptionListDescription className >ansible</DescriptionListDescription>
+                    <DescriptionListTerm className='Description-list'>Password:</DescriptionListTerm>
+                    <DescriptionListDescription className ><code>{{ admin_password }}</code></DescriptionListDescription>
                   </CardBody>
                 </Card>
               </DescriptionList>
