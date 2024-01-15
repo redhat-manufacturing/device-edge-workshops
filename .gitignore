@@ -50,3 +50,4 @@ route53-for-ocp.yml
 route53-records.yml
 provisioner/rho*
 rhde_fdo_rtk.yml
+exercises/rhde_aap_rhsi/hold
