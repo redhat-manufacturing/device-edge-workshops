@@ -32,7 +32,7 @@ const App = () => {
       </span>
       <Routes>
         <Route exact path='/' exact element={<PassPage/>} />
-        <Route path='/Homepage' element={<Homepage/>} />
+        <Route path='/Homepage' element={<Homepage/>}/>
 {% for student_number in (range(1, (student_total+1), 1)|list) %}
         <Route path='/Student{{ student_number }}' element={<Overview{{ student_number }} />} />
 {% endfor %}

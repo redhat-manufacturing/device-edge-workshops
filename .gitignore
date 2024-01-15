@@ -40,6 +40,7 @@ import.json*
 ssh-key.pem
 ssh-key.pub
 provisioner/training.sandbox*/
+provisioner/workshop_vars/rhde_gitops.yml
 test_*
 provision_files/
 # tmp ignores to clean up my vscode window

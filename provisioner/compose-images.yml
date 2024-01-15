@@ -6,6 +6,7 @@
     - edge_remote_management
   vars:
     image_builder_http_port: 18080
+    ansible_become_timeout: 120 
   become: true
   pre_tasks:
     - name: Include workshop or demo variables
@@ -119,7 +120,7 @@
             headers:
               accept: "application/json"
               Authorization: "Bearer {{ temp_token.json.access_token }}"
-            dest: "/home/ansible/rhel.iso"
+            dest: "/home/{{ ansible_user }}/rhel.iso"
             checksum: "sha256: {{ rhel_iso_sha_value }}"
           register: download_rhel_iso
           until: download_rhel_iso is not failed

@@ -3,7 +3,7 @@
   hosts:
     - edge_remote_management
   vars_files:
-    - "{{ _vars_file_path }}"
+    - "{{ _vars_file_path | default(omit) }}"
   tasks:
     - block:
         - name: Copy private SSH key
