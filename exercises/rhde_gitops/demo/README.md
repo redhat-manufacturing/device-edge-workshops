@@ -58,7 +58,7 @@ The external lab architecture has been designed so you can deploy it where you d
 
 
 ## Recommended Hardware
-If you plan to use VMs you just need enough free resources in your laptop/server (>6vCPUs, >14GB RAM, >50GB disk)
+If you plan to use VMs you just need enough free resources in your laptop/server (>6vCPUs, >16GB RAM, >50GB disk)
 
 If you use physical hardware you probably will need:
 + Two (mini)servers, one of them with (4vCPUs, 16GB RAM, 50GB+ disk and two network interfaces)
