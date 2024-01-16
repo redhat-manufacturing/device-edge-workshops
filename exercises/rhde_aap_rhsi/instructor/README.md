@@ -112,6 +112,14 @@ There's a few different services involved in this workshop. They all should be u
     <td>hypervisor</td>
     <td>False</td>
   </tr>
+  <tr>
+    <td>RHSI</td>
+    <td>Each student has their own instance of RHSI</td>
+    <td>many</td>
+    <td>Delete components, let operator rebuild</td>
+    <td>OpenShift</td>
+    <td>True</td>
+  </tr>
 </table>
 
 To restart services, restarting the pods is safe:
