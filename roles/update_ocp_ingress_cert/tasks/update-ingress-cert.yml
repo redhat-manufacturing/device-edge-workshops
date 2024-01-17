@@ -6,6 +6,8 @@
   register: _create_secret
   retries: 30
   delay: 10
+  until:
+    - not _create_secret.failed
   
 - name: Create CertManager
   redhat.openshift.k8s:
@@ -17,6 +19,8 @@
   register: _create_clusterissuer
   retries: 30
   delay: 10
+  until:
+    - not _create_clusterissuer.failed
 
 - name: Wait for ClusterIssuer to be ready
   ansible.builtin.shell:
