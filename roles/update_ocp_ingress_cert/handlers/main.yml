@@ -3,7 +3,7 @@
 - name: Wait for ingress certificates to be issued
   ansible.builtin.shell:
     cmd: >
-      oc get certificate rho-router-default
+      oc get certificate {{ openshift.name }}-router-default
       -n openshift-ingress
       --insecure-skip-tls-verify=true
       | grep -v ^NAME
