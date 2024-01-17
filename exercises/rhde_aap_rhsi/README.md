@@ -33,7 +33,7 @@ Having said that, this workshop is built to take roughly 2 hours.
 
 ## Lab Diagram
 
-![Lab Diagram](images/architecture.jpg)
+![Lab Diagram](images/architecture.png)
 
 ## Section 1 - Investigating the Lab Environment
 
