@@ -31,13 +31,17 @@
         path: "{{ _student_auth_dir }}/students.htpasswd"
         name: "student{{ student_number }}"
         password: "{{ admin_password }}"
-      loop: "{{ (range(1, (student_total + 1), 1)|list) }}"
+      loop: "{{ (range(1, (student_total + 1), 1) | list) }}"
       loop_control:
         loop_var: student_number
+      notify:
+        - test_logins
+    
     - name: Slurp up htpasswd file
       ansible.builtin.slurp:
         src: "{{ _student_auth_dir }}/students.htpasswd"
       register: _htpasswd_file
+   
     - name: Create secret with htpasswd data
       redhat.openshift.k8s:
         definition:
@@ -48,7 +52,10 @@
             namespace: openshift-config
           type: Opaque
           data:
-            htpasswd: "{{ _htpasswd_file['content'] }}" 
+            htpasswd: "{{ _htpasswd_file['content'] }}"
+      notify:
+        - test_logins
+    
     - name: Create OAuth CR
       redhat.openshift.k8s:
         definition:
@@ -64,12 +71,15 @@
               htpasswd:
                 fileData:
                   name: students-htpass
-  post_tasks:
-    - name: Test student logins
+      notify:
+        - test_logins
+
+  handlers:
+    - name: Wait until student1 can login
       ansible.builtin.shell:
         cmd: >
           oc login
-          -u 'student{{ student_number }}'
+          -u 'student1'
           -p '{{ admin_password }}'
           -s 'https://api.{{ sub_domain }}.{{ base_zone }}:6443'
       environment:
@@ -77,26 +87,29 @@
       register: _login_test
       retries: 60
       delay: 10
-      loop: "{{ (range(1, (student_total + 1), 1) | list) }}"
-      loop_control:
-        loop_var: student_number
       changed_when: false
       until:
         - not _login_test.failed
-    - name: Reset oc to kubeadmin
-      block:
-        - name: Get kubeadmin password
-          ansible.builtin.slurp:
-            path: "{{ install_dir }}/auth/kubeadmin-password"
-          register: _kubeadmin_password_file
-          no_log: true
-        - name: Log back in as kubeadmin
-          ansible.builtin.shell:
-            cmd: >
-              oc login
-              -u kubeadmin
-              -p "{{ _kubeadmin_password_file['content'] | b64decode }}"
-          environment:
-            KUBECONFIG: "{{ install_dir }}/auth/kubeconfig"
-          no_log: true
-          changed_when: false
+      listen:
+        - test_logins
+
+    - name: Get kubeadmin password
+      ansible.builtin.slurp:
+        path: "{{ install_dir }}/auth/kubeadmin-password"
+      register: _kubeadmin_password_file
+      no_log: true
+      listen:
+        - test_logins
+
+    - name: Log back in as kubeadmin
+      ansible.builtin.shell:
+        cmd: >
+          oc login
+          -u kubeadmin
+          -p "{{ _kubeadmin_password_file['content'] | b64decode }}"
+      environment:
+        KUBECONFIG: "{{ install_dir }}/auth/kubeconfig"
+      no_log: true
+      changed_when: false
+      listen:
+        - test_logins
