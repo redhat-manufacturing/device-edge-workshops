@@ -17,6 +17,7 @@ RHSI will be used to establish a connection back to a central management plane, 
   - [Section 4 - Exposing the Application via RHSI](#section-4---exposing-the-application-via-rhsi)
   - [Supplamental Resources](#supplamental-resources)
   - [Instructor Resources](#instructor-resources)
+  - [Provisioning Resources](#provisioning-resources)
 
 ## Presentations
 
@@ -69,3 +70,6 @@ Having said that, this workshop is built to take roughly 2 hours.
 
 ## Instructor Resources
 * [Instructor Page](instructor)
+
+## Provisioning Resources
+* [Provisioner Page](provisioner)
