@@ -4,10 +4,11 @@ This guide is intended to help instructors get the workshop provisioned and read
 
 ## Table of Contents
 
-* [Objective](#objective)
-* [Step 1 - Introduction](#step-1---introduction)
-* [Step 2 - Physical Edge Devices Introduction](#step-2---physical-edge-devices-introduction)
-* [Step 3 - Edge Hypervisor Introduction](#step-3---edge-hypervisor-introduction)
+* [Reference Architecture](#refernce-architecture)
+* [Pre-Flight Checklist](#pre-flight-checklist)
+* [Populating The Extra-Vars File](#populating-the-extra-vars-file)
+* [Running the Provisioner](#running-the-provisioner)
+* [Pre-provisioning the Devices](#pre-provisioning-the-devices)
 
 ## Refernce Architecture
 
@@ -37,7 +38,7 @@ export AWS_ACCESS_KEY_ID=YOURACCESSKEYHERE
 export AWS_SECRET_ACCESS_KEY=YouRS3dh4TKEYHeRE
 ```
 
-See [1] on the reference architecture image.
+See [2] on the reference architecture image.
 
 > Note:
 >
@@ -128,11 +129,10 @@ These are the ways to integrate your license file with the workshop:
   ```
 
 ## Populating The Extra-Vars File
-Copy the example extra-vars file for your desired workshop from `provisioner/example-extra-vars/rhde_aap_ to the root of the project and modify accordingly.
+Copy the example extra-vars file for your desired workshop from `provisioner/example-extra-vars/rhde_aap_rhsi.yml` to the root of the project and modify according to the comments in the file.
 
 
 ## Creating an Inventory File
-
 You'll need an inventory file to tell ansible about the device that will be used as your Edge Management system. Create a file locally with the following information, substituting where necessary:
 
 ```yaml
@@ -143,13 +143,12 @@ all:
         edge_management:
           hosts:
             edge-manager-local:
-  vars:
-    ansible_host: 1.2.3.4
-    ansible_user: ansible
-    ansible_password: ansible
-    ansible_become_password: ansible
-    external_connection: enp0s31f6 # Connection name for the external connection, could be wifi
-    internal_connection: enp2s0 # Interface for the lab network, should be wired
+              ansible_host: 1.2.3.4
+              ansible_user: ansible
+              ansible_password: ansible
+              ansible_become_password: ansible
+              external_connection: enp0s31f6 # Connection name for the external connection, could be wifi
+              internal_connection: enp2s0 # Interface for the lab network, should be wired
 ```
 
 >**Note**
@@ -162,10 +161,47 @@ all:
 
 ## Running the Provisioner
 
+> Note:
+>
+> The provisioner has an execution environment available on [quay.io](https://quay.io/repository/device-edge-workshops/provisioner-execution-environment) with all requirements baked in. In addition, `ansible-navigator` is required, which can be installed into a virtual environment locally.
+
+### 1. Using Ansible-Navigator
+
+You must run from the project root rather than the `/provisioner` folder.  This is so all the files in the Git project are mounted, not just the provisioner folder.  This is also best practice because it matches the behavior in Automation controller.
+
+```
+ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.yml --extra-vars @extra-vars.yml -v -m stdout
+```
+
+>**Note**
+>
+> Parts of the provisioner create files locally then push them to the provisioned services. There's no harm in having the provisioner re-template out these files, however to speed things up a volume mount can be used. Ensure your user owns the directory that will be bind mounted. See below for an example.
+
+```
+ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.yml --extra-vars @extra-vars.yml --mode stdout --execution-environment-volume-mounts /path/to/tmpdir:/tmp:Z -v
+```
+
+### 2. Using Ansible-Playbook
+
+It's recommended to create a [virtual environment](https://docs.python.org/3/library/venv.html) to house the python libraries required for the provisioner.
+
+Make sure to install the prerequired python libraries by running:
+```
+pip install -r execution-environment/requirements.txt
+```
+
+Make sure to install the prerequired collections by running:
+```
+ansible-galaxy install -r execution-environment/requirements.yml
+```
+
+Then run the provisioner:
+
+```
+ansible-playbook provisioner/provision_lab.yml -e @extra_vars.yml -i inventory.yml
+```
+
 ## Pre-provisioning the Devices
 If you have physical devices for students to use, they can be provisioned ahead of time. You'll need a keyboard and monitor. Connect them over ethernet to the edge management node (or the network powered by it), and boot from the network. The edge-management node will provide DHCP, DNS, TFTP, iPXE, and the ostree repo files needed to zero-touch provision the devices. If WiFi settings were defined during provisioning, the devices will auto-connect to the network after rebooting.
 
-
-
-
-
+See [3] on the architecture diagram.
