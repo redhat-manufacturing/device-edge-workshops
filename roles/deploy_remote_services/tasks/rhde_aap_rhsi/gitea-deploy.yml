@@ -102,6 +102,9 @@
                         postgres-operator.crunchydata.com/role: pgbouncer
   register: _db_instance_install
   retries: 30
+  delay: 10
+  until:
+    - not _db_instance_install.failed
 
 - name: Get db info
   ansible.builtin.shell:
@@ -119,7 +122,6 @@
 
 - name: Set DB info facts | round 2
   ansible.builtin.set_fact:
-    #_db_host: "{{ _db_info | json_query(query) | b64decode }}"
     _db_host: "{{ _db_info.data.host | b64decode }}"
     _db_name: "{{ _db_info.data.dbname | b64decode }}"
     _db_user: "{{ _db_info.data.user | b64decode }}"
