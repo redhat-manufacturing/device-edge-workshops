@@ -22,6 +22,11 @@
             name: kubernetes
           tags:
             - always
+        - name: Create /home/{{ ansible_user }}/.kube dir
+          ansible.builtin.file:
+            path: /home/{{ ansible_user }}/.kube
+            state: directory
+            owner: "{{ ansible_user }}"
         - name: Link kubeconfig to default location
           ansible.builtin.file:
             src: "{{ install_dir }}/install/auth/kubeconfig"
