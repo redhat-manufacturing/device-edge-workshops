@@ -7,3 +7,4 @@ ipaddr==2.2.0
 kubernetes
 pyYAML
 jsonpatch
+dnspython
