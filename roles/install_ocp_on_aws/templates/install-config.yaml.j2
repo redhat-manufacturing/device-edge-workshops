@@ -6,7 +6,11 @@ compute:
   hyperthreading: Enabled
   name: worker
   platform: {}
+{% if openshift.workers is defined %}
+  replicas: {{ openshift.workers }}
+{% else %}
   replicas: 3
+{% endif %}
 controlPlane:
   architecture: amd64
   hyperthreading: Enabled
