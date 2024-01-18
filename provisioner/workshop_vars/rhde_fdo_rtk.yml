@@ -201,14 +201,8 @@ images_to_compose:
         check_gpg: false
         state: present
 builder_compose_customizations:
-  user:
-    name: backup-user2
-    password: "{{ admin_password }}"
-    groups:
-      - users
-      - wheel
-  kernel:
-    name: kernel-rt
+  manufacturing_server_url: "http://192.168.1.1:8080"
+  diun_pub_key_insecure: "true"
 
 image_builder_http_port: 11080
 
