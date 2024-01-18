@@ -1,4 +1,9 @@
 ---
+
+- name: Tasks for rhde_gitops
+  when:
+    - workshop_type == 'rhde_gitops'
+  block:
     - name: grab facts for edge gitops node
       amazon.aws.ec2_instance_info:
         region: "{{ ec2_region }}"
@@ -6,8 +11,8 @@
           instance-state-name: running
           "tag:Workshop_edge_gitops_node": "{{ ec2_name_prefix }}-edge-manager-aws"
       register: edge_gitops_node_facts
-
-    - set_fact:
+    - name: Set external IP fact
+      ansible.builtin.set_fact:
         edge_remote_management_ext_ip: "{{ edge_gitops_node_facts.instances[0].public_ip_address }}"
 
     - name: Add/Update variable in workshop vars file
@@ -16,11 +21,12 @@
         line: "edge_remote_management_ext_ip: {{ edge_remote_management_ext_ip }}"
         regexp: "^edge_remote_management_ext_ip:*"
 
-    - name: setup dns in route53
-      ansible.builtin.include_role:
-        name: ../roles/aws_dns
-      vars:
-        route53_dns_record: "{{ item.value.domain }}"
-        route53_dns_value: "{{ edge_remote_management_ext_ip }}"
-      loop: "{{ route53_domains | dict2items }}"
-
+- name: setup dns in route53 | complex
+  ansible.builtin.include_role:
+    name: ../roles/aws_dns
+  vars:
+    route53_dns_record: "{{ item.value.domain }}"
+    route53_dns_value: "{{ edge_remote_management_ext_ip }}"
+  loop: "{{ route53_domains | dict2items }}"
+  when:
+    - route53_domains is defined
