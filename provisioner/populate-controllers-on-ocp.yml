@@ -21,14 +21,16 @@
         loop_var: student_number
       retries: 600
       delay: 10
+      until:
+        - not _controller_admin_credentials_raw.failed
     
     - name: Add Controllers as hosts
       ansible.builtin.add_host:
-        hostname: "controller-student{{ _student_controller.student_number }}-workshop-rhde-aap-rhsi.apps.rho.apac.redhat-workshops.com"
+        hostname: "controller-student{{ _student_controller.student_number }}-workshop-{{ workshop_type | regex_replace('_', '-') }}.apps.{{ openshift.name }}.{{ workshop_dns_zone }}"
         ansible_host: "{{ hostvars[groups['edge_management'].0].ansible_host }}"
         ansible_user: "{{ hostvars[groups['edge_management'].0].ansible_user }}"
         ansible_password: "{{ hostvars[groups['edge_management'].0].ansible_password }}"
-        controller_hostname: "https://controller-student{{ _student_controller.student_number }}-workshop-rhde-aap-rhsi.apps.rho.apac.redhat-workshops.com"
+        controller_hostname: "https://controller-student{{ _student_controller.student_number }}-workshop-{{ workshop_type | regex_replace('_', '-') }}.apps.{{ openshift.name }}.{{ workshop_dns_zone }}"
         controller_username: admin
         controller_password: "{{ _student_controller.stdout }}"
         student_number: "{{ _student_controller.student_number }}"
@@ -40,6 +42,7 @@
 - name: Configure controllers
   hosts:
     - ansible_controllers
+  serial: 10
   gather_facts: false
   roles:
     - ../roles/populate_controller
