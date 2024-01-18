@@ -43,6 +43,10 @@ spec:
           ports:
             - containerPort: 1883
               name: mqtt-port
+          resources:
+            limits:
+              memory: 100Mi
+              cpu: 100m
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -68,6 +72,10 @@ spec:
       containers:
         - name: simulate
           image: quay.io/device-edge-workshops/process-control-simulate-k8s:1.0.0
+          resources:
+            limits:
+              memory: 100Mi
+              cpu: 100m
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -93,6 +101,10 @@ spec:
       containers:
       - name: control
         image: quay.io/device-edge-workshops/process-control-control-k8s:4.0.0
+        resources:
+          limits:
+            memory: 250Mi
+            cpu: 100m
 ---
 apiVersion: v1
 kind: Service
@@ -137,6 +149,10 @@ spec:
         ports:
           - containerPort: 1880
             name: http-ui-port
+        resources:
+          limits:
+            memory: 250Mi
+            cpu: 100m
 ---
 kind: Route
 apiVersion: route.openshift.io/v1
