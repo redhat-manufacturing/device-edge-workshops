@@ -52,3 +52,6 @@ route53-records.yml
 provisioner/rho*
 rhde_fdo_rtk.yml
 exercises/rhde_aap_rhsi/hold
+*instructor_inventory.ini
+run.log
+*aws_rules.yml
