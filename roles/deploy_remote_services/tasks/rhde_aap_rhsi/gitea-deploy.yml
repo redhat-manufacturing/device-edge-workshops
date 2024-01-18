@@ -115,6 +115,8 @@
   register: _db_info_raw
   changed_when: false
   retries: 30
+  until:
+    - not _db_info_raw.failed
 
 - name: Set DB info facts
   ansible.builtin.set_fact:
