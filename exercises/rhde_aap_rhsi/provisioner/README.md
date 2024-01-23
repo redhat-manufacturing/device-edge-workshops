@@ -178,7 +178,7 @@ ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.
 > Parts of the provisioner create files locally then push them to the provisioned services. There's no harm in having the provisioner re-template out these files, however to speed things up a volume mount can be used. Ensure your user owns the directory that will be bind mounted. See below for an example.
 
 ```
-ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.yml --extra-vars @extra-vars.yml --mode stdout --execution-environment-volume-mounts /path/to/tmpdir:/tmp:Z -v
+ansible-navigator run provisioner/rhde_aap_rhsi.yml --inventory local-inventory.yml --extra-vars @extra-vars.yml --mode stdout --execution-environment-volume-mounts /path/to/tmpdir:/tmp:Z -v
 ```
 
 ### 2. Using Ansible-Playbook
@@ -198,7 +198,7 @@ ansible-galaxy install -r execution-environment/requirements.yml
 Then run the provisioner:
 
 ```
-ansible-playbook provisioner/provision_lab.yml -e @extra_vars.yml -i inventory.yml
+ansible-playbook provisioner/rhde_aap_rhsi.yml -e @extra_vars.yml -i inventory.yml
 ```
 
 ## Pre-provisioning the Devices
