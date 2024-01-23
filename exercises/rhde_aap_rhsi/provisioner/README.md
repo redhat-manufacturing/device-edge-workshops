@@ -170,7 +170,7 @@ all:
 You must run from the project root rather than the `/provisioner` folder.  This is so all the files in the Git project are mounted, not just the provisioner folder.  This is also best practice because it matches the behavior in Automation controller.
 
 ```
-ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.yml --extra-vars @extra-vars.yml -v -m stdout
+ansible-navigator run provisioner/rhde_aap_rhsi.yml --inventory local-inventory.yml --extra-vars @extra-vars.yml -v -m stdout
 ```
 
 >**Note**
