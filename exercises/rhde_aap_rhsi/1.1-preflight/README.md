@@ -5,7 +5,7 @@
 * [Objective](#objective)
 * [Guide](#guide)
    * [Your Lab Environment](#your-lab-environment)
-   * [Step 1 - Identifying Edge Device Type](#step-1---identifying-edge-device-type)
+   * [Completing the Exercises](#completing-the-exercises)
 
 ## Objective
 
