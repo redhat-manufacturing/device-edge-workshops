@@ -43,6 +43,6 @@ On the right-hand side of the Gitea dashboard is a link to a repository called `
 ---
 **Navigation**
 
-[Previous Excercise](../1.5-controller-intro/) | [Next Exercise](../1.7-ocp-login)
+[Previous Excercise](../1.5-controller-intro/) | [Next Exercise](../1.7-coding-intro/)
 
 [Click here to return to the Workshop Homepage](../README.md)

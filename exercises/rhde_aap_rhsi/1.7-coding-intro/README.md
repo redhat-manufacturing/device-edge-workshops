@@ -36,6 +36,6 @@ For most, simply running `git clone` into a directory of your choosing will suff
 ---
 **Navigation**
 
-[Previous Exercise](../1.6-gitea-intro) | [Next Exercise](../1.8-ocp-login)
+[Previous Exercise](../1.6-gitea-intro) | [Next Exercise](../1.8-login-to-ocp/)
 
 [Click here to return to the Workshop Homepage](../README.md)

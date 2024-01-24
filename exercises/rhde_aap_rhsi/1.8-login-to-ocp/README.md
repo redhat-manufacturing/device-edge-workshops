@@ -43,6 +43,6 @@ Remember: you'll only see resource utilization and information for your namespac
 ---
 **Navigation**
 
-[Previous Exercise](../1.7-coding-intro/) | [Next Exercise](../1.9-rhsi-console-intro/)
+[Previous Exercise](../1.7-coding-intro/) | [Next Exercise](../1.9-rhsi-intro/)
 
 [Click here to return to the Workshop Homepage](../README.md)
