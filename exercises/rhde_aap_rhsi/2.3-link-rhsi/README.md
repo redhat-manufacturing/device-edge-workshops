@@ -45,6 +45,6 @@ In addition, we can confirm in the RHSI web console, on the `Sites` tab:
 ---
 **Navigation**
 
-[Previous Exercise](../2.1-ocp-auth/) | [Next Exercise](../2.3-link-rhsi/)
+[Previous Exercise](../2.2-setup-for-rhsi/) | [Next Exercise](../2.4-expose-ssh-cockpit/)
 
 [Click here to return to the Workshop Homepage](../README.md)
