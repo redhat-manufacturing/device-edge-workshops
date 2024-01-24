@@ -41,6 +41,6 @@ If successful, the welcome message should be displayed.
 ---
 **Navigation**
 
-[Previous Exercise](../1.9-rhsi-intro/) | [Next Exercise](../2.2-copy-rhsi-router-image/)
+[Previous Exercise](../1.9-rhsi-intro/) | [Next Exercise](../2.2-setup-for-rhsi/)
 
 [Click here to return to the Workshop Homepage](../README.md)

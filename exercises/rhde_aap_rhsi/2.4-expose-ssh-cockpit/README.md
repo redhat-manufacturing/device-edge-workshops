@@ -103,6 +103,10 @@ Origins = https://edge-device-cockpit-webui-student1-workshop-rhde-aap-rhsi.apps
 ProtocolHeader = X-Forwarded-Proto
 ```
 
+> Note:
+>
+> This is an example, replace with the proper URL.
+
 Then, restart the cockpit service: `sudo systemctl restart cockpit.service`
 
 > Note:
@@ -116,6 +120,6 @@ The cockpit web interface should now work:
 ---
 **Navigation**
 
-[Previous Exercise](../2.1-ocp-auth/) | [Next Exercise](../2.3-link-rhsi/)
+[Previous Exercise](../2.3-link-rhsi/) | [Next Exercise](../2.5-controller-host/)
 
 [Click here to return to the Workshop Homepage](../README.md)

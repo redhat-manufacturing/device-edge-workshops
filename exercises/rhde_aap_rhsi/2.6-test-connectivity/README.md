@@ -46,6 +46,6 @@ As an extra layer of confirmation, we can revisit the RHSI web interface and loo
 ---
 **Navigation**
 
-[Previous Exercise](../2.4/expose-ssh-cockpit/) | [Next Exercise](../2.6-test-connectivity/)
+[Previous Exercise](../2.5-controller-host/) | [Next Exercise](../3.1-containerized-app-automation/)
 
 [Click here to return to the Workshop Homepage](../README.md)

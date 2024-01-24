@@ -39,6 +39,6 @@ The other tabs contain similiar information to the developer view in the OpenShi
 ---
 **Navigation**
 
-[Previous Exercise](../1.8-login-to-ocp/) | [Next Exercise](../2.1-auth-to-ocp/)
+[Previous Exercise](../1.8-login-to-ocp/) | [Next Exercise](../2.1-oc-auth/)
 
 [Click here to return to the Workshop Homepage](../README.md)
