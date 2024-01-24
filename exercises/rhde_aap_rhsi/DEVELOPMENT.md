@@ -63,7 +63,7 @@ This lab walks participants through the act of managing Red Hat Device Edge for 
 - [ ] Provisioner documentation addendum
 
 # Known Issues
-- N/A
+- Add username and hostname to edge device tile on student page
 
 # To-Dos
 - N/A
