@@ -77,5 +77,6 @@ Deploy Application job template:
 ---
 **Navigation**
 
-[Previous Exercise](../3.1-containerized-app-automation/) | [Next Exercise](../4.1-expose-app)
+[Previous Exercise](../3.1-containerized-app-automation/) | [Next Exercise](../4.1-expose-app-webui/)
+
 [Click here to return to the Workshop Homepage](../README.md)
