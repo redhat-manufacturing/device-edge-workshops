@@ -31,6 +31,6 @@ We can confirm the service was exposed both in the RHSI web console, and under t
 ---
 **Navigation**
 
-[Previous Exercise](../3.2-deploying-the-app/) | [Next Exercise](../4.2-create-route-for-app/)
+[Previous Exercise](../3.2-deploying-the-app/) | [Next Exercise](../4.2-create-route-for-app-webui/)
 
 [Click here to return to the Workshop Homepage](../README.md)
