@@ -53,6 +53,6 @@ Optionally, feel free to use SSH and an IDE on your personal device.
 ---
 **Navigation**
 
-[Next Exercise](../1.2-device-intro/)
+[Next Exercise](../1.2-student-pages/)
 
 [Click here to return to the Workshop Homepage](../README.md)
