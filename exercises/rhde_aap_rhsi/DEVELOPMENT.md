@@ -59,8 +59,8 @@ This lab walks participants through the act of managing Red Hat Device Edge for 
 
 ## Section 6 - Provision Resources
 - [x] Example vars file
-- [ ] Example inventory file
-- [ ] Provisioner documentation addendum
+- [X] Example inventory file
+- [X] Provisioner documentation addendum
 
 # Known Issues
 - Add username and hostname to edge device tile on student page
