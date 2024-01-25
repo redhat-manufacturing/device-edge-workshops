@@ -12,13 +12,13 @@ In this exercise, we're going to access the Red Hat Serice Interconnect web cons
 
 ### Step 1 - Introduction to RHSI
 
-RHSI is a layer 7 service interconnect that allows for connections to be made withou special configruation, unlike a VPN. Since we're operating at layer 7, our traffic will look similar to any other web traffic, such as visiting a website. This means we can traverse networks that don't allow for things like port-forwarding or static NAT without issue.
+RHSI is a layer 7 service interconnect that allows for connections to be made without special configruation, unlike a VPN. Since we're operating at layer 7, our traffic will look similar to any other web traffic, such as visiting a website. This means we can traverse networks that don't allow for things like port-forwarding or static NAT without issue.
 
 In this workshop, our edge devices will be what originate the collection, traversing whatever network is between them and our cluster. In the same way your laptop or phone is accessing this web page, our edge devices will make a connection back to our cluster in AWS and allow us to expose services for consumption.
 
 > Note:
 > 
-> The upstream of RHSI is [Skupper](skupper.io). Not everything in RHSI has been renamed from the upstream.
+> The upstream of RHSI is [Skupper](https://skupper.io). Not everything in RHSI has been renamed from the upstream.
 
 ### Step 2 - Accessing the RHSI Dashboard
 
