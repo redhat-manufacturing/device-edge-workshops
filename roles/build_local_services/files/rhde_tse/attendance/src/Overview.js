@@ -87,7 +87,7 @@ class Overview extends React.Component {
             <Card isCompact isRounded className='Overview-card' alignSelf={{ default: 'alignSelfCenter' }}>
               <DescriptionList isVertical columnModifier={{ lg: '2Col' }} termWidth="10ch">
                 <Card component="div">
-                  <CardTitle>Anisble Controller</CardTitle>
+                  <CardTitle>Ansible Controller</CardTitle>
                   <CardBody>
                     <DescriptionListTerm className='Description-list'>Username:</DescriptionListTerm>
                     <DescriptionListDescription className >*Username here*</DescriptionListDescription>
