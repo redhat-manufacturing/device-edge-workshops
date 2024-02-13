@@ -35,7 +35,9 @@ This new page will display our token, and allow us to copy the login command dir
 > Note:
 >
 > You can access the virtual device also from the Terminal menu inside Cockpit
+> 
 > The username to access the virtual device is `ansible` and the password is the one of the student user
+> 
 > Once inside the terminal view you can copy and paste with SHIFT + INSERT
 
 The `openshift-clients` package has been installed on our edge devices as part of the RHDE image, providing us with access to the `oc` command. As such, we can paste the `oc login` command from the previous step directly on the command line:
