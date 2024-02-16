@@ -26,7 +26,9 @@ If after some time your PODs are still not running, it could happen that your sy
 .
   >**Note**
   >
-  > Microshift, which is a Kubernetes node, will rely on a wildcard domain name to publish the APPs. Since the edge device IP is not fixed by the playbooks we don't setup any DNS entry on the edge local server. The easiest way to obtain a wildcard for this demo is by using the [nio.ip](http://nio.io) service which resolves to the IP that you use as a prefix on the domain name (so `http://1.1.1.1.nip.io` will resolve to `1.1.1.1`). As you can see there is already a deployed test app that you can check on `http://test.apps.<edge device ip>.nip.io` on the Web Browser with the SOCKS proxy configured..
+  > Microshift, which is a Kubernetes node, will rely on a wildcard domain name to publish the APPs. Since the edge device IP is not fixed by the playbooks we don't setup any DNS entry on the edge local server. The easiest way to obtain a wildcard for this demo is by using the [nio.ip](http://nio.io) service which resolves to the IP that you use as a prefix on the domain name (so `http://1.1.1.1.nip.io` will resolve to `1.1.1.1`). As you can see there is already a deployed test app that you can check on `http://test.apps.<edge device ip>.nip.io` on the Web Browser with the SOCKS proxy configured.
+>
+  > You can use `Proxy Toggle` extension in Firefox if you want to use only one browser for this demonstration.
 
 
 ## Deploy an APP on Microsift from Manifest files on Gitea
