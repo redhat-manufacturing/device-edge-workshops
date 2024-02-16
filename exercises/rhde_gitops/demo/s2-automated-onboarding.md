@@ -90,7 +90,7 @@ Select the user that you are using for the demo/workshop (probably Student 1).
 
   >**Note**
   >
-  > Your edge device is located in an "isolated" network. If you don't plug your laptop into that network, in order to SSH to the edge device in this demo you will need to first SSH to the local edge manager server and use it as a Jump host. Remember that you have the local edge manager server IP in the `local-inventory.yaml` file that you used to deploy the lab and you can obtain the edge device IP from the AAP Inventory.
+  > Your edge device is located in an "isolated" network. If you don't plug your laptop into that network, in order to SSH to the edge device in this demo you will need to first SSH to the local edge manager server and use it as a Jump host. Remember that you have the local edge manager server IP in the `local-inventory.yaml` file that you used to deploy the lab and you can obtain the edge device IP from the AAP Inventory (the username is `ansible`).
 
 The script:
 
