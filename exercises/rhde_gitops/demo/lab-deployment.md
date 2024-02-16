@@ -223,11 +223,16 @@ You will also need to connect the video output to a screen (or use a [Video Capt
 
 ## Clone this repo and prepare files
 
-Clone the main branch of this repo:
+Clone the this repo:
 
 ```bash
 git clone https://github.com/redhat-manufacturing/device-edge-workshops
 ```
+
+**IMPORTANT**
+
+Clone the repo and checkout to the `gitops-demo` which is the stable branch for this demo.
+
 
 Now you have to perform some actions on the cloned repo:
 
