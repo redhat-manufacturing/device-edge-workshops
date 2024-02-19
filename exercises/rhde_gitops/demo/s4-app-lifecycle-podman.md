@@ -109,6 +109,8 @@ CONTAINER ID  IMAGE                            COMMAND     CREATED         STATU
   >**Note**
   >
   > If the image does not appear, be sure that you are not caching the page by opening the page in Private/Incognito mode.
+  >
+  >  If you luanch `podman inspect app` you will find in the labels of the container that **autoupdate** policy is set to **registry**
 
 
 
