@@ -1,10 +1,25 @@
 ---
-version: 1
-
-build_arg_defaults:
-  EE_BASE_IMAGE: 'registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel9:latest'
-  EE_BUILDER_IMAGE: 'registry.redhat.io/ansible-automation-platform-24/ansible-builder-rhel9'
+version: 3
 
 dependencies:
+  ansible_core:
+    package_pip: ansible-core==2.15.9
+  ansible_runner:
+    package_pip: ansible-runner
   galaxy: requirements.yml
   python: requirements.txt
+
+images:
+  base_image:
+    name: registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel9:latest
+
+options:
+  package_manager_path: /usr/bin/microdnf
+
+additional_build_files:
+  - src: ansible.cfg
+    dest: configs
+
+additional_build_steps:
+  prepend_galaxy:
+    - COPY _build/configs/ansible.cfg /etc/ansible/ansible.cfg
