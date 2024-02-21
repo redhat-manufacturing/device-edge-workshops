@@ -36,7 +36,7 @@ In the Controller WebUI. under **Resources** > **Templates**, select **Add** > *
   </tr>
   <tr>
     <td>Inventory</td>
-    <td>Edge Systems</td>
+    <td>Edge Devices</td>
   </tr>
   <tr>
     <td>Project</td>

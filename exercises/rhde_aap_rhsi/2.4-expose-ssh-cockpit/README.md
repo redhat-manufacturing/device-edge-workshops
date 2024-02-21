@@ -91,7 +91,7 @@ spec:
 
 Cockpit leverages web sockets for connectivity, and while OpenShift can handle these natively, we need to tell Cockpit to allow the domain we're connecting from. This corresponds to the URL provided by our route.
 
-Copy the route from the OpenShift web console, and n the edge device, create the file `/etc/cockpit/cockpit.conf` and insert the following, adjusted accordingly. For example, if the route shows:
+Copy the route from the OpenShift web console, and in the edge device, create the file `/etc/cockpit/cockpit.conf` and insert the following, adjusted accordingly. For example, if the route shows:
 
 ![Cockpit Route Accepted](../images/cockpit-route-accepted.png)
 

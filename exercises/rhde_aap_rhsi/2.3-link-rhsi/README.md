@@ -28,13 +28,13 @@ This command may take a moment to complete.
 
 ### Step 2 - Validate Link
 
-Once the command in the previous step completes, RHSI on the edge device is linked back to RHSI on the edge device. There are a few ways to confirm this.
+Once the command in the previous step completes, RHSI on the edge device is linked back to RHSI in the student namespace inside OpenShift. There are a few ways to confirm this.
 
 First, we can get the router status from the CLI tooling on the edge device:
 
 ![RHSI Router Status](../images/rhsi-router-status.png)
 
-In addition, we can confirm in the RHSI web console, on the `Sites` tab:
+In addition, we can confirm in the RHSI web console, on the `Sites` tab (you can redraw the diagram by clicking in the lower right corner the `Topology` button):
 
 ![RHSI Sites](../images/rhsi-sites-linked.png)
 
