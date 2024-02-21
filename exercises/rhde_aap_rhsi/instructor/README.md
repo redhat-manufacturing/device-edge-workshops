@@ -137,6 +137,10 @@ In addition, individual containers can be restarted.
 
 All instructions in the main [provisioner file](../../../provisioner/README.md) hold true, **except** this workshop uses a custom playbook over the generic `provision_lab.yml` playbook. Simply replace `provision_lab.yml` with `rhde_aap_rhsi.yml` to provision this workshop.
 
+In terms of capacity the recommendation is to allocate 1 compute node for every 2 students.
+
+Remember to include in the extra_vars file the hash of the ansible manifest and in the ansible-navigator.yml the reference to the correct Execution Environment (2024-02-15).
+
 ## Provisioning Ahead of Time
 
 Expected provision time is: 90 minutes. Plan ahead accordingly. Provisioning will take longer on slower connections (ex: hotel wifi, conference wifi, etc).
