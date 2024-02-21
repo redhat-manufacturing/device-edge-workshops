@@ -37,9 +37,10 @@ For our purposes, the command will look like the below:
 
 ![Copy RHSI Image](../images/copy-rhsi-iamge.png)
 
-Here is the command: 
+Here is the command (to copy the image and retag to 2.4.3): 
 ```
 sudo podman image scp root@localhost::registry.redhat.io/service-interconnect/skupper-router-rhel9:latest ansible@localhost::
+sudo podman tag registry.redhat.io/service-interconnect/skupper-router-rhel9:latest registry.redhat.io/service-interconnect/skupper-router-rhel9:2.4.3
 ```
 
 Once complete, the image should now be available under our user:
