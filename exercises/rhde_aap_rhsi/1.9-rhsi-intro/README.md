@@ -1,4 +1,4 @@
-# Workshop Exercise 1.8 - Investigating the RHSI Site
+# Workshop Exercise 1.9 - Investigating the RHSI Site
 
 ## Table of Contents
 
