@@ -39,7 +39,7 @@ For our purposes, the command will look like the below:
 
 Here is the command: 
 ```
-sudo podman image scp root@localhost::registry.redhat.io/service-interconnect/skupper-router-rhel9:2.4.3 ansible@localhost::
+sudo podman image scp root@localhost::registry.redhat.io/service-interconnect/skupper-router-rhel9:latest ansible@localhost::
 ```
 
 Once complete, the image should now be available under our user:
