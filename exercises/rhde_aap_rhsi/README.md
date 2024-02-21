@@ -45,7 +45,7 @@ Having said that, this workshop is built to take roughly 2 hours.
 * [Exercise 1.5 - Ansible Controller Introduction](1.5-controller-intro)
 * [Exercise 1.6 - Gitea Source Control Introduction](1.6-gitea-intro)
 * [Exercise 1.7 - Cloning Your Code Repository](1.7-coding-intro)
-* [Exercise 1.8 - Getting Logged In to OpenShift](1.8-ocp-login)
+* [Exercise 1.8 - Getting Logged In to OpenShift](1.8-login-to-ocp)
 * [Exercise 1.9 - Investigating the Skupper Site](1.9-rhsi-intro)
 
 ## Section 2 - Linking the Edge Device to the Management Cluster
