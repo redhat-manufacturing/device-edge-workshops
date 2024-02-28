@@ -38,10 +38,10 @@
 
 
     - name: Create APPs
-      condition: "'APPs/' in event.payload.commits[0].modified"
+      condition: "event.payload.commits[0].modified is search('APPs/podman/quadlet',ignorecase=true)"
       action:
         run_playbook:
-          name: run-task-create-apps.yml
+          name: run-task-app-quadlet.yml
           extra_vars:
             username: "{{ event.payload.repository.owner.login | capitalize }}"
 
@@ -79,14 +79,31 @@
 #"student": "1"
 #}
 #
-    - name: Update image in microshift
+    - name: Update APP container image in microshift
       condition: event.payload.name is defined and event.payload.repository is defined and event.payload.updated_tags is defined and event.payload.student is defined
       action:
         run_playbook:
-          name: update-image-microshift.yml
+          name: update-container-image-microshift.yml
           extra_vars:
             name: "{{ event.payload.name }}"
             image: "{{ event.payload.repository }}"
             tag: "{{ event.payload.updated_tags[0] }}"
             student: "{{ event.payload.student }}"
 ############
+
+    - name: Deploy Microshift APP with manifest
+      condition: "event.payload.commits[0].modified is search('APPs/microshift/manifest',ignorecase=true)"
+      action:
+        run_playbook:
+          name: run-task-microshift-manifest.yml
+          extra_vars:
+            username: "{{ event.payload.repository.owner.login | capitalize }}"
+
+    - name: Deploy Microshift APP with helm
+      condition: "event.payload.commits[0].modified is search('APPs/microshift/helm',ignorecase=true)"
+      action:
+        run_playbook:
+          name: run-task-microshift-helm.yml
+          extra_vars:
+            username: "{{ event.payload.repository.owner.login | capitalize }}"
+

@@ -8,7 +8,7 @@ controller_configuration_credentials_secure_logging: false
 # These are configured for global use
 controller_execution_environments:
   - name: Device Edge Workshops Execution Environment
-    image: quay.io/device-edge-workshops/provisioner-execution-environment:latest
+    image: quay.io/luisarizmendi/provisioner-execution-environment:latest
     pull: missing
 
 controller_credential_types:
@@ -179,7 +179,7 @@ controller_templates:
     become_enabled: true
     ask_inventory_on_launch: true
 
-  - name: Update Microshift APP
+  - name: Microshift APP Update image tag
     organization: "Student{{ student_number }} Organization"
     inventory: Edge Devices
     project: Device Edge Codebase
@@ -196,11 +196,11 @@ controller_templates:
         tag: tag
     ask_variables_on_launch: true
 
-  - name: Deploy Manifest in Microshift
+  - name: Microshift APP Deploy - oc CLI
     organization: "Student{{ student_number }} Organization"
     inventory: Edge Devices
     project: Device Edge Codebase
-    playbook: playbooks/deploy_app_microshift.yml
+    playbook: playbooks/deploy_app_microshift_oc.yml
     credentials:
       - Device Credentials
     execution_environment: Device Edge Workshops Execution Environment
@@ -208,6 +208,38 @@ controller_templates:
     ask_variables_on_launch: true
     extra_vars: 
         manifest: https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-configs/raw/branch/main/APPs/microshift/2048/app_2048-microshift.yml
+
+  - name: Microshift APP Deploy - Manifest
+    organization: "Student{{ student_number }} Organization"
+    inventory: Edge Devices
+    project: Device Edge Codebase
+    playbook: playbooks/deploy_app_microshift_manifest.yml
+    credentials:
+      - Device Credentials
+    execution_environment: Device Edge Workshops Execution Environment
+    become_enabled: true
+    ask_inventory_on_launch: true
+    extra_vars: 
+        manifest_repo: "https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-configs/src/branch/main/APPs/microshift/manifest"
+        gitea_username: "student{{ student_number }}"
+        gitea_password: "{{ admin_password }}"
+
+  - name: Microshift APP Deploy - Helm
+    organization: "Student{{ student_number }} Organization"
+    inventory: Edge Devices
+    project: Device Edge Codebase
+    playbook: playbooks/deploy_app_microshift_helm.yml
+    credentials:
+      - Device Credentials
+    execution_environment: Device Edge Workshops Execution Environment
+    become_enabled: true
+    ask_variables_on_launch: true
+    ask_inventory_on_launch: true
+    extra_vars: 
+        helm_repo: https://raw.githubusercontent.com/luisarizmendi/helm-chart-repo/main/packages
+        helm_var_file: https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-configs/raw/branch/main/APPs/microshift/helm/wordpress_vars.yml
+        helm_chart_name: wordpress
+        release_namespace: "wordpress"
 
   - name: Publish Image
     organization: "Student{{ student_number }} Organization"

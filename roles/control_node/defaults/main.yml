@@ -27,3 +27,5 @@ nginx_https_port: 10443
 _installation_collections:
   - name: community.general
     path: /root/.ansible/collections/ansible_collections/community/general
+  - name: community.kubernetes
+    path: /root/.ansible/collections/ansible_collections/community/kubernetes

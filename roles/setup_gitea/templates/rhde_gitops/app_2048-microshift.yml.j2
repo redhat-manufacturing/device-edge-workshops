@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - image: quay.io/luisarizmendi/2048:prod
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         name: app2048
         resources: {}
         terminationMessagePath: /dev/termination-log

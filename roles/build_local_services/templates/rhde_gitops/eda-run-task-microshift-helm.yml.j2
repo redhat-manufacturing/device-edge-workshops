@@ -1,0 +1,24 @@
+---
+
+- name: run a Template on controller to update image in microshift
+  hosts:
+    - all
+  gather_facts: false
+  vars:
+    controller_hostname: controller.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}
+    controller_username: admin
+    controller_password: "{{ admin_password }}"
+    controller_validate_certs: false
+    controller_launch_jobs:
+      - name: Microshift APP Deploy - Helm
+        wait: true
+{% raw %}
+        organization: "{{ username }} Organization"
+{% endraw %}
+        extra_vars: 
+            helm_repo: https://raw.githubusercontent.com/luisarizmendi/helm-chart-repo/main/packages
+            helm_var_file: https://gitea.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/{% raw %}{{ username  | lower }}{% endraw %}/device-edge-configs/raw/branch/main/APPs/microshift/helm/wordpress_vars.yml
+            helm_chart_name: wordpress
+            release_namespace: "wordpress"
+  roles:
+    - /opt/eda/collections/ansible_collections/redhat_cop/controller_configuration/roles/job_launch

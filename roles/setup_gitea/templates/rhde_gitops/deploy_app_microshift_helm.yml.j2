@@ -1,0 +1,57 @@
+{% raw %}
+---
+- name: Deploy Microshift APP with Helm
+  hosts: all
+  gather_facts: false
+
+  tasks:
+
+    - name: Download Helm script
+      delegate_to: localhost
+      get_url:
+        url: https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+        dest: /tmp/get-helm-3
+        mode: 0755
+
+    - name: Run Helm script
+      delegate_to: localhost
+      command: /tmp/get-helm-3
+      args:
+        creates: /usr/local/bin/helm  # Skip execution if Helm is already installed
+
+    - name: Fetch kubeconfig file from remote host
+      fetch:
+        src: /var/lib/microshift/resources/kubeadmin/{{  hostvars[inventory_hostname]['ansible_host'] }}/kubeconfig
+        dest: "/files/{{ inventory_hostname }}/"
+        flat: yes
+
+    - name: Add stable chart repo
+      delegate_to: localhost
+      community.kubernetes.helm_repository:
+        name: stable
+        repo_url: "{{ helm_repo }}"
+
+
+    - name: Get Helm values
+      delegate_to: localhost
+      copy:
+        content:  "{{ lookup('ansible.builtin.url', '{{ helm_var_file }}',{% endraw %} username='student{{ student_number }}', password='{{ admin_password }}', force_basic_auth='True' ) {% raw %}  | regex_replace(',','\\n') }}"
+        dest: "/files/{{ inventory_hostname }}/helm_values.yml"
+
+    - shell: "cat /files/{{ inventory_hostname }}/helm_values.yml"
+      delegate_to: localhost
+
+    - name: Deploy latest version of the chart
+      delegate_to: localhost
+      community.kubernetes.helm:
+        kubeconfig: "/files/{{ inventory_hostname }}/kubeconfig"
+        create_namespace: true
+        name: "{{ helm_chart_name }}"
+        chart_ref: stable/{{ helm_chart_name }}
+        values_files:
+          - "/files/{{ inventory_hostname }}/helm_values.yml"
+        release_namespace: "{{ release_namespace }}"
+{% endraw %}
+
+
+

@@ -21,9 +21,9 @@
 
 
 
-## Prepare your AWS environment
+## Prepare your AWS environment (even for the local lab architecture)
 
-The lab environment needs a valid domain name. As the playbooks are prepared to use AWS, the easier way is to use the AWS Route53 service.
+The lab needs a valid public DNS domain name. The playbooks that deploy the lab are prepared to configure AWS Route53 service to provide the required public DNS names (it was the easier way to assure valid domain names), so even though you are using the local lab architecture, you will need access to AWS to let the playbooks configure the names for you.
 
 If you are a Red Hatter you can order an [AWS Blank Open Environment in the Red Hat Demo Platform](https://demo.redhat.com/catalog?search=aws+open+blank+environment&item=babylon-catalog-prod%2Fsandboxes-gpte.sandbox-open.prod) than can be used just for the Route53 service (local lab architecture) or for both Route53 and EC2 to run the Management node (AAP + EDA + Image-builder + Gitea) in case of the remote lab architecture.
  
@@ -100,7 +100,7 @@ The demo will send notifications to a Slack Channel, so you will need to generat
 
 3. Once the application is created in the Add features and functionality section click on the Permissions button to set the token scopes. Enable the `chat:write` permission
 
-3. Next step is to install the application in the desired workspace and allow access to the requested scopes. Click on the Install App to Workspace button
+3. Next step go to the "Install App" menu on the left and install the application in the desired workspace and allow access to the requested scopes. Click on the Install App to Workspace button
 
 4. Then you get the OAuth Access Token.
 
@@ -183,7 +183,11 @@ You can use either VMs or physical hardware, also bear in mind that depending on
 
 Let's start with the server VM.
 
-That VM must have two NICs, one that can be attached to the default NAT virtual network and an additional that could be attached to a new "isolated" virtual network (with no DHCP enabled) that you have to create in advance.
+That VM must have two NICs: external and internal. The external must have access to Internet and the internal will be the one where the edge devices that will be installed during the lab/workshop will be attached (and where the local server will act as gateway, DHCP, PXE,...).
+
+When using VMs, the external network can be directly the default NAT virtual network (you can always create a new network with NAT and use that one for external). You don't strictly need DHCP since you are installing manually (or with Kickstart) your RHEL in the local server you can configure static IPs too but DHCP is more convenient.
+
+The internal network must not have DHCP or NAT configured (you will need to configure a new "isolated" network) since the local server will be the DHCP and default Gateway.
 
 The minimum resources for that VM will depend on the chosen lab architecture. 
 
@@ -191,11 +195,13 @@ If you plan to use the lab local architecture, the VM should have 4 cores/16GB R
 
 If you choose the lab external architecture, this VM will only host the Ansible Execution Node and some network services (DHCP, PXE, ...) so you could go with 2 cores / 4GB RAM / 50GB+ Disk.
 
-Once you have the server VM created, you have to to deploy RHEL 9 on it (lab tested with RHEL 9.2), "minimal install" is enough.
+Once you have the server VM created, you have to to deploy RHEL 9 on it (lab tested with RHEL 9.2), "minimal install". When you configure your network you don't need to configure the internal network, just the interface that will be the external (with either DHCP or static IP) since the playbooks will configure it for you.
 
-In addition to the server, you will need enough resources (2 cores, 2 GB RAM, 10GB disk) to create an additional VM that will act as edge device. That edge device VM will be attached with a single NIC to the isolated (with no DHCP) virtual network that you have created and where the previous server is attached to.
+Add the `ansible` user to that server and be sure that you add it into the `sudoers` group.
 
-You don't need to create the VM before the lab, you just need to have enough resources to create it during the lab steps (you can take a look at [minute 11:57 of the recorded demo video](https://www.youtube.com/watch?v=XCtfy7AqLLY&t=11m57s) to check how it will be created with `libvirt` and Virtual Machine Manager. 
+In addition to the server, you will need enough resources (2 cores, at least 2.5 GB RAM, 10GB disk) to create an additional VM that will act as edge device. That edge device VM will be attached with a single NIC to the isolated (with no DHCP) virtual network that you have created and where the previous server is attached to.
+
+You don't need to create the VM before the lab, you just need to have enough resources to create it during [Section 2 - Automated device onboarding](#section-2---automated-device-onboarding). 
 
 
 ### Using Physical servers
@@ -208,6 +214,8 @@ The server must have at least two NICs, one connected to the Access Point / Rout
 
 You need to install RHEL 9 on that first server (lab tested with RHEL 9.2), "minimal install" is enough.
 
+Add the `ansible` user to that server and be sure that you add it into the `sudoers` group.
+
 The edge device BIOS needs to be configured to perform boot from network as first option (or you can use `efibootmgr --bootnext XXX` if you have a Linux OS pre-installed)
 
 You will also need to connect the video output to a screen (or use a [Video Capture card](https://m.media-amazon.com/images/I/71hI+11pk-L._AC_SL1500_.jpg) attached to your laptop) because you will need to show the boot console during the steps.
@@ -215,17 +223,22 @@ You will also need to connect the video output to a screen (or use a [Video Capt
 
 ## Clone this repo and prepare files
 
-Clone the main branch of this repo:
+Clone the this repo:
 
 ```bash
 git clone https://github.com/redhat-manufacturing/device-edge-workshops
 ```
 
+**IMPORTANT**
+
+Clone the repo and checkout to the `gitops-demo` which is the stable branch for this demo.
+
+
 Now you have to perform some actions on the cloned repo:
 
 1) Include the AAP Manifest
 
-You have three options to use the Manifest during the deployment.
+You have two options to use the Manifest during the deployment.
 
 a. You can put the Manifest file into the `provisioner` folder of the cloned repo (with the exact name `manifest.zip`), so: `<your-git-clone-path>/provisioner/manifest.zip`
 
@@ -239,14 +252,6 @@ base64 manifest.zip > base64_platform_manifest.txt
   >
   >  On macs, specify the `-i` flag: `base64 -i manifest.zip`
 
-
-c. Download the manifest.zip from a URL by specifying the following variables in the  `extra-vars.yml` file (see next point)
-
-  ```yaml
-  manifest_download_url: https://www.example.com/protected/manifest.zip
-  manifest_download_user: username
-  manifest_download_password: password
-  ```
 
 
 2) Create the `extra-vars.yml` file
@@ -266,7 +271,6 @@ You can also change these values:
 
 * Number of AAP,Gitea,... accounts in `student_total` (it could be useful to have more than one to run a dry-run before the demo)
 * The AWS region to be used in `ec2_region`
-* SSH public key to be injected in the server in `builder_pub_key`
 * The AAP Manifest as base64 (if you chosed this option) in `base64_manifest`
 
   >**Note**
@@ -302,7 +306,7 @@ You don't have to customize any value in that file, except if you have any confl
 
 You have to create an inventory file in `<your-git-clone-path>/local-inventory.yml` with the following contents.
 
-If you are using the local architecture:
+If you are using the local architecture create the `local-inventory.yml` with these contents changing `XXX` with your own values for the local server (AAP + Gitea + Image Builder + Net. tools) where you pre-installed RHEL:
 
 ```yaml
 all:
@@ -313,20 +317,24 @@ all:
           hosts:
             edge-manager-local:
               ansible_host: XXX.XXX.XXX.XXX
-              ansible_user: XXXXXX 
+              ansible_user: ansible 
               ansible_password: XXXXXXXX
               ansible_become_password: XXXXXXXX
 
               external_connection: XXXXXX # Connection name for the external connection
               internal_connection: XXXXXXX # Interface name for the internal lab network
 ```
+The `ansible_host` and other variables are related to the VM/Physical server where you installed RHEL that will host the AAP + Gitea + Image Builder + Net tools in the local lab architecture or just the Net tools in the external lab architecture.
+
+The `ansible_password` and `ansible_become_password` are the credentials created for the `ansible` user that was included in the local edge manager server when you installed RHEL.
+
+The `external_connection` variable expects the Connection name that you get when running `nmcli con list` ("NAME" column) in the local edge server (so where AAP + Gitea + Image Builder + Net tools will be installed). The  `internal_connection` expects the interface name (which is the name on the "DEVICE" column in the ouput of the `nmcli con list` command). Usually the connection name is the same than the interface name, but in some cases (ie. wireless connections) the connection name is different (in that case it will be the SSID).
 
   >**Note**
   >
-  >  The `external_connection` variable expect the Connection name that you can get connecting to the local server and running `nmcli con list` ("NAME" column) while the  `internal_connection` expects the interface name (which is the name on the "DEVICE" column in the ouput of the `nmcli con list` command). Usually the connection name is the same than the interface name, but in some cases (ie. wireless connections) the connection name is different (in that case it will be the SSID).
+  >  When using physical servers I suggest using an external access point / router as part of the lab infrastructure, so you will maintain the cabled interface to the servers instead of using Wireless (in case they have that option), which will keep the network name unaltered. If you finally end up using Physical servers with wireless and no external access point/router then when you move to the venue where you will be running the demo/workshop you probably the SSID will be different, so you will need to change the new network name to the `firewalld` zone `external` to allow traffic outgoing to the external network from internal. You can do it with this command: `nmcli connection modify <new SSID> connection.zone external` and then reload the connection with `nmcli connection up <new SSID>`. (I also recommend going to the venue the day before to prepare everything in advance, including this setup if needed). Another option is to use your mobile hotspot SSID but in events with many people, depending on the location, sometimes the mobile network speed is super slow and that will bring you some headaches.
 
-
-If you are using the external lab architecture (where `edge_management` has been changed by `edge_local_management` ):
+If you are using the external lab architecture use the contents below instead (where `edge_management` has been changed by `edge_local_management` ) but complete the `XXX` with the values for the server that is also local (the one containing just the net. tools) and where you pre-installed RHEL:
 
 ```yaml
 all:
@@ -385,7 +393,37 @@ ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.
   >
   > If you deployed the external lab architecture, you can find the AWS VM IP by just resolving any of the main services, for example controller.<sub_domain>.<base_zone>. If you need to jump into the AWS server you can go to `<your-git-clone-path>/provisioner/<sub_domain>.<base_zone>` directory and use the SSH private key (`ssh-key.pem`) that you will find with the `ec2-user` user there by running a command like `ssh -i <your-git-clone-path>/provisioner/<sub_domain>.<base_zone>/ssh-key.pem ec2-user@controller.<sub_domain>.<base_zone>`.
 
-I've seen that sometimes, depending on the DNS servers that you have in your laptop/servers (if you can, configure your DHCP to configure the AWS DNS servers for this lab), the "populate-xxx" playbooks fail because the server does not find the new domain names configured in AWS (because it could take some time to refresh on your DNS server to get the new values). In order to solve this I use to either configure the static entries in my laptop when running VMs or configure them on the physical Router when using physical hardware, so I'm sure those will be ready when the automation reaches the populate-XXX playbooks (so I don't need to wait for the DNS refresh). 
+I've seen that sometimes, depending on the DNS servers that you have in your laptop/servers the "populate-xxx" playbooks fail because the server does not find the new domain names configured in AWS (because it could take some time to refresh on your DNS server to get the new values). 
+
+You can try to check if that's the case after the lab deployment by running `dig gitea.<sub_domain>.<base_zone>` in your laptop, for example you can see here how the domain is not translated to any IP address:
+
+
+```bash
+dig gitea.training.sandbox2464.opentlc.com
+
+; <<>> DiG 9.18.20 <<>> gitea.training.sandbox2464.opentlc.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 34535
+;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 65494
+;; QUESTION SECTION:
+;gitea.training.sandbox2464.opentlc.com.        IN A
+
+;; Query time: 819 msec
+;; SERVER: 127.0.0.53#53(127.0.0.53) (UDP)
+;; WHEN: Tue Jan 02 16:05:18 CET 2024
+;; MSG SIZE  rcvd: 67
+
+```
+
+In order to solve this I use to either configure the static entries in my laptop when running VMs or configure them on the physical Router when using physical hardware, so I'm sure those will be ready when the automation reaches the populate-XXX playbooks (so I don't need to wait for the DNS refresh). 
+
+  >**Note**
+  >
+  > You can also wait until the DNS entry is resolved before launching the deployment again (there is no need to start over, just run the provisioner again).
 
 
 Sometimes due to the limited VM resources, the physical Hardware odds, network connectivity or the "Demo Gods" the deployment fails. Do not panic, if you followed the previous steps and have the right variables in place the first thing that you should do is to re-launch the deployment, that probably will do the trick...
@@ -400,10 +438,10 @@ If re-deployment does not work and you don't find the issue, try to start over f
 ansible-navigator run provisioner/teardown_lab.yml --inventory local-inventory.yml --extra-vars @extra-vars.yml -vvv
 ```
 
-Lastly, if you are re-using VMs or Hardware, you might find that when you re-install the RHEL Operating System in the servers (ie. after completing a demo/workshop), the system UUID will change, and thus you laptop won't be able to ssh to it due to an SSH validation mismatching (you will find the error in the `wait for all nodes to have SSH reachability` step). You can check if that's the case by trying to ssh to the server, if you have this issue you will find a message like this one:
+Lastly, if you are re-using VMs or Hardware, you might find that when you re-install the RHEL Operating System in the servers (ie. after completing a demo/workshop or re-instaling the server after a failed deployment), the system UUID will change, and thus you laptop won't be able to ssh to it due to an SSH validation mismatching (you will find the error in the `wait for all nodes to have SSH reachability` step). You can check if that's the case by trying to ssh to the server, if you have this issue you will find a message like this one:
 
 ```bash
-$ ssh ansible@192.168.140.202
+$ ssh ansible@<your server>
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -469,7 +507,6 @@ c48dcb7aced7  workshop-rhde_gitops  Running     26 hours ago  fe4b2d9148f1  10
 $  podman ps
 CONTAINER ID  IMAGE                                    COMMAND               CREATED       STATUS        PORTS       NAMES
 fe4b2d9148f1  localhost/podman-pause:4.6.1-1701529524                        26 hours ago  Up 9 minutes              c48dcb7aced7-infra
-fa40ba18c4d7  localhost/etherpad:latest                /bin/sh -c etherp...  26 hours ago  Up 9 minutes              workshop-rhde_gitops-etherpad
 cf8327aa15cf  localhost/reverse-proxy:latest           -c chown -R nginx...  26 hours ago  Up 9 minutes              workshop-rhde_gitops-reverse-proxy
 7c2e3978afc5  localhost/eda:latest                     /bin/sh -c ansibl...  26 hours ago  Up 9 minutes              workshop-rhde_gitops-eda
 0f6ca7a5c32d  localhost/ipxe:latest                    -c exec /usr/sbin...  26 hours ago  Up 9 minutes              workshop-rhde_gitops-ipxe
@@ -505,6 +542,19 @@ Open the following:
   >**Note**
   >
   > The values of `sub_domain` and `base_zone` are the ones defined in the `extra-vars.yml` file
+
+
+* 2024 APP images:
+
+Go to `quay.io` in the 2024 repository and check that the "prod" tag is pointing to "v1". If not just create a new Tag "prod" by pressing the gearwheel on the "v1" label (at the right).
+
+
+![2048 tags](../images/rhde_gitops_quay-2048.png)
+
+
+You should also check that the image in the `device-edge-configs/APPs/microshift/manifest/2-deployment.yml` file on Gitea is `v1` and not `v3`.
+
+If this environment was never used probably it will be correctly assigned but if you already ran the demo the "prod" tag will be probably pointing to "v3".
 
 
 ### Only in external lab architecture

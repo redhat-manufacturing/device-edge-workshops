@@ -1,0 +1,36 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: game2048
+  name: game2048
+  namespace: game2048 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: game2048
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: game2048
+    spec:
+      containers:
+      - image: quay.io/luisarizmendi/2048:v1
+        imagePullPolicy: Always
+        name: game2048
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File           
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30

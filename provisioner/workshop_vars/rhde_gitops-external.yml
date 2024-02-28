@@ -37,10 +37,14 @@ remote_services:
         dest: run-workflow-create-device-image.yml
       - src: eda-run-task-publish-device-image.yml.j2
         dest: run-task-publish-device-image.yml
-      - src: eda-run-update-image-microshift.yml.j2
-        dest: update-image-microshift.yml
-      - src: eda-run-task-create-apps.yml.j2
-        dest: run-task-create-apps.yml
+      - src: eda-run-update-container-image-microshift.yml.j2
+        dest: update-container-image-microshift.yml
+      - src: eda-run-task-microshift-manifest.yml.j2
+        dest: run-task-microshift-manifest.yml
+      - src: eda-run-task-microshift-helm.yml.j2
+        dest: run-task-microshift-helm.yml
+      - src: eda-run-task-app-quadlet.yml.j2
+        dest: run-task-app-quadlet.yml
       - src: eda-run-workflow-configure-devices.yml.j2
         dest: run-workflow-configure-devices.yml
     files:
@@ -436,8 +440,12 @@ repo_files:
     dest: playbooks/publish-image.yml
   - src: templates/rhde_gitops/update-devices.yml.j2
     dest: playbooks/update-devices.yml
-  - src: templates/rhde_gitops/deploy_app_microshift.yml.j2
-    dest: playbooks/deploy_app_microshift.yml
+  - src: templates/rhde_gitops/deploy_app_microshift_oc.yml.j2
+    dest: playbooks/deploy_app_microshift_oc.yml
+  - src: templates/rhde_gitops/deploy_app_microshift_manifest.yml.j2
+    dest: playbooks/deploy_app_microshift_manifest.yml
+  - src: templates/rhde_gitops/deploy_app_microshift_helm.yml.j2
+    dest: playbooks/deploy_app_microshift_helm.yml
   - src: templates/rhde_gitops/update_app_microshift.yml.j2
     dest: playbooks/update_app_microshift.yml
   - src: templates/rhde_gitops/copy-os-files.yml.j2
@@ -469,8 +477,12 @@ additional_repos:
         dest: examples/production-blueprint-v2.yml
       - src: templates/rhde_gitops/production-blueprint-v3.yml.j2
         dest: examples/production-blueprint-v3.yml
-      - src: templates/rhde_gitops/production-microshift-blueprint.yml.j2
-        dest: examples/production-microshift-blueprint.yml
+      - src: templates/rhde_gitops/production-microshift-blueprint-v1.yml.j2
+        dest: examples/production-microshift-blueprint-v1.yml
+      - src: templates/rhde_gitops/production-microshift-blueprint-v2.yml.j2
+        dest: examples/production-microshift-blueprint-v2.yml
+      - src: templates/rhde_gitops/production-microshift-blueprint-v3.yml.j2
+        dest: examples/production-microshift-blueprint-v3.yml
       - src: templates/rhde_gitops/production-kickstart.ks.j2
         dest: production-kickstart.ks
       - src: templates/rhde_gitops/production-kickstart.ks.j2
@@ -481,15 +493,23 @@ additional_repos:
     private: true
     webhook: true
     directories:
-      - OS/greenboot/check/required.d
-      - OS/greenboot/red.d
+#      - OS/greenboot/check/required.d
+#      - OS/greenboot/red.d
+      - OS/
       - APPs/podman/quadlet
-      - APPs/microshift/motioneye
+      - APPs/microshift/manifest
+      - APPs/microshift/helm
       - APPs/microshift/retail
       - APPs/microshift/2048
     files: 
-      - src: templates/rhde_gitops/app_motioneye-microshift.yml.j2
-        dest: APPs/microshift/motioneye/app_motioneye-microshift.yml
+      - src: templates/rhde_gitops/app_helm_wordpress_vars.yml.j2
+        dest: APPs/microshift/helm/wordpress_vars.yml
+      - src: templates/rhde_gitops/app_2048-microshift-1-ns.yml.j2
+        dest: APPs/microshift/manifest/1-namespace.yml
+      - src: templates/rhde_gitops/app_2048-microshift-2-deploy.yml.j2
+        dest: APPs/microshift/manifest/2-deployment.yml
+      - src: templates/rhde_gitops/app_2048-microshift-3-net.yml.j2
+        dest: APPs/microshift/manifest/3-network.yml
       - src: templates/rhde_gitops/app_2048-microshift.yml.j2
         dest: APPs/microshift/2048/app_2048-microshift.yml
       - src: templates/rhde_gitops/kafka.yml.j2
@@ -498,10 +518,10 @@ additional_repos:
         dest: APPs/microshift/retail/app_self-checkout.yml
       - src: templates/rhde_gitops/app_fuxa_scada.container.j2
         dest: APPs/podman/quadlet/app_fuxa_scada.container
-      - src: templates/rhde_gitops/os_01-check-packages.sh.j2
-        dest: OS/greenboot/check/required.d/01-check-packages.sh
-      - src: templates/rhde_gitops/os_01-slack-notification.sh.j2
-        dest: OS/greenboot/red.d/01-slack-notification.sh
+#      - src: templates/rhde_gitops/os_01-check-packages.sh.j2
+#        dest: OS/greenboot/check/required.d/01-check-packages.sh
+#      - src: templates/rhde_gitops/os_01-slack-notification.sh.j2
+#        dest: OS/greenboot/red.d/01-slack-notification.sh
       - src: templates/rhde_gitops/os_sudoers.j2
         dest: OS/sudoers
       - src: templates/rhde_gitops/os_rpm-ostreed.conf.j2

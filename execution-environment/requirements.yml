@@ -10,6 +10,7 @@ collections:
   - name: community.general
   - name: community.mysql
   - name: community.libvirt
+  - name: community.kubernetes
   - name: containers.podman
   - name: redhat_cop.controller_configuration
   - name: fedora.linux_system_roles
