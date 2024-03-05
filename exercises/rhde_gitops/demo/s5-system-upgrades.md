@@ -293,10 +293,10 @@ Creating those two additional images takes time. If you feel that you cannot fil
 If you check `device-edge-images/production-image-deploy.yml` file in Gitea you can see that, by default, we are "publishing" the last image created by the image builder, but we can change the behaviour following this steps:
 
 1. Create the base image (Section 1)
-2. Create the upgrade where we remove `pyhton-inotify` and add `zsh`. You can use the "Compose Image" or just use the GitOps approach or the Workflow without approving the publishing (it's just to save time, it does not affect if you publish in any case)
-3. Create the second upgrade where we include `pyhton-inotify` again 
+2. Create the upgrade where we remove `python-inotify` and add `zsh`. You can use the "Compose Image" or just use the GitOps approach or the Workflow without approving the publishing (it's just to save time, it does not affect if you publish in any case)
+3. Create the second upgrade where we include `` again 
 4. Change the `device-edge-images/production-image-deploy.yml` to `production_image_version: "0.0.1"`. That will trigger the "Publish Image" Job in AAP.
 
-At that time you will have the base image published. You can go through the different Sections and now, when you reach this Section where you have to perform the upgrade you can just change to `production_image_version: "0.0.2"` and that will publish the second image (first upgrade without `pyhton-inotify`) without having to create the image, because it's already there in the system. You can repeat that step with `production_image_version: "0.0.3"` for the final image.
+At that time you will have the base image published. You can go through the different Sections and now, when you reach this Section where you have to perform the upgrade you can just change to `production_image_version: "0.0.2"` and that will publish the second image (first upgrade without `python-inotify`) without having to create the image, because it's already there in the system. You can repeat that step with `production_image_version: "0.0.3"` for the final image.
 
 Just only remember that you configured a fixed image version and not the `latest` since if you create a new image and let the usual Workflow Job publish that image, you will end up creating that new image but not publishing it.
