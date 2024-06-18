@@ -198,7 +198,7 @@ Most variables are re-used between workshops, however sometimes there are unique
 You must run from the project root rather than the `/provisioner` folder.  This is so all the files in the Git project are mounted, not just the provisioner folder.  This is also best practice because it matches the behavior in Automation controller.
 
 ```
-ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.yml --extra-vars @extra-vars.yml -v
+ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.yml --extra-vars '@extra-vars.yml' -v
 ```
 You can add *-m stdout* to ansible-navigator to make the output explicit.
 
@@ -207,7 +207,7 @@ You can add *-m stdout* to ansible-navigator to make the output explicit.
 > Parts of the provisioner create files locally then push them to the provisioned services. There's no harm in having the provisioner re-template out these files, however to speed things up a volume mount can be used. Ensure your user owns the directory that will be bind mounted. See below for an example.
 
 ```
-ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.yml --extra-vars @extra-vars.yml --mode stdout --execution-environment-volume-mounts /path/to/tmpdir:/tmp:Z -v
+ansible-navigator run provisioner/provision_lab.yml --inventory local-inventory.yml --extra-vars '@extra-vars.yml' --mode stdout --execution-environment-volume-mounts /path/to/tmpdir:/tmp:Z -v
 ```
 
 ### 2. Using Ansible-Playbook
@@ -227,7 +227,7 @@ ansible-galaxy install -r execution-environment/requirements.yml
 Then run the provisioner:
 
 ```
-ansible-playbook provisioner/provision_lab.yml -e @extra_vars.yml -i inventory.yml
+ansible-playbook provisioner/provision_lab.yml -e '@extra_vars.yml' -i inventory.yml
 ```
 
 ## IGNORE BELOW
@@ -285,13 +285,13 @@ To destroy all the EC2 instances after training is complete:
 * Run the playbook:
 
 ```bash
-ansible-playbook teardown_lab.yml -e @extra_vars.yml
+ansible-playbook teardown_lab.yml -e '@extra_vars.yml'
 ```
 
 * Optionally you can enable verbose debug output of the information gathered that drives the teardown process by passing the extra optional variable `debug_teardown=true`. Example:
 
 ```bash
-ansible-playbook teardown_lab.yml -e @extra_vars.yml -e debug_teardown=true
+ansible-playbook teardown_lab.yml -e '@extra_vars.yml' -e debug_teardown=true
 ```
 
 Note: Replace `ansible-playbook` with `ansible-navigator run` if using `ansible-navigator`.

@@ -29,7 +29,7 @@ _subscription:
     name: openshift-cert-manager-operator
     source: redhat-operators
     sourceNamespace: openshift-marketplace
-    startingCSV: cert-manager-operator.v1.12.1
+    startingCSV: cert-manager-operator.v1.13.1
 
 _ingresscontroller:
   apiVersion: operator.openshift.io/v1

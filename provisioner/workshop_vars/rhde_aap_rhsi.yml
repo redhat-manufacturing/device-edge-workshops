@@ -152,7 +152,7 @@ pods:
 
 builder_blueprint_name: rhde-image
 images_to_compose:
-  - version: 1.0.0
+  - version: 1.0.1
     type: edge-commit
     packages:
       - vim-enhanced
@@ -164,6 +164,7 @@ images_to_compose:
       - skupper-cli
       - openshift-clients
       - systemd-container
+      - runc
     customizations:
       firewall:
         ports:
@@ -173,7 +174,7 @@ images_to_compose:
           - cockpit.socket
     containers:
       # Switch this to the :latest tag at some point
-      - source: registry.redhat.io/service-interconnect/skupper-router-rhel9:2.4.3
+      - source: registry.redhat.io/service-interconnect/skupper-router-rhel9:latest
     rhsm_repos:
       - service-interconnect-1-for-rhel-{{ ansible_distribution_major_version }}-x86_64-rpms
       - "rhocp-4.14-for-rhel-{{ ansible_distribution_major_version }}-x86_64-rpms"

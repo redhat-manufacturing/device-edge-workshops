@@ -34,7 +34,7 @@ This new page will display our token, and allow us to copy the login command dir
 
 > Note:
 >
-> You can access the virtual device also from the Terminal menu inside Cockpit if you want to copy&paste. 
+> You can access the virtual device also from the Terminal menu inside Cockpit if you want to copy&paste. (Refer back to [1.3](../1.3-edge-device-intro/) )
 > 
 > The username to access the virtual device is `ansible` and the password is the one of the student user (you can find the IP address of the virtual device using the command `nmcli`).
 > 

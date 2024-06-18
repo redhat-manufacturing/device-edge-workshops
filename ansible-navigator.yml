@@ -1,7 +1,7 @@
 ---
 ansible-navigator:
   execution-environment:
-    image: quay.io/device-edge-workshops/provisioner-execution-environment:2023.01.16
+    image: quay.io/device-edge-workshops/provisioner-execution-environment:2024.02.15
     enabled: true
     container-engine: auto
     pull:
