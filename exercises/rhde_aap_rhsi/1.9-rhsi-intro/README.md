@@ -14,7 +14,7 @@ In this exercise, we're going to access the Red Hat Serice Interconnect web cons
 
 RHSI is a layer 7 service interconnect that allows for connections to be made without special configruation, unlike a VPN. Since we're operating at layer 7, our traffic will look similar to any other web traffic, such as visiting a website. This means we can traverse networks that don't allow for things like port-forwarding or static NAT without issue.
 
-In this workshop, our edge devices will be what originate the collection, traversing whatever network is between them and our cluster. In the same way your laptop or phone is accessing this web page, our edge devices will make a connection back to our cluster in AWS and allow us to expose services for consumption.
+In this workshop, our edge devices will be what originate the connection, traversing whatever network is between them and our cluster. In the same way your laptop or phone is accessing this web page, our edge devices will make a connection back to our cluster in AWS and allow us to expose services for consumption.
 
 > Note:
 > 

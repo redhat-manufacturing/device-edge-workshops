@@ -47,6 +47,9 @@ After logging in with your credentials, you should be presented with the cockpit
 
 ![Cockpit Dashboard](../images/cockpit-dashboard.png)
 
+Switch to "Administrative access" if not already on the administrative view.
+![Cockpit Administrator](../images/cockpit-administrator.png)
+
 Ensure you can access the virtual machines tab:
 
 ![Cockpit Machines](../images/cockpit-machines.png)
@@ -68,6 +71,27 @@ When the virtual machine is first started, the system will perform a zero touch 
 ![ZTP Start](../images/ztp-start.png)
 
 This workshop does not directly address zero touch provisioning, however other Red Hat Device Edge workshops do. If you'd like a deep dive on the zero touch provisioning process, let your instructor know.
+
+### Step 5 - Connect To Your Virtual Device
+Later in this workshop you will be required to copy and paste some commands into the terminal of your edge device.
+Unfortunately VNC does not support clipboard actions so we will need to SSH into the edge device from the hypervisor host.
+Fristly we would need the virtual edge device's IP address.
+Once it has finished the ZTP process and you are prompted with a login, use the credentials from your student page under the "Edge Device Credentials" to log in.
+
+```
+ip --br addr
+```
+![RHDE IP](../images/rhde-ip.png)
+
+In order to do that, on cockpit, select the "Terminal" interface on the left. You might need to scroll down to see this part.
+Then from the hypervisor's terminal use SSH to connect to your virtual edge device, again using the edge device credentials:
+```
+ssh $(YOUR-USER-HERE)@(THE-IP-FROM-DEVICE)
+```
+it should look something like this:
+
+![COCKPIT TERMINAL](../images/cockpit-terminal.png)
+
 
 ---
 **Navigation**

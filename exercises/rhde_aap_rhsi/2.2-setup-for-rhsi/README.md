@@ -20,6 +20,7 @@ To enable it for our user, we'll use `loginctl`:
 ```
 sudo loginctl enable-linger $(YOUR-USER-HERE)
 ```
+where the username is provided in the "Edge Device Credentials" of your student page.
 
 If prompted to authenticate, use the password provided on your student page.
 
