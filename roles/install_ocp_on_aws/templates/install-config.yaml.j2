@@ -5,7 +5,13 @@ compute:
 - architecture: amd64
   hyperthreading: Enabled
   name: worker
+{% if openshift.instance_type is defined %}
+  platform: 
+    aws:
+      type: {{ openshift.instance_type }}
+{% else %}
   platform: {}
+{% endif%}
 {% if openshift.workers is defined %}
   replicas: {{ openshift.workers }}
 {% else %}
