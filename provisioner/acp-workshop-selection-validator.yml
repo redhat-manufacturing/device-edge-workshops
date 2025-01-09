@@ -1,0 +1,74 @@
+---
+
+- name: Ensure vars for ACP workshops are set
+  hosts:
+    - provisioners
+  gather_facts: false
+  vars:
+    valid_workshops:
+      - acp_existing_nextgen
+  pre_tasks:
+    - name: Ensure selected workshop type is valid
+      ansible.builtin.assert:
+        that:
+          - workshop_type in valid_workshops
+        fail_msg: |
+          Please select a valid workshop.
+          See the repo's README for selections.
+    - name: load in vars
+      ansible.builtin.include_vars:
+        file: "workshop_vars/{{ workshop_type }}.yml"
+  tasks:
+    - name: validate common vars
+      ansible.builtin.assert:
+        that:
+          - student_total is defined
+          - sub_domain is defined
+          - top_level_domain is defined
+          - aws_region is defined
+          - openshift.name is defined
+          - openshift.version is defined
+          - openshift.workers is defined
+          - zerossl_account.kid is defined
+          - zerossl_account.key is defined
+          - zerossl_account.alg is defined
+          - zerossl_account.email is defined
+          - pull_secret is defined
+          - admin_password is defined
+          - base64_manifest is defined
+        fail_msg: |
+          Ensure necessary vars are set.
+          For example extra-vars files, check the provisioner/example-extra-vars directory.
+    - name: Warn on student number / 6 is not clean
+      ansible.builtin.debug:
+        msg: |
+          Warning, student number is not cleanly divisible by 6.
+          The student number will be rounded up to the nearest number that is.
+      when:
+        - student_total | int % 6 != 0
+    - name: check env vars for AWS
+      block:
+        - name: test for AWS_ACCESS_KEY_ID
+          ansible.builtin.fail:
+            msg: AWS_ACCESS_KEY_ID is not defined
+          when:
+            - lookup('env', "AWS_ACCESS_KEY_ID") | length <= 0
+        - name: test for AWS_SECRET_ACCESS_KEY
+          ansible.builtin.debug:
+            msg: AWS_SECRET_ACCESS_KEY is not defined
+          when:
+            - lookup('env', "AWS_SECRET_ACCESS_KEY") | length <= 0
+      rescue:
+        - name: fail out on undefined aws vars
+          ansible.builtin.fail:
+            msg: "Ensure AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are exported to your shell session."
+  post_tasks:
+    - name: Assign vars file path for workshop
+      ansible.builtin.set_fact:
+        _vars_file_path: "workshop_vars/{{ workshop_type }}.yml"
+    - name: Set some additional vars
+      ansible.builtin.set_fact: 
+        _student_total: "{{ (student_total + 5) // 6 * 6 }}"
+    - name: Set number of teams
+      ansible.builtin.set_fact:
+        team_total: "{{ (_student_total | int) // 6 }}"
