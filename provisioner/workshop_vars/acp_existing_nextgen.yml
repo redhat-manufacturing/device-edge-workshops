@@ -1,0 +1,268 @@
+---
+
+remote_services:
+  - name: attendance
+    containerfile: attendance-containerfile
+    pre_tasks:
+      - attendance-rsync-site.yml
+      - attendance-student-pages.yml
+    templates:
+      - src: attendance-App.js.j2
+        dest: app-src/src/App.js
+      - src: attendance-index.js.j2
+        dest: app-src/src/pages/index.js
+      - src: attendance-Password.js.j2
+        dest: app-src/src/Password.js
+    deployment: attendance-deployment.yaml.j2
+  - name: gitea
+    custom: true
+    build: false
+    push: false
+    deploy: false
+    deployment_tasks_file: gitea-deploy.yml
+  - name: process-control
+    custom: true
+    build: false
+    push: false
+    deploy: false
+    deployment_tasks_file: process-control-deploy.yml
+  - name: ostree-repo
+    containerfile: ostree-repo-containerfile
+    pre_tasks:
+      - ostree-repo-copy-repo.yml
+    deployment: ostree-repo-deployment.yaml.j2
+
+local_services:
+  - name: dnsmasq
+    privileged: true
+    pre_tasks:
+      - dnsmasq-remove-from-os.yml 
+    templates:
+      - src: dnsmasq.conf.j2
+        dest: dnsmasq.conf
+        vars:
+          upstream_dns_servers:
+            - 8.8.8.8
+            - 8.8.4.4
+          internal_address: 192.168.1.1
+          internal_netmask: 24
+          dhcp_range_start: 192.168.1.5
+          dhcp_range_end: 192.168.1.254
+          dhcp_lease_time: 12h
+      - src: dnsmasq.hosts.j2
+        dest: dnsmasq.hosts
+        vars:
+          dns_entries:
+            - record: "ipxe.{{ ec2_name_prefix }}.{{ local_workshop_dns_zone }}"
+              address: "{{ internal_address }}"
+            - record: "ostree-repo.{{ ec2_name_prefix }}.{{ local_workshop_dns_zone }}"
+              address: "{{ internal_address }}"
+    post_tasks:
+      - dnsmasq-update-etc-hosts.yml
+    containerfile: dnsmasq-containerfile
+  - name: reverse-proxy
+    containerfile: reverse-proxy-containerfile
+    pre_tasks:
+      - reverse-proxy-copy-certs.yml
+    templates:
+      - src: reverse-proxy-nginx.conf.j2
+        dest: nginx.conf
+        vars:
+          proxied_services:
+            - name: ipxe
+              proxy_pass: "http://localhost:8081/"
+            - name: image-builder
+              proxy_pass: "https://localhost:9090/"
+              web_socket: true
+              proxy_advanced_options:
+                - proxy_ssl_verify off
+            - name: ostree-repo
+              proxy_pass: "http://localhost:8080/"
+  - name: ipxe
+    containerfile: ipxe-containerfile
+    pre_tasks:
+      - ipxe-get-boot-iso.yml
+      - ipxe-student-kickstarts.yml
+    post_tasks:
+      - ipxe-cleanup-boot-iso.yml
+    templates:
+      - src: workshop.ipxe.j2
+        dest: workshop.ipxe
+    files:
+      - src: ipxe-nginx.conf
+        dest: nginx.conf
+  - name: tftp
+    containerfile: tftp-containerfile
+    pre_tasks:
+      - tftp-download-chainload-files.yml
+  - name: ostree-repo
+    containerfile: ostree-repo-containerfile
+    pre_tasks:
+      - ostree-repo-copy-repo.yml
+    files:
+      - src: ostree-repo-nginx.conf
+        dest: nginx.conf
+
+pods:
+  - name: workshop-rhde_aap_rhsi-priv
+    privileged: true
+    definition:
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        annotations:
+          io.podman.annotations.autoremove/workshop-rhde_aap_rhsi-priv: "FALSE"
+          io.podman.annotations.init/workshop-rhde_aap_rhsi-priv: "FALSE"
+          io.podman.annotations.privileged/workshop-rhde_aap_rhsi-priv: "TRUE"
+          io.podman.annotations.publish-all/workshop-rhde_aap_rhsi-priv: "FALSE"
+        labels:
+          app: workshop-rhde_aap_rhsi-priv
+        name: workshop-rhde_aap_rhsi-priv
+      spec:
+        hostNetwork: true
+        containers:
+          - name: dnsmasq
+            image: dnsmasq:latest
+            securityContext:
+              privileged: true
+  - name: workshop-rhde_aap_rhsi
+    definition:
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        annotations:
+          io.podman.annotations.autoremove/workshop-rhde_aap_rhsi: "FALSE"
+          io.podman.annotations.init/workshop-rhde_aap_rhsi: "FALSE"
+          io.podman.annotations.privileged/workshop-rhde_aap_rhsi: "FALSE"
+          io.podman.annotations.publish-all/workshop-rhde_aap_rhsi: "FALSE"
+        labels:
+          app: workshop-rhde_aap_rhsi
+        name: workshop-rhde_aap_rhsi
+      spec:
+        hostNetwork: true
+        containers:
+          - name: reverse-proxy
+            image: reverse-proxy:latest
+          - name: ipxe
+            image: ipxe:latest
+          - name: tftp
+            image: tftp:latest
+          - name: ostree-repo
+            image: ostree-repo:latest
+
+builder_blueprint_name: rhde-image
+images_to_compose:
+  - version: 1.0.1
+    type: edge-commit
+    packages:
+      - vim-enhanced
+      - git
+      - nano
+      - NetworkManager-wifi
+      - podman
+      - cockpit
+      - skupper-cli
+      - openshift-clients
+      - systemd-container
+      - runc
+    customizations:
+      firewall:
+        ports:
+          - '9090:tcp'
+      services:
+        enabled:
+          - cockpit.socket
+    containers:
+      # Switch this to the :latest tag at some point
+      - source: registry.redhat.io/service-interconnect/skupper-router-rhel9:latest
+    rhsm_repos:
+      - service-interconnect-1-for-rhel-{{ ansible_distribution_major_version }}-x86_64-rpms
+      - "rhocp-4.14-for-rhel-{{ ansible_distribution_major_version }}-x86_64-rpms"
+image_builder_http_port: 11080
+image_builder_protected_container: true
+
+skip_builder_services: true
+
+install_gitea: false
+_create_initial_gitea_user: false
+_gitea_protocol: https
+_gitea_short_host: "gitea.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+_gitea_full_host: "{{ _gitea_protocol }}://gitea.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}"
+_gitea_admin_user: instructor
+
+allowed_external_services:
+  - port: 5000
+  - port: 8081
+  - port: 10443
+  - port: 9090
+  - port: 3001
+  - port: 8080
+  - port: 3000
+  - port: 80
+  - port: 443
+
+controller_configuration_projects_async_retries: 300
+controller_configuration:
+  license:
+    manifest_content: "{{ base64_manifest }}"
+  organizations:
+    - name: "Student{{ student_number }} Organization"
+  users:
+    - username: "student{{ student_number }}"
+      password: "{{ admin_password }}"
+      email: "student{{ student_number }}@dont-email.me"
+      organization: "Student{{ student_number }} Organization"
+  roles:
+    - user: "student{{ student_number }}"
+      organization: "Student{{ student_number }} Organization"
+      role: admin
+  inventories:
+    - name: Edge Devices
+      organization: "Student{{ student_number }} Organization"
+      variables:
+        student_number: "{{ student_number }}"
+    - name: Local Actions
+      organization: "Student{{ student_number }} Organization"
+      variables:
+        student_number: "{{ student_number }}"
+  hosts:
+    - name: localhost
+      inventory: Local Actions
+      variables:
+        ansible_connection: local
+        ansible_python_interpreter: "{  { ansible_playbook_python }}"
+  execution_environments:
+    - name: Device Edge Workshops Execution Environment
+      image: quay.io/device-edge-workshops/provisioner-execution-environment:latest
+      pull: missing
+  credentials:
+    - name: Gitea Credentials
+      organization: "Student{{ student_number }} Organization"
+      credential_type: Source Control
+      inputs:
+        username: "student{{ student_number }}"
+        password: "{{ admin_password }}"
+    - name: Device Credentials
+      organization: "Student{{ student_number }} Organization"
+      credential_type: Machine
+      inputs:
+        username: ansible
+        password: "{{ admin_password }}"
+        become_password: "{{ admin_password }}"
+  projects:
+    - name: Device Edge Codebase
+      organization: "Student{{ student_number }} Organization"
+      scm_type: git
+      scm_branch: main
+      scm_url: https://gitea.apps.{{ ec2_name_prefix }}.{{ workshop_dns_zone }}/student{{ student_number }}/device-edge-codebase.git
+      credential: Gitea Credentials
+  job_templates:
+    - name: Test Device Connectivity
+      organization: "Student{{ student_number }} Organization"
+      inventory: Edge Devices
+      project: Device Edge Codebase
+      playbook: playbooks/hello-world.yml
+      credentials:
+        - Device Credentials
+      execution_environment: Device Edge Workshops Execution Environment
+
