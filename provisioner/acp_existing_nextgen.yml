@@ -30,20 +30,25 @@
 - name: import selection validator playbook
   ansible.builtin.import_playbook: acp-workshop-selection-validator.yml
 
-# - name: Import aws setup playbook
-#   ansible.builtin.import_playbook: setup-aws-instances.yml
-
-# - name: import connectivity playbook
-#   ansible.builtin.import_playbook: ensure-connectivity.yml
-
-# - name: import rhsm playbook
-#   ansible.builtin.import_playbook: rhsm.yml
-
-# - name: import common roles playbook
-#   ansible.builtin.import_playbook: common.yml
-
 # - name: Import OCP install playbook
 #   ansible.builtin.import_playbook: install-ocp-on-aws.yml
+
+- name: Import bootstrap GitOps playbook
+  ansible.builtin.import_playbook: bootstrap-gitops.yml
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # - name: Import OCP ingress cert playbook
 #   ansible.builtin.import_playbook: update-ocp-ingress-cert.yml
