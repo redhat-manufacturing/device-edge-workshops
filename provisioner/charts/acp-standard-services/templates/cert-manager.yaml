@@ -15,17 +15,18 @@ spec:
     repoURL: https://github.com/RedHatEdge/acp-standard-services.git
     targetRevision: {{ .Values.gitBranch | default "main" }}
     path: provisioner/charts/cert-manager/
-    helm: |
-      baseZone: {{ .Values.baseZone }}
-      clusterName: {{ .Values.clusterName }}
-      zeroSSL:
+    helm:
+      values: |
+        baseZone: {{ .Values.baseZone }}
+        clusterName: {{ .Values.clusterName }}
 {{- with .Values.zeroSSL }}
-        email: {{ .email }}
-        keyID: {{ .keyID }}
-        key: {{ .key }}
+        zeroSSL:
+          email: {{ .email }}
+          keyID: {{ .keyID }}
+          key: {{ .key }}
 {{- end }}
 {{- with .Values.cloudflare }}
-      cloudflare:
-        email: {{ .email }}
-        token: {{ .token }}
+        cloudflare:
+          email: {{ .email }}
+          token: {{ .token }}
 {{- end }}
