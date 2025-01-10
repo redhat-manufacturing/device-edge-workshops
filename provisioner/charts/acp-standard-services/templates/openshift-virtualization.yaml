@@ -1,0 +1,18 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: openshift-virtualization
+  namespace: openshift-gitops
+  labels:
+    application: acp-standard-services
+spec:
+  destination:
+    name: ""
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    repoURL: https://github.com/RedHatEdge/acp-standard-services.git
+    targetRevision: {{ .Values.gitBranch | default "main" }}
+    path: provisioner/charts/openshift-virtualization/
+    helm:
