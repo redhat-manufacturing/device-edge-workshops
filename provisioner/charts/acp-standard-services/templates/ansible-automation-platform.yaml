@@ -8,7 +8,7 @@ metadata:
     application: acp-standard-services
 spec:
   destination:
-    name: ""
+    name: ''
     server: https://kubernetes.default.svc
   project: default
   source:
