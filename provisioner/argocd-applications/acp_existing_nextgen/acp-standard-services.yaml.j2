@@ -18,3 +18,12 @@ spec:
     helm:
       values: |
         gitBranch: {{ git_branch | default('main') }}
+        clusterName: {{ openshift.name }}
+        baseZone: {{ base_zone }}
+        zeroSSL:
+          email: {{ zerossl_account.email }}
+          keyID: {{ zerossl_account.kid }}
+          key: {{ zerossl_account.key }}
+        cloudflare:
+          email: {{ cloudflare.email }}
+          token: {{ cloudflare.token }}
