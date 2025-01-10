@@ -16,7 +16,7 @@ spec:
     externalAccountBinding:
       keyID: {{ .Values.zeroSSL.keyID }}
       keySecretRef:
-        name: acme-zerossl-account
+        name: zero-ssl-eabsecret
         key: secret
       keyAlgorithm: HS256
     solvers:
