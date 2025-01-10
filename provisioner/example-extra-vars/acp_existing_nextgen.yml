@@ -32,6 +32,7 @@ openshift:
   name: clusternamehere
   version: stable
   workers: 3
+  # instance_type: m5d.metal - optional to change the worker type
 
 # Your zerossl information from https://app.zerossl.com/developer
 zerossl_account:
