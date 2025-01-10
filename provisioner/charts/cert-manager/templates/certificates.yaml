@@ -1,0 +1,35 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: openshift-api
+  namespace: openshift-config
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  dnsNames:
+    - api.{{ .Values.clusterName }}{{ .Values.baseZone }}
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: zerossl-production
+  secretName: openshift-api-cert
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: router-default
+  namespace: openshift-ingress
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  dnsNames:
+      - apps.{{ .Values.clusterName }}{{ .Values.baseZone }}
+      - "*.apps.{{ .Values.clusterName }}{{ .Values.baseZone }}"
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: zerossl-production
+  secretName: router-cert
