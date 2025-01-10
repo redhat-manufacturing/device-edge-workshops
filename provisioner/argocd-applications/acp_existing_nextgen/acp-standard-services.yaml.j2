@@ -12,9 +12,9 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    repoURL: https://github.com/RedHatEdge/acp-standard-services.git
+    repoURL: https://github.com/redhat-manufacturing/device-edge-workshops.git
     targetRevision: {{ git_branch | default('main') }}
-    path: provisioner/argocd-applications/acp_existing_nextgen/acp-standard-services/
+    path: provisioner/charts/acp-standard-services/
     helm:
-      values:
+      values: |
         gitBranch: {{ git_branch | default('main') }}
