@@ -10,8 +10,6 @@ metadata:
 spec:
   database:
     postgres_storage_class: {{ ((.Values.aap).databaseStorageClass) | default "gp3-csi" }}
-  pulp_settings:
-    ansible_collect_download_count: true
   image_pull_policy: IfNotPresent
   controller:
     disabled: false
