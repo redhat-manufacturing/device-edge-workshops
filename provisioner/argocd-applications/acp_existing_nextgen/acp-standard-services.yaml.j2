@@ -1,0 +1,20 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: acp-standard-services
+  namespace: openshift-gitops
+  labels:
+    application: acp-standard-services
+spec:
+  destination:
+    name: ""
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    repoURL: https://github.com/RedHatEdge/acp-standard-services.git
+    targetRevision: {{ git_branch | default('main') }}
+    path: provisioner/argocd-applications/acp_existing_nextgen/acp-standard-services/
+    helm:
+      values:
+        gitBranch: {{ git_branch | default('main') }}
