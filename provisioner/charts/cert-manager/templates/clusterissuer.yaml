@@ -24,9 +24,9 @@ spec:
 # THIS IS NOT DONE/WORKING YET
       - dns01:
           route53:
-            accessKeyID: {{ lookup('ansible.builtin.env', 'AWS_ACCESS_KEY_ID') }}
-            hostedZoneID: {{ _route53_zone_info.zone_id }}
-            region: {{ aws_region }}
+            accessKeyID: {{ .Values.fixLater }}
+            hostedZoneID: {{ .Values.fixLater }}
+            region: {{ .Values.fixLater }}
             secretAccessKeySecretRef:
               key: secret-access-key
               name: route53-creds
