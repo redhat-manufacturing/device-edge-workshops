@@ -2,14 +2,14 @@
 apiVersion: aap.ansible.com/v1alpha1
 kind: AnsibleAutomationPlatform
 metadata:
-  name: {{ .Values.aap.name | default "aap" }}
+  name: {{ (.Values.aap.name) | default "aap" }}
   namespace: ansible-automation-platform
   annotations:
     argocd.argoproj.io/sync-wave: "2"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   database:
-    postgres_storage_class: {{ .Values.aap.databaseStorageClass | default "gp3-csi" }}
+    postgres_storage_class: {{ (.Values.aap.databaseStorageClass) | default "gp3-csi" }}
   pulp_settings:
     ansible_collect_download_count: true
   image_pull_policy: IfNotPresent
@@ -20,8 +20,8 @@ spec:
   hub:
     disabled: false
     storage_type: file
-    file_storage_storage_class: {{ .Values.aap.hubFileStorageClass | default "gp3-csi" }}
-    file_storage_size: {{ .Values.aap.hubFileStorageSize | default "10Gi" }}
-    redis_storage_class: {{ .Values.aap.redisStorageClass | default "gp3-csi" }}
+    file_storage_storage_class: {{ (.Values.aap.hubFileStorageClass) | default "gp3-csi" }}
+    file_storage_size: {{ (.Values.aap.hubFileStorageSize) | default "10Gi" }}
+    redis_storage_class: {{ (.Values.aap.redisStorageClass) | default "gp3-csi" }}
   lightspeed:
     disabled: true
