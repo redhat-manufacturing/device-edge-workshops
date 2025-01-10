@@ -9,7 +9,7 @@ metadata:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   dnsNames:
-    - api.{{ .Values.clusterName }}{{ .Values.baseZone }}
+    - api.{{ .Values.clusterName }}.{{ .Values.baseZone }}
   issuerRef:
     group: cert-manager.io
     kind: ClusterIssuer
@@ -26,8 +26,8 @@ metadata:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   dnsNames:
-      - apps.{{ .Values.clusterName }}{{ .Values.baseZone }}
-      - "*.apps.{{ .Values.clusterName }}{{ .Values.baseZone }}"
+      - apps.{{ .Values.clusterName }}.{{ .Values.baseZone }}
+      - "*.apps.{{ .Values.clusterName }}.{{ .Values.baseZone }}"
   issuerRef:
     group: cert-manager.io
     kind: ClusterIssuer

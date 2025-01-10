@@ -9,6 +9,6 @@ spec:
   servingCerts:
     namedCertificates:
       - names:
-          - api.{{ .Values.clusterName }}{{ .Values.baseZone }}
+          - api.{{ .Values.clusterName }}.{{ .Values.baseZone }}
         servingCertificate:
           name: openshift-api-cert

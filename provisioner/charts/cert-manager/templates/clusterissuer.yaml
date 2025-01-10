@@ -39,5 +39,5 @@ spec:
               key: api-token
         selector:
           dnsZones:
-              - {{ $.Values.clusterName }}{{ $.Values.baseZone }}
+              - {{ $.Values.clusterName }}.{{ $.Values.baseZone }}
 {{- end }}
