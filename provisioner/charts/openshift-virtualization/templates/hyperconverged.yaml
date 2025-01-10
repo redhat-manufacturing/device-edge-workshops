@@ -9,6 +9,6 @@ metadata:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   featureGates:
-    enableCommonBootImageImport: {{ .Values.virtualization.commonBootImageImport | default "true" }}
-    nonRoot: {{ .Values.virtualization.nonRoot | default "true" }}
-    withHostPassthroughCPU: {{ .Values.virtualization.hostCPUPassThrough | default "true" }}
+    enableCommonBootImageImport: true
+    nonRoot: true
+    withHostPassthroughCPU: true
