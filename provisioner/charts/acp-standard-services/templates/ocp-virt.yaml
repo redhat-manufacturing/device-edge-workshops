@@ -13,6 +13,6 @@ spec:
   project: default
   source:
     repoURL: https://github.com/RedHatEdge/acp-standard-services.git
-    targetRevision: {{ gitBranch | default('main') }}
+    targetRevision: {{ .Values.gitBranch | default "main" }}
     path: provisioner/argocd-applications/acp_existing_nextgen/acp-standard-services/
     helm:
