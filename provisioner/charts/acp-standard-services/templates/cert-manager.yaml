@@ -26,6 +26,6 @@ spec:
 {{- end }}
 {{- with .Values.cloudflare }}
       cloudflare:
-        email: {{ cloudflare.email }}
-        token: {{ cloudflare.token }}
+        email: {{ .email }}
+        token: {{ .token }}
 {{- end }}
