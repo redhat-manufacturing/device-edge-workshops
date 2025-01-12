@@ -16,7 +16,7 @@ spec:
   eda:
     disabled: false
   hub:
-    disabled: false
+    disabled: true
     storage_type: file
     file_storage_storage_class: {{ ((.Values.aap).hubFileStorageClass) | default "gp3-csi" }}
     file_storage_size: {{ ((.Values.aap).hubFileStorageSize) | default "10Gi" }}
