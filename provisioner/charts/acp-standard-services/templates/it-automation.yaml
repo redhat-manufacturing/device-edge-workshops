@@ -15,6 +15,6 @@ spec:
     repoURL: https://github.com/redhat-manufacturing/device-edge-workshops.git
     targetRevision: {{ .Values.gitBranch | default "main" }}
     path: provisioner/charts/it-automation/
-    syncPolicy:
-      automated: {}
+  syncPolicy:
+    automated: {}
     helm:
