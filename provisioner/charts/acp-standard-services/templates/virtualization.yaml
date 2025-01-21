@@ -2,10 +2,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: openshift-virtualization
+  name: virtualization
   namespace: openshift-gitops
   labels:
-    application: acp-standard-services
+    application: virtualization
 spec:
   destination:
     name: ''
@@ -14,5 +14,7 @@ spec:
   source:
     repoURL: https://github.com/redhat-manufacturing/device-edge-workshops.git
     targetRevision: {{ .Values.gitBranch | default "main" }}
-    path: provisioner/charts/openshift-virtualization/
+    path: provisioner/charts/virtualization/
+    syncPolicy:
+      automated: {}
     helm:
