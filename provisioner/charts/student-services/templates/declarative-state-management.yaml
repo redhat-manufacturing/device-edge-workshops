@@ -2,10 +2,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: gitea
+  name: declarative-state-management
   namespace: openshift-gitops
   labels:
-    application: gitea
+    application: declarative-state-management
 spec:
   destination:
     name: ''
@@ -16,8 +16,8 @@ spec:
   source:
     repoURL: https://github.com/redhat-manufacturing/device-edge-workshops.git
     targetRevision: {{ .Values.gitBranch | default "main" }}
-    path: provisioner/charts/gitea/
+    path: provisioner/charts/declarative-state-management/
     helm:
       values: |
-        giteaNamespaces:
+        declarativeStateManagementNamespaces:
 {{ toYaml .Values.studentNamespaces | nindent 10}}
