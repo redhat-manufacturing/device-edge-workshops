@@ -1,0 +1,33 @@
+---
+
+- name: Create repos in gitea
+  hosts:
+    - localhost
+  gather_facts: false
+  connection: local
+  pre_tasks:
+    - name: Import variables from /runner/variables
+      ansible.builtin.include_vars:
+        dir: /runner/variables
+  tasks:
+    - name: create repos in gitea
+      ansible.builtin.uri:
+        url: "{{ gitea.url }}/api/v1/orgs/{{ repo.organization }}/repos"
+        validate_certs: false
+        user: "{{ gitea.admin.username | default('instructor') }}"
+        password: "{{ gitea.admin.password }}"
+        force_basic_auth: true
+        body_format: json
+        method: POST
+        body:
+          name: "{{ repo.name }}"
+          description: "{{ repo.description }}"
+          readme: "{{ repo.readme }}"
+        status_code:
+          - 201
+          - 409
+      loop: "{{ gitea.repos }}"
+      loop_control:
+        loop_var: repo
+      when:
+        - gitea.repos is defined
