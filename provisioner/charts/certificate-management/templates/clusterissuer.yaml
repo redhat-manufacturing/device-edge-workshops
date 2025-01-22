@@ -24,7 +24,7 @@ spec:
       - dns01:
           route53:
             accessKeyID: {{ .aws_access_key_id }}
-            region: {{ .aws_retion }}
+            region: {{ .aws_region }}
             secretAccessKeySecretRef:
               key: aws_secret_access_key
               name: route53-secret-access-key
