@@ -4,6 +4,7 @@ apiVersion: pfe.rhpds.com/v1
 kind: Gitea
 metadata:
   name: {{ . }}-gitea
+  namespace: {{ . }}
 spec:
   giteaImageTag: latest
   giteaVolumeSize: 4Gi
