@@ -19,5 +19,4 @@ spec:
     path: provisioner/charts/gitea/
     helm:
       values: |
-        giteaNamespaces:
-{{ toYaml .Values.studentNamespaces | nindent 10}}
+{{ toYaml .Values.gitea | nindent 10 }}
