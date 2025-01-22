@@ -20,6 +20,9 @@ spec:
     helm:
       values: |
         gitBranch: {{ git_branch | default('main') }}
+        gitea:
+          adminUser: instructor
+          adminPassword: '{{ admin_password }}'
         studentNamespaces:
 {% for number in range(team_total | int) %}
           - team{{ number }}
