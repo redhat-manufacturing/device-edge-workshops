@@ -16,5 +16,6 @@ COPY create-teams.yaml /runner/playbooks/
 COPY create-repos.yaml /runner/playbooks/
 COPY add-user-to-team.yaml /runner/playbooks/
 COPY add-repo-to-team.yaml /runner/playbooks/
+COPY main.yaml /runner/playbooks/
 
 CMD ansible-playbook /runner/playbooks/main.yaml --inventory /runner/inventory/localhost.yaml -vv
