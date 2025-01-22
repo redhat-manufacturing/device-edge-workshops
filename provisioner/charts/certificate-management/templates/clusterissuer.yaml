@@ -21,15 +21,13 @@ spec:
       keyAlgorithm: HS256
     solvers:
 {{- with .Values.route53 }}
-# THIS IS NOT DONE/WORKING YET
       - dns01:
           route53:
-            accessKeyID: {{ .Values.fixLater }}
-            hostedZoneID: {{ .Values.fixLater }}
-            region: {{ .Values.fixLater }}
+            accessKeyID: {{ .aws_access_key_id }}
+            region: {{ .aws_retion }}
             secretAccessKeySecretRef:
-              key: secret-access-key
-              name: route53-creds
+              key: aws_secret_access_key
+              name: route53-secret-access-key
 {{- end }}
 {{- with .Values.cloudflare }}
       - dns01:
