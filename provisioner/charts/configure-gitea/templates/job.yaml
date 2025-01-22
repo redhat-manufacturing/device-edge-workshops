@@ -1,0 +1,27 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: configure-gitea
+  annotations:
+    argocd.argoproj.io/hook: Sync
+spec:
+  backoffLimit: 10
+  template:
+    spec:
+      containers:
+        - name: configure-gitea
+          image: quay.io/device-edge-workshops/configure-gitea:1.0.0
+          volumeMounts:
+            - name: gitea-variables
+              mountPath: /runner/variables
+            - name: tmp
+              mountPath: /tmp
+      restartPolicy: OnFailure
+      volumes:
+        - name: gitea-variables
+          configMap:
+            name: gitea-variables
+        - name: tmp
+          emptyDir:
+            sizeLimit: 100Mi

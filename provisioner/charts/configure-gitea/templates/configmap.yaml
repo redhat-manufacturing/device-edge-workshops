@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configure-controller-configmap
+data:
+  gitea-variables.yaml: |
+{{ toYaml .Values.gitea | nindent 4 }}
