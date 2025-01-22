@@ -9,4 +9,4 @@ metadata:
 spec:
   targetNamespaces:
     - ansible-automation-platform
-    - student-resources
+    - student-services

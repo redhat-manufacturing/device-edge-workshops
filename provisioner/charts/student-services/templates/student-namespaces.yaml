@@ -20,5 +20,5 @@ spec:
     helm:
       values: |
         studentNamespaces:
-          - student-resources
+          - student-services
 {{ toYaml .Values.studentNamespaces | nindent 10}}

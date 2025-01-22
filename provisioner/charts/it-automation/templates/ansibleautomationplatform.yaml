@@ -3,7 +3,7 @@ apiVersion: aap.ansible.com/v1alpha1
 kind: AnsibleAutomationPlatform
 metadata:
   name: {{ ((.Values.aap).name) | default "aap" }}
-  namespace: student-resources
+  namespace: student-services
   annotations:
     argocd.argoproj.io/sync-wave: "2"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true

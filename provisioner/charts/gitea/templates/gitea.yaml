@@ -3,7 +3,7 @@ apiVersion: pfe.rhpds.com/v1
 kind: Gitea
 metadata:
   name: {{ ((.Values.gitea).name) | default "gitea" }}
-  namespace: {{ ((.Values.gitea).namespace) | default "student-resources" }}
+  namespace: {{ ((.Values.gitea).namespace) | default "student-services" }}
 spec:
   giteaImageTag: latest
   giteaVolumeSize: 4Gi
