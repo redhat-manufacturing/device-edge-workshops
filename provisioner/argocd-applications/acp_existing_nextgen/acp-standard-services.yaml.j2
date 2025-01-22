@@ -11,12 +11,12 @@ spec:
     name: ""
     server: https://kubernetes.default.svc
   project: default
+  syncPolicy:
+    automated: {}
   source:
     repoURL: https://github.com/redhat-manufacturing/device-edge-workshops.git
     targetRevision: {{ git_branch | default('main') }}
     path: provisioner/charts/acp-standard-services/
-  syncPolicy:
-    automated: {}
     helm:
       values: |
         gitBranch: {{ git_branch | default('main') }}
