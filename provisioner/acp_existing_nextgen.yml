@@ -7,16 +7,17 @@
 - name: import selection validator playbook
   ansible.builtin.import_playbook: acp-workshop-selection-validator.yml
 
-- name: Import OCP install playbook
-  ansible.builtin.import_playbook: install-ocp-on-aws.yml
+# - name: Import OCP install playbook
+#   ansible.builtin.import_playbook: install-ocp-on-aws.yml
 
-- name: Import bootstrap GitOps playbook
-  ansible.builtin.import_playbook: bootstrap-gitops.yml
+# - name: Import bootstrap GitOps playbook
+#   ansible.builtin.import_playbook: bootstrap-gitops.yml
 
 - name: Import playbook to deploy ACP standard services
   ansible.builtin.import_playbook: acp-standard-services.yml
 
-
+- name: Import playbook to deploy student services
+  ansible.builtin.import_playbook: student-services.yml
 
 
 
