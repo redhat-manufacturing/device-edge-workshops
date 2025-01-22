@@ -15,5 +15,5 @@ spec:
     automated: {}
   source:
     repoURL: https://github.com/rhpds/gitea-operator.git
-    targetRevision: {{ .Values.gitBranch | default "main" }}
+    targetRevision: HEAD
     path: OLMDeploy/
