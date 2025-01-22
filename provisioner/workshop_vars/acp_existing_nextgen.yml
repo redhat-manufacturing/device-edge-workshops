@@ -1,5 +1,7 @@
 ---
 
+team_size: 6
+
 remote_services:
   - name: attendance
     containerfile: attendance-containerfile
