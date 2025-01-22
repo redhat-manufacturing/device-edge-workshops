@@ -1,0 +1,26 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: student-services
+  namespace: openshift-gitops
+  labels:
+    application: student-services
+spec:
+  destination:
+    name: ""
+    server: https://kubernetes.default.svc
+  project: default
+  syncPolicy:
+    automated: {}
+  source:
+    repoURL: https://github.com/redhat-manufacturing/device-edge-workshops.git
+    targetRevision: {{ git_branch | default('main') }}
+    path: provisioner/charts/student-services/
+    helm:
+      values: |
+        gitBranch: {{ git_branch | default('main') }}
+        studentNamespaces:
+{% for number in range(team_total | int) %}
+          - team{{ number }}
+{% endfor %}
