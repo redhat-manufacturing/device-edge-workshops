@@ -1,0 +1,6 @@
+apiVersion: v2
+name: gitea
+description: Rolls out instances of gitea into specified namespaces
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

@@ -1,0 +1,17 @@
+{{- range .Values.giteaNamespaces }}
+---
+apiVersion: pfe.rhpds.com/v1
+kind: Gitea
+metadata:
+  name: {{ . }}-gitea
+spec:
+  giteaImageTag: latest
+  giteaVolumeSize: 4Gi
+  giteaVolumeStorageClass: gp3-csi
+  giteaSsl: true
+  postgresqlVolumeSize: 4Gi
+  postgresqlVolumeStorageClass: gp3-csi
+  giteaAdminUser: instructor
+  giteaAdminEmail: dont@email.me
+  giteaAdminPassword: "testpassword"
+{{- end }}
