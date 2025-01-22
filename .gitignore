@@ -56,3 +56,4 @@ exercises/rhde_aap_rhsi/hold
 run.log
 *aws_rules.yml
 rh1-testing
+hold/
