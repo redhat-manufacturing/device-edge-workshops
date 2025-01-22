@@ -5,4 +5,5 @@ metadata:
   name: gitea-variables
 data:
   gitea-variables.yaml: |
-{{ toYaml .Values.gitea | nindent 4 }}
+    gitea:
+{{ toYaml .Values.gitea | nindent 6 }}
