@@ -22,7 +22,8 @@
         body:
           name: "{{ repo.name }}"
           description: "{{ repo.description }}"
-          readme: "{{ repo.readme }}"
+          auto_init: true
+          default_branch: main
         status_code:
           - 201
           - 409
