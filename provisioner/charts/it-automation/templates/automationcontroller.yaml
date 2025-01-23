@@ -1,0 +1,11 @@
+---
+apiVersion: automationcontroller.ansible.com/v1beta1
+kind: AutomationController
+metadata:
+  name: {{ ((.Values.controller).name) | default "controller" }}
+  namespace: {{ ((.Values.controller).namespace) | default "student-services" }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  postgres_storage_class: {{ ((.Values.controller).postgresStorageClass) | default "gp3-csi" }}
