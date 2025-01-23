@@ -45,11 +45,88 @@ spec:
 {% for number in range(1, (team_total | int) + 1) %}
             - name: team{{ number }}-code
               description: "Repository for team{{ number }} code"
-              readme: '#team{{ number }} code'
               team: team{{ number }}
               organization: {{ workshop_short_name }}
 {% endfor %}
         studentNamespaces:
 {% for number in range(1, (team_total | int) + 1) %}
           - team{{ number }}
+{% endfor %}
+        controller:
+          controller_hostname: https://controller-student-services.apps.{{ openshift.name }}.{{ base_zone }}
+          controller_username: admin
+          controller_passowrd: "{{ admin_password }}"
+          aap_validate_certs: false
+          controller_license:
+            manifest_content: '{{ base64_manifest }}'
+          controller_organizations:
+{% for number in range(1, (team_total | int) + 1) %}
+            - name: "Team {{ number }}"
+              description: "Team {{ number }} controller organization"
+{% endfor %}
+          controller_user_accounts:
+{% for number in range(1, (_student_total | int) + 1) %}
+            - username: student{{ number }}
+              organization: team{{ ((number - 1) // (team_size | int)) + 1 }}
+              password: '{{ admin_password }}'
+              email: 'dont@email.me'
+{% endfor %}
+          controller_roles:
+{% for number in range(1, (_student_total | int) + 1) %}
+            - user: student{{ number }}
+              organization: team{{ ((number - 1) // (team_size | int)) + 1 }}
+              role: admin
+{% endfor %}
+          controller_credentials:
+{% for number in range(1, (team_total | int) + 1) %}
+            - name: team{{ number }} Code Repository Credentials
+              organization: team{{ number }}
+              credential_type: Source Control
+              inputs:
+                username: instructor
+                password: '{{ admin_password }}'
+{% endfor %}
+          controller_projects:
+{% for number in range(1, (team_total | int) + 1) %}
+            - name: Code Repository
+              organization: team{{ number }}
+              scm_branch: main
+              scm_type: git
+              scm_url: "https://gitea-student-services.apps.{{ openshift.name }}.{{ base_zone }}/{{ workshop_short_name }}/team{{ number }}-code.git"
+              update_project: true
+              credential: team{{ number }} Code Repository Credentials
+{% endfor %}
+          controller_inventories:
+{% for number in range(1, (team_total | int) + 1) %}
+            - name: team{{ number }} Active Directory Infrastructure
+              organization: team{{ number }}
+              variables:
+                ansible_connection: winrm
+                ansible_winrm_transport: ntlm
+                ansible_winrm_server_cert_validation: ignore
+                ansible_winrm_port: 5985
+                active_directory:
+                  dns_domain_name: team{{ number }}.lcl
+                  domain_netbios_name: team{{ number }}
+            - name: team{{ number }} Network Infrastructure
+              organization: team{{ number }}
+            - name: team{{ number }} Process Control Systems
+              organization: team{{ number }}
+              variables:
+                ansible_connection: winrm
+                ansible_winrm_transport: ntlm
+                ansible_winrm_server_cert_validation: ignore
+                ansible_winrm_port: 5985
+                active_directory:
+                  dns_domain_name: team{{ number }}.lcl
+                  domain_netbios_name: team{{ number }}
+{% endfor %}
+          controller_groups:
+{% for number in range(1, (team_total | int) + 1) %}
+            - name: primary_domain_controller
+              inventory: team{{ number }} Active Directory Infrastructure
+            - name: secondary_domain_controller
+              inventory: team{{ number }} Active Directory Infrastructure
+            - name: domain_controllers
+              inventory: team{{ number }} Active Directory Infrastructure
 {% endfor %}
