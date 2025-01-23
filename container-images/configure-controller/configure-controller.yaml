@@ -1,0 +1,23 @@
+---
+
+- name: Configure Ansible Automation Platform
+  hosts:
+    - all
+  gather_facts: false
+  connection: local
+  vars:
+    controller_configuration_secure_logging: false
+    aap_configuration_secure_logging: false
+  pre_tasks:
+    - name: Import variables from /runner/variables
+      ansible.builtin.include_vars:
+        dir: /runner/variables
+  roles:
+    - redhat_cop.controller_configuration.license
+    - redhat_cop.controller_configuration.organizations
+    - redhat_cop.controller_configuration.users
+    - redhat_cop.controller_configuration.roles
+    - redhat_cop.controller_configuration.credentials
+    - redhat_cop.controller_configuration.projects
+    - redhat_cop.controller_configuration.inventories
+    - redhat_cop.controller_configuration.groups
