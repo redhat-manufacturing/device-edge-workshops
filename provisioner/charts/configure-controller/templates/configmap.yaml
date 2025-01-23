@@ -6,4 +6,4 @@ metadata:
   namespace: student
 data:
   controller-vars.yaml: |
-{{ toYaml .Values.controller }}
+{{ toYaml .Values.controller | nindent 4 }}
