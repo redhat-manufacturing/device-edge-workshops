@@ -31,7 +31,7 @@ spec:
             - short_name: {{ workshop_short_name }}
               full_name: {{ workshop_full_name }}
           teams:
-{% for number in range(team_total | int) %}
+{% for number in range(1, (team_total | int) + 1) %}
             - name: team{{ number }}
               organization: {{ workshop_short_name }}
 {% endfor %}
@@ -42,7 +42,7 @@ spec:
               organization: {{ workshop_short_name }}
 {% endfor %}
           repos:
-{% for number in range(team_total | int) %}
+{% for number in range(1, (team_total | int) + 1) %}
             - name: team{{ number }}-code
               description: "Repository for team{{ number }} code"
               readme: '#team{{ number }} code'
@@ -50,6 +50,6 @@ spec:
               organization: {{ workshop_short_name }}
 {% endfor %}
         studentNamespaces:
-{% for number in range(team_total | int) %}
+{% for number in range(1, (team_total | int) + 1) %}
           - team{{ number }}
 {% endfor %}
