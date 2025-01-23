@@ -55,8 +55,8 @@ spec:
         controller:
           controller_hostname: https://controller-student-services.apps.{{ openshift.name }}.{{ base_zone }}
           controller_username: admin
-          controller_passowrd: "{{ admin_password }}"
-          aap_validate_certs: false
+          controller_password: "{{ admin_password }}"
+          controller_validate_certs: false
           controller_license:
             manifest_content: '{{ base64_manifest }}'
           controller_organizations:
