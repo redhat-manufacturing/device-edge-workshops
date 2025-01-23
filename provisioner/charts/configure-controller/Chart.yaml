@@ -1,0 +1,6 @@
+apiVersion: v2
+name: configure-controller
+description: A chart to configure controller via k8s job
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

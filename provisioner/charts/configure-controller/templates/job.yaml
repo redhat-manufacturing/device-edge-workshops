@@ -1,0 +1,27 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: configure-controller
+  annotations:
+    argocd.argoproj.io/hook: Sync
+spec:
+  backoffLimit: 25
+  template:
+    spec:
+      containers:
+        - name: configure-conrtoller
+          image: quay.io/device-edge-workshops/configure-controller:1.0.0
+          volumeMounts:
+            - name: controller-variables
+              mountPath: /runner/variables
+            - name: tmp
+              mountPath: /tmp
+      restartPolicy: OnFailure
+      volumes:
+        - name: controller-variables
+          configMap:
+            name: controller-variables
+        - name: tmp
+          emptyDir:
+            sizeLimit: 100Mi
