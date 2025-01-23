@@ -4,8 +4,6 @@ kind: ConfigMap
 metadata:
   name: controller-variables
   namespace: student
-  annotations:
-    argocd.argoproj.io/sync-wave: "1"
 data:
   controller-vars.yaml: |
 {{ toYaml .Values.controller }}
