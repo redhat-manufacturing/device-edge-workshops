@@ -20,6 +20,10 @@ spec:
     helm:
       values: |
         gitBranch: {{ git_branch | default('main') }}
+        studentTotal: "{{ _student_total }}"
+        adminPassword: "{{ admin_password }}"
+        baseZone: "{{ baseZone }}"
+        workshopType: "{{ workshop_type }}"
         gitea:
           adminUser: instructor
           adminPassword: '{{ admin_password }}'
