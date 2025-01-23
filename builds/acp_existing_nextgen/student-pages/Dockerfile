@@ -33,7 +33,7 @@ USER 1001
 RUN /usr/libexec/s2i/assemble
 
 # Start the container to host the assembled 
-FROM ubi9/nodejs-16-minimal AS actual
+FROM ubi9/nodejs-16 AS actual
 
 # Get the assembled app
 COPY --from=builder $HOME $HOME
