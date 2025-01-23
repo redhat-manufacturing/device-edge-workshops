@@ -1,4 +1,4 @@
-FROM ansible-automation-platform-24/ee-minimal-rhel9 as template-handler
+FROM ansible-automation-platform-24/ee-minimal-rhel9 AS template-handler
 
 # Add in static files
 USER 0
@@ -17,7 +17,7 @@ RUN ansible-playbook /tmp/playbooks/create-pages.yaml --inventory localhost, -vv
 RUN chown -R 1001:0 /tmp/src
 
 # Start a nodejs builder
-FROM ubi9/nodejs-16-minimal as builder
+FROM ubi9/nodejs-16-minimal AS builder
 USER 0
 
 # Copy files from template-handler
@@ -33,7 +33,7 @@ USER 1001
 RUN /usr/libexec/s2i/assemble
 
 # Start the container to host the assembled 
-FROM registry.redhat.io/ubi9/nodejs-16-minimal
+FROM ubi9/nodejs-16-minimal AS actual
 
 # Get the assembled app
 COPY --from=builder $HOME $HOME
