@@ -18,3 +18,6 @@ spec:
     targetRevision: {{ .Values.gitBranch | default "main" }}
     path: provisioner/charts/it-automation/
     helm:
+      values: |
+        controller:
+{{ toYaml .Values.controller | nindent 10 }}

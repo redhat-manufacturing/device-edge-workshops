@@ -9,3 +9,4 @@ metadata:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   postgres_storage_class: {{ ((.Values.controller).postgresStorageClass) | default "gp3-csi" }}
+  admin_password_secret: controller-admin-password-hack
