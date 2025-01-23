@@ -3,7 +3,6 @@ FROM ansible-automation-platform-24/ee-minimal-rhel9 as template-handler
 # Add in static files
 USER 0
 ADD app-src /tmp/src
-RUN ls -lsaht /tmp/src/
 
 # Add in what needs to be templated
 ADD templates /tmp/templates
