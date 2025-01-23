@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: student-pages
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  selector:
+    matchLabels:
+      app: student-pages
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: student-pages
+    spec:
+      containers:
+        - name: student-pages
+          image: 'student-pages:latest'
+          ports:
+            - containerPort: 3000
+              name: student-pages-port

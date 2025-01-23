@@ -1,0 +1,7 @@
+---
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  name: student-pages
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"

@@ -1,0 +1,29 @@
+---
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: student-pages
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'student-pages:latest
+  strategy:
+    type: Docker
+    dockerStrategy:
+      env:
+        - name: STUDENT_TOTAL
+          value: '{{ .Values.numberStudents }}'
+        - name: ADMIN_PASSWORD
+          value: '{{ .Values.adminPassword }}'
+        - name: BASE_ZONE
+          value: '{{ .Values.baseZone }}'
+      dockerfilePath: Dockerfile
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/redhat-manufacturing/device-edge-workshops.git'
+      ref: {{ .values.gitBranch | default "main" }}
+    contextDir: builds//student-pages
