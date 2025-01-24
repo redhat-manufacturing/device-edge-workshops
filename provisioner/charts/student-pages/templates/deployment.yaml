@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: student-pages
-          image: 'student-services/student-pages:latest'
+          image: 'image-registry.openshift-image-registry.svc:5000/student-services/student-pages:latest'
           ports:
             - containerPort: 3000
               name: student-pages
