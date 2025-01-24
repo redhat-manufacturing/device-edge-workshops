@@ -7,8 +7,10 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 spec:
+  serviceAccount: builder
+  postCommit: {}
   triggeredBy:
-    - message: "Started by the workshop provisioner"
+    - message: "Manually triggered"
   source:
     type: Git
     git:
