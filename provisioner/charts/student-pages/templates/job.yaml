@@ -12,8 +12,8 @@ spec:
     spec:
       containers:
         - name: start-student-pages-build
-          image: registry.redhat.io/openshift4/ose-cli:latest
+          image: openshift4/ose-cli:latest
           command:
-            - oc start-build student-pages
+            - /usr/bin/oc start-build student-pages
       restartPolicy: OnFailure
 
