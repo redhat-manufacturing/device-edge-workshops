@@ -13,7 +13,7 @@ spec:
     type: Git
     git:
       uri: 'https://github.com/redhat-manufacturing/device-edge-workshops.git'
-      ref: {{ .values.gitBranch | default "main" }}
+      ref: {{ .Values.gitBranch | default "main" }}
   strategy:
     type: Docker
     dockerStrategy:
