@@ -9,7 +9,7 @@ spec:
   output:
     to:
       kind: ImageStreamTag
-      name: 'student-pages:latest
+      name: 'student-pages:latest'
   strategy:
     type: Docker
     dockerStrategy:
