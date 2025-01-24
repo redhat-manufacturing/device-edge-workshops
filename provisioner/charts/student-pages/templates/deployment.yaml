@@ -20,4 +20,4 @@ spec:
           image: 'student-pages:latest'
           ports:
             - containerPort: 3000
-              name: student-pages-port
+              name: student-pages
