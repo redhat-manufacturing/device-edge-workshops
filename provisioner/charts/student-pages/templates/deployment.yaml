@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: student-pages
-          image: 'student-pages:latest'
+          image: 'student-services/student-pages:latest'
           ports:
             - containerPort: 3000
               name: student-pages
