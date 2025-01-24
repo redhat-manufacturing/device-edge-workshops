@@ -1,7 +1,7 @@
 apiVersion: build.openshift.io/v1
 kind: Build
 metadata:
-  name: student-pages-build
+  name: student-pages-10
   labels:
     app.kubernetes.io/instance: student-pages
     buildconfig: student-pages
