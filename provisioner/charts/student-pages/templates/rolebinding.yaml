@@ -8,7 +8,7 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: system:build-strategy-docker
+  name: system:openshift:controller:build-controller
 subjects:
 - kind: ServiceAccount
   name: trigger-build
