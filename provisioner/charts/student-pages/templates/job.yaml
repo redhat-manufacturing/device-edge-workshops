@@ -10,7 +10,7 @@ spec:
   backoffLimit: 5
   template:
     spec:
-      serviceAccountName: builder
+      serviceAccountName: trigger-build
       containers:
         - name: start-student-pages-build
           image: registry.redhat.io/openshift4/ose-cli:latest
