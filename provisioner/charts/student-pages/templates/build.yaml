@@ -3,12 +3,14 @@ kind: Build
 metadata:
   name: student-pages-build
   labels:
+    app.kubernetes.io/instance: student-pages
     buildconfig: student-pages
+    openshift.io/build-config.name: student-pages
+    openshift.io/build.start-policy: Serial
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 spec:
   serviceAccount: builder
-  postCommit: {}
   triggeredBy:
     - message: "Manually triggered"
   source:
