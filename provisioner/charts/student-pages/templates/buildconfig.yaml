@@ -26,4 +26,4 @@ spec:
     git:
       uri: 'https://github.com/redhat-manufacturing/device-edge-workshops.git'
       ref: {{ .Values.gitBranch | default "main" }}
-    contextDir: builds//student-pages
+    contextDir: builds/{{ .Values.workshopType }}/student-pages
