@@ -15,7 +15,7 @@ spec:
     dockerStrategy:
       env:
         - name: STUDENT_TOTAL
-          value: '{{ .Values.numberStudents }}'
+          value: '{{ .Values.studentTotal }}'
         - name: ADMIN_PASSWORD
           value: '{{ .Values.adminPassword }}'
         - name: BASE_ZONE
