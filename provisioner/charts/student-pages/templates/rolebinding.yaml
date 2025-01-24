@@ -1,0 +1,15 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: trigger-build-sa-rolebinding
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: system:build-strategy-docker
+subjects:
+- kind: ServiceAccount
+  name: trigger-build
+  namespace: {{ .Release.Namespace }}
