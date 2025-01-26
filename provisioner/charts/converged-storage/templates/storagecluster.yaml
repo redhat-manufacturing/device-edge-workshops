@@ -1,42 +1,27 @@
-{{- with .Values.convergedStorage }}
----
 apiVersion: ocs.openshift.io/v1
 kind: StorageCluster
 metadata:
-  name: {{ .name | default "ocs-storagecluster" }}
-  namespace: openshift-storage
   annotations:
     argocd.argoproj.io/sync-wave: "2"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  name: ocs-storagecluster
 spec:
-  failureDomain: host
-  failureDomainKey: kubernetes.io/hostname
-  monDataDirHostPath: /var/lib/rook
+  encryption:
+    keyRotation:
+      schedule: '@weekly'
+    kms: {}
+  resourceProfile: balanced
   storageDeviceSets:
-    - config: {}
-      count: {{ .totalNumDisks }}
-      dataPVCTemplate:
-        spec:
-          accessModes:
-            - ReadWriteOnce
-          resources:
-            requests:
-              storage: '1'
-{{- with $.Values.localStorage }}
-          storageClassName: {{ .storageClassName }}
-          volumeMode: {{ .volumeMode }}
-      name: ocs-deviceset-{{ .storageClassName }}
-      replica: 1
-{{- end }}
-{{ if .network }}
-  network:
-    provider: multus
-    selectors:
-      cluster: openshift-storage/ocs-cluster-traffic
-      public: openshift-storage/ocs-public-cluster
-{{ end }}
-  externalStorage: {}
-  flexibleScaling: true
-  failureDomain: host
-  failureDomainKey: kubernetes.io/hostname
-{{- end }}
+  - config: {}
+    count: 1
+    dataPVCTemplate:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 2Ti
+        storageClassName: gp3-csi
+        volumeMode: Block
+    name: ocs-deviceset-gp3-csi
+    replica: 3
