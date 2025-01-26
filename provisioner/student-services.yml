@@ -16,8 +16,6 @@
       ansible.builtin.slurp:
         src: "/tmp/students.htpasswd"
       register: _htpasswd_file
-    - debug:
-        msg: "{{ _htpasswd_file.content }}"
   tasks:
     - name: Yeet application definition to ArgoCD
       kubernetes.core.k8s:
