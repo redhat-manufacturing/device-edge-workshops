@@ -1,0 +1,6 @@
+apiVersion: v2
+name: student-users
+description: Chart to setup student users, login, and rbac
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
