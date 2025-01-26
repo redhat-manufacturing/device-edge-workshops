@@ -24,6 +24,8 @@ spec:
         adminPassword: "{{ admin_password }}"
         baseZone: "{{ base_zone }}"
         workshopType: "{{ workshop_type }}"
+        studentUsers:
+          htpasswdFileContents: "{{ _htpasswd_file.content }}"
         gitea:
           adminUser: instructor
           adminPassword: '{{ admin_password }}'
