@@ -1,0 +1,6 @@
+apiVersion: v2
+name: converged-storage
+description: A chart to install converged storage (ODF)
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

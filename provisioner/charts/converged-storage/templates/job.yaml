@@ -1,0 +1,25 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: label-worker-nodes
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  template:
+    spec:
+      serviceAccountName: label-nodes-sa
+      restartPolicy: Never
+      containers:
+      - name: label-nodes
+        image: registry.redhat.io/openshift4/ose-cli:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          echo "Retrieving worker nodes..."
+          worker_nodes=$(oc get nodes -l node-role.kubernetes.io/worker='' -o jsonpath='{.items[*].metadata.name}')
+          for node in $worker_nodes; do
+            echo "Labeling node: $node"
+            oc label node $node cluster.ocs.openshift.io/openshift-storage=''
+          done
