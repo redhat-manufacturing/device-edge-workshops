@@ -10,6 +10,7 @@ spec:
   destination:
     name: ''
     server: https://kubernetes.default.svc
+    namespace: openshift-storage
   project: default
   # syncPolicy:
   #   automated: {}
