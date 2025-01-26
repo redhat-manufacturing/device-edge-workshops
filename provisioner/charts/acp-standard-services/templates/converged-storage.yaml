@@ -1,0 +1,23 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: converged-storage
+  namespace: openshift-gitops
+  labels:
+    application: converged-storage
+spec:
+  destination:
+    name: ''
+    server: https://kubernetes.default.svc
+  project: default
+  # syncPolicy:
+  #   automated: {}
+  source:
+    repoURL: https://github.com/redhat-manufacturing/device-edge-workshops.git
+    targetRevision: {{ .Values.gitBranch | default "main" }}
+    path: provisioner/charts/converged-storage/
+    helm:
+      values: |
+        convergedStorage:
+{{ toYaml .Values.convergedStorage | nindent 10 }}
