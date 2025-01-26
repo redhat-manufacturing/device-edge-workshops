@@ -8,4 +8,4 @@ metadata:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
     argocd.argoproj.io/sync-wave: "3"
 spec:
-  enableCephTools: {{ .Values.convergedStorage.enableCephTools | default true }}
+  enableCephTools: {{ ((.Values.convergedStorage).enableCephTools) | default true }}
