@@ -1,0 +1,23 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: example-virtual-machines
+  namespace: openshift-gitops
+  labels:
+    application: example-virtual-machines
+spec:
+  destination:
+    name: ''
+    server: https://kubernetes.default.svc
+  project: default
+  # syncPolicy:
+  #   automated: {}
+  source:
+    repoURL: https://github.com/redhat-manufacturing/device-edge-workshops.git
+    targetRevision: {{ .Values.gitBranch | default "main" }}
+    path: provisioner/charts/example-virtual-machines/
+    helm:
+      values: |
+        exampleVirtualMachines:
+{{ toYaml .Values.exampleVirtualMachines | nindent 10 }}
