@@ -1,0 +1,6 @@
+apiVersion: v2
+name: import-virtual-machines
+description: Import virtual machine data volumes and wires up templates
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
