@@ -132,9 +132,9 @@ spec:
                   dns_domain_name: team{{ number }}.lcl
                   domain_netbios_name: team{{ number }}
             - name: team{{ number }} Network Infrastructure
-              organization: team{{ number }}
+              organization: Team {{ number }}
             - name: team{{ number }} Process Control Systems
-              organization: team{{ number }}
+              organization: Team {{ number }}
               variables:
                 ansible_connection: winrm
                 ansible_winrm_transport: ntlm
