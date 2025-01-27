@@ -110,7 +110,7 @@ objects:
         annotations:
           vm.kubevirt.io/flavor: medium
           vm.kubevirt.io/os: {{ .name }}
-          vm.kubevirt.io/workload: {{ .profile | default "server"}}
+          vm.kubevirt.io/workload: {{ .profile }}
         labels:
           kubevirt.io/domain: ${NAME}
           kubevirt.io/size: medium

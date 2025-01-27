@@ -24,6 +24,7 @@ spec:
           - name: {{ virtual_machine_import.name }}
             displayName: {{ virtual_machine_import.display_name }}
             source: '{{ virtual_machine_import.source }}'
+            profile: {{ virtual_machine_import.profile }}
 {% endfor %}
         gitBranch: {{ git_branch | default('main') }}
         clusterName: {{ openshift.name }}
