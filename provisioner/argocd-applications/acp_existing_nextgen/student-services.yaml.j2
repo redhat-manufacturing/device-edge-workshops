@@ -63,11 +63,15 @@ spec:
         studentNamespaces:
 {% for number in range(1, (team_total | int) + 1) %}
           - team{{ number }}
+{% endfor %}
         exampleVirtualMachines:
 {% for number in range(1, (team_total | int) + 1) %}
-            - name: example-server2019
+{% for example_virtual_machine in example_virtual_machines %}
+            - name: {{ example_virtual_machine.name }}
               namespace: team{{ number }}
-              template: server2019
+              template: {{ example_virtual_machine.name }}
+              operatingSystem: {{ example_virtual_machine.operating_system }}
+              appLabel: {{ example_virtual_machine.app_label }}
 {% endfor %}
 {% endfor %}
         controller:
