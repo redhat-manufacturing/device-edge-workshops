@@ -14,10 +14,11 @@ collections:
   - name: containers.podman
   - name: redhat_cop.controller_configuration
   - name: fedora.linux_system_roles
-  - name: redhat.openshift
+  #- name: redhat.openshift
   - name: https://github.com/ansible-collections/community.fdo.git
     type: git
-  - name: https://github.com/jjaswanson4/kubernetes.core.git
-    type: git
+  - name: kubernetes.core
+  #- name: https://github.com/jjaswanson4/kubernetes.core.git
+  #  type: git
   - name: https://github.com/jjaswanson4/infra.osbuild.git
     type: git
