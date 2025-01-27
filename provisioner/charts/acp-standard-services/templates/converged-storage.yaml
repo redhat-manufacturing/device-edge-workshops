@@ -12,8 +12,8 @@ spec:
     server: https://kubernetes.default.svc
     namespace: openshift-storage
   project: default
-  # syncPolicy:
-  #   automated: {}
+  syncPolicy:
+    automated: {}
   source:
     repoURL: https://github.com/redhat-manufacturing/device-edge-workshops.git
     targetRevision: {{ .Values.gitBranch | default "main" }}

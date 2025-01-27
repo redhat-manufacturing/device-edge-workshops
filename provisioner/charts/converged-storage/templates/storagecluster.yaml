@@ -13,7 +13,7 @@ spec:
   resourceProfile: balanced
   storageDeviceSets:
   - config: {}
-    count: 1
+    count: 6
     dataPVCTemplate:
       spec:
         accessModes:
