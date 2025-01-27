@@ -42,4 +42,4 @@ spec:
       guest: 1
     memory:
       guest: 4Gi
-{{- end }
+{{- end }}
