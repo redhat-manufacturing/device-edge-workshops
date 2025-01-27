@@ -63,6 +63,12 @@ spec:
         studentNamespaces:
 {% for number in range(1, (team_total | int) + 1) %}
           - team{{ number }}
+        exampleVirtualMachines:
+{% for number in range(1, (team_total | int) + 1) %}
+            - name: example-server2019
+              namespace: team{{ number }}
+              template: server2019
+{% endfor %}
 {% endfor %}
         controller:
           controller_hostname: https://controller-student-services.apps.{{ openshift.name }}.{{ base_zone }}
