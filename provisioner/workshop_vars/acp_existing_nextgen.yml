@@ -2,6 +2,13 @@
 
 team_size: 6
 
+# These are templated out per team namespace
+example_virtual_machines:
+  - name: example-server2019
+    template: server2019-template
+    operating_system: server2019
+    app_label: example-virtual-machines
+
 remote_services:
   - name: attendance
     containerfile: attendance-containerfile
