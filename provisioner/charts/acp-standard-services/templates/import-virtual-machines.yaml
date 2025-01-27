@@ -21,4 +21,4 @@ spec:
     helm:
       values: |
         virtualMachineImports:
-{{- toYaml .Values.virtualMachineImports }}
+{{- toYaml .Values.virtualMachineImports | nindent 10 }}
