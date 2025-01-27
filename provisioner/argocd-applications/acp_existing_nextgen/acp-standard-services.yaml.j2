@@ -19,6 +19,12 @@ spec:
     path: provisioner/charts/acp-standard-services/
     helm:
       values: |
+        virtualMachineImports:
+{% for virtual_machine_import in virtual_machine_imports %}
+          - name: {{ virtual_machine_import.name }}
+            displayName: {{ virtual_machine_import.display_name }}
+            source: {{ virtual_machine_import.source }}
+{% endfor %}
         gitBranch: {{ git_branch | default('main') }}
         clusterName: {{ openshift.name }}
         baseZone: {{ base_zone }}
