@@ -121,6 +121,17 @@ class Overview extends React.Component {
                     <DescriptionListDescription className ><a href="https://console-openshift-console.apps.acp.{{ base_zone }}">https://console-openshift-console.apps.acp.{{ base_zone }}</a></DescriptionListDescription>
                   </CardBody>
                 </Card>
+                <Card component="div">
+                  <CardTitle>ArgoCD WebUI</CardTitle>
+                  <CardBody>
+                  <DescriptionListTerm className='Description-list'>Username:</DescriptionListTerm>
+                    <DescriptionListDescription className >student{{ student_number }}</DescriptionListDescription>
+                    <DescriptionListTerm className='Description-list'>Password:</DescriptionListTerm>
+                    <DescriptionListDescription className ><code>{{ admin_password }}</code></DescriptionListDescription>
+                    <DescriptionListTerm className='Description-list'>URL:</DescriptionListTerm>
+                    <DescriptionListDescription className ><a href="https://team1-argocd-server-team{{ ((__student_number - 1) // (team_size | int)) + 1 }}.apps.acp.{{ base_zone }}">https://team1-argocd-server-team{{ ((__student_number - 1) // (team_size | int)) + 1 }}.apps.acp.{{ base_zone }}</a></DescriptionListDescription>
+                  </CardBody>
+                </Card>
               </DescriptionList>
             </Card>
           </Box>
@@ -131,3 +142,5 @@ class Overview extends React.Component {
 }
 
 export default Overview; 
+
+https://team1-argocd-server-team1.apps.acp.rh1.redhat-workshops.com

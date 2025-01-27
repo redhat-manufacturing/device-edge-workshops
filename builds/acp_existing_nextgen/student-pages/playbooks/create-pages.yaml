@@ -19,6 +19,7 @@
         _student_total: "{{ lookup('ansible.builtin.env', 'STUDENT_TOTAL') }}"
         admin_password: "{{ lookup('ansible.builtin.env', 'ADMIN_PASSWORD') }}"
         base_zone: "{{ lookup('ansible.builtin.env', 'BASE_ZONE') }}" 
+        team_size: "{{ lookup('ansible.builtin.env', 'TEAM_SIZE') }}"
   tasks:
     - name: Template out single-shots
       ansible.builtin.template:
@@ -31,6 +32,8 @@
       ansible.builtin.template:
         src: /tmp/templates/Overview.js.j2
         dest: "/tmp/src/src/Overview{{ student_number }}.js"
+      vars:
+        __student_number: "{{ student_number }}"
       loop: "{{ range(1, (_student_total | int) + 1) }}"
       loop_control:
         loop_var: student_number

@@ -20,6 +20,8 @@ spec:
           value: '{{ .Values.adminPassword }}'
         - name: BASE_ZONE
           value: '{{ .Values.baseZone }}'
+        - name: TEAM_SIZE
+          value: '{{ .Values.teamSize }}'
       dockerfilePath: Dockerfile
   source:
     type: Git

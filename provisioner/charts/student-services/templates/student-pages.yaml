@@ -25,3 +25,4 @@ spec:
         baseZone: "{{ .Values.baseZone }}"
         gitBranch: {{ .Values.gitBranch | default "main" }}
         workshopType: "{{ .Values.workshopType }}"
+        teamSize: "{{ .Values.teamSize }}"
