@@ -24,7 +24,7 @@ spec:
       spec:
         sourceRef:
           kind: DataSource
-          name: {{ .name }}
+          name: {{ .dataSource }}
           namespace: openshift-virtualization-os-images
         storage:
           resources:
