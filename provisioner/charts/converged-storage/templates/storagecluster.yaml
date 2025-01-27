@@ -5,6 +5,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "2"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   name: ocs-storagecluster
+  namespace: openshift-storage
 spec:
   encryption:
     keyRotation:
