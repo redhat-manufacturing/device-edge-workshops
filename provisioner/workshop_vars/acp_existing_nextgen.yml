@@ -10,7 +10,7 @@ example_virtual_machines:
     app_label: example-virtual-machines
     data_source: server2019
 
-dataSourcesToWaitFor:
+data_sources_to_wait_for:
   - server2019
 
 remote_services:
