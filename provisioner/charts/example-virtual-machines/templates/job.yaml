@@ -4,7 +4,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: wait-for-datasource-{{ .dataSource }}
+  name: wait-for-datasource-{{ . }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:
@@ -14,15 +14,15 @@ spec:
       restartPolicy: Never
       serviceAccountName: datasource-checker
       containers:
-      - name: wait-for-datasource-{{ .dataSource }}
+      - name: wait-for-datasource-{{ . }}
         image: registry.redhat.io/openshift4/ose-cli:latest
         command:
         - /bin/sh
         - -c
         - |
           while true; do
-            oc get datasource {{ .dataSource }} -n openshift-virtualization-os-images && break
-            echo "Waiting for datasource '{{ .dataSource }}'..."
+            oc get datasource {{ . }} -n openshift-virtualization-os-images && break
+            echo "Waiting for datasource '{{ . }}'..."
             sleep 5
           done
   backoffLimit: 10
