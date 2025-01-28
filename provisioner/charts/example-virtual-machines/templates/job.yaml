@@ -1,8 +1,5 @@
-{{- define "deduplicateDataSources" -}}
-{{- $seen := dict -}}
-{{- range . }}
-  {{- if not ($seen.Has .dataSource) }}
-    {{- $seen.Set .dataSource true }}
+{{- $uniqueDataSources := include "deduplicateDataSources" .Values.exampleVirtualMachines | fromYaml }}
+{{- range $uniqueDataSources }}
 ---
 apiVersion: batch/v1
 kind: Job
@@ -29,7 +26,4 @@ spec:
             sleep 5
           done
   backoffLimit: 10
-  {{- end }}
-{{- end }}
-{{- $seen.Keys | sort }}
 {{- end }}
