@@ -10,6 +10,7 @@ spec:
   destination:
     name: ''
     server: https://kubernetes.default.svc
+    namespace: student-services
   project: default
   syncPolicy:
     automated: {}
