@@ -8,6 +8,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "2"
 spec:
   activeDeadlineSeconds: 300
+  backoffLimit: 25
   template:
     spec:
       restartPolicy: Never
@@ -24,5 +25,4 @@ spec:
             echo "Waiting for datasource '{{ . }}'..."
             sleep 5
           done
-  backoffLimit: 10
 {{- end }}
