@@ -1,4 +1,4 @@
-{{- range .Values.exampleVirtualMachines }}
+{{- with .Values.exampleVirtualMachines[0] }}
 ---
 apiVersion: batch/v1
 kind: Job
