@@ -10,6 +10,9 @@ example_virtual_machines:
     app_label: example-virtual-machines
     data_source: server2019
 
+dataSourcesToWaitFor:
+  - server2019
+
 remote_services:
   - name: attendance
     containerfile: attendance-containerfile

@@ -75,6 +75,10 @@ spec:
               dataSource: {{ example_virtual_machine.data_source }}
 {% endfor %}
 {% endfor %}
+        dataSourcesToWaitFor:
+{% for data_source in data_sources_to_wait_for %}
+          - {{ data_source }}
+{% endfor %}
         controller:
           controller_hostname: https://controller-student-services.apps.{{ openshift.name }}.{{ base_zone }}
           controller_username: admin

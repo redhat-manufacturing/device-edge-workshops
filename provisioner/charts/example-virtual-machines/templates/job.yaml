@@ -1,12 +1,11 @@
-{{- $uniqueDataSources := include "deduplicateDataSources" .Values.exampleVirtualMachines | fromYaml }}
-{{- range $uniqueDataSources }}
+{{- range .Values.dataSourcesToWaitFor }}
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: wait-for-datasource-{{ . }}
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   activeDeadlineSeconds: 300
   template:

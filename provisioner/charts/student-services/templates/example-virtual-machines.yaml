@@ -22,3 +22,5 @@ spec:
       values: |
         exampleVirtualMachines:
 {{ toYaml .Values.exampleVirtualMachines | nindent 10 }}
+        dataSourcesToWaitFor:
+{{ toYaml .Values.dataSourcesToWaitFor | nindent 10 }}
