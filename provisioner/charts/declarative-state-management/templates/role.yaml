@@ -1,0 +1,11 @@
+{{- range .Values.declarativeStateManagementNamespaces }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: argocd-namespace-admin
+  namespace: {{ . }}
+rules:
+  - apiGroups: ["*"]
+    resources: ["*"]
+    verbs: ["*"]
+{{ - end }}
