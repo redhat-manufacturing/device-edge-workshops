@@ -19,5 +19,5 @@ spec:
     path: provisioner/charts/declarative-state-management/
     helm:
       values: |
-        declarativeStateManagementNamespaces:
-{{ toYaml .Values.studentNamespaces | nindent 10}}
+        declarativeStateManagement:
+{{ toYaml .Values.declarativeStateManagement | nindent 10}}
