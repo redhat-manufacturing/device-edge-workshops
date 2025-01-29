@@ -1,16 +1,16 @@
-{{- range .Values.declarativeStateManagementNamespaces }}
+{{- range .Values.declarativeStateManagement }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: argocd-namespace-admin-binding
-  namespace: {{ . }}
+  namespace: {{ .namespace }}
 subjects:
   - kind: ServiceAccount
-    name: {{ . }}-argocd-argocd-application-controller
-    namespace: {{ . }}
+    name: {{ .name }}-argocd-argocd-application-controller
+    namespace: {{ .namespace }}
   - kind: ServiceAccount
-    name: {{ . }}-argocd-argocd-server
-    namespace: {{ . }}
+    name: {{ .name }}-argocd-argocd-server
+    namespace: {{ .namespace }}
 roleRef:
   kind: Role
   name: argocd-namespace-admin

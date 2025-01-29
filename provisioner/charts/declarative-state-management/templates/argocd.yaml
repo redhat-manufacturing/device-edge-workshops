@@ -1,10 +1,10 @@
-{{- range .Values.declarativeStateManagementNamespaces }}
+{{- range .Values.declarativeStateManagement }}
 ---
 apiVersion: argoproj.io/v1beta1
 kind: ArgoCD
 metadata:
-  name: {{ . }}-argocd
-  namespace: {{ . }}
+  name: {{ .name }}-argocd
+  namespace: {{ .namespace }}
 spec:
   controller:
     resources:
@@ -24,9 +24,10 @@ spec:
         memory: 128Mi
     enabled: false
   rbac:
-    defaultPolicy: ''
+    defaultPolicy: {{ .rbac.defaultPolicy }}
     policy: |
-      g, system:cluster-admins, role:admin
+      {{ .rbac.policy | nindent 6 }}
+
     scopes: '[groups]'
   redis:
     resources:
