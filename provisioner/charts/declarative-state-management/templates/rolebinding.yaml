@@ -1,0 +1,18 @@
+{{- range .Values.declarativeStateManagementNamespaces }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: argocd-edit-on-{{ .namespace }}
+  namespace: {{ .namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: edit
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: {{ .namespace }}-argocd-argocd-application-controller
+{{- end }}
+
+
