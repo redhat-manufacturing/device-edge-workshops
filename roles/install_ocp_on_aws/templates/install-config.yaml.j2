@@ -5,10 +5,10 @@ compute:
 - architecture: amd64
   hyperthreading: Enabled
   name: worker
-{% if openshift.instance_type is defined %}
+{% if openshift.worker_instance_type is defined %}
   platform: 
     aws:
-      type: {{ openshift.instance_type }}
+      type: {{ openshift.worker_instance_type }}
 {% else %}
   platform: {}
 {% endif%}
