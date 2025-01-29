@@ -12,6 +12,9 @@ roleRef:
 subjects:
 - apiGroup: rbac.authorization.k8s.io
   kind: User
+  name: {{ . }}-argocd-argocd-server
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
   name: {{ . }}-argocd-argocd-application-controller
 {{- end }}
 
