@@ -83,6 +83,22 @@ Clicking on the application tile will show more information, such as the resourc
 As discussed previously, our helm templates have been rendered, showing our two virtual machines as resources. ArgoCD is denoting these resources as "missing" because the application has not yet been synced.
 
 ## Step 6 - Syncing Application
+With the application sitting in an OutOfSync state, the resources are set to be deployed:
+![ArgoCD Before Sync](../.images/argocd-before-sync.png)
+
+To begin syncing the application, click on the `Sync` button. A menu will appear on the right with options:
+![ArgoCD Sync Window](../.images/argocd-sync-window.png)
+
+For our purposes, no additional options are needed. Simply click the `Synchronize` button at the top.
+
+The ArgoCD interface will show the sync process, the resources being created, and the current state of the sync.
+![ArgoCD Syncing](../.images/argocd-syncing.png)
+
+After a few moments, the application will show Synced:
+![ArgoCD Synced](../.images/argocd-synced.png)
+
+And within the OpenShift Console, new virtual machines will appear:
+![OCP New Virtual Machines](../.images/ocp-new-virtual-machines.png)
 
 ---
 **Navigation**

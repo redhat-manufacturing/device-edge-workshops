@@ -32,8 +32,10 @@ Within the `active-directory` directory in our code repo, create a new file name
 virtualMachines:
   - name: ad01
     partOf: active-directory
+    operatingSystem: server2019
   - name: ad02
     partOf: active-directory
+    operatingSystem: server2019
 ```
 
 These values will be used by the template in the next step to create the specified virtual machines.
@@ -103,7 +105,7 @@ spec:
     metadata:
       annotations:
         vm.kubevirt.io/flavor: medium
-        vm.kubevirt.io/os: servre2019
+        vm.kubevirt.io/os: {{ .operatingSystem }}
         vm.kubevirt.io/workload: server
       labels:
         kubevirt.io/domain: {{ .name }}
@@ -167,10 +169,12 @@ Should we want to override these values, we simply need to define them in our `v
 virtualMachines:
   - name: ad01
     partOf: active-directory
+    operatingSystem: server2019
     cpuCores: 8
     memory: 16Gi
   - name: ad02
     partOf: active-directory
+    operatingSystem: server2019
 ```
 
 This is not required for our use case, but feel free to modify your `values.yaml` file if desired.
