@@ -3,7 +3,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: argocd-namespace-admin-binding
-  namespace: <target-namespace>
+  namespace: {{ . }}
 subjects:
   - kind: ServiceAccount
     name: {{ . }}-argocd-argocd-application-controller
