@@ -25,6 +25,22 @@ spec:
         baseZone: "{{ base_zone }}"
         workshopType: "{{ workshop_type }}"
         teamSize: '{{ team_size }}'
+        declarativeStateManagement:
+{% for team_number in range(1, (team_total | int) + 1) %}
+          - name: team{{ team_number }}
+            namespace: team{{ team_number }}
+            rbac:
+              defaultPolicy: team{{ team_number }}-admin
+              policy: |
+                p, team{{ team_number }}-admin, applications, *, *, allow
+                p, team{{ team_number }}-admin, clusters, *, *, allow
+                p, team{{ team_number }}-admin, repositories, *, *, allow
+                p, team{{ team_number }}-admin, projects, *, *, allow
+                p, team{{ team_number }}-admin, logs, *, *, allow
+{% for student_number in range(((team_number | int) * (team_size | int) - ((team_size | int) - 1)), ((team_size | int) * (team_number | int)) + 1) %}
+                g, student{{ student_number }}, team{{ team_number }}-admin
+{% endfor %}
+{% endfor %}
         studentUsers:
           htpasswdFileContents: "{{ _htpasswd_file.content }}"
           namespaceMappings:
