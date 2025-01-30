@@ -20,4 +20,4 @@ spec:
     helm:
       values: |
         declarativeStateManagement:
-{{ toYaml .Values.declarativeStateManagement | nindent 10}}
+{{ toYaml .Values.declarativeStateManagement | nindent 10 }}
