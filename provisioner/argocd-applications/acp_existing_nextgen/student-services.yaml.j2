@@ -27,7 +27,7 @@ spec:
         teamSize: '{{ team_size }}'
         declarativeStateManagement:
 {% for team_number in range(1, (team_total | int) + 1) %}
-          - name: team{{ team_number }}
+          - name: argocd
             namespace: team{{ team_number }}
             rbac:
               defaultPolicy: team{{ team_number }}-admin
