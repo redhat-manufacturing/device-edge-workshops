@@ -5,3 +5,4 @@
 ~~4. Add example virtual machines to team namespaces~~
 ~~5. Create student users login via htpasswd~~
 ~~6. Give student users permissions on team namespaces~~
+7. I guess kill the argocd-server pods because they don't pick up the dex config?
