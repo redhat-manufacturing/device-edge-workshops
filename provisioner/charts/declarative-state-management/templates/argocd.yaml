@@ -3,7 +3,7 @@
 apiVersion: argoproj.io/v1beta1
 kind: ArgoCD
 metadata:
-  name: argocd-server
+  name: {{ .name }}
   namespace: {{ .namespace }}
 spec:
   controller:
@@ -56,6 +56,13 @@ spec:
       enabled: true
   sso:
     dex:
+      config: |
+        clientID: system:serviceaccount:{{ .namespace }}:{{ .name }}-argocd-dex-server
+        clientSecret: $oidc.dex.clientSecret
+        groups: []
+        insecureCA: true
+        issuer: https://kubernetes.default.svc
+        redirectURI: https://argocd-server/api/dex/callback
       resources:
         limits:
           cpu: 500m
