@@ -3,7 +3,7 @@
 apiVersion: argoproj.io/v1beta1
 kind: ArgoCD
 metadata:
-  name: {{ .name }}
+  name: argocd-server
   namespace: {{ .namespace }}
 spec:
   controller:
@@ -27,7 +27,6 @@ spec:
     defaultPolicy: {{ .rbac.defaultPolicy }}
     policy: |
       {{ .rbac.policy | nindent 6 }}
-
     scopes: '[groups]'
   redis:
     resources:
