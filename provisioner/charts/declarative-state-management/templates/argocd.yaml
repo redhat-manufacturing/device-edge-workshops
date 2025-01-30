@@ -56,13 +56,6 @@ spec:
       enabled: true
   sso:
     dex:
-      config: |
-        clientID: system:serviceaccount:{{ .namespace }}:argocd-dex-server
-        clientSecret: $oidc.dex.clientSecret
-        groups: []
-        insecureCA: true
-        issuer: https://kubernetes.default.svc
-        redirectURI: https://argocd-server-{{ .namespace }}/api/dex/callback
       resources:
         limits:
           cpu: 500m
