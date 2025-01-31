@@ -56,6 +56,10 @@ controller_groups:
 >
 > Team1 is used as an example here, replace with your team number.
 
+##### TO-ADD
+- Should do AD playbooks before this
+- Should also do: projects, job_templates, and workflows - one run of the k8s job then
+
 ## Step 3 - Committing the Code
 For now, we can place the created variables into a file in our code repository, as we'll be referencing them later on.
 
