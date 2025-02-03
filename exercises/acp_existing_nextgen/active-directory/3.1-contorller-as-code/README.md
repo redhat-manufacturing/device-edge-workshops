@@ -3,20 +3,25 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Guide](#guide)
-   * [Your Lab Environment](#your-lab-environment)
-   * [Completing the Exercises](#completing-the-exercises)
+* [Step 1 - Ansible Controller as Code Idea](#step-1---ansible-controller-as-code-idea)
+* [Step 2 - The ansible.controller Collection](#step-2---the-ansiblecontroller-collection)
+* [Step 3 - Using an Overlay Collection](#step-3---using-an-overlay-collection)
 
 ## Objective
 
 * Understand how configuration elements can be captured as code
+* Understand overlay collections that make automating Controller easier
 
 ## Step 1 - Ansible Controller as Code Idea
 Within Ansible Controller, various configurations are made to enable the running of automation, things such as projects, credentials, inventories, job templates, and more.
 
 While these configurations can be made using the WebUI, they also can be managed using the API of controller. For example, when browsing the API, the credential endpoint looks like such:
 
-ADD IMAGE HERE
+![Controller Credentials List](../.images/controller-api-credentials-list.png)
+
+In addition, the API can be asked for options that can be used when interacting with it for various configuration items:
+
+![Controller Credentials Options](../.images/controller-api-credentials-options.png)
 
 This allows for the entire configuration of Controller to be defined as code, and programatically applied to Controller - which is a best practice for running Controller at scale, in production.
 
@@ -47,6 +52,6 @@ Leveraging this overlay collection provides a few key benefits:
 ---
 **Navigation**
 
-[Next Exercise](../1.2-student-pages/)
+[Previous Exercise](../2.2-ad-automation-part-2/) | [Next Exercise](../3.2-creating-hosts-and-groups/)
 
-[Click here to return to the Workshop Homepage](../README.md)
+[Click here to return to the Workshop Homepage](../../README.md)
