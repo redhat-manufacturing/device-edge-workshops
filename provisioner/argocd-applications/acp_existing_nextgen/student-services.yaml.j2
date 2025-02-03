@@ -119,6 +119,9 @@ spec:
             - user: student{{ number }}
               organization: Team {{ ((number - 1) // (team_size | int)) + 1 }}
               role: admin
+            - user: student{{ number }}
+              organization: Team {{ ((number - 1) // (team_size | int)) + 1 }}
+              role: project_admin
 {% endfor %}
           controller_credentials:
 {% for number in range(1, (team_total | int) + 1) %}
@@ -128,6 +131,18 @@ spec:
               inputs:
                 username: instructor
                 password: '{{ admin_password }}'
+            - name: Provisioning Machine Login
+              organization: Team {{ number }}
+              credential_type: Machine
+              inputs:
+                username: localhost\ansible
+                password: '{{ admin_password }}'
+            - name: Domain Administrator
+              organization: Team {{ number }}
+              credential_type: Machine
+              inputs:
+                username: 'team{{ number }}.lcl\Administrator'
+                password: 'R3dh4t123!'
 {% endfor %}
           controller_projects:
 {% for number in range(1, (team_total | int) + 1) %}
