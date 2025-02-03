@@ -1,11 +1,11 @@
-# Workshop Exercise 1.2 - Adding Services for Connectivity
+# Workshop Exercise 1.3 - Adding Services for Connectivity
 
 ## Table of Contents
 
 * [Objective](#objective)
-* [Guide](#guide)
-   * [Your Lab Environment](#your-lab-environment)
-   * [Completing the Exercises](#completing-the-exercises)
+* [Step 1 - Adding Service Templates to the Chart](#step-1---adding-service-templates-to-the-chart)
+* [Step 2 - Adding a Service for AD Services](#step-2---adding-a-service-for-ad-services)
+* [Step 3 - Adding the Service Template to the Code Repo](#step-3---adding-the-service-template-to-the-code-repo)
 
 ## Objective
 
@@ -40,15 +40,15 @@ spec:
 
 What's a bit different in this service is the selector - instead of looking for an app label, the name of the virtual machine is used. This will result in the service attaching to the virt-helper pod of the virtual machine.
 
-ADD PICTURE
+![Service Selector](../.images/service-selector.png)
 
 In addition, the same looping function is used, so for each VM, a service will be created with the name `$(VM_NAME)-winrm`.
 
-ADD PICTURE
+![Looped Services](../.images/looped-services.png)
 
 The fully-qualified hostname of the service will later be used by Ansible Controller to communicate to the virtual machine.
 
-ADD PICTURE
+![Service FQDN](../.images/service-fqdn.png)
 
 ## Step 2 - Adding a Service for AD Services
 Since Active Directory services work over a network, we'll need to expose them as well for operations such as domain joins, LDAP, and more.
@@ -102,12 +102,17 @@ spec:
       protocol: TCP
 ```
 
+Same as above, a service will be created for every virtual machine in our list:
+![Looped Service 2](../.images/looped-services-2.png)
+
 ## Step 3 - Adding the Service Template to the Code Repo
 With the template for the services completed, be sure to commit and push the new code if using an IDE, or hit save if using the Gitea web interface.
+
+![Services Template Code](../.images/service-template-code.png)
 
 ---
 **Navigation**
 
-[Next Exercise](../1.2-student-pages/)
+[Pervious Exercise](../1.2-adding-vm-templates/) | [Next Exercise](../1.4-adding-chart-to-argocd/)
 
-[Click here to return to the Workshop Homepage](../README.md)
+[Click here to return to the Workshop Homepage](../../README.md)
