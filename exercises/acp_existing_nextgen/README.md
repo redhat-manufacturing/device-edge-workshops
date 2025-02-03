@@ -23,11 +23,10 @@ By the end of this workshop, students in teams will build a mock system that mir
 ## Lab Students and Teams
 In this lab, students will work in teams of six, with each responsible for a specific application or configuration that's part of the overall system. It's recommended to form a team with other students seated around you to allow for collaboration.
 
-## Exercise Guides
-The following links will take you to the starting location for your exercises, depending on what part of the system you're building:
-| Component | Exercises |
-| --- | --- |
-| Active Directory | [Exercises](./active-directory/README.md) |
+ADD ARCH DIAGRAM HERE
+
+## Getting Started
+Visit the introduction exercise to begin the workshop: [Introductions](./introduction/README.md)
 
 ## Instructor Resources
 * [Instructor Page](instructor)
