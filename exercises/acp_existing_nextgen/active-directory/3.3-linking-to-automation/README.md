@@ -202,7 +202,7 @@ controller_workflows:
       - identifier: Create AD Forest
         unified_job_template: Create AD Forest
         success_nodes:
-          - Promote Domain Controller
+          - Configure Domain Controllers
         lookup_organization: Team 1
       - identifier: Configure Domain Controllers
         unified_job_template: Configure Domain Controllers
