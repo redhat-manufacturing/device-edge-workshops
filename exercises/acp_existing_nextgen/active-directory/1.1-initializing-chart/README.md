@@ -3,9 +3,8 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Guide](#guide)
-   * [Your Lab Environment](#your-lab-environment)
-   * [Completing the Exercises](#completing-the-exercises)
+* [Step 1 - Helm Chart Structure](#step-1---helm-chart-structure)
+* [Step 2 - Creating Our Chart Structure](#step-2---creating-our-chart-structure)
 
 ## Objective
 
@@ -60,6 +59,6 @@ Esure you save the file, or push it to the repo if working within another editor
 ---
 **Navigation**
 
-[Next Exercise](../1.2-student-pages/)
+[Next Exercise](../1.2-adding-vm-templates/)
 
-[Click here to return to the Workshop Homepage](../README.md)
+[Click here to return to the Workshop Homepage](../../README.md)
