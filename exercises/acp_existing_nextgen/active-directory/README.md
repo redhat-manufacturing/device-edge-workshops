@@ -3,12 +3,12 @@ These exercises will show how to build an active directory environment using Win
 
 Since this workload requires infrastructure AND automation to fully deploy, the gitops functionally will be used to both deploy and maintain the infrastructure, to load the necessary automation into Controller, and then to run it.
 
-To 
+## Sections
+The exercises are broken up into four main sections:
+1. Create Infrastructure via GitOps
+2. Create Active Directory Automation
+3. Configure Controller via GitOps
+4. Investigate Results
 
-## Table of Contents
-1. Create Infrastructure
-2. Create Automation
-3. Load Automation
-4. Run Automation
-
-## 1. Creating Infrastructure
+Exercises
+* [1.1 - Initializing Helm Chart](1.1-initializing-chart/)
