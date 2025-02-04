@@ -1,0 +1,6 @@
+apiVersion: v2
+name: network-infrastructure
+description: Rolls out network infrastructure for students to use
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

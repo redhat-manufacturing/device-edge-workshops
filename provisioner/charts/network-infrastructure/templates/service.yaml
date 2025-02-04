@@ -1,0 +1,16 @@
+{{- range .Values.networkInfrastructure.namespaces }}
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ $.Values.networkInfrastructure.virtualMachineName }}-ssh
+  namespace: {{ . }}
+spec:
+  ports:
+    - name: ssh
+      protocol: TCP
+      port: 22
+      targetPort: 22
+  selector:
+    kubevirt.io/domain: {{ $.Values.networkInfrastructure.virtualMachineName }}
+{{- end }}
