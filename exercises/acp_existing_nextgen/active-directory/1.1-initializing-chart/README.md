@@ -12,7 +12,7 @@
 * Push that initial chart to git
 
 ## Step 1 - Helm Chart Structure
-Helm charts are simply a collection of files that represent definitions of resources to create or modify on a kubernetes cluster. They can contain definitions for mostly anything, and usually, contain variables that are templated out when deploying the chart.
+Helm charts are simply a collection of files that represent definitions which create or modify resources on a kubernetes cluster. They can contain definitions for mostly anything, and usually, contain variables that are templated out when deploying the chart.
 
 The basic structure of a chart is:
 ```
