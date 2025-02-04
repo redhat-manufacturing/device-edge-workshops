@@ -4,7 +4,8 @@
 
 * [Objective](#objective)
 * [Step 1 - Getting Logged In](#step-1---getting-logged-in)
-* [Step 2 - Selecting a Student Experience](#step-2---selecting-a-student-experience)
+* [Step 2 - OpenShift Web Console Login](#step-2---openshift-web-console-login)
+* [Step 3 - Selecting a Student Experience](#step-3---selecting-a-student-experience)
 
 ## Objective
 
@@ -27,7 +28,16 @@ Ensure you select the page that corresponds to your student number.
 Once you've selected your student page, you'll be presented with a set of boxes with links to important resources for the workshop:
 ![Student Links](./.images/student-page-links-fixed.png)
 
-## Step 2 - Selecting a Student Experience
+## Step 2 - OpenShift Web Console Login
+When logging in to OpenShift, select the `students-htpasswd-auth` option:
+
+![OCP Login With](./.images/ocp-login-with.png)
+
+Then enter your username and password from the student page:
+
+![OCP Student Login](./.images/ocp-student-login.png)
+
+## Step 3 - Selecting a Student Experience
 This workshop has teams of 6 students working together to build a small-scale system on a shared platform. Thus, not every student will complete every exercise.
 
 Below are the experiences that can be completed. In coordination with your team, select who will be responsible for what component.
