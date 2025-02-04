@@ -12,6 +12,12 @@ example_virtual_machines:
 
 data_sources_to_wait_for:
   - server2019
+  - 8000v
+
+network_infrastructure:
+  virtual_machine_name: cisco-8000v
+  template: 8000v
+  operating_system: Cisco IOS XE
 
 remote_services:
   - name: attendance
