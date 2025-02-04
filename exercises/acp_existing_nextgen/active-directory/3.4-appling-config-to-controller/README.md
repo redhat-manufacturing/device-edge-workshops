@@ -309,7 +309,7 @@ data:
 
 Then, add the following to the `job.yaml` file created earlier:
 ```yaml
----            
+---
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -342,6 +342,6 @@ Ensure everything has been saved/committed/pushed before continuing.
 ---
 **Navigation**
 
-[Previous Exercise](../3.3-linking-to-automation/) | [Next Exercise](FIXME)
+[Previous Exercise](../3.3-linking-to-automation/) | [Next Exercise](../4.1-resync-app/)
 
 [Click here to return to the Workshop Homepage](../README.md)
