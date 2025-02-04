@@ -3,9 +3,9 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Resyncing the Application in ArgoCD](#step-1---resyncing-the-application-in-argocd)
-* [Step 2 - Investigating the Configure Controller Job](#step-2---investigating-the-configure-controller-job)
-* [Step 3 - Investigating Ansible Controller](#step-3---investigating-ansible-controller)
+* [Step 1 - Confirming the PostSync Job Run](#step-1---confirming-the-postsync-job-run)
+* [Step 2 - Investigating the Run Automation in Controller](#step-2---investigating-the-run-automation-in-controller)
+* [Step 3 - Investigating Virtual Machine](#step-3---investigating-virtual-machine)
 
 ## Objective
 
