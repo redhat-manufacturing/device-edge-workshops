@@ -25,6 +25,15 @@ spec:
         baseZone: "{{ base_zone }}"
         workshopType: "{{ workshop_type }}"
         teamSize: '{{ team_size }}'
+        networkInfrastructure:
+          virtualMachineName: {{ network_infrastructure.virtual_machine_name }}
+          template: {{ network_infrastructure.template }}
+          operatingSystem: {{ network_infrastructure.operating_system }}
+          partOf: network-infrastructure
+          namespaces:
+{% for team_number in range(1, (team_total | int) + 1) %}
+            - team{{ team_number }}
+{% endfor %}
         declarativeStateManagement:
 {% for team_number in range(1, (team_total | int) + 1) %}
           - name: argocd
