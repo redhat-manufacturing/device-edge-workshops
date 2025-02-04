@@ -129,7 +129,7 @@ class Overview extends React.Component {
                     <DescriptionListTerm className='Description-list'>Password:</DescriptionListTerm>
                     <DescriptionListDescription className ><code>{{ admin_password }}</code></DescriptionListDescription>
                     <DescriptionListTerm className='Description-list'>URL:</DescriptionListTerm>
-                    <DescriptionListDescription className ><a href="https://team{{ ((__student_number - 1) // (team_size | int)) + 1 }}-argocd-server-team{{ ((__student_number - 1) // (team_size | int)) + 1 }}.apps.acp.{{ base_zone }}">https://team1-argocd-server-team{{ ((__student_number - 1) // (team_size | int)) + 1 }}.apps.acp.{{ base_zone }}</a></DescriptionListDescription>
+                    <DescriptionListDescription className ><a href="https://argocd-server-team{{ ((__student_number - 1) // (team_size | int)) + 1 }}.apps.acp.{{ base_zone }}">https://argocd-server-team{{ ((__student_number - 1) // (team_size | int)) + 1 }}.apps.acp.{{ base_zone }}</a></DescriptionListDescription>
                   </CardBody>
                 </Card>
               </DescriptionList>
