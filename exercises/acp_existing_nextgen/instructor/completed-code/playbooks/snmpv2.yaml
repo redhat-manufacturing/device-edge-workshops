@@ -1,0 +1,11 @@
+---
+- name: Setup SNMPv2
+  hosts:
+    - all
+  tasks:
+    - name: Configure SNMPv2 read-only
+      cisco.ios.ios_snmp_server:
+        config:
+          communities:
+            - name: ansible
+              access: ro

@@ -1,0 +1,99 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configure-controller-configmap
+data:
+  controller-configuration.yaml: |
+    controller_hostname: REPLACEME
+    controller_username: REPLACEME
+    controller_password: REPLACEME
+    controller_validate_certs: 'false'
+    controller_hosts:
+      - name: ad01
+        inventory: team1 Active Directory Infrastructure
+        variables:
+          ansible_host: ad01-winrm.team1.svc.cluster.local
+      - name: ad02
+        inventory: team1 Active Directory Infrastructure
+        variables:
+          ansible_host: ad02-winrm.team1.svc.cluster.local
+    controller_groups:
+      - name: primary_domain_controller
+        inventory: team1 Active Directory Infrastructure
+        hosts:
+          - ad01
+    controller_projects:
+      - name: Code Repository
+        organization: Team 1
+        scm_branch: main
+        scm_type: git
+        scm_url: REPLACEME
+        update_project: true
+        credential: team1 Code Repository Credentials
+    controller_templates:
+      - name: Wait for Connectivity
+        organization: Team 1
+        project: Code Repository
+        inventory: team1 Active Directory Infrastructure
+        credentials:
+          - Provisioning Machine Login
+        playbook: playbooks/wait-for-connectivity.yaml
+      - name: Set Base Configs
+        organization: Team 1
+        project: Code Repository
+        inventory: team1 Active Directory Infrastructure
+        credentials:
+          - Provisioning Machine Login
+        playbook: playbooks/set-base-configs.yaml    
+      - name: Create AD Forest
+        organization: Team 1
+        project: Code Repository
+        inventory: team1 Active Directory Infrastructure
+        credentials:
+          - Provisioning Machine Login
+        playbook: playbooks/create-ad-forest.yaml
+        limit: primary_domain_controller
+      - name: Configure Domain Controllers
+        organization: Team 1
+        project: Code Repository
+        inventory: team1 Active Directory Infrastructure
+        credentials:
+          - Domain Administrator
+        playbook: playbooks/configure-domain-controllers.yaml
+    controller_workflows:
+      - name: Setup Active Directory Environment
+        organization: Team 1
+        simplified_workflow_nodes:
+          - identifier: Wait for Connectivity
+            unified_job_template: Wait for Connectivity
+            success_nodes:
+              - Set Base Configs
+            lookup_organization: Team 1
+          - identifier: Set Base Configs
+            unified_job_template: Set Base Configs
+            success_nodes:
+              - Create AD Forest
+            lookup_organization: Team 1
+          - identifier: Create AD Forest
+            unified_job_template: Create AD Forest
+            success_nodes:
+              - Configure Domain Controllers
+            lookup_organization: Team 1
+          - identifier: Configure Domain Controllers
+            unified_job_template: Configure Domain Controllers
+            lookup_organization: Team 1
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: automation-to-run-configmap
+data:
+  controller-configuration.yaml: |
+    controller_hostname: REPLACEME
+    controller_username: REPLACEME
+    controller_password: REPLACEME
+    controller_validate_certs: 'false'
+    controller_workflow_launch_jobs:
+      - name: Setup Active Directory Environment
+        organization: Team 1

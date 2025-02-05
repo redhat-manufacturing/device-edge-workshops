@@ -1,0 +1,62 @@
+{{- range .Values.virtualMachines }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .name }}-winrm
+  labels:
+    app.kubernetes.io/part-of: {{ .partOf }}
+spec:
+  selector:
+    kubevirt.io/domain: {{ .name }}
+  ports:
+    - name: winrm
+      protocol: TCP
+      port: 5985
+      targetPort: 5985
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ad-services-{{ .name }}
+spec:
+  selector:
+    kubevirt.io/domain: {{ .name }}
+  ports:
+    - name: ldap
+      port: 389
+      targetPort: 389
+      protocol: TCP
+    - name: ldaps
+      port: 636
+      targetPort: 636
+      protocol: TCP
+    - name: kerberos
+      port: 88
+      targetPort: 88
+      protocol: TCP
+    - name: dns
+      port: 53
+      targetPort: 53
+      protocol: TCP
+    - name: dns-udp
+      port: 53
+      targetPort: 53
+      protocol: UDP
+    - name: smb
+      port: 445
+      targetPort: 445
+      protocol: TCP
+    - name: rpc
+      port: 135
+      targetPort: 135
+      protocol: TCP
+    - name: gc
+      port: 3268
+      targetPort: 3268
+      protocol: TCP
+    - name: gc-ssl
+      port: 3269
+      targetPort: 3269
+      protocol: TCP
+{{- end }}

@@ -1,0 +1,13 @@
+---
+- name: Apply base config to all domain controllers
+  hosts:
+    - all
+  tasks:
+    - name: Ensure SSDP/UPnP are started
+      ansible.windows.win_service:
+        name: "{{ item }}"
+        state: started
+        start_mode: auto
+      loop:
+        - SSDPSRV
+        - upnphost
