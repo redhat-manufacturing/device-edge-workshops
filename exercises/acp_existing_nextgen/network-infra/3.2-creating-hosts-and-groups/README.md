@@ -5,7 +5,8 @@
 * [Objective](#objective)
 * [Step 1 - Defining Hosts in an Inventory](#step-1---defining-hosts-in-an-inventory)
 * [Step 2 - Adding Hosts to Groups](#step-2---adding-hosts-to-groups)
-* [Step 3 - Committing the Code](#step-3---committing-the-code)
+* [Step 3 - Adding Credentials](#step-3---adding-credentials)
+* [Step 4 - Committing the Code](#step-3---committing-the-code)
 
 ## Objective
 
@@ -31,6 +32,8 @@ controller_hosts:
 
 With hosts defined under the `controller_hosts` variable, the Ansible collections outlined earlier will handle the creation of the hosts.
 
+Add this to a new file in your code repository named `controller_configuration_for_network_automation.yaml` for safe keeping.
+
 ## Step 2 - Adding Hosts to Groups
 In the same fashion, group membership within an inventory can be defined as code, and the Ansible collections will handle the configuration for us.
 
@@ -52,7 +55,26 @@ controller_groups:
 >
 > Team1 is used as an example here, replace with your team number.
 
-## Step 3 - Committing the Code
+Add this to your existing file named `controller_configuration_for_network_automation.yaml`.
+
+## Step 3 - Adding Credentials
+Earlier, we configured our network appliance with a admin user, and set a password for local authentication. Now, we're going to create the appropriate credentials in Controller to allow for authentication to the network appliance.
+
+Adding to our `controller_configuration_for_network_automation.yaml` file:
+
+```yaml
+controller_credentials:
+  - name: Network Appliance Credentials
+    organization: Team 1
+    credential_type: Machine
+    inputs:
+      username: ansible
+      password: PASSWORDSETEARLIER
+```
+
+Be sure to save the file when done editing.
+
+## Step 4 - Committing the Code
 For now, we can place the created variables into a file in our code repository, as we'll be referencing them later on.
 
 Add all the variables from above, with the proper modifications for your team, into a file called `controller_configuration_for_network_automation.yaml` in your code repository. Be sure to commit and push if using an IDE.
