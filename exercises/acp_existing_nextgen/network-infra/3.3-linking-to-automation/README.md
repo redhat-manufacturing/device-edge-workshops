@@ -177,6 +177,14 @@ controller_groups:
     hosts:
       - cisco-8000v
 
+controller_credentials:
+  - name: Network Appliance Credentials
+    organization: Team 1
+    credential_type: Machine
+    inputs:
+      username: ansible
+      password: PASSWORDSETEARLIER
+
 controller_projects:
   - name: Code Repository
     organization: Team 1
@@ -289,6 +297,6 @@ Ensure this file is saved/committed/pushed into your code repository, as it will
 ---
 **Navigation**
 
-[Previous Exercise](../3.2-creating-hosts-and-groups/) | [Next Exercise](../3.4-appling-config-to-controller/)
+[Previous Exercise](../3.2-creating-hosts-and-groups/) | [Next Exercise](../4.1-initializing-chart/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
