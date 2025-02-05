@@ -38,9 +38,9 @@ spec:
         vm.kubevirt.io/os: {{ $.Values.networkInfrastructure.operatingSystem }}
         vm.kubevirt.io/workload: server
       labels:
-        kubevirt.io/domain: {{ . }}
+        kubevirt.io/domain: {{ $.Values.networkInfrastructure.virtualMachineName }}
         kubevirt.io/size: medium
-        app.kubernetes.io/name: {{ . }}
+        app.kubernetes.io/name: {{ $.Values.networkInfrastructure.virtualMachineName }}
         app.kubernetes.io/part-of: {{ $.Values.networkInfrastructure.partOf }}
     spec:
       architecture: amd64
