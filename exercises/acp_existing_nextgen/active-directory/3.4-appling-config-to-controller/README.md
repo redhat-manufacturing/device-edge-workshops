@@ -218,8 +218,11 @@ data:
     controller_projects:
       - name: Code Repository
         organization: Team 1
-        wait: 'true'
-        update_project: 'true'
+        scm_branch: main
+        scm_type: git
+        scm_url: "YOUR_GIT_URL_HERE"
+        update_project: true
+        credential: team1 Code Repository Credentials
     controller_templates:
       - name: Wait for Connectivity
         organization: Team 1

@@ -150,9 +150,12 @@ controller_groups:
 
 controller_projects:
   - name: Code Repository
-    organization: team1
-    wait: 'true'
-    update_project: 'true'
+    organization: Team 1
+    scm_branch: main
+    scm_type: git
+    scm_url: "YOUR_GIT_URL_HERE"
+    update_project: true
+    credential: team1 Code Repository Credentials
 
 controller_templates:
   - name: Wait for Connectivity
