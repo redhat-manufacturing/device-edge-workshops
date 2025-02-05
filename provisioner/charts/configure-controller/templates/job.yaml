@@ -2,16 +2,16 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: configure-controller
+  generateName: configure-controller-
   annotations:
-    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook: PostSync
 spec:
   backoffLimit: 25
   template:
     spec:
       containers:
         - name: configure-conrtoller
-          image: quay.io/device-edge-workshops/configure-controller:1.0.0
+          image: quay.io/device-edge-workshops/configure-controller:latest
           volumeMounts:
             - name: controller-variables
               mountPath: /runner/variables
