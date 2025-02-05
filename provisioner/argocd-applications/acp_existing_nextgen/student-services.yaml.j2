@@ -177,6 +177,8 @@ spec:
                   domain_netbios_name: team{{ number }}
             - name: team{{ number }} Network Infrastructure
               organization: Team {{ number }}
+              variables:
+                ansible_connection: network_cli
             - name: team{{ number }} Process Control Systems
               organization: Team {{ number }}
               variables:
@@ -196,4 +198,10 @@ spec:
               inventory: team{{ number }} Active Directory Infrastructure
             - name: domain_controllers
               inventory: team{{ number }} Active Directory Infrastructure
+            - name: cisco_ios
+              inventory: team{{ number }} Network Infrastructure
+              variables:
+                ansible_network_os: cisco.ios.ios
+                ansible_become: yes
+                ansible_become_method: enable
 {% endfor %}
