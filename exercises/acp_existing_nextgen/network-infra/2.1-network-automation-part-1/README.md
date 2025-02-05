@@ -3,8 +3,10 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Helm Chart Structure](#step-1---helm-chart-structure)
-* [Step 2 - Creating Our Chart Structure](#step-2---creating-our-chart-structure)
+* [Step 1 - NTP Playbook](#step-1---ntp-playbook)
+* [Step 2 - SNMPv3 Playbook](#step-2---snmpv3-playbook)
+* [Step 3 - SNMPv2 Playbook](#step-3---snmpv2-playbook)
+* [Step 4 - Save and Commit Code](#step-4---save-and-commit-code)
 
 ## Objective
 
@@ -45,6 +47,7 @@ This playbook will setup NTP on our network appliance, and point it at a pool of
 Next, we'll add a playbook to setup SNMPv3. Add a new file to the playbook directory named `snmpv3.yaml`, and add the following content:
 
 ```yaml
+---
 - name: Setup SNMPv3
   hosts:
     - all
@@ -72,6 +75,7 @@ Next, we'll add a playbook to setup SNMPv3. Add a new file to the playbook direc
 Finally, we'll also configure SNMPv2, with a generic community string of `ansible`. Add another file to the `playbooks` directory named `snmpv2.yaml` with the folling content:
 
 ```yaml
+---
 - name: Setup SNMPv2
   hosts:
     - all
@@ -95,6 +99,6 @@ If you're using an IDE, ensure you've committed/pushed your new code.
 ---
 **Navigation**
 
-[Next Exercise](../1.2-adding-vm-templates/)
+[Previous Exercise](../1.1-initialize-appliance/) | [Next Exercise](../2.2-network-automation-part-2/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
