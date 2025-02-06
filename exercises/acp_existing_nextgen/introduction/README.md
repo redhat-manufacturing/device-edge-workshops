@@ -45,6 +45,7 @@ Below are the experiences that can be completed. In coordination with your team,
 | Component | Required Knowledge | Exercises Link |
 | --- | --- | --- |
 | Active Directory | GitOps, Ansible Automation for Windows | [Link](../active-directory/1.1-initializing-chart/README.md) |
+| Network Automation | Ansible Automation for Networking | [Link](../network-infra/1.1-initialize-appliance/README.md) |
 
 
 ---
