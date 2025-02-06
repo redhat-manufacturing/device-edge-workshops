@@ -3,15 +3,19 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Helm Chart Structure](#step-1---helm-chart-structure)
-* [Step 2 - Creating Our Chart Structure](#step-2---creating-our-chart-structure)
+* [Step 1 - Accessing the Serial Console](#step-1---accessing-the-serial-console)
+* [Step 2 - Cancel Initial Setup](#step-2---cancel-initial-setup)
+* [Step 3 - Enable and Enter Configuration Mode](#step-3---enable-and-enter-configuration-mode)
+* [Step 4 - Setup Transport and Local Auth](#step-4---setup-transport-and-local-auth)
+* [Step 5 - Setup User for Ansible and Generate Key](#step-5---setup-user-for-ansible-and-generate-key)
+* [Step 6 - Write Memory](#step-6---write-memory)
 
 ## Objective
 
 * Understand how to initialize the network appliance
 * Setup initial connection credentials
 
-## Step 1 - Helm Chart Structure
+## Step 1 - Accessing the Serial Console
 Before starting on automating our network appliance, we first need to initialize it and allow remote connections over SSH.
 
 Open the OpenShift Web Console, then navigate to **Virtualization** > **VirtualMachines**, and select the virtual machine named **cisco-8000v**.
