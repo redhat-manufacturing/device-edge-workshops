@@ -63,7 +63,7 @@ Esure you save the file, or push it to the repo if working within another editor
 ---
 **Navigation**
 
-[Next Exercise](../1.2-adding-deployment-templates/)
+[Next Exercise](../1.2-creating-plc-config/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
 
