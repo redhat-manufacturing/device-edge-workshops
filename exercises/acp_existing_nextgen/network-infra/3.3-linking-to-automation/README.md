@@ -249,26 +249,21 @@ controller_workflows:
   - name: Run Network Automation
     organization: Team 1
     simplified_workflow_nodes:
+      - identifier: Configure Router Hostname
+        unified_job_template: Configure Router Hostname
+        success_nodes:
+          - Configure NTP
+        lookup_organization: Team 1
       - identifier: Configure NTP
         unified_job_template: Configure NTP
-        success_nodes:
-          - Setup SNMPv3
-        lookup_organization: Team 1
-      - identifier: Setup SNMPv3
-        unified_job_template: Setup SNMPv3
         success_nodes:
           - Setup SNMPv2
         lookup_organization: Team 1
       - identifier: Setup SNMPv2
         unified_job_template: Setup SNMPv2
         success_nodes:
-          - Configure VLANs
-        lookup_organization: Team 1
-      - identifier: Configure VLANs
-        unified_job_template: Configure VLANs
-        lookup_organization: Team 1
-        success_nodes:
           - Configure VLAN Interfaces
+        lookup_organization: Team 1
       - identifier: Configure VLAN Interfaces
         unified_job_template: Configure VLAN Interfaces
         lookup_organization: Team 1
@@ -278,7 +273,7 @@ controller_workflows:
         unified_job_template: Configure Static Routes
         lookup_organization: Team 1
         success_nodes:
-          - Configure VLAN Interfaces
+          - Configure OSPF
       - identifier: Configure OSPF
         unified_job_template: Configure OSPF
         lookup_organization: Team 1
