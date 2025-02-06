@@ -65,7 +65,7 @@ We'll also configure SNMPv2, with a generic community string of `ansible`. Add a
 Finally, we'll add a playbook to set the name of the network appliance. Add another file to the `playbooks` directory named `hostname.yaml`, and add the following contents:
 ```yaml
 ---
-- name: Setup SNMPv3
+- name: Set the system hostname
   hosts:
     - all
   tasks:
