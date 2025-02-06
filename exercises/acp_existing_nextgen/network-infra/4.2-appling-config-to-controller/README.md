@@ -239,13 +239,6 @@ data:
         credentials:
           - Network Appliance Credentials
         playbook: playbooks/ntp.yaml
-      - name: Setup SNMPv3
-        organization: Team 1
-        project: Code Repository
-        inventory: team1 Network Infrastructure
-        credentials:
-          - Network Appliance Credentials
-        playbook: playbooks/snmpv3.yaml
       - name: Setup SNMPv2
         organization: Team 1
         project: Code Repository
@@ -253,13 +246,13 @@ data:
         credentials:
           - Network Appliance Credentials
         playbook: playbooks/snmpv2.yaml
-      - name: Configure VLANs
+      - name: Set System Hostname
         organization: Team 1
         project: Code Repository
         inventory: team1 Network Infrastructure
         credentials:
           - Network Appliance Credentials
-        playbook: playbooks/vlans.yaml
+        playbook: playbooks/hostname.yaml
       - name: Configure VLAN Interfaces
         organization: Team 1
         project: Code Repository
@@ -286,11 +279,6 @@ data:
       - name: Run Network Automation
         organization: Team 1
         simplified_workflow_nodes:
-          - identifier: Configure Router Hostname
-            unified_job_template: Configure Router Hostname
-            success_nodes:
-              - Configure NTP
-            lookup_organization: Team 1
           - identifier: Configure NTP
             unified_job_template: Configure NTP
             success_nodes:
@@ -299,7 +287,12 @@ data:
           - identifier: Setup SNMPv2
             unified_job_template: Setup SNMPv2
             success_nodes:
-              - Configure VLAN Interfaces
+              - Set System Hostname
+            lookup_organization: Team 1
+          - identifier: Set System Hostname
+            unified_job_template: Set System Hostname
+            success_nodes:
+              - Configure VLAN Intefaces
             lookup_organization: Team 1
           - identifier: Configure VLAN Interfaces
             unified_job_template: Configure VLAN Interfaces
@@ -323,64 +316,6 @@ Ensure you've replaced the variables at the top with the correct values, so the 
 > Note:
 >
 > Team1 is used as an example here, replace with your team number
-
-## Step 3 - Creating a Job to Run a Workflow
-Following the idea from above, we're going to create another set of a job and configmap, however, this time we'll only specify what automation we want to run, and set the job to happen after everything else has been synced.
-
-First, our configmap - simply add this to the bottom of the existing `configmap.yaml` file in the `templates/` directory:
-```yaml
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: network-automation-to-run-configmap
-data:
-  controller-configuration.yaml: |
-    controller_hostname: REPLACE_WITH_CONTROLLER_URL_FROM_STUDENT_PAGE
-    controller_username: REPLACE_WITH_CONTROLLER_USERNAME
-    controller_password: REPLACE_WITH_CONTROLLER_PASSWORD
-    controller_validate_certs: 'false'
-
-    controller_workflow_launch_jobs:
-      - name: Run Network Automation
-        organization: Team 1
-```
-
-> Note:
->
-> Team1 is used as an example here, replace with your team number
-
-Then, add the following to the `job.yaml` file created earlier:
-```yaml
----
-apiVersion: batch/v1
-kind: Job
-metadata:
-  generateName: run-network-automation-in-controller-
-  annotations:
-    argocd.argoproj.io/hook: PostSync
-spec:
-  template:
-    spec:
-      containers:
-        - name: launch-network-automation
-          image: quay.io/device-edge-workshops/configure-controller:latest
-          volumeMounts:
-            - name: automation-to-run-vars
-              mountPath: /runner/variables
-            - name: tmp
-              mountPath: /tmp
-      restartPolicy: Never
-      volumes:
-        - name: automation-to-run-vars
-          configMap:
-            name: network-automation-to-run-configmap
-        - name: tmp
-          emptyDir:
-            sizeLimit: 100Mi
-```
-
-Ensure everything has been saved/committed/pushed before continuing.
 
 ---
 **Navigation**
