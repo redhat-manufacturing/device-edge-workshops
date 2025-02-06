@@ -1,0 +1,6 @@
+apiVersion: v2
+name: network-automation
+description: A chart to setup for and run network automation
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

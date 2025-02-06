@@ -8,4 +8,4 @@
         config:
           communities:
             - name: ansible
-              access: ro
+              ro: true

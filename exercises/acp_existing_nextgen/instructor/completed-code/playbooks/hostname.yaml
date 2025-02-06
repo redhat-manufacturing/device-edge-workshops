@@ -1,0 +1,9 @@
+---
+- name: Setup SNMPv3
+  hosts:
+    - all
+  tasks:
+    - name: Set hostname
+      cisco.ios.ios_hostname:
+        config:
+          hostname: team1-router

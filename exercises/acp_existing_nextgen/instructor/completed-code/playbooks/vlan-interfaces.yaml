@@ -1,0 +1,17 @@
+---
+- name: Setup VLAN interfaces
+  hosts:
+    - all
+  tasks:
+    - name: Configure VLAN Interfaces
+      cisco.ios.ios_l3_interfaces:
+        config:
+          - name: "Vlan{{ vlan }}"
+            autostate: false
+            ipv4:
+              - address: "192.168.{{ vlan }}.1/24"
+            ipv6:
+              - enable: false
+      loop: "{{ range(200, 221)|list }}"
+      loop_control:
+        loop_var: vlan
