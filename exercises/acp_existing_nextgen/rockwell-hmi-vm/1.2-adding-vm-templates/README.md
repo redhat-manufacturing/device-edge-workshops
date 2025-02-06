@@ -21,7 +21,7 @@ For example, this is a snippet of a virtual machine's definition:
 
 In the screenshot, the virtual machine configuration is shown as code.
 
-In your team namespace, an example virtual machine has been created. To view it in the web interface, navigate to Virtualization > VirtualMachines > example-windows-vm. Select the `YAML` tab to view the yaml definition of the virtual machine. This can be used as a base for building other virtul machine definitions.
+In your team namespace, an example virtual machine has been created. To view it in the web interface, navigate to Virtualization > VirtualMachines > example-windows-vm. Select the `YAML` tab to view the yaml definition of the virtual machine. This can be used as a base for building other virtual machine definitions.
 
 ## Step 2 - Creating a Base Values.yaml File
 Values that are used by templates can be placed into a file called `values.yaml` within the chart directory, which helm will automatically look for and use. These can be overriden if needed, but for our purposes, a simple values file will work.
@@ -31,17 +31,12 @@ Within the `active-directory` directory in our code repo, create a new file name
 ```yaml
 ---
 virtualMachines:
-  - name: ad01
-    partOf: active-directory
-    operatingSystem: server2019
-  - name: ad02
-    partOf: active-directory
+  - name: ft01
+    partOf: factory-talk
     operatingSystem: server2019
 ```
 
-> Note:
->
-> We're not going to use the second virtual machine in our Active Directory environment, but we're going to create it just to show the looping function.
+
 
 These values will be used by the template in the next step to create the specified virtual machines.
 
@@ -49,7 +44,7 @@ Once complete, be sure to save the file, or if working within an IDE, commit and
 ![Populate Values File](../.images/populate-values-yaml.png)
 
 ## Step 3 - Creating Virtual Machine Definition Templates
-Since we'll be creating two virtual machines that are nearly identical, we can create one template, and use the `range` function with helm to have it template out two virtual machines.
+Since we'll be creating two virtual machines that are nearly identical, we can create one template, and use the `range` function with helm to have it template out 1 virtual machines.
 
 All values live under the `.Values` key, so the path to our list of virtual machines is: `.Values.virtualMachines`. Since we have a list, we can use the `range` function to iterate over the items within the list, and helm will render out the template accordingly.
 
@@ -83,7 +78,7 @@ metadata:
   finalizers:
     - kubevirt.io/virtualMachineControllerFinalize
   labels:
-    vm.kubevirt.io/template: server2019-template
+    vm.kubevirt.io/template: ftview-template
     vm.kubevirt.io/template.namespace: openshift
     vm.kubevirt.io/template.revision: '1'
     vm.kubevirt.io/template.version: v0.26.0
@@ -172,14 +167,11 @@ Should we want to override these values, we simply need to define them in our `v
 ```yaml
 ---
 virtualMachines:
-  - name: ad01
-    partOf: active-directory
+  - name: ft01
+    partOf: factorytalk
     operatingSystem: server2019
     cpuCores: 8
     memory: 16Gi
-  - name: ad02
-    partOf: active-directory
-    operatingSystem: server2019
 ```
 
 This is not required for our use case, but feel free to modify your `values.yaml` file if desired.
