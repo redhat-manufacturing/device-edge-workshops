@@ -49,7 +49,7 @@ For this part of the excersise, create the codesys directory.
 
 Then, within that new directory, name the file `Chart.yaml` and enter the following information.
 
-```
+```yaml
 apiVersion: v2
 name: codesys
 description: A chart to install and configure a virtual PLC

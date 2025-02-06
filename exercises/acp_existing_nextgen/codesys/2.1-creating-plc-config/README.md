@@ -1,4 +1,4 @@
-# Workshop Exercise 1.2 -  Creating configuration vPLCs
+# Workshop Exercise 2.1 -  Creating configuration vPLCs
 
 ## Table of Contents
 
@@ -14,15 +14,13 @@ For the Codesys environment, it has several config files located within the pod'
 
 In order to get data into the pod, let's first create the configuration file in our gitea repo and allow ArgoCD to keep it in sync with out primary source of truth.
 
-## Step 2 - Create the templates folder
-Navigate to the codesys folder in your repo, either using the web UI for gitea or your local check-out directory, and create a "templates" folder alongside the Chart.yaml file, if not already done.
-This folder will contain all the yaml manifest files that will be deployed as part of the HELM chart for our vPLC application.
+We will not be too concerned with the contents of this file for the scope of this exercise, so do not worry about changing values within the actual file for now.
 
-## Step 3 - Create the configmap
-Within the templates folder, let us create a file named configmap.yaml
+## Step 2 - Create the configmap
+Within the templates folder in your gitea repo, let us create a file named configmap.yaml
 The contents for this file will look as follows:
 
-```
+```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
