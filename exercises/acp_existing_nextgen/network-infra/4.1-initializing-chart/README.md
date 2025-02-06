@@ -1,4 +1,4 @@
-# Workshop Exercise 3.1 - Initializing Helm Chart
+# Workshop Exercise 4.1 - Initializing Helm Chart
 
 ## Table of Contents
 

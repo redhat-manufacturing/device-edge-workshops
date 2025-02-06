@@ -84,6 +84,6 @@ Going forward, we can now manage the appliance over SSH using Ansible.
 ---
 **Navigation**
 
-[Next Exercise](../1.2-adding-vm-templates/)
+[Next Exercise](../2.1-network-automation-part-1/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
