@@ -3,7 +3,7 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Launching Codesys IDE](#step-1---creating-the-ad-forest)
+* [Step 1 - Launching Codesys IDE](#step-1---Launching-Codesys-IDE)
 
 ## Objective
 
@@ -52,6 +52,6 @@ With these playbooks, we launched the Codeysys IDE and program used to program t
 ---
 **Navigation**
 
-[Previous Exercise](../1.4-adding-chart-to-argocd/) | [Next Exercise](../2.2-ad-automation-part-2/)
+[Previous Exercise](../2.2-codesys-automation/) | [Next Exercise](../2.3-ua-expert-automation/)
 
 [Click here to return to the Workshop Homepage](../../README.md)

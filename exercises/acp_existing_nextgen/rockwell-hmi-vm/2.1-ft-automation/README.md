@@ -5,7 +5,7 @@
 * [Objective](#objective)
 * [Step 1 - Wait for Connectivity](#step-1---wait-for-connectivity)
 * [Step 2 - Setting the System Hostnames](#step-2---setting-the-system-hostnames)
-* [Step 3 - Creating the AD Forest](#step-3---creating-the-ad-forest)
+* [Step 3 - Launching FT HMI Client File](#step-3---Launching-FactoryTalk-HMI-Client-File)
 
 ## Objective
 
@@ -88,7 +88,8 @@ Create another file in the `playbooks/` directory named `launchFTview.yaml`, and
 ```
 
 A few quick notes about this playbook:
-- This playbook should launch a graphic Trend that shows the values from the Codesys PLC that was created in another team. If that PLC is not running or not finished yet, you will see greyed out or "x" out things on the display. But no worries, we have some other things to check out. If we don't have other pieces working, we have some ways to mitigate the problems, but let's cross our fingers and hope for the best. (note: crossing finguers might not actually work in fixing the issue)
+-FactoryTalk View SE is an HMI/SCADA program created by Rockwell Automation used in a plant all over the world. While this is only a very sample of what it can do. Know that is is used in manufacturing of critical functions globally and rather popular HMI at that.  
+-This playbook should launch a graphic Trend that shows the values from the Codesys PLC that was created in another team. If that PLC is not running or not finished yet, you will see greyed out or "x" out things on the display. But no worries, we have some other things to check out. If we don't have other pieces working, we have some ways to mitigate the problems, but let's cross our fingers and hope for the best. (note: crossing finguers might not actually work in fixing the issue)
 
 ![Conrtoller Inventory Vars](../.images/controller-inventory-vars.png)
 
@@ -96,6 +97,6 @@ With these playbooks, we'll have created and configured an FactoryTalk HMI to sh
 ---
 **Navigation**
 
-[Previous Exercise](../1.4-adding-chart-to-argocd/) | [Next Exercise](../2.2-ad-automation-part-2/)
+[Previous Exercise](../1.4-adding-chart-to-argocd/) | [Next Exercise](../2.2-codesys-automation/)
 
 [Click here to return to the Workshop Homepage](../../README.md)

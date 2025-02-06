@@ -106,6 +106,6 @@ And within the OpenShift Console, new virtual machines will appear:
 ---
 **Navigation**
 
-[Pervious Exercise](../1.3-adding-services-for-connectivity/)  [Next Exercise](../2.1-ad-automation-part-1/)
+[Pervious Exercise](../1.3-adding-services-for-connectivity/)  [Next Exercise](../2.1-ft-automation/)
 
 [Click here to return to the Workshop Homepage](../../README.md)

@@ -3,7 +3,7 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Launching UA Expert](#step-1---launch-ua-expert)
+* [Step 1 - Launching UA Expert](#step-1---Launching-UA-Expert)
 
 ## Objective
 
@@ -53,6 +53,6 @@ With these playbooks, we launched the UA Expert GUI and program used so we can s
 ---
 **Navigation**
 
-[Previous Exercise](../1.4-adding-chart-to-argocd/) | [Next Exercise](../2.2-ad-automation-part-2/)
+[Previous Exercise](../2.2-codesys-automation//) | [Next Exercise](../3.1/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
