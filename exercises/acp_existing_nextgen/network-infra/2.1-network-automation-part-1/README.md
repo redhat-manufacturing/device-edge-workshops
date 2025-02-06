@@ -4,8 +4,8 @@
 
 * [Objective](#objective)
 * [Step 1 - NTP Playbook](#step-1---ntp-playbook)
-* [Step 2 - SNMPv3 Playbook](#step-2---snmpv3-playbook)
-* [Step 3 - SNMPv2 Playbook](#step-3---snmpv2-playbook)
+* [Step 2 - SNMPv2 Playbook](#step-2---snmpv2-playbook)
+* [Step 3 - Set the System Hostname](#step-3---set-the-system-hostname)
 * [Step 4 - Save and Commit Code](#step-4---save-and-commit-code)
 
 ## Objective
@@ -29,10 +29,10 @@ In our code repository, create a new directory named `playbooks` and add a new f
       cisco.ios.ios_ntp_global:
         config:
           servers:
-            - 0.pool.ntp.org
-            - 1.pool.ntp.org
-            - 2.pool.ntp.org
-            - 3.pool.ntp.org
+            - server: 0.pool.ntp.org
+            - server: 1.pool.ntp.org
+            - server: 2.pool.ntp.org
+            - server: 3.pool.ntp.org
 ```
 
 > Note:
@@ -43,36 +43,9 @@ This playbook will setup NTP on our network appliance, and point it at a pool of
 
 ![Gitea NTP Playbook](../.images/gitea-ntp-playbook.png)
 
-## Step 2 - SNMPv3 Playbook
-Next, we'll add a playbook to setup SNMPv3. Add a new file to the playbook directory named `snmpv3.yaml`, and add the following content:
 
-```yaml
----
-- name: Setup SNMPv3
-  hosts:
-    - all
-  tasks:
-    - name: Configure SNMPv3
-      cisco.ios.ios_snmp_user:
-        config:
-          users:
-            - name: ansible
-              group: SNMPv3Group
-              version: v3
-              auth:
-                protocol: sha
-                password: PICKASTRONGPASSWORD
-              priv:
-                protocol: aes
-                password: PICKASTRONGPASSWORD
-```
-
-> Note:
->
-> Be sure to replace `PICKASTRONGPASSWORD` with a strong password of your choosing. You shouldn't store passwords in plaintext, however secret storage is outside of the scope of this workshop.
-
-## Step 3 - SNMPv2 Playbook
-Finally, we'll also configure SNMPv2, with a generic community string of `ansible`. Add another file to the `playbooks` directory named `snmpv2.yaml` with the folling content:
+## Step 2 - SNMPv2 Playbook
+We'll also configure SNMPv2, with a generic community string of `ansible`. Add another file to the `playbooks` directory named `snmpv2.yaml` with the folling content:
 
 ```yaml
 ---
@@ -85,8 +58,26 @@ Finally, we'll also configure SNMPv2, with a generic community string of `ansibl
         config:
           communities:
             - name: ansible
-              access: ro
+              ro: true
 ```
+
+## Step 3 - Set the System Hostname
+Finally, we'll add a playbook to set the name of the network appliance. Add another file to the `playbooks` directory named `hostname.yaml`, and add the following contents:
+```yaml
+---
+- name: Setup SNMPv3
+  hosts:
+    - all
+  tasks:
+    - name: Set hostname
+      cisco.ios.ios_hostname:
+        config:
+          hostname: team1-router
+```
+
+> Note:
+>
+> team1 is used as an example here. Replace with your team number.
 
 ## Step 4 - Save and Commit Code
 Once you've finished editing the playbooks in the previous steps, be sure they've been saved into your code repository. If you're using the web UI, ensure you're hitting the `Commit Changes` button.
