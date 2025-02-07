@@ -41,7 +41,7 @@ If you are comfortable with git and have a text editor available to you, feel fr
 Gitea has a web interface that can also be used for editing files, which will be shown here.
 
 First, let's create a directory to house our chart, and fill out Chart.yaml. In the Gitea web interface, select "New File". To add a directory, simply type the desired name of the directory, then put in a forward slash: `/`.
-![Start Chart Yaml](../.images/start-chart-yaml.png)
+![Gitea New Directory](../.images/gitea-add-directory.png)
 
 Then, within that new directory, name the file `Chart.yaml` and enter the following information.
 
