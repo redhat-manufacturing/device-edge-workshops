@@ -44,7 +44,7 @@ Leveraging this overlay collection provides a few key benefits:
 - Roles can be specified in a simplified playbook, over writing tasks that call the modules individually.
 ![Infra.Controller_configuration Modules](../.images/infra.controller_configuration-roles.png)
 
-- Not all options need to specified when managing resources, allowing for a more simplified data structure overall:
+- Not all options need to be specified when managing resources, allowing for a more simplified data structure overall:
 ![Infra.Controller_configuration Code](../.images/infra.controller_configuration-code.png)
 
 - The collection will automatically loop over elements in a list, attempting to apply many at once, speeding up configuration.
