@@ -56,6 +56,11 @@ appVersion: "1.0.0"
 ![Populate Chart Yaml](../.images/populate-chart-yaml.png)
 
 Esure you save the file, or push it to the repo if working within another editor.
+
+> Note:
+>
+> You will interact with Gitea as a student, athough you may see "instructor" as the user on a commit in your repo. This is just how the workshop is provisioned - all commits going forward will be done as your student user.
+
 ---
 **Navigation**
 
