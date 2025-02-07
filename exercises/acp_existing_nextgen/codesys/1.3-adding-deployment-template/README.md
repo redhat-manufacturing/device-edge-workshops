@@ -89,7 +89,7 @@ spec:
               path: "CODESYSControl_User.cfg"
       containers:
         - name: codesys-plc
-          image: quay.io/hvanniek/codesyscontrol:4.14.0.0 
+          image: quay.io/rh-ee-hvanniek/codesyscontrol:4.14.0.0
           ports:
             - name: opc-ua
               containerPort: 4840
@@ -101,7 +101,9 @@ spec:
               name: data-storage
 ```
 
+---
+**Navigation**
 
-[Next Exercise](../1.4-a/)
+[Next Exercise](../1.4-ading-chart-to-argocd/)
 
 [Click here to return to the Workshop Homepage](../README.md)

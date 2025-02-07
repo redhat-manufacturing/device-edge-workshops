@@ -1,4 +1,4 @@
-# Workshop Exercise 2.1 -  Creating configuration vPLCs
+# Workshop Exercise 2.2 -  Creating configuration vPLCs
 
 ## Table of Contents
 
@@ -7,10 +7,15 @@
 * [Step 2 - Create the templates folder](#step-2---create-the-templates-folder)
 * [Step 3 - Create the configmap](#step-3---create-the-configmap)
 
+## Objective
+
+* Understand the concept of ConfigMaps
+* Update our HELM chart to include configuration for the PLC
+
 ## Step 1 Config as ConfigMap
 In Kubernetes having the ability to mount text-based configuration into a pod is a key method in firstly maintaining configuration and secondly having the ability to change configuration for several pods simultaneously.
 
-For the Codesys environment, it has several config files located within the pod's "/conf/codesyscontrol/" directory.
+For the Codesys PLC we deployed in [a previous step](../1.3-adding-deployment-template/), it has several config files located within the pod's "/conf/codesyscontrol/" directory.
 
 In order to get data into the pod, let's first create the configuration file in our gitea repo and allow ArgoCD to keep it in sync with out primary source of truth.
 
@@ -21,11 +26,12 @@ Within the templates folder in your gitea repo, let us create a file named confi
 The contents for this file will look as follows:
 
 ```yaml
+# Note: Team 1 is used as an example here - replace with your team information for the namespace
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: 'codesys-user-settings'
-  namespace: default
+  namespace: team1
 data: 
   user-config: |
       ;virtuallinux
@@ -72,14 +78,15 @@ data:
 ```
 
 The secion under "user-config:" will be mounted within our codesys runtime pod as a file located at "/conf/codesyscontrol/CODESYSControl_User.cfg"
-More on this in the 
+
+The most important secion in this
 
 Esure you save the file, or push it to the repo if working within another editor.
 
 ---
 **Navigation**
 
-[Next Exercise](../1.3-adding-deployment-templates/)
+[Next Exercise](../2.2-deploying-plc-application/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
 
