@@ -25,6 +25,9 @@ Essentially, helm charts define **what** we want to deploy, and ArgoCD is **how*
 ## Step 2 - Adding an Application to ArgoCD
 Refer back to your student page to retrieve the link to access your team's instance of ArgoCD, which will be used to deploy things into your namespace.
 
+If this is your first time logging in to ArgoCD, you may be met with a window asking you to authorize access. Click on the `Allow selected permissions` button to continue on.
+![ArgoCD Authorize Access](../.images/argocd-authorize-access.png)
+
 Once logged in, you'll probably be greeted with an empty window.
 ![ArgoCD Empty](../.images/argocd-empty.png)
 
