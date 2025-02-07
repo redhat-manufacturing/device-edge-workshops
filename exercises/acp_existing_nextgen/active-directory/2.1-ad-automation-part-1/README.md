@@ -74,7 +74,7 @@ Create another file in the `playbooks/` directory named `create-ad-forest.yaml`,
 
 A few quick notes about this playbook:
 - This playbook should only be run against the first domain controller in a forest, however we're not setting a limit on it here, we'll set it in the job template in Controller - this is a best practice, as we don't want to limit the portability of our automation, instead, we want to use Controller for that.
-- Some variables are used here, these have been pre-set for you within Controller. To review them, select your team's `Active Directory Infrastructure` inventory and review the `Variables` field.
+- Some variables are used here, these have been pre-set for you within Controller. To review them, access the Ansible Controller web interface, select your team's `Active Directory Infrastructure` inventory and review the `Variables` field.
 ![Conrtoller Inventory Vars](../.images/controller-inventory-vars.png)
 
 With these playbooks, we'll have created and configured an Active Directory forest on a single system. In the next exercise, we'll add our secondary domain controller.
