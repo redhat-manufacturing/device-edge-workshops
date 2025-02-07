@@ -8,7 +8,7 @@
 
 ## Objective
 
-* Create automation to 
+* Create automation to ensure some domain services are enabled/started
 * Store code in repository
 
 ## Step 1 - Ensure Domain Controller Services are Running
