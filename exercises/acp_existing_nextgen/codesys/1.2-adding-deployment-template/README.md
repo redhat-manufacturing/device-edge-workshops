@@ -39,12 +39,11 @@ Underneath this will provide us with a filesystem that can be mounted within our
 
 
 ```yaml
-# Note: Team 1 is used as an example here - replace with your team information for the namespace
+{{- range .Values.plcs }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: codesys-plc-data-1
-  namespace: team1
+  name: {{ .name }}-data
 spec:
   accessModes:
     - ReadWriteMany
@@ -53,6 +52,26 @@ spec:
       storage: 1Gi
   storageClassName: ocs-storagecluster-cephfs
   volumeMode: Filesystem
+{{ end }}
+```
+
+Let's do the same for a config storage, create conf-storage.yaml in the templates directory.
+
+```yaml
+{{- range .Values.plcs }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .name }}-config
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: ocs-storagecluster-cephfs
+  volumeMode: Filesystem
+{{ end }}
 ```
 
 !Remember to commit and push this file to the gitea repo.
@@ -69,32 +88,28 @@ For this exercise, we will only need a single replica, but can investigate the e
 Add the deployment.yaml file to your group git repository's templates folder:
 
 ```yaml
-# Note: Team 1 is used as an example here - replace with your team information for the namespace
+{{- range .Values.plcs }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: team1
-  name: 'codesys-plc'
+  name: {{ .name }}
 spec:
   selector:
     matchLabels:
-      app: codesys-plc
+      app: {{ .name }}
   replicas: 1
   template:
     metadata:
       labels:
-        app: codesys-plc
+        app: {{ .name }}
     spec:
       volumes:
         - name: data-storage
           persistentVolumeClaim: 
-            claimName: codesys-plc-data-1
+            claimName: {{ .name }}-data
         - name: config
-          configMap:
-            name: codesys-user-settings
-            items:
-            - key: user-config
-              path: "CODESYSControl_User.cfg"
+          persistentVolumeCLaim:
+            claimName: {{ .name }}-config
       containers:
         - name: codesys-plc
           image: quay.io/rh-ee-hvanniek/codesyscontrol:4.14.0.0
@@ -107,6 +122,7 @@ spec:
               name: config
             - mountPath: "/data/codesyscontrol"
               name: data-storage
+{{ end }}
 ```
 !Remember to commit and push this file to the gitea repo.
 

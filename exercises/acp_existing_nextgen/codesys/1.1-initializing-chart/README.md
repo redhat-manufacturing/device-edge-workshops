@@ -64,6 +64,15 @@ appVersion: "1.0.0"
 
 Esure you save the file in the UI, or save and push it to the repo if working within another editor.
 
+In this same folder, let's create the values.yaml file as well with some defaults to get started:
+```yaml
+---
+plcs:
+  - name: codesys-plc-1
+
+```
+Adding this template will allow us to deploy multiple instances of the PLC base image, and we'll look into defining what actual applications would go into them at a later point.
+
 ---
 **Navigation**
 
