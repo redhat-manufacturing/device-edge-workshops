@@ -94,7 +94,7 @@ spec:
       spec:
         sourceRef:
           kind: DataSource
-          name: server2019
+          name: rockwell-software-template
           namespace: openshift-virtualization-os-images
         storage:
           resources:
