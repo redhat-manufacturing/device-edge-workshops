@@ -38,7 +38,7 @@ To get started, we'll create a directory and fill out Chart.yaml.
 
 If you are comfortable with git and have a text editor available to you, feel free to clone your repo and use whatever tools you prefer.
 
-Gitea has a web interface that can also be used for editing files, which will be shown here.
+If you prefer a web interface, Gitea has one that can also be used for editing files, which will be shown here. Retrieve the URL from your student page, and log in using the provided credentials.
 
 First, let's create a directory to house our chart, and fill out Chart.yaml. In the Gitea web interface, select "New File". To add a directory, simply type the desired name of the directory, then put in a forward slash: `/`.
 ![Gitea New Directory](../.images/gitea-add-directory.png)
