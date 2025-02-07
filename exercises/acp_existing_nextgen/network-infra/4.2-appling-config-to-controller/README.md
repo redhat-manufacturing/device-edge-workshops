@@ -1,4 +1,4 @@
-# Workshop Exercise 3.4 - Applying Configuration to Controller
+# Workshop Exercise 4.2 - Applying Configuration to Controller
 
 ## Table of Contents
 
@@ -320,6 +320,6 @@ Ensure you've replaced the variables at the top with the correct values, so the 
 ---
 **Navigation**
 
-[Previous Exercise](../4.1-initializing-chart/) | [Next Exercise](../5.1-sync-app)
+[Previous Exercise](../4.1-initializing-chart/) | [Next Exercise](../4.3-adding-chart-to-argocd/)
 
 [Click here to return to the Workshop Homepage](../README.md)
