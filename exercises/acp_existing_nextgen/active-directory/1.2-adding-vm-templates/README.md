@@ -21,7 +21,7 @@ For example, this is a snippet of a virtual machine's definition:
 
 In the screenshot, the virtual machine configuration is shown as code.
 
-In your team namespace, an example virtual machine has been created. To view it in the web interface, navigate to Virtualization > VirtualMachines > example-windows-vm. Select the `YAML` tab to view the yaml definition of the virtual machine. This can be used as a base for building other virtual machine definitions.
+An example virtual machine has been created for you, and is located in your team namespace. To begin reviewing it, access the OpenShift web console using the URL and credentials from your student page. Then, navigate to **Virtualization** > **VirtualMachines** > example-windows-vm. Select the `YAML` tab to view the yaml definition of the virtual machine. This can be used as a base for building other virtual machine definitions.
 
 ## Step 2 - Creating a Base Values.yaml File
 Values that are used by templates can be placed into a file called `values.yaml` within the chart directory, which helm will automatically look for and use. These can be overriden if needed, but for our purposes, a simple values file will work.
