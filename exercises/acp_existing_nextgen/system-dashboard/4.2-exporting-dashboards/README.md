@@ -3,9 +3,8 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Investigating Blackbox Exporter](#step-1---investigating-blackbox-exporter)
-* [Step 2 - Investigating Prometheus](#step-2---investigating-prometheus)
-* [Step 3 - Investigating Grafana](#step-3---investigating-grafana)
+* [Step 1 - Exporting your Dashboard](#step-1---exporting-your-dashboard)
+* [Step 2 - Committing your Dashboard](#step-2---committing-your-dashboard)
 
 ## Objective
 
