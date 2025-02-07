@@ -115,6 +115,6 @@ With these templates created we are ready to let ArgoCD start doing its magic.
 ---
 **Navigation**
 
-[Next Exercise](../1.4-ading-chart-to-argocd/)
+[Next Exercise](../1.3-ading-chart-to-argocd/)
 
 [Click here to return to the Workshop Homepage](../README.md)
