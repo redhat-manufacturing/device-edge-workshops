@@ -292,7 +292,7 @@ data:
           - identifier: Set System Hostname
             unified_job_template: Set System Hostname
             success_nodes:
-              - Configure VLAN Intefaces
+              - Configure VLAN Interfaces
             lookup_organization: Team 1
           - identifier: Configure VLAN Interfaces
             unified_job_template: Configure VLAN Interfaces
