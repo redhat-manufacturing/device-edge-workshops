@@ -46,7 +46,7 @@ Below are the experiences that can be completed. In coordination with your team,
 | --- | --- | --- |
 | Active Directory | GitOps, Ansible Automation for Windows | [Link](../active-directory/1.1-initializing-chart/README.md) |
 | Network Automation | Ansible Automation for Networking | [Link](../network-infra/1.1-initialize-appliance/README.md) |
-
+| System Dashboard | Basics of Kubernetes | [Link](../system-dashboard/1.1-initializing-chart/README.md) |
 
 ---
 **Navigation**
