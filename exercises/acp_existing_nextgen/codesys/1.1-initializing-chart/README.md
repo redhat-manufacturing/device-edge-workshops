@@ -42,10 +42,13 @@ If you are comfortable with git and have a text editor available to you, feel fr
 
 Gitea has a web interface that can also be used for editing files, which will be shown here.
 
+To find the gitea url, refer to your student details page.
+Head there and sign in if you have not yet done so.
+
 First, let's create a directory to house our chart, and fill out Chart.yaml. In the Gitea web interface, select "New File". To add a directory, simply type the desired name of the directory, then put in a forward slash: `/`.
 
 For this part of the excersise, create the codesys directory.
-![Start Chart Yaml](../.images/start-chart-yaml.png)
+![Start Chart Yaml](../.images/start-chart.png)
 
 Then, within that new directory, name the file `Chart.yaml` and enter the following information.
 
@@ -59,12 +62,12 @@ appVersion: "1.0.0"
 ```
 ![Populate Chart Yaml](../.images/populate-chart-yaml.png)
 
-Esure you save the file, or push it to the repo if working within another editor.
+Esure you save the file in the UI, or save and push it to the repo if working within another editor.
 
 ---
 **Navigation**
 
-[Next Exercise](../1.2-creating-plc-config/)
+[Next Exercise](../1.2-adding-deployment-template/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
 
