@@ -48,7 +48,7 @@ Head there and sign in if you have not yet done so.
 First, let's create a directory to house our chart, and fill out Chart.yaml. In the Gitea web interface, select "New File". To add a directory, simply type the desired name of the directory, then put in a forward slash: `/`.
 
 For this part of the excersise, create the codesys directory.
-![Start Chart Yaml](../.images/start-chart.png)
+![Start Chart Yaml](../.images/start-codesys-chart.png)
 
 Then, within that new directory, name the file `Chart.yaml` and enter the following information.
 
