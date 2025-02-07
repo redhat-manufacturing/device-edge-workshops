@@ -53,7 +53,7 @@ The fully-qualified hostname of the service will later be used by Ansible Contro
 ## Step 2 - Adding a Service for AD Services
 Since Active Directory services work over a network, we'll need to expose them as well for operations such as domain joins, LDAP, and more.
 
-Modify your `service.yaml` file to include the following between the `range` function:
+Return to the `service.yaml` file created earlier, as we're going to add a second resource to it. Within the `{{- range }}` loop, after the existing service, add the following:
 ```yaml
 ---
 apiVersion: v1
@@ -100,6 +100,73 @@ spec:
       port: 3269
       targetPort: 3269
       protocol: TCP
+```
+
+Your modified `service.yaml` file should now contain:
+```yaml
+{{- range .Values.virtualMachines }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .name }}-winrm
+  labels:
+    app.kubernetes.io/part-of: {{ .partOf }}
+spec:
+  selector:
+    kubevirt.io/domain: {{ .name }}
+  ports:
+    - name: winrm
+      protocol: TCP
+      port: 5985
+      targetPort: 5985
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ad-services-{{ .name }}
+spec:
+  selector:
+    kubevirt.io/domain: {{ .name }}
+  ports:
+    - name: ldap
+      port: 389
+      targetPort: 389
+      protocol: TCP
+    - name: ldaps
+      port: 636
+      targetPort: 636
+      protocol: TCP
+    - name: kerberos
+      port: 88
+      targetPort: 88
+      protocol: TCP
+    - name: dns
+      port: 53
+      targetPort: 53
+      protocol: TCP
+    - name: dns-udp
+      port: 53
+      targetPort: 53
+      protocol: UDP
+    - name: smb
+      port: 445
+      targetPort: 445
+      protocol: TCP
+    - name: rpc
+      port: 135
+      targetPort: 135
+      protocol: TCP
+    - name: gc
+      port: 3268
+      targetPort: 3268
+      protocol: TCP
+    - name: gc-ssl
+      port: 3269
+      targetPort: 3269
+      protocol: TCP
+{{- end }}
 ```
 
 Same as above, a service will be created for every virtual machine in our list:
