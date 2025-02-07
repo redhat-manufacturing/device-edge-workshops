@@ -103,7 +103,7 @@ The ArgoCD interface will show the sync process, the resources being created, an
 After a few moments, the application will show Synced:
 ![ArgoCD Synced](../.images/argocd-synced.png)
 
-And within the OpenShift Console, new virtual machines will appear:
+And within the OpenShift Console, new virtual machines will be provisioned. To review them, access the OpenShift web console, and naviate to **Virtualization** > **VirtualMachines**:
 ![OCP New Virtual Machines](../.images/ocp-new-virtual-machines.png)
 
 ---
