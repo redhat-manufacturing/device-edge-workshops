@@ -39,10 +39,11 @@ Scrolling down, add information about the code repository. The URL can be retrie
 Enter this information into the appropriate place under the `Source` header:
 ![Create New App Source](../.images/create-new-app-source.png)
 
-Under destination, ensure the cluster URL is set to the local cluster: `https://kubernetes.devault.svc`, and that the Namespace is set to your team's namespace. In this example, team1's namespace is used.
+Under destination, ensure the cluster URL is set to the local cluster: `https://kubernetes.devault.svc`, and that the Namespace is set to your team's namespace. In this example, team3's namespace is used.
 
-ArgoCD should pull in some information about the repo, automatically displaying `helm` and the values we put into our `values.yaml` file:
-![Create New App Helm](../.images/create-new-app-helm-info.png)
+In the next section, if it shows anything other than "Helm" as the heading, click on the dropdown arrow next to it and select HELM
+
+ArgoCD should pull in some information about the repo, automatically displaying `helm` and values if we put into our `values.yaml` file, which at this stage should still be blank.
 
 Once finished, hit the `Create` button at the top of the window.
 
@@ -98,6 +99,6 @@ And within the OpenShift Console, new virtual machines will appear:
 ---
 **Navigation**
 
-[Next Exercise](../2.1-creating-plc-config/)
+[Next Exercise](../2.1-deploying-plc-application/)
 
 [Click here to return to the Workshop Homepage](../README.md)
