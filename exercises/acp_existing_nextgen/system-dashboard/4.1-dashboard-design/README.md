@@ -3,9 +3,10 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Investigating Blackbox Exporter](#step-1---investigating-blackbox-exporter)
-* [Step 2 - Investigating Prometheus](#step-2---investigating-prometheus)
-* [Step 3 - Investigating Grafana](#step-3---investigating-grafana)
+* [Step 1 - Creating a New Dashboard](#step-1---creating-a-new-dashboard)
+* [Step 2 - Up-Down Panels](#step-2---up-down-panels)
+* [Step 3 - Time Series Data](#step-3---time-series-data)
+* [Step 4 - Collaborate With Your Team](#step-4---collaborate-with-your-team)
 
 ## Objective
 
