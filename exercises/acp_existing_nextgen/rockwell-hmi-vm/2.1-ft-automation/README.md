@@ -13,7 +13,9 @@
 * Store code in repository
 
 ## Step 1 - Wait for Connectivity
-The following exercises are going to involve creating playbooks that will load our new Window VM with OT software installed and add services needed to connect to Codesys Soft PLC (Programmable Logic Controller). Later on, we'll tie them all together using a workflow.
+- Note: This may already exist from another team, but double check.
+
+The following exercises are going to involve creating playbooks that will load our new Window VM with OT softare installed and add services needed to connect to Codesys Soft PLC (Programmable Logic Controller). Later on, we'll tie them all together using a workflow.
 
 To start, we'll create a playbook that waits for the VMs to be available. Create a new directory in your code repository called `playbooks`, and add a new file called `wait-for-connectivity.yaml` with the following contents:
 
@@ -32,6 +34,8 @@ To start, we'll create a playbook that waits for the VMs to be available. Create
 This will ensure the VMs can be contacted before attempting the next steps.
 
 ## Step 2 - Setting the System Hostnames
+- Note: This may have already been created by another team, double check before adding.
+
 Create a new file in the `playbooks/` directory called `set-base-configs.yaml`, and add the following contents:
 
 ```yaml

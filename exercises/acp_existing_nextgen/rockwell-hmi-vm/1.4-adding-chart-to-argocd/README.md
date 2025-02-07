@@ -18,7 +18,7 @@
 ## Step 1 - Understanding the Relationship between Helm Charts and ArgoCD
 In the previous exercises, we create helm charts that can be used to create resources on kubernetes clusters. 
 
-To level up the experince, we're going to use ArgoCD to deliver that code to our cluster, and have it reconcile resources for us.
+To level up the experience, we're going to use ArgoCD to deliver that code to our cluster, and have it reconcile resources for us.
 
 Essentially, helm charts define **what** we want to deploy, and ArgoCD is **how** we deploy it. The two working together create a powerful flow for managing resources on clusters.
 
@@ -106,6 +106,6 @@ And within the OpenShift Console, new virtual machines will appear:
 ---
 **Navigation**
 
-[Pervious Exercise](../1.3-adding-services-for-connectivity/)  [Next Exercise](../2.1-ft-automation/)
+[Previous Exercise](../1.3-adding-services-for-connectivity/)  [Next Exercise](../2.1-ft-automation/)
 
 [Click here to return to the Workshop Homepage](../../README.md)

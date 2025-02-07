@@ -53,6 +53,6 @@ With these playbooks, we launched the UA Expert GUI and program used so we can s
 ---
 **Navigation**
 
-[Previous Exercise](../2.2-codesys-automation//) | [Next Exercise](../3.1/)
+[Previous Exercise](../2.2-codesys-automation//) | [Next Exercise](../3.1-contorller-as-code//)
 
 [Click here to return to the Workshop Homepage](../../README.md)
