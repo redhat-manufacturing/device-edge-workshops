@@ -1,4 +1,4 @@
-# Workshop Exercise 1.3 - Adding Deployment Templates
+# Workshop Exercise 1.2 - Adding Deployment Templates
 
 ## Table of Contents
 
@@ -12,10 +12,14 @@
 * Understand definitions for deployments
 * Create a template for deploying a pod
 
+Now that we have a chart, we probably want to put something in it.
+Let's start by uploading the basic deployment for our PLC service.
 
 ## Step 1 - Create the templates folder
 Navigate to the codesys folder in your repo, either using the web UI for gitea or your local check-out directory, and create a "templates" folder alongside the Chart.yaml file, if not already done.
 This folder will contain all the yaml manifest files that will be deployed as part of the HELM chart for our vPLC application.
+If using the UI, you can just add '/templates/' before the next yaml file.gitea
+
 
 ## Step 2 - Create a Storage Claim
 In order to persist state as well as internal Application details, the PLC deployment is going to need an object called a persistentVolumeClaim. 
@@ -26,9 +30,13 @@ This is especially useful when redundancy is needed in the case of a node failur
 
 Since we will be using our gitea repo to contain all configurations and manifests that will be needed by our application, let's start off by creating the manifest for our data storage claim.
 
-In the team repo folder, under templates, let us add a template for claiming storage, but rather than creating the persistentVolumes directly, we will let Openshift Data Foundations create the persistent volume for us by using the "ocs-storagecluster-cephfs" storage class.
+Let's head to the templates folder and add a definition for our data storage.
+![Gitea storage Class](../.images/gitea-storage-class.png)
+
+ Notice thatt rather than creating the persistentVolumes directly, we will let Openshift Data Foundations create the persistent volume for us by using the "ocs-storagecluster-cephfs" storage class.
 
 Underneath this will provide us with a filesystem that can be mounted within our container. More details on Openshift storage mechanisms can be found in our [documentation](https://docs.openshift.com/container-platform/4.17/storage/understanding-persistent-storage.html)
+
 
 ```yaml
 # Note: Team 1 is used as an example here - replace with your team information for the namespace
@@ -47,7 +55,7 @@ spec:
   volumeMode: Filesystem
 ```
 
-!Remember to save and push this file to the gitea repo.
+!Remember to commit and push this file to the gitea repo.
 
 
 
@@ -58,7 +66,7 @@ In order deploy a pod with the vPLC image, we will create an object in kubernete
 Some advantages of using a deployment vs just using a pod is that the deployment will try to ensure that we always have the specified number of instances of a pod running.
 For this exercise, we will only need a single replica, but can investigate the effects of the pod going down and automatically being rescheduled.
 
-Add the deployment.yaml file to your group git repository
+Add the deployment.yaml file to your group git repository's templates folder:
 
 ```yaml
 # Note: Team 1 is used as an example here - replace with your team information for the namespace
@@ -66,7 +74,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: team1
-  name: 'codesys-plc-test'
+  name: 'codesys-plc'
 spec:
   selector:
     matchLabels:
@@ -100,6 +108,9 @@ spec:
             - mountPath: "/data/codesyscontrol"
               name: data-storage
 ```
+!Remember to commit and push this file to the gitea repo.
+
+With these templates created we are ready to let ArgoCD start doing its magic.
 
 ---
 **Navigation**
