@@ -39,18 +39,19 @@ Scrolling down, add information about the code repository. The URL can be retrie
 Enter this information into the appropriate place under the `Source` header:
 ![Create New App Source](../.images/create-new-app-source.png)
 
-Under destination, ensure the cluster URL is set to the local cluster: `https://kubernetes.devault.svc`, and that the Namespace is set to your team's namespace. In this example, team3's namespace is used.
+Under destination, ensure the cluster URL is set to the local cluster: `https://kubernetes.devault.svc`, and that the Namespace is set to your team's namespace. In this example, team1's namespace is used. Note that it's the team number, not the student number.
 
 In the next section, if it shows anything other than "Helm" as the heading, click on the dropdown arrow next to it and select HELM
 
-ArgoCD should pull in some information about the repo, automatically displaying `helm` and values if we put into our `values.yaml` file, which at this stage should still be blank.
+ArgoCD should pull in some information about the repo, automatically displaying `helm` and values if we put into our `values.yaml` file.
+![Values Populated](../.images/argocd-values.png)
 
 Once finished, hit the `Create` button at the top of the window.
 
 ## Step 4 - OPTIONAL - Adding New Application via YAML
 The above process can also be done as code, if you like, using the following format:
 ```yaml
-# Note: Team 1 is used as an example here - replace with your team information for the namespace and repoURL
+# Note: Team 1 is used as an example here - replace with your team information for the namespace
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -63,7 +64,7 @@ spec:
   source:
     path: codesys
     repoURL: >-
-      https://gitea-student-services.apps.acp.rh1.redhat-workshops.com/rh1/team1-code.git
+      https://gitea-student-services.apps.acp.rh1.redhat-workshops.com/student3/team1-code.git
     targetRevision: HEAD
   sources: []
   project: default
@@ -88,13 +89,12 @@ To begin syncing the application, click on the `Sync` button. A menu will appear
 For our purposes, no additional options are needed. Simply click the `Synchronize` button at the top.
 
 The ArgoCD interface will show the sync process, the resources being created, and the current state of the sync.
-![ArgoCD Syncing](../.images/argocd-syncing.png)
 
 After a few moments, the application will show Synced:
 ![ArgoCD Synced](../.images/argocd-synced.png)
 
-And within the OpenShift Console, new virtual machines will appear:
-![OCP New Virtual Machines](../.images/ocp-new-virtual-machines.png)
+And within the OpenShift Console, new virtual deployments will be running:
+![OCP New Deployments](../.images/ocp-deployments.png)
 
 ---
 **Navigation**

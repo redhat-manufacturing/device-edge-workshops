@@ -69,6 +69,7 @@ In this same folder, let's create the values.yaml file as well with some default
 ---
 plcs:
   - name: codesys-plc-1
+  - name: another-plc
 
 ```
 Adding this template will allow us to deploy multiple instances of the PLC base image, and we'll look into defining what actual applications would go into them at a later point.
