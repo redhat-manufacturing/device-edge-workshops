@@ -39,6 +39,6 @@ If you've been using the web interface to create files, then your new code alrea
 ---
 **Navigation**
 
-[Previous Exercise](../2.1-ad-automation-part-1/) | [Next Exercise](../3.1-contorller-as-code/)
+[Previous Exercise](../2.1-ad-automation-part-1/) | [Next Exercise](../3.1-controller-as-code/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
