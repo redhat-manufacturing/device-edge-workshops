@@ -21,12 +21,12 @@ For example, this is a snippet of a virtual machine's definition:
 
 In the screenshot, the virtual machine configuration is shown as code.
 
-In your team namespace, an example virtual machine has been created. To view it in the web interface, navigate to Virtualization > VirtualMachines > example-windows-vm. Select the `YAML` tab to view the yaml definition of the virtual machine. This can be used as a base for building other virtual machine definitions.
+In your team namespace, an example virtual machine has been created. To view it in the web interface, navigate to Virtualization > VirtualMachines > rockwell-software (under templates, user templates). Select the `YAML` tab to view the yaml definition of the virtual machine. This can be used as a base for building other virtual machine definitions.
 
 ## Step 2 - Creating a Base Values.yaml File
 Values that are used by templates can be placed into a file called `values.yaml` within the chart directory, which helm will automatically look for and use. These can be overriden if needed, but for our purposes, a simple values file will work.
 
-Within the `active-directory` directory in our code repo, create a new file named `values.yaml`, and add the following content:
+Within the `factorytalk` directory in our code repo, create a new file named `values.yaml`, and add the following content:
 
 ```yaml
 ---
@@ -78,7 +78,7 @@ metadata:
   finalizers:
     - kubevirt.io/virtualMachineControllerFinalize
   labels:
-    vm.kubevirt.io/template: ftview-template
+    vm.kubevirt.io/template: rockwell-software-template
     vm.kubevirt.io/template.namespace: openshift
     vm.kubevirt.io/template.revision: '1'
     vm.kubevirt.io/template.version: v0.26.0
