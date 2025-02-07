@@ -109,6 +109,6 @@ And within the OpenShift Console, new virtual machines will be provisioned. To r
 ---
 **Navigation**
 
-[Pervious Exercise](../1.3-adding-services-for-connectivity/)  [Next Exercise](../2.1-ad-automation-part-1/)
+[Previous Exercise](../1.3-adding-services-for-connectivity/)  [Next Exercise](../2.1-ad-automation-part-1/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
