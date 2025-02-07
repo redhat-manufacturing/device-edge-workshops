@@ -171,12 +171,12 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-    app.kubernetes.io/name: prometheus
+      app.kubernetes.io/name: prometheus
   template:
     metadata:
       labels:
         app.kubernetes.io/name: prometheus
-    app.kubernetes.io/part-of: system-dashboard
+        app.kubernetes.io/part-of: system-dashboard
     spec:
       containers:
       - name: prometheus
@@ -184,7 +184,7 @@ spec:
         resources:
           limits:
             memory: 512Mi
-            cpu: 1000m
+            cpu: '1'
         ports:
           - name: port-9090
             containerPort: 9090

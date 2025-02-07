@@ -98,7 +98,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-    app.kubernetes.io/name: blackbox-exporter
+      app.kubernetes.io/name: blackbox-exporter
   template:
     metadata:
       labels:
