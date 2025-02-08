@@ -17,6 +17,12 @@ In Kubernetes having the ability to mount text-based configuration into a pod is
 
 For the Codesys PLC we deployed in [a previous step](../1.3-adding-deployment-template/), it has several config files located within the pod's "/conf/codesyscontrol/" directory.
 
+Let's view that config by accessing the pod's terminal. Head over to the Openshift console, find the link in your student start page, and navigate to the Workloads->Deployments section. If you see an access denied error, remember to change the Project at the top to your team's namespace. 
+![Openshift Pod view](../.images/ocp-deployment-view.png)
+
+Switch to the Pods tab and click on the name of the PLC deployment.
+
+
 In order to get data into the pod, let's first create the configuration file in our gitea repo and allow ArgoCD to keep it in sync with out primary source of truth.
 
 We will not be too concerned with the contents of this file for the scope of this exercise, so do not worry about changing values within the actual file for now.
