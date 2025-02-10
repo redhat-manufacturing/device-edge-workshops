@@ -45,7 +45,7 @@ If you are comfortable with git and have a text editor available to you, feel fr
 Gitea has a web interface that can also be used for editing files, which will be shown here.
 
 First, let's create a directory to house our chart named `network-automation`, and fill out Chart.yaml. In the Gitea web interface, select "New File". To add a directory, simply type the desired name of the directory, then put in a forward slash: `/`.
-![Start Chart Yaml](../.images/gitea-add-chart-directory.png)
+![Start Chart Yaml](../images/gitea-add-chart-directory.png)
 
 Then, within that new directory, name the file `Chart.yaml` and enter the following information.
 
@@ -57,7 +57,7 @@ type: application
 version: 1.0.0
 appVersion: "1.0.0"
 ```
-![Populate Chart Yaml](../.images/gitea-populate-chart-yaml.png)
+![Populate Chart Yaml](../images/gitea-populate-chart-yaml.png)
 
 Ensure you save the file, or push it to the repo if working within another editor.
 

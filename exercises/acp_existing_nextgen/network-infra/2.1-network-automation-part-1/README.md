@@ -16,7 +16,7 @@
 ## Step 1 - NTP Playbook
 First, let's create a directory to house our playbooks, and start crafting some automation to run against our network appliance.
 
-![Gitea Add Directory](../.images/gitea-adding-directory.png)
+![Gitea Add Directory](../images/gitea-adding-directory.png)
 
 In our code repository, create a new directory named `playbooks` and add a new file called `ntp.yaml`. Paste in the following contents:
 ```yaml
@@ -41,7 +41,7 @@ In our code repository, create a new directory named `playbooks` and add a new f
 
 This playbook will setup NTP on our network appliance, and point it at a pool of NTP servers.
 
-![Gitea NTP Playbook](../.images/gitea-ntp-playbook.png)
+![Gitea NTP Playbook](../images/gitea-ntp-playbook.png)
 
 
 ## Step 2 - SNMPv2 Playbook
@@ -82,7 +82,7 @@ Finally, we'll add a playbook to set the name of the network appliance. Add anot
 ## Step 4 - Save and Commit Code
 Once you've finished editing the playbooks in the previous steps, be sure they've been saved into your code repository. If you're using the web UI, ensure you're hitting the `Commit Changes` button.
 
-![Gitea Commit Code](../.images/gitea-commit-changes.png)
+![Gitea Commit Code](../images/gitea-commit-changes.png)
 
 If you're using an IDE, ensure you've committed/pushed your new code.
 

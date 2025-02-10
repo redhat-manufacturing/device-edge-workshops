@@ -17,22 +17,22 @@ Return to the web interface in ArgoCD, and select the `network-automation` appli
 
 Our new configmaps and jobs should now be created, and will run during the sync, and be triggered after everything else syncs for the postSync job.
 
-![ArgoCD New Resources](../.images/argocd-new-resources.png)
+![ArgoCD New Resources](../images/argocd-new-resources.png)
 
 ## Step 2 - Investigating the Running Automation
 In the Ansible Controller Web Interface, select **Views** > **Jobs**, and review the jobs list. Ideally, a workflow will be running, and various jobs will be kicked off:
 
-![Controller Automation Running](../.images/controller-automation-running.png)
+![Controller Automation Running](../images/controller-automation-running.png)
 
 Review a running job and confirm the output looks sane:
 
-![Controller Job Output](../.images/controller-job-output.png)
+![Controller Job Output](../images/controller-job-output.png)
 
 ## Step 3 - Confirming Completion
 After a few minutes, both Ansible Controller and ArgoCD will display completed states:
-![ArgoCD Synced](../.images/argocd-application-synced.png)
+![ArgoCD Synced](../images/argocd-application-synced.png)
 
-![Controller Completed Automation](../.images/controller-automation-finishged.png)
+![Controller Completed Automation](../images/controller-automation-finishged.png)
 
 This means the end-to-end configuration of our network appliance has been completed.
 

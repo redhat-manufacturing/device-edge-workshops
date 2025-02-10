@@ -14,13 +14,13 @@
 In the Ansible Controller web interface, we should now see our stated configuration applied.
 
 For example, job templates:
-![Controller Job Templates](../.images/controller-job-templates.png)
+![Controller Job Templates](../images/controller-job-templates.png)
 
 And our new credential:
-![Controller Credentials](../.images/controller-credentials.png)
+![Controller Credentials](../images/controller-credentials.png)
 
 The host that corresponds to our network appliance:
-![Controller Host](../.images/controller-appliance-host.png)
+![Controller Host](../images/controller-appliance-host.png)
 
 This confirms our integration between procedural and declarative tooling.
 

@@ -20,11 +20,11 @@ Before starting on automating our network appliance, we first need to initialize
 
 Open the OpenShift Web Console, then navigate to **Virtualization** > **VirtualMachines**, and select the virtual machine named **cisco-8000v**.
 
-![8000v Overview](../.images/8000v-overview.png)
+![8000v Overview](../images/8000v-overview.png)
 
 Select the **Console** tab, and switch from the VNC console to the Serial console. You may need to hit enter in the box a few times to see output
 
-![8000v Serial Console](../.images/8000v-serial-console.png)
+![8000v Serial Console](../images/8000v-serial-console.png)
 
 > Note:
 >
@@ -34,7 +34,7 @@ Select the **Console** tab, and switch from the VNC console to the Serial consol
 Within the serial console, we'll execute a few steps to allow SSH access to the network appliance from Ansible Controller.
 
 First, type `no` to canel the intial configuration dialog:
-![8000v Cancel Setup](../.images/8000v-cancel-setup.png)
+![8000v Cancel Setup](../images/8000v-cancel-setup.png)
 
 ## Step 3 - Enable and Enter Configuration Mode
 Next, type `enable` and `config t` to begin configuring the appliance. You will not be prompted for an enable password.
@@ -44,7 +44,7 @@ enable
 config t
 ```
 
-![8000v Enable Config T](../.images/8000v-enable-config-t.png)
+![8000v Enable Config T](../images/8000v-enable-config-t.png)
 
 ## Step 4 - Setup Transport and Local Auth
 While in config mode, enter the following to allow for configuration and authentication over SSH:
@@ -56,7 +56,7 @@ line vty 0 4
 exit
 ```
 
-![8000v VTY Auth](../.images/8000v-tty-auth.png)
+![8000v VTY Auth](../images/8000v-tty-auth.png)
 
 ## Step 5 - Setup User for Ansible and Generate Key
 Next, we'll set up a user that Ansible can use later on to authenticate to the appliance. In addition, we'll generate a keypair, and enable SSH version 2.
@@ -71,7 +71,7 @@ ip ssh version 2
 
 Ensure to replace `ENTERAPASSWORDHERE` with a password of your choosing. It may make sense to use the same password as your credentials for the OpenShift Web UI, just for consistency.
 
-![8000v Setup User](../.images/8000v-setup-user.png)
+![8000v Setup User](../images/8000v-setup-user.png)
 
 ## Step 6 - Write Memory
 Finally, once complete, exit out of config mode, and save the running configuration to memory:
@@ -80,7 +80,7 @@ exit
 write memory
 ```
 
-![8000v Write Memory](../.images/8000v-write-memory.png)
+![8000v Write Memory](../images/8000v-write-memory.png)
 
 Once the process is complete, the console should print out `[OK]`.
 

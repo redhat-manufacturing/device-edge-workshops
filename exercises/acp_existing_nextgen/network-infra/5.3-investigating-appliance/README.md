@@ -18,7 +18,7 @@
 Return to the OpenShift Web Console, then navigate to **Virtualization** > **VirtualMachines**. Select the virtual machine named **cisco-8000v**, and return to the serial console.
 
 To confirm our configuration has been applied, type `enable` and then `show run`, and review the running configuration, with our applied changes:
-![Cisco 8000v Configured](../.images/cisco-8000v-configured.png)
+![Cisco 8000v Configured](../images/cisco-8000v-configured.png)
 
 ---
 **Navigation**
