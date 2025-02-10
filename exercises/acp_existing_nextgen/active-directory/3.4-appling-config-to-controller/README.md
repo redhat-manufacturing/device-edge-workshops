@@ -285,9 +285,15 @@ This configmap will take our desired controller configuration we built in the pr
 
 Ensure you've replaced the variables at the top with the correct values, so the automation knows how to authenticate with controller.
 
+![Gitea SCM URL for ConfigMap](../.images/gitea-scm-url-for-configmap.png)
+
 > Note:
 >
-> Team1 is used as an example here, replace with your team number
+> Team1 is used as an example here, replace with your team number.
+
+> Note:
+>
+> This URL is an example, ensure you're using the correct URL.
 
 ## Step 3 - Creating a Job to Run a Workflow
 Following the idea from above, we're going to create another set of a job and configmap, however, this time we'll only specify what automation we want to run, and set the job to happen after everything else has been synced.
