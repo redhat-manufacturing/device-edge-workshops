@@ -17,14 +17,14 @@
 * Create deployment resources for an instance of grafana
 
 ## Step 1 - Introduction to Grafana
-Grafana is a visualization tool that can gather data from multiple sources and display it on dasboards. What makes it powerful is the flexibility of the system-dashboards themeselves, along with the ability to combine different types of data on a single system-dashboard.
+Grafana is a visualization tool that can gather data from multiple sources and display it on dashboards. What makes it powerful is the flexibility of the system-dashboards themeselves, along with the ability to combine different types of data on a single system-dashboard.
 
 Wer're going to have grafana pull metrics our of our instance of prometheus, allowing us to craft a dashbaord that can be used to monitor the system.
 
 ## Step 2 - Creating a ConfigMap
 To setup grafana with some base configuration for our datasource from promtheus and to set the initial login credentials, we'll need a configmap.
 
-Similar to earlier exercises, create a new directory named `grafana` within our chart's templates directory `./system-system-dashboard/templates/`, then add a file into the `grafana` directory named `configmap.yaml` with the following contents:
+Similar to earlier exercises, create a new directory named `grafana` within our chart's templates directory `templates/`, then add a file into the `grafana` directory named `configmap.yaml` with the following contents:
 ```yaml
 ---
 apiVersion: v1
@@ -141,7 +141,7 @@ spec:
 The `.spec.selector` field ensures the service will attach to the correct pods.
 
 ## Step 5 - Adding a Route
-Since we'll want to interact diretory with Grafana, we'll need a route to expose it from outside the cluster.
+Since we'll want to interact directory with Grafana, we'll need a route to expose it from outside the cluster.
 
 Add a new file named `route.yaml` to the `templates/grafana/` directory with the following content:
 ```yaml
