@@ -27,6 +27,6 @@ This confirms our integration between procedural and declarative tooling.
 ---
 **Navigation**
 
-[Previous Exercise](../4.2-appling-config-to-controller/)  [Next Exercise](../2.1-ad-automation-part-1/)
+[Previous Exercise](../4.3-adding-chart-to-argocd/)  [Next Exercise](../5.1-adding-postsync-job/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
