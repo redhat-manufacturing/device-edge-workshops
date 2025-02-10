@@ -89,7 +89,7 @@ Finally, we'll create one last playbook to setup OSPF on our network appliance. 
 ```
 
 ## Step 4 - Save and Commit Code
-Same as before, ensure your code has been saved in your code repository. If you're using an IDE, ensure you're committed/pushed your code.
+Same as before, ensure your code has been saved in your code repository. If you're using an IDE, ensure you've committed/pushed your code.
 
 ---
 **Navigation**
