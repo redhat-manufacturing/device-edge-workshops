@@ -20,7 +20,7 @@ In the Grafana web UI, click on the **Export** button in the top right corner, t
 
 ## Step 2 - Committing your Dashboard
 
-Finally, create a new directory in your code repository named `dashboards`, then a new file named `system-dashboard.json`, and enter the contents from the Grafana window:
+Finally, create a new directory in your code repository named `dashboard`, then a new file named `system-dashboard.json`, and enter the contents from the Grafana window:
 
 ![Gitea Dashboard Code](../.images/gitea-dashboard-code.png)
 
@@ -31,6 +31,6 @@ Be sure to hit **Save**, or commit/push if using an IDE.
 ---
 **Navigation**
 
-[Pervious Exercise](../4.1-dashboard-design/)
+[Previous Exercise](../4.1-dashboard-design/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
