@@ -27,6 +27,7 @@ In order to get data into the pod, let's first create the configuration file in 
 
 We will not be too concerned with the contents of this file for the scope of this exercise, so do not worry about changing values within the actual file for now.
 
+
 ## Step 2 - Create the configmap
 Within the templates folder in your gitea repo, let us create a file named configmap.yaml
 The contents for this file will look as follows:
@@ -85,7 +86,9 @@ data:
 
 The secion under "user-config:" will be mounted within our codesys runtime pod as a file located at "/conf/codesyscontrol/CODESYSControl_User.cfg"
 
-The most important secion in this
+The key values in here are the SECURITY configurations for the OPC-UA server, as well as the Application.1 line, which specifies the PLC's boot application - the one that will be loaded on startup.
+
+In our application's case, it's very creatively called "Application" and matches the name of the application we copied to the PLC's storage in the [previous step](../2.1-deploying-plc-application/)
 
 Esure you save the file, or push it to the repo if working within another editor.
 
