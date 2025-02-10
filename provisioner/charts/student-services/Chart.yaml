@@ -1,0 +1,6 @@
+apiVersion: v2
+name: student-services
+description: Parent to other student services
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

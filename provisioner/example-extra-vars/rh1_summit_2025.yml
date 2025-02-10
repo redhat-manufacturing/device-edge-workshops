@@ -6,7 +6,7 @@
 workshop_or_demo: workshop
 
 # Set the right workshop or demo type
-workshop_type: rh1_summit_acp_2025
+workshop_type: acp_existing_nextgen
 
 # Set the number of student slots
 student_total: 10
@@ -30,12 +30,12 @@ top_level_domain: your-domain.com
 aws_region: ap-southeast-1
 
 # OpenShift Installation Info
-# Note: Currently, 4.14.6 has been tested and works, optionally 'stable' is an option
+# Note: Currently, 4.17.9 has been tested and works, optionally 'stable' is an option
 # The default amount of workers is 3, which should be sufficient for small workshops
 # If you have more students, increase openshift.workers
 openshift:
-  name: clusternamehere
-  version: 4.14.6
+  name: "{{ sub_domain }}"
+  version: stable-4.17
   workers: 3
 
 # If not using WiFi this isn't required, but can be populated with whatever

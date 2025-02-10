@@ -1,0 +1,22 @@
+{{- range .Values.virtualMachineImports }}
+---
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: {{ .name }}
+  annotations:
+    "cdi.kubevirt.io/storage.bind.immediate.requested": "true"
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  pvc:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: {{ .size | default "100Gi" }}
+    volumeMode: Block
+    storageClassName: {{ .storageClass | default "ocs-storagecluster-ceph-rbd-virtualization" }}
+  source:
+    http:
+      url: {{ .source }}
+{{- end }}

@@ -1,0 +1,24 @@
+---
+
+- name: Deploy student services
+  hosts:
+    - provisioners
+  pre_tasks:
+    - name: Add students to htpasswd file
+      community.general.htpasswd:
+        path: "/tmp/students.htpasswd"
+        name: "student{{ student_number }}"
+        password: "{{ admin_password }}"
+      loop: "{{ range(1, (_student_total | int + 1)) }}"
+      loop_control:
+        loop_var: student_number
+    - name: Slurp up htpasswd file
+      ansible.builtin.slurp:
+        src: "/tmp/students.htpasswd"
+      register: _htpasswd_file
+  tasks:
+    - name: Yeet application definition to ArgoCD
+      kubernetes.core.k8s:
+        kubeconfig: "/home/{{ ansible_user_id }}/ocp-install/install/auth/kubeconfig"
+        template:
+          - path: argocd-applications/{{ workshop_type }}/student-services.yaml.j2

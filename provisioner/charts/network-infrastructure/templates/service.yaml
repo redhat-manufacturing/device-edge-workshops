@@ -1,0 +1,34 @@
+{{- range .Values.networkInfrastructure.namespaces }}
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ $.Values.networkInfrastructure.virtualMachineName }}-ssh
+  namespace: {{ . }}
+spec:
+  ports:
+    - name: ssh
+      protocol: TCP
+      port: 22
+      targetPort: 22
+  selector:
+    kubevirt.io/domain: {{ $.Values.networkInfrastructure.virtualMachineName }}
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ $.Values.networkInfrastructure.virtualMachineName }}-snmp
+  namespace: {{ . }}
+spec:
+  ports:
+    - name: agent
+      protocol: UDP
+      port: 161
+      targetPort: 161
+    - name: manager
+      protocol: UDP
+      port: 162
+      targetPort: 162
+  selector:
+    kubevirt.io/domain: {{ $.Values.networkInfrastructure.virtualMachineName }}
+{{- end }}

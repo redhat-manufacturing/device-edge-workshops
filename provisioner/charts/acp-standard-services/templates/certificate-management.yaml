@@ -1,0 +1,40 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: certificate-management
+  namespace: openshift-gitops
+  labels:
+    application: certificate-management
+spec:
+  destination:
+    name: ''
+    server: https://kubernetes.default.svc
+  project: default
+  syncPolicy:
+    automated: {}
+  source:
+    repoURL: https://github.com/redhat-manufacturing/device-edge-workshops.git
+    targetRevision: {{ .Values.gitBranch | default "main" }}
+    path: provisioner/charts/certificate-management/
+    helm:
+      values: |
+        baseZone: {{ .Values.baseZone }}
+        clusterName: {{ .Values.clusterName }}
+{{- with .Values.zeroSSL }}
+        zeroSSL:
+          email: {{ .email }}
+          keyID: {{ .keyID }}
+          key: {{ .key }}
+{{- end }}
+{{- with .Values.cloudflare }}
+        cloudflare:
+          email: {{ .email }}
+          token: {{ .token }}
+{{- end }}
+{{- with .Values.route53 }}
+        route53:
+          aws_access_key_id: {{ .aws_access_key_id }}
+          aws_secret_access_key: {{ .aws_secret_access_key }}
+          aws_region: {{ .aws_region }}
+{{- end }}

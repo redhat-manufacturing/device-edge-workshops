@@ -1,0 +1,6 @@
+apiVersion: v2
+name: configure-gitea
+description: A chart to configure gitea via k8s job
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

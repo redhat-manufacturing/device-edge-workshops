@@ -1,0 +1,24 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: import-virtual-machines
+  namespace: openshift-gitops
+  labels:
+    application: import-virtual-machines
+spec:
+  destination:
+    name: ''
+    server: https://kubernetes.default.svc
+    namespace: openshift-virtualization-os-images
+  project: default
+  syncPolicy:
+    automated: {}
+  source:
+    repoURL: https://github.com/redhat-manufacturing/device-edge-workshops.git
+    targetRevision: {{ .Values.gitBranch | default "main" }}
+    path: provisioner/charts/import-virtual-machines/
+    helm:
+      values: |
+        virtualMachineImports:
+{{- toYaml .Values.virtualMachineImports | nindent 10 }}

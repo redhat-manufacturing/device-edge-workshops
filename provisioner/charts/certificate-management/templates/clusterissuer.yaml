@@ -1,0 +1,41 @@
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: zerossl-production
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  acme:
+    server: https://acme.zerossl.com/v2/DV90
+    email: {{ .Values.zeroSSL.email }}
+    privateKeySecretRef:
+      name: acme-zerossl-eabsecret
+      key: secret
+    externalAccountBinding:
+      keyID: {{ .Values.zeroSSL.keyID }}
+      keySecretRef:
+        name: zero-ssl-eabsecret
+        key: secret
+      keyAlgorithm: HS256
+    solvers:
+{{- with .Values.route53 }}
+      - dns01:
+          route53:
+            accessKeyID: {{ .aws_access_key_id }}
+            region: {{ .aws_region }}
+            secretAccessKeySecretRef:
+              key: aws_secret_access_key
+              name: route53-secret-access-key
+{{- end }}
+{{- with .Values.cloudflare }}
+      - dns01:
+          cloudflare:
+            apiTokenSecretRef:
+              name: cloudflare-api-token-secret
+              key: api-token
+        selector:
+          dnsZones:
+              - {{ $.Values.clusterName }}.{{ $.Values.baseZone }}
+{{- end }}

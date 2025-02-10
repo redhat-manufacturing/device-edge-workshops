@@ -4,6 +4,11 @@
   ansible.builtin.package:
     name: nmstate
   become: true
+  when:
+    - ansible_facts['os_family'] == "RedHat"
+    - _skip_package_install is not defined or
+      not (_skip_package_install)
+
 - name: Delete old install dir {{ install_dir }}
   ansible.builtin.file:
     path: "{{ install_dir }}"
@@ -11,6 +16,7 @@
   when:
     - _delete_install_dir is defined
     - _delete_install_dir
+
 - name: Create install_dir
   ansible.builtin.file:
     path: "{{ install_dir }}"

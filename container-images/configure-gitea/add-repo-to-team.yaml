@@ -1,0 +1,43 @@
+---
+
+- name: Add repos to teams
+  hosts:
+    - localhost
+  gather_facts: false
+  connection: local
+  pre_tasks:
+    - name: Import variables from /runner/variables
+      ansible.builtin.include_vars:
+        dir: /runner/variables
+  tasks:
+    - name: Create mappings
+      ansible.builtin.uri:
+        url: "{{ gitea.url }}/api/v1/orgs/{{ repo.organization }}/teams/search?q={{ repo.team }}"
+        validate_certs: false
+        user: "{{ gitea.admin.username | default('instructor') }}"
+        password: '{{ gitea.admin.password }}'
+        force_basic_auth: true
+        method: GET
+        status_code:
+          - 200
+      loop: "{{ gitea.repos }}"
+      loop_control:
+        loop_var: repo
+      register: _mappings
+
+    - name: Print out some information
+      debug:
+        msg: "Adding repo {{ item.repo.name }} to team {{ item.repo.team }} with ID {{ item.json.data[0].id }}"
+      loop: "{{ _mappings.results }}"
+
+    - name: Add repos to teams
+      ansible.builtin.uri:
+        url: "{{ gitea.url }}/api/v1/teams/{{ item.json.data[0].id }}/repos/{{ item.repo.organization }}/{{ item.repo.name }}"
+        validate_certs: false
+        user: "{{ gitea.admin.username | default('instructor') }}"
+        password: '{{ gitea.admin.password }}'
+        force_basic_auth: true
+        method: PUT
+        status_code:
+          - 204
+      loop: "{{ _mappings.results }}"

@@ -1,0 +1,8 @@
+---
+virtualMachines:
+  - name: ad01
+    partOf: active-directory
+    operatingSystem: server2019
+  - name: ad02
+    partOf: active-directory
+    operatingSystem: server2019

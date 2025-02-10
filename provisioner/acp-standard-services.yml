@@ -1,0 +1,11 @@
+---
+
+- name: Deploy ACP standard services
+  hosts:
+    - provisioners
+  tasks:
+    - name: Yeet application definition to ArgoCD
+      kubernetes.core.k8s:
+        kubeconfig: "/home/{{ ansible_user_id }}/ocp-install/install/auth/kubeconfig"
+        template:
+          - path: argocd-applications/{{ workshop_type }}/acp-standard-services.yaml.j2

@@ -1,0 +1,11 @@
+---
+- name: Create Active Directory forest
+  hosts:
+    - all
+  tasks:
+    - name: Create AD forest/domain
+      microsoft.ad.domain:
+        dns_domain_name: "{{ active_directory.dns_domain_name }}"
+        safe_mode_password: "{{ ansible_password }}"
+        domain_netbios_name: "{{ active_directory.domain_netbios_name | default(omit) }}"
+        reboot: true

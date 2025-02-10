@@ -1,0 +1,9 @@
+---
+# Playbook to import other playbooks
+
+- ansible.builtin.import_playbook: create-organizations.yaml
+- ansible.builtin.import_playbook: create-users.yaml
+- ansible.builtin.import_playbook: create-teams.yaml
+- ansible.builtin.import_playbook: create-repos.yaml
+- ansible.builtin.import_playbook: add-user-to-team.yaml
+- ansible.builtin.import_playbook: add-repo-to-team.yaml

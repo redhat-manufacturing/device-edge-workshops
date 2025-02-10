@@ -1,0 +1,7 @@
+{{- range .Values.studentNamespaces }}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ . }}
+{{- end }}

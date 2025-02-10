@@ -24,12 +24,11 @@
     dest: "{{ install_dir }}"
     remote_src: true
 
-- name: Copy OC tool to /bin
+- name: Copy OC tool to local bin dir
   ansible.builtin.copy:
     src: "{{ install_dir }}/oc"
-    dest: /bin/oc
-    owner: root
-    group: root
-    mode: '0755'
+    dest: "/home/{{ ansible_user_id }}/.local/bin/oc"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_effective_group_id }}"
+    mode: '0744'
     remote_src: true
-  become: true

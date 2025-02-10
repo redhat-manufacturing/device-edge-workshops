@@ -1,0 +1,201 @@
+{{- range .Values.virtualMachineImports }}
+---
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  namespace: openshift
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    defaults.template.kubevirt.io/disk: rootdisk
+    defaults.template.kubevirt.io/network: default
+    description: Template for {{ .displayName }}
+    iconClass: icon-windows
+    name.os.template.kubevirt.io/{{ .name }}: {{ .name }}
+    openshift.io/display-name: {{ .displayName }}
+    openshift.io/provider-display-name: Red Hat Edge Team
+    openshift.kubevirt.io/pronounceable-suffix-for-name-expression: "true"
+    tags: kubevirt,virtualmachine,windows
+    template.kubevirt.io/editable: |
+      /objects[0].spec.template.spec.domain.cpu.cores
+      /objects[0].spec.template.spec.domain.memory.guest
+      /objects[0].spec.template.spec.domain.devices.disks
+      /objects[0].spec.template.spec.volumes
+      /objects[0].spec.template.spec.networks
+    template.kubevirt.io/provider: Red Hat Edge Team
+    template.kubevirt.io/provider-support-level: Full
+    template.kubevirt.io/provider-url: https://www.github.com/RedHatEdge/patterns
+    template.kubevirt.io/version: v1alpha1
+    template.openshift.io/bindable: "false"
+  labels:
+    flavor.template.kubevirt.io/medium: "true"
+    os.template.kubevirt.io/{{ .name }}: "true"
+    template.kubevirt.io/type: vm
+    template.kubevirt.io/version: v0.26.0
+    workload.template.kubevirt.io/{{ .profile }}: "true"
+  name: {{ .name }}-template
+  namespace: openshift
+objects:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: ${NAME}-winrm
+  spec:
+    selector:
+      kubevirt.io/domain: ${NAME}
+    ports:
+      - name: winrm
+        protocol: TCP
+        port: 5985
+        targetPort: 5985
+- apiVersion: kubevirt.io/v1
+  kind: VirtualMachine
+  metadata:
+    annotations:
+      vm.kubevirt.io/validations: |
+        [
+          {
+            "name": "minimal-required-memory",
+            "path": "jsonpath::.spec.domain.memory.guest",
+            "rule": "integer",
+            "message": "This VM requires more memory.",
+            "min": 4294967296
+          }, {
+            "name": "windows-virtio-bus",
+            "path": "jsonpath::.spec.domain.devices.disks[*].disk.bus",
+            "valid": "jsonpath::.spec.domain.devices.disks[*].disk.bus",
+            "rule": "enum",
+            "message": "virtio disk bus type has better performance, install virtio drivers in VM and change bus type",
+            "values": ["virtio"],
+            "justWarning": true
+          }, {
+            "name": "windows-disk-bus",
+            "path": "jsonpath::.spec.domain.devices.disks[*].disk.bus",
+            "valid": "jsonpath::.spec.domain.devices.disks[*].disk.bus",
+            "rule": "enum",
+            "message": "disk bus has to be either virtio or sata or scsi",
+            "values": ["virtio", "sata", "scsi"]
+          }, {
+            "name": "windows-cd-bus",
+            "path": "jsonpath::.spec.domain.devices.disks[*].cdrom.bus",
+            "valid": "jsonpath::.spec.domain.devices.disks[*].cdrom.bus",
+            "rule": "enum",
+            "message": "cd bus has to be sata",
+            "values": ["sata"]
+          }
+        ]
+    labels:
+      app: ${NAME}
+      vm.kubevirt.io/template: {{ .name }}-template
+      vm.kubevirt.io/template.revision: "1"
+      vm.kubevirt.io/template.version: v0.26.0
+    name: ${NAME}
+  spec:
+    dataVolumeTemplates:
+    - apiVersion: cdi.kubevirt.io/v1beta1
+      kind: DataVolume
+      metadata:
+        name: ${NAME}
+      spec:
+        sourceRef:
+          kind: DataSource
+          name: ${DATA_SOURCE_NAME}
+          namespace: ${DATA_SOURCE_NAMESPACE}
+        storage:
+          resources:
+            requests:
+              storage: {{ .size | default "100Gi" }}
+    running: false
+    template:
+      metadata:
+        annotations:
+          vm.kubevirt.io/flavor: medium
+          vm.kubevirt.io/os: {{ .name }}
+          vm.kubevirt.io/workload: {{ .profile }}
+        labels:
+          kubevirt.io/domain: ${NAME}
+          kubevirt.io/size: medium
+      spec:
+        domain:
+          features:
+            acpi: {}
+            hyperv:
+              spinlocks:
+                spinlocks: 8191
+            {{ if .uefi }}
+            {{ if .uefi.secureBoot }}
+            smm:
+              enabled: true
+            {{ end }}
+            {{ end }}
+          {{ if .uefi }}
+          firmware:
+            bootloader:
+              efi:
+                {{ if .uefi.secureBoot }}
+                secureBoot: true
+                {{ else }}
+                secureBoot: false
+                {{ end }}
+          {{ end }}
+          clock:
+            timer:
+              hpet:
+                present: false
+              pit:
+                tickPolicy: delay
+              rtc:
+                tickPolicy: catchup
+          cpu:
+            {{ if eq .profile "server" }}
+            cores: 1
+            sockets: {{ .cores | default "4" }}
+            {{ else }}
+            cores:  {{ .cores | default "4" }}
+            sockets: 1
+            {{ end }}
+            threads: 1
+          devices:
+            disks:
+            - disk:
+                bus: sata
+              name: rootdisk
+            inputs:
+            - bus: usb
+              name: tablet
+              type: tablet
+            interfaces:
+            - model: e1000e
+              name: default
+              masquerade: {}
+              ports:
+              - name: rdp
+                protocol: TCP
+                port: 3389
+          features:
+            hyperv:
+              spinlocks:
+                spinlocks: 8191
+          machine:
+            type: pc-q35-rhel9.2.0
+          memory:
+            guest: {{ .memory | default "4Gi" }}
+        networks:
+        - name: default
+          pod: {}
+        terminationGracePeriodSeconds: 3600
+        volumes:
+        - dataVolume:
+            name: ${NAME}
+          name: rootdisk
+parameters:
+- description: VM name
+  from: windows-[a-z0-9]{6}
+  generate: expression
+  name: NAME
+- description: Name of the DataSource to clone
+  name: DATA_SOURCE_NAME
+  value: {{ .name }}
+- description: Namespace of the DataSource
+  name: DATA_SOURCE_NAMESPACE
+  value: openshift-virtualization-os-images
+{{- end }}

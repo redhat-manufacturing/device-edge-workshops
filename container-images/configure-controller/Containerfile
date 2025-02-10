@@ -1,0 +1,13 @@
+FROM registry.redhat.io/ansible-automation-platform-24/ee-minimal-rhel9
+
+RUN ansible-galaxy collection install redhat_cop.controller_configuration --collections-path "/usr/share/ansible/collections"
+RUN ansible-galaxy collection install awx.awx --collections-path "/usr/share/ansible/collections"
+
+RUN mkdir /runner/playbooks
+RUN mkdir /runner/variables
+
+COPY configure-controller.yaml /runner/playbooks/configure-controller.yaml
+
+COPY localhost.yaml /runner/inventory/localhost.yaml
+
+CMD ansible-playbook /runner/playbooks/configure-controller.yaml --inventory /runner/inventory/localhost.yaml -vv

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: student-pages
+description: Chart to build and deploy student pages
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

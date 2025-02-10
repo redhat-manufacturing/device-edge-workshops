@@ -1,0 +1,18 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: start-student-pages-build
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  backoffLimit: 5
+  template:
+    spec:
+      serviceAccountName: trigger-build
+      containers:
+        - name: start-student-pages-build
+          image: registry.redhat.io/openshift4/ose-cli:latest
+          command: ["oc",  "start-build", "student-pages"]
+      restartPolicy: OnFailure
+

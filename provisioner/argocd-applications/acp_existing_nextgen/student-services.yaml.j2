@@ -1,0 +1,207 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: student-services
+  namespace: openshift-gitops
+  labels:
+    application: student-services
+spec:
+  destination:
+    name: ""
+    server: https://kubernetes.default.svc
+  project: default
+  syncPolicy:
+    automated: {}
+  source:
+    repoURL: https://github.com/redhat-manufacturing/device-edge-workshops.git
+    targetRevision: {{ git_branch | default('main') }}
+    path: provisioner/charts/student-services/
+    helm:
+      values: |
+        gitBranch: {{ git_branch | default('main') }}
+        studentTotal: "{{ _student_total }}"
+        adminPassword: "{{ admin_password }}"
+        baseZone: "{{ base_zone }}"
+        workshopType: "{{ workshop_type }}"
+        teamSize: '{{ team_size }}'
+        networkInfrastructure:
+          virtualMachineName: {{ network_infrastructure.virtual_machine_name }}
+          template: {{ network_infrastructure.template }}
+          operatingSystem: {{ network_infrastructure.operating_system }}
+          partOf: network-infrastructure
+          namespaces:
+{% for team_number in range(1, (team_total | int) + 1) %}
+            - team{{ team_number }}
+{% endfor %}
+        declarativeStateManagement:
+{% for team_number in range(1, (team_total | int) + 1) %}
+          - name: argocd
+            namespace: team{{ team_number }}
+            rbac:
+              defaultPolicy: team{{ team_number }}-admin
+              policy: |
+                p, team{{ team_number }}-admin, applications, *, *, allow
+                p, team{{ team_number }}-admin, clusters, *, *, allow
+                p, team{{ team_number }}-admin, repositories, *, *, allow
+                p, team{{ team_number }}-admin, projects, *, *, allow
+                p, team{{ team_number }}-admin, logs, *, *, allow
+{% for student_number in range(((team_number | int) * (team_size | int) - ((team_size | int) - 1)), ((team_size | int) * (team_number | int)) + 1) %}
+                g, student{{ student_number }}, team{{ team_number }}-admin
+{% endfor %}
+{% endfor %}
+        studentUsers:
+          htpasswdFileContents: "{{ _htpasswd_file.content }}"
+          namespaceMappings:
+{% for number in range(1, (_student_total | int) + 1) %}
+            - username: student{{ number }}
+              namespace: team{{ ((number - 1) // (team_size | int)) + 1 }}
+{% endfor %}
+        gitea:
+          adminUser: instructor
+          adminPassword: '{{ admin_password }}'
+          url: 'https://gitea-student-services.apps.{{ openshift.name }}.{{ base_zone }}'
+          admin:
+            username: instructor
+            password: '{{ admin_password }}'
+          organizations:
+            - short_name: {{ workshop_short_name }}
+              full_name: {{ workshop_full_name }}
+          teams:
+{% for number in range(1, (team_total | int) + 1) %}
+            - name: team{{ number }}
+              organization: {{ workshop_short_name }}
+{% endfor %}
+          users:
+{% for number in range(1, (_student_total | int) + 1) %}
+            - name: student{{ number }}
+              team: team{{ ((number - 1) // (team_size | int)) + 1 }}
+              organization: {{ workshop_short_name }}
+{% endfor %}
+          repos:
+{% for number in range(1, (team_total | int) + 1) %}
+            - name: team{{ number }}-code
+              description: "Repository for team{{ number }} code"
+              team: team{{ number }}
+              organization: {{ workshop_short_name }}
+{% endfor %}
+        studentNamespaces:
+{% for number in range(1, (team_total | int) + 1) %}
+          - team{{ number }}
+{% endfor %}
+        exampleVirtualMachines:
+{% for number in range(1, (team_total | int) + 1) %}
+{% for example_virtual_machine in example_virtual_machines %}
+            - name: {{ example_virtual_machine.name }}
+              namespace: team{{ number }}
+              template: {{ example_virtual_machine.template }}
+              operatingSystem: {{ example_virtual_machine.operating_system }}
+              appLabel: {{ example_virtual_machine.app_label }}
+              dataSource: {{ example_virtual_machine.data_source }}
+{% endfor %}
+{% endfor %}
+        dataSourcesToWaitFor:
+{% for data_source in data_sources_to_wait_for %}
+          - {{ data_source }}
+{% endfor %}
+        controller:
+          controller_hostname: https://controller-student-services.apps.{{ openshift.name }}.{{ base_zone }}
+          controller_username: admin
+          controller_password: "{{ admin_password }}"
+          controller_validate_certs: false
+          controller_license:
+            manifest_content: '{{ base64_manifest }}'
+          controller_organizations:
+{% for number in range(1, (team_total | int) + 1) %}
+            - name: "Team {{ number }}"
+              description: "Team {{ number }} controller organization"
+{% endfor %}
+          controller_user_accounts:
+{% for number in range(1, (_student_total | int) + 1) %}
+            - username: student{{ number }}
+              organization: Team {{ ((number - 1) // (team_size | int)) + 1 }}
+              password: '{{ admin_password }}'
+              email: 'dont@email.me'
+{% endfor %}
+          controller_roles:
+{% for number in range(1, (_student_total | int) + 1) %}
+            - user: student{{ number }}
+              organization: Team {{ ((number - 1) // (team_size | int)) + 1 }}
+              role: admin
+            - user: student{{ number }}
+              organization: Team {{ ((number - 1) // (team_size | int)) + 1 }}
+              role: project_admin
+{% endfor %}
+          controller_credentials:
+{% for number in range(1, (team_total | int) + 1) %}
+            - name: team{{ number }} Code Repository Credentials
+              organization: Team {{ number }}
+              credential_type: Source Control
+              inputs:
+                username: instructor
+                password: '{{ admin_password }}'
+            - name: Provisioning Machine Login
+              organization: Team {{ number }}
+              credential_type: Machine
+              inputs:
+                username: localhost\ansible
+                password: '{{ admin_password }}'
+            - name: Domain Administrator
+              organization: Team {{ number }}
+              credential_type: Machine
+              inputs:
+                username: 'team{{ number }}.lcl\Administrator'
+                password: '{{ admin_password }}'
+{% endfor %}
+          controller_projects:
+{% for number in range(1, (team_total | int) + 1) %}
+            - name: Code Repository
+              organization: Team {{ number }}
+              scm_branch: main
+              scm_type: git
+              scm_url: "https://gitea-student-services.apps.{{ openshift.name }}.{{ base_zone }}/{{ workshop_short_name }}/team{{ number }}-code.git"
+              update_project: true
+              credential: team{{ number }} Code Repository Credentials
+{% endfor %}
+          controller_inventories:
+{% for number in range(1, (team_total | int) + 1) %}
+            - name: team{{ number }} Active Directory Infrastructure
+              organization: Team {{ number }}
+              variables:
+                ansible_connection: winrm
+                ansible_winrm_transport: ntlm
+                ansible_winrm_server_cert_validation: ignore
+                ansible_winrm_port: 5985
+                active_directory:
+                  dns_domain_name: team{{ number }}.lcl
+                  domain_netbios_name: team{{ number }}
+            - name: team{{ number }} Network Infrastructure
+              organization: Team {{ number }}
+              variables:
+                ansible_connection: network_cli
+            - name: team{{ number }} Process Control Systems
+              organization: Team {{ number }}
+              variables:
+                ansible_connection: winrm
+                ansible_winrm_transport: ntlm
+                ansible_winrm_server_cert_validation: ignore
+                ansible_winrm_port: 5985
+                active_directory:
+                  dns_domain_name: team{{ number }}.lcl
+                  domain_netbios_name: team{{ number }}
+{% endfor %}
+          controller_groups:
+{% for number in range(1, (team_total | int) + 1) %}
+            - name: primary_domain_controller
+              inventory: team{{ number }} Active Directory Infrastructure
+            - name: secondary_domain_controller
+              inventory: team{{ number }} Active Directory Infrastructure
+            - name: domain_controllers
+              inventory: team{{ number }} Active Directory Infrastructure
+            - name: cisco_ios
+              inventory: team{{ number }} Network Infrastructure
+              variables:
+                ansible_network_os: cisco.ios.ios
+                ansible_become: yes
+                ansible_become_method: enable
+{% endfor %}

@@ -1,0 +1,53 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: configure-network-automation-
+  annotations:
+    argocd.argoproj.io/hook: Sync
+spec:
+  template:
+    spec:
+      containers:
+        - name: configure-network-automation
+          image: quay.io/device-edge-workshops/configure-controller:latest
+          volumeMounts:
+            - name: controller-vars
+              mountPath: /runner/variables
+            - name: tmp
+              mountPath: /tmp
+      restartPolicy: OnFailure
+      volumes:
+        - name: controller-vars
+          configMap:
+            name: configure-network-automation-configmap
+        - name: tmp
+          emptyDir:
+            sizeLimit: 100Mi
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: run-network-automation-
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+spec:
+  template:
+    spec:
+      containers:
+        - name: launch-network-automation
+          image: quay.io/device-edge-workshops/configure-controller:latest
+          volumeMounts:
+            - name: automation-to-run-vars
+              mountPath: /runner/variables
+            - name: tmp
+              mountPath: /tmp
+      restartPolicy: Never
+      volumes:
+        - name: automation-to-run-vars
+          configMap:
+            name: network-automation-to-run-configmap
+        - name: tmp
+          emptyDir:
+            sizeLimit: 100Mi

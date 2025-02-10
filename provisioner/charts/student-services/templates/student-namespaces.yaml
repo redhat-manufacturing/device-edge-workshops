@@ -1,0 +1,24 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: student-namespaces
+  namespace: openshift-gitops
+  labels:
+    application: student-namespaces
+spec:
+  destination:
+    name: ''
+    server: https://kubernetes.default.svc
+  project: default
+  syncPolicy:
+    automated: {}
+  source:
+    repoURL: https://github.com/redhat-manufacturing/device-edge-workshops.git
+    targetRevision: {{ .Values.gitBranch | default "main" }}
+    path: provisioner/charts/student-namespaces/
+    helm:
+      values: |
+        studentNamespaces:
+          - student-services
+{{ toYaml .Values.studentNamespaces | nindent 10}}

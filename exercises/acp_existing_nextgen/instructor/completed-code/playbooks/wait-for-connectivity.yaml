@@ -1,0 +1,9 @@
+---
+- name: Wait for systems to be available
+  hosts:
+    - all
+  gather_facts: false
+  tasks:
+    - name: Wait for connectivity
+      ansible.builtin.wait_for_connection:
+        timeout: 600

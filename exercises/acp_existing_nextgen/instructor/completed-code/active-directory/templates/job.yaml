@@ -1,0 +1,52 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: configure-controller
+  annotations:
+    argocd.argoproj.io/hook: Sync
+spec:
+  template:
+    spec:
+      containers:
+        - name: configure-controller
+          image: quay.io/device-edge-workshops/configure-controller:2.0.1
+          volumeMounts:
+            - name: controller-vars
+              mountPath: /runner/variables
+            - name: tmp
+              mountPath: /tmp
+      restartPolicy: OnFailure
+      volumes:
+        - name: controller-vars
+          configMap:
+            name: configure-controller-configmap
+        - name: tmp
+          emptyDir:
+            sizeLimit: 100Mi
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: run-automation-in-controller-
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+spec:
+  template:
+    spec:
+      containers:
+        - name: launch-automation
+          image: quay.io/device-edge-workshops/configure-controller:latest
+          volumeMounts:
+            - name: automation-to-run-vars
+              mountPath: /runner/variables
+            - name: tmp
+              mountPath: /tmp
+      restartPolicy: Never
+      volumes:
+        - name: automation-to-run-vars
+          configMap:
+            name: automation-to-run-configmap
+        - name: tmp
+          emptyDir:
+            sizeLimit: 100Mi

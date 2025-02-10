@@ -1,0 +1,28 @@
+apiVersion: ocs.openshift.io/v1
+kind: StorageCluster
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+  name: ocs-storagecluster
+  namespace: openshift-storage
+spec:
+  encryption:
+    keyRotation:
+      schedule: '@weekly'
+    kms: {}
+  resourceProfile: balanced
+  storageDeviceSets:
+  - config: {}
+    count: 2
+    dataPVCTemplate:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 2Ti
+        storageClassName: gp3-csi
+        volumeMode: Block
+    name: ocs-deviceset-gp3-csi
+    replica: 3

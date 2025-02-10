@@ -1,0 +1,33 @@
+---
+
+- name: Create organizations in gitea
+  hosts:
+    - localhost
+  gather_facts: false
+  connection: local
+  pre_tasks:
+    - name: Import variables from /runner/variables
+      ansible.builtin.include_vars:
+        dir: /runner/variables
+  tasks:
+    - name: Create organizations
+      ansible.builtin.uri:
+        url: "{{ gitea.url }}/api/v1/orgs"
+        validate_certs: false
+        user: "{{ gitea.admin.username | default('instructor') }}"
+        password: '{{ gitea.admin.password }}'
+        force_basic_auth: true
+        body_format: json
+        method: POST
+        body:
+          full_name: "{{ organization.full_name }}"
+          username: "{{ organization.short_name }}"
+          visibility: public
+        status_code:
+          - 201
+          - 422
+      loop: "{{ gitea.organizations }}"
+      loop_control:
+        loop_var: organization
+      when:
+        - gitea.organizations is defined

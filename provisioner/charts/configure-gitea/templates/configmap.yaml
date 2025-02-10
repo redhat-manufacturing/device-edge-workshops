@@ -1,0 +1,9 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gitea-variables
+data:
+  gitea-variables.yaml: |
+    gitea:
+{{ toYaml .Values.gitea | nindent 6 }}

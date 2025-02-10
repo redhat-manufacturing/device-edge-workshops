@@ -1,0 +1,39 @@
+---
+
+- name: Josh is bad at bash, the playbook
+  hosts:
+    - localhost
+  connection: local
+  gather_facts: false
+  vars:
+    oneshot_templates:
+      - src: App.js.j2
+        dest: /tmp/src/src/App.js
+      - src: index.js.j2
+        dest: /tmp/src/src/pages/index.js
+      - src: Password.js.j2
+        dest: /tmp/src/src/Password.js
+  pre_tasks:
+    - name: Lazy shim
+      ansible.builtin.set_fact:
+        _student_total: "{{ lookup('ansible.builtin.env', 'STUDENT_TOTAL') }}"
+        admin_password: "{{ lookup('ansible.builtin.env', 'ADMIN_PASSWORD') }}"
+        base_zone: "{{ lookup('ansible.builtin.env', 'BASE_ZONE') }}" 
+        team_size: "{{ lookup('ansible.builtin.env', 'TEAM_SIZE') }}"
+  tasks:
+    - name: Template out single-shots
+      ansible.builtin.template:
+        src: "/tmp/templates/{{ template.src }}"
+        dest: "{{ template.dest }}"
+      loop: "{{ oneshot_templates }}"
+      loop_control:
+        loop_var: template
+    - name: Template out student pages
+      ansible.builtin.template:
+        src: /tmp/templates/Overview.js.j2
+        dest: "/tmp/src/src/Overview{{ student_number }}.js"
+      vars:
+        __student_number: "{{ student_number }}"
+      loop: "{{ range(1, (_student_total | int) + 1) }}"
+      loop_control:
+        loop_var: student_number

@@ -1,0 +1,42 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: acp-standard-services
+  namespace: openshift-gitops
+  labels:
+    application: acp-standard-services
+spec:
+  destination:
+    name: ""
+    server: https://kubernetes.default.svc
+  project: default
+  syncPolicy:
+    automated: {}
+  source:
+    repoURL: https://github.com/redhat-manufacturing/device-edge-workshops.git
+    targetRevision: {{ git_branch | default('main') }}
+    path: provisioner/charts/acp-standard-services/
+    helm:
+      values: |
+        virtualMachineImports:
+{% for virtual_machine_import in virtual_machine_imports %}
+          - name: {{ virtual_machine_import.name }}
+            displayName: {{ virtual_machine_import.display_name }}
+            source: '{{ virtual_machine_import.source }}'
+            profile: {{ virtual_machine_import.profile }}
+{% endfor %}
+        gitBranch: {{ git_branch | default('main') }}
+        clusterName: {{ openshift.name }}
+        baseZone: {{ base_zone }}
+        zeroSSL:
+          email: {{ zerossl_account.email }}
+          keyID: {{ zerossl_account.kid }}
+          key: {{ zerossl_account.key }}
+        route53:
+          aws_access_key_id: {{ lookup('ansible.builtin.env', 'AWS_ACCESS_KEY_ID') }}
+          aws_secret_access_key: {{ lookup('ansible.builtin.env', 'AWS_SECRET_ACCESS_KEY') }}
+          aws_region: {{ aws_region }}
+        controller:
+          adminPassword: '{{ admin_password }}'
+          postgresStorageClass: ocs-storagecluster-ceph-rbd

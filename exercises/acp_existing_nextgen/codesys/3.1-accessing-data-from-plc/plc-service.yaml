@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: codesys-pod-service
+  namespace: default
+spec:
+  selector:
+    app: codesys-plc
+  ports:
+    - name: opc-ua
+      protocol: TCP
+      port: 4840
+      targetPort: 4840
+    - name: gateway
+      protocol: TCP
+      port: 1217
+      targetPort: 1217

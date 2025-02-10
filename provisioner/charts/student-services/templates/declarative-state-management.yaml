@@ -1,0 +1,23 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: declarative-state-management
+  namespace: openshift-gitops
+  labels:
+    application: declarative-state-management
+spec:
+  destination:
+    name: ''
+    server: https://kubernetes.default.svc
+  project: default
+  syncPolicy:
+    automated: {}
+  source:
+    repoURL: https://github.com/redhat-manufacturing/device-edge-workshops.git
+    targetRevision: {{ .Values.gitBranch | default "main" }}
+    path: provisioner/charts/declarative-state-management/
+    helm:
+      values: |
+        declarativeStateManagement:
+{{ toYaml .Values.declarativeStateManagement | nindent 10 }}

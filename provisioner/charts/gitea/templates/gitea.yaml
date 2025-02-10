@@ -1,0 +1,16 @@
+---
+apiVersion: pfe.rhpds.com/v1
+kind: Gitea
+metadata:
+  name: {{ ((.Values.gitea).name) | default "gitea" }}
+  namespace: {{ ((.Values.gitea).namespace) | default "student-services" }}
+spec:
+  giteaImageTag: latest
+  giteaVolumeSize: 4Gi
+  giteaVolumeStorageClass: gp3-csi
+  giteaSsl: true
+  postgresqlVolumeSize: 4Gi
+  postgresqlVolumeStorageClass: gp3-csi
+  giteaAdminUser: {{ ((.Values.gitea).adminUser) | default "instructor" }}
+  giteaAdminEmail: dont@email.me
+  giteaAdminPassword: {{ .Values.gitea.adminPassword }}

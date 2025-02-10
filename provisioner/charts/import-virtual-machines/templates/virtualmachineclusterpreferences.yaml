@@ -1,0 +1,45 @@
+{{- range .Values.virtualMachineImports }}
+---
+apiVersion: instancetype.kubevirt.io/v1beta1
+kind: VirtualMachineClusterPreference
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    iconClass: icon-windows
+    openshift.io/display-name: {{ .name }}.{{ .profile | default "server" }}.virtio
+    openshift.io/documentation-url: https://access.redhat.com
+    openshift.io/provider-display-name: Red Hat
+    openshift.io/support-url: https://access.redhat.com
+    tags: kubevirt,windows
+  labels:
+    instancetype.kubevirt.io/os-type: windows
+    instancetype.kubevirt.io/vendor: redhat.com
+  name: {{ .name }}.{{ .profile | default "server" }}.virtio
+spec:
+  clock:
+    preferredTimer:
+      hpet:
+        present: false
+      pit:
+        tickPolicy: delay
+      rtc:
+        tickPolicy: catchup
+  cpu:
+    preferredCPUTopology: preferSockets
+  devices:
+    preferredAutoattachInputDevice: true
+    preferredDiskBus: virtio
+    preferredInputBus: virtio
+    preferredInputType: tablet
+    preferredInterfaceModel: virtio
+  features:
+    preferredHyperv:
+      spinlocks:
+        spinlocks: 8191
+  preferredTerminationGracePeriodSeconds: 3600
+  requirements:
+    cpu:
+      guest: 1
+    memory:
+      guest: 4Gi
+{{- end }}

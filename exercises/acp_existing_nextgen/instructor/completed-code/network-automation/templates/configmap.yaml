@@ -1,0 +1,133 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configure-network-automation-configmap
+data:
+  controller-configuration.yaml: |
+    controller_hostname: REPLACEME
+    controller_username: REPLACEME
+    controller_password: REPLACEME
+    controller_validate_certs: 'false'
+    controller_hosts:
+      - name: cisco-8000v
+        inventory: team1 Network Infrastructure
+        variables:
+          ansible_host: cisco-8000v-ssh.team1.svc.cluster.local
+
+    controller_groups:
+      - name: cisco_ios
+        inventory: team1 Network Infrastructure
+        hosts:
+          - cisco-8000v
+
+    controller_credentials:
+      - name: Network Appliance Credentials
+        organization: Team 1
+        credential_type: Machine
+        inputs:
+          username: ansible
+          password: REPLACEME
+
+    controller_projects:
+      - name: Code Repository
+        organization: Team 1
+        scm_branch: main
+        scm_type: git
+        scm_url: REPLACEME
+        update_project: true
+        credential: team1 Code Repository Credentials
+
+    controller_templates:
+      - name: Configure NTP
+        organization: Team 1
+        project: Code Repository
+        inventory: team1 Network Infrastructure
+        credentials:
+          - Network Appliance Credentials
+        playbook: playbooks/ntp.yaml
+      - name: Setup SNMPv2
+        organization: Team 1
+        project: Code Repository
+        inventory: team1 Network Infrastructure
+        credentials:
+          - Network Appliance Credentials
+        playbook: playbooks/snmpv2.yaml
+      - name: Set System Hostname
+        organization: Team 1
+        project: Code Repository
+        inventory: team1 Network Infrastructure
+        credentials:
+          - Network Appliance Credentials
+        playbook: playbooks/hostname.yaml
+      - name: Configure VLAN Interfaces
+        organization: Team 1
+        project: Code Repository
+        inventory: team1 Network Infrastructure
+        credentials:
+          - Network Appliance Credentials
+        playbook: playbooks/vlan-interfaces.yaml
+      - name: Configure Static Routes
+        organization: Team 1
+        project: Code Repository
+        inventory: team1 Network Infrastructure
+        credentials:
+          - Network Appliance Credentials
+        playbook: playbooks/static-routes.yaml
+      - name: Configure OSPF
+        organization: Team 1
+        project: Code Repository
+        inventory: team1 Network Infrastructure
+        credentials:
+          - Network Appliance Credentials
+        playbook: playbooks/ospf.yaml
+
+    controller_workflows:
+      - name: Run Network Automation
+        organization: Team 1
+        simplified_workflow_nodes:
+          - identifier: Configure NTP
+            unified_job_template: Configure NTP
+            success_nodes:
+              - Setup SNMPv2
+            lookup_organization: Team 1
+          - identifier: Setup SNMPv2
+            unified_job_template: Setup SNMPv2
+            success_nodes:
+              - Set System Hostname
+            lookup_organization: Team 1
+          - identifier: Set System Hostname
+            unified_job_template: Set System Hostname
+            success_nodes:
+              - Configure VLAN Interfaces
+            lookup_organization: Team 1
+          - identifier: Configure VLAN Interfaces
+            unified_job_template: Configure VLAN Interfaces
+            lookup_organization: Team 1
+            success_nodes:
+              - Configure Static Routes
+          - identifier: Configure Static Routes
+            unified_job_template: Configure Static Routes
+            lookup_organization: Team 1
+            success_nodes:
+              - Configure OSPF
+          - identifier: Configure OSPF
+            unified_job_template: Configure OSPF
+            lookup_organization: Team 1
+
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: network-automation-to-run-configmap
+data:
+  controller-configuration.yaml: |
+    controller_hostname: REPLACEME
+    controller_username: REPLACEME
+    controller_password: REPLACEME
+    controller_validate_certs: 'false'
+
+    controller_workflow_launch_jobs:
+      - name: Run Network Automation
+        organization: Team 1

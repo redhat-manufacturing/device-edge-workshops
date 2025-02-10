@@ -1,0 +1,12 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: openshift-virtualization-os-images
+  name: datasource-access-role
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+rules:
+- apiGroups: ["datasource-api"]
+  resources: ["datasources"]
+  verbs: ["get", "list"]

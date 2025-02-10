@@ -1,0 +1,21 @@
+FROM registry.redhat.io/ansible-automation-platform-25/ee-minimal-rhel9
+
+RUN microdnf -y install git && \
+    microdnf clean all && \
+    rm -rf /var/cache/yum/* && \
+    rm -rf /var/cache/dnf/*
+
+RUN mkdir /runner/playbooks
+RUN mkdir /runner/variables
+
+COPY localhost.yaml /runner/inventory/localhost.yaml
+
+COPY create-organizations.yaml /runner/playbooks/
+COPY create-users.yaml /runner/playbooks/
+COPY create-teams.yaml /runner/playbooks/
+COPY create-repos.yaml /runner/playbooks/
+COPY add-user-to-team.yaml /runner/playbooks/
+COPY add-repo-to-team.yaml /runner/playbooks/
+COPY main.yaml /runner/playbooks/
+
+CMD ansible-playbook /runner/playbooks/main.yaml --inventory /runner/inventory/localhost.yaml -vv

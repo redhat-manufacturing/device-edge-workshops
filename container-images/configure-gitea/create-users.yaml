@@ -1,0 +1,32 @@
+---
+
+- name: Create users in gitea
+  hosts:
+    - localhost
+  gather_facts: false
+  connection: local
+  pre_tasks:
+    - name: Import variables from /runner/variables
+      ansible.builtin.include_vars:
+        dir: /runner/variables
+  tasks:
+    - name: create student users in gitea
+      ansible.builtin.uri:
+        url: "{{ gitea.url }}/api/v1/admin/users"
+        validate_certs: false
+        user: "{{ gitea.admin.username | default('instructor') }}"
+        password: "{{ gitea.admin.password }}"
+        force_basic_auth: true
+        body_format: json
+        method: POST
+        body:
+          username: "{{ user.name }}"
+          password: "{{ gitea.admin.password }}"
+          email: "{{ user.name }}@email.me"
+          must_change_password: false
+        status_code:
+          - 201
+          - 422
+      loop: "{{ gitea.users }}"
+      loop_control:
+        loop_var: user

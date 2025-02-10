@@ -1,0 +1,6 @@
+apiVersion: v2
+name: example-virtual-machines
+description: A chart to create example virtual machines
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

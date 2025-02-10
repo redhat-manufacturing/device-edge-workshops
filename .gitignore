@@ -55,3 +55,6 @@ exercises/rhde_aap_rhsi/hold
 *instructor_inventory.ini
 run.log
 *aws_rules.yml
+rh1-testing
+hold/
+exercises/acp_existing_nextgen/instructor/completed-code/README.md

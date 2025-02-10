@@ -1,0 +1,16 @@
+---
+- name: Set some basic system configs
+  hosts:
+    - all
+  tasks:
+    - name: Set the system hostname
+      ansible.windows.win_hostname:
+        name: "{{ inventory_hostname }}"
+      notify:
+        - reboot
+
+  handlers:
+    - name: Reboot system
+      ansible.windows.win_reboot:
+      listen:
+        - reboot

@@ -1,0 +1,18 @@
+---
+- name: Setup SNMPv3
+  hosts:
+    - all
+  tasks:
+    - name: Configure SNMPv3
+      cisco.ios.ios_snmp_user:
+        config:
+          users:
+            - name: ansible
+              group: SNMPv3Group
+              version: v3
+              auth:
+                protocol: sha
+                password: PICKASTRONGPASSWORD
+              priv:
+                protocol: aes
+                password: PICKASTRONGPASSWORD

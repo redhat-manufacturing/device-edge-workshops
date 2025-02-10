@@ -1,0 +1,80 @@
+---
+
+### Required Variables
+
+# Set the content type
+workshop_or_demo: workshop
+
+# Set the right workshop or demo type
+workshop_type: acp_existing_nextgen
+
+# Set the number of student slots
+student_total: 10
+  
+# DNS settings
+# If using an AWS Open Environment, a DNS zone will be provisioned for you
+# Optionally: feel free to use your own deletated to Route53
+
+# The subdomain for the workshop - usually the customer name or event
+sub_domain: customer-or-event-name
+
+# If you're using a sub.sub domain example, define the TLD here
+top_level_domain: your-domain.com
+
+# AWS region
+aws_region: us-east-1
+
+# OpenShift Installation Info
+# Note: Currently, 4.14.6 has been tested and works, optionally 'stable' is an option
+# The default amount of workers is 3, which should be sufficient for small workshops
+# If you have more students, increase openshift.workers
+openshift:
+  name: clusternamehere
+  version: stable
+  workers: 3
+  # worker_instance_type: m5d.metal - optional to change the worker type
+
+# Your zerossl information from https://app.zerossl.com/developer
+zerossl_account:
+  kid: your-kid-here
+  key: your-key-here
+  alg: HS256
+  email: your-email
+
+# Your openshift pull secret
+pull_secret: 'your-pull-secret-here'
+
+# admin password for workshop services
+admin_password: 'strong-admin-password-here'
+
+# The base64 of your controller manifest (may be long)
+base64_manifest: 'super-long-base64-manifest-here'
+
+### Optional Variables | Don't change unless you absolutely need to
+
+base_zone: "{{ sub_domain }}.{{ top_level_domain }}"
+
+# Use a sub-sub domain for local devices
+local_workshop_dns_zone: "local.{{ workshop_dns_zone }}"
+
+# turn DNS on for control nodes, and set to type in valid_dns_type
+dns_type: aws
+
+# Use zeroSSL
+use_zerossl: true
+
+# name prefix for all the VMs
+ec2_name_prefix: "{{ sub_domain }}"
+
+### Legacy support shims | Changing may break provisioning
+workshop_dns_zone: "{{ base_zone }}"
+ec2_region: "{{ aws_region }}"
+automation_hub: false
+developer_mode: false
+controllerinstall: false
+run_in_aws: false
+run_locally: false
+manage_local_hypervisor: false
+
+
+
