@@ -305,6 +305,8 @@ data:
     controller_username: REPLACE_WITH_CONTROLLER_USERNAME
     controller_password: REPLACE_WITH_CONTROLLER_PASSWORD
     controller_validate_certs: 'false'
+
+    # Don't forget to change to your team's information!
     controller_workflow_launch_jobs:
       - name: Setup Active Directory Environment
         organization: Team 1
