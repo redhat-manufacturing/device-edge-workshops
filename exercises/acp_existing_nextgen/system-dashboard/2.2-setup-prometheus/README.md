@@ -80,6 +80,7 @@ Next, we'll create a ConfigMap that sets the configuration of prometheus.
 
 Within your chart directory, under the directory named `templates`, create a new directory named `prometheus`, then create a file named `configmap.yaml`. Add the following contents:
 ```yaml
+{% raw %}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -152,6 +153,7 @@ data:
             target_label: instance
           - target_label: __address__
             replacement: blackbox-exporter:9115
+{% endraw %}
 ```
 
 This configmap will be templated out by Helm, looping over the relevant parts with values from our `values.yaml` file.
