@@ -19,6 +19,7 @@ We'll want to have the service provide connectivity to the [WinRM](https://en.wi
 
 Within the `active-directory/templates` directory, add a new file named `service.yaml`, and add the following contents:
 ```yaml
+{% raw %}
 {{- range .Values.virtualMachines }}
 ---
 apiVersion: v1
@@ -36,6 +37,7 @@ spec:
       port: 5985
       targetPort: 5985
 {{- end }}
+{% endraw %}
 ```
 
 What's a bit different in this service is the selector - instead of looking for an app label, the name of the virtual machine is used. This will result in the service attaching to the virt-helper pod of the virtual machine.
@@ -53,8 +55,11 @@ The fully-qualified hostname of the service will later be used by Ansible Contro
 ## Step 2 - Adding a Service for AD Services
 Since Active Directory services work over a network, we'll need to expose them as well for operations such as domain joins, LDAP, and more.
 
+{% raw %}
 Return to the `service.yaml` file created earlier, as we're going to add a second resource to it. Within the `{{- range }}` loop, after the existing service, add the following:
+{% endraw %}
 ```yaml
+{% raw %}
 ---
 apiVersion: v1
 kind: Service
@@ -100,10 +105,12 @@ spec:
       port: 3269
       targetPort: 3269
       protocol: TCP
+{% endraw %}
 ```
 
 Your modified `service.yaml` file should now contain:
 ```yaml
+{% raw %}
 {{- range .Values.virtualMachines }}
 ---
 apiVersion: v1
@@ -167,6 +174,7 @@ spec:
       targetPort: 3269
       protocol: TCP
 {{- end }}
+{% endraw %}
 ```
 
 Same as above, a service will be created for every virtual machine in our list:

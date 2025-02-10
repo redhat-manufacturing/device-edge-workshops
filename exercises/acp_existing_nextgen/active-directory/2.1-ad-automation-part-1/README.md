@@ -35,6 +35,7 @@ This will ensure the VMs can be contacted before attempting the next steps.
 Create a new file in the `playbooks/` directory called `set-base-configs.yaml`, and add the following contents:
 
 ```yaml
+{% raw %}
 ---
 - name: Set some basic system configs
   hosts:
@@ -51,6 +52,7 @@ Create a new file in the `playbooks/` directory called `set-base-configs.yaml`, 
       ansible.windows.win_reboot:
       listen:
         - reboot
+{% endraw %}
 ```
 
 This will set the hostname of the systems, and since they're Windows, they'll reboot if a change is made.
@@ -59,6 +61,7 @@ This will set the hostname of the systems, and since they're Windows, they'll re
 Create another file in the `playbooks/` directory named `create-ad-forest.yaml`, and add the following contents:
 
 ```yaml
+{% raw %}
 ---
 - name: Create Active Directory forest
   hosts:
@@ -70,6 +73,7 @@ Create another file in the `playbooks/` directory named `create-ad-forest.yaml`,
         safe_mode_password: "{{ ansible_password }}"
         domain_netbios_name: "{{ active_directory.domain_netbios_name | default(omit) }}"
         reboot: true
+{% endraw %}
 ```
 
 A few quick notes about this playbook:

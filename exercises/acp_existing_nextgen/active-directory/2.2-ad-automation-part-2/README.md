@@ -16,6 +16,7 @@ As a final step to getting our Active Directory environment up and running, we'r
 
 Create a file in the `playbooks` directory named `configure-domain-controllers.yaml`, and paste in the following contents:
 ```yaml
+{% raw %}
 ---
 - name: Apply base config to all domain controllers
   hosts:
@@ -29,6 +30,7 @@ Create a file in the `playbooks` directory named `configure-domain-controllers.y
       loop:
         - SSDPSRV
         - upnphost
+{% endraw %}
 ```
 
 ## Step 2 - Commit and Push Code
