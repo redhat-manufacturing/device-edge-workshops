@@ -53,7 +53,7 @@ Since we'll be creating two virtual machines that are nearly identical, we can c
 
 All values live under the `.Values` key, so the path to our list of virtual machines is: `.Values.virtualMachines`. Since we have a list, we can use the `range` function to iterate over the items within the list, and helm will render out the template accordingly.
 
-Create a new directory within the chart directory called `templates`, and within it create a new file called `virtualmachines.yaml`.
+Create a new directory within the chart directory called `templates`, and within it create a new file called `virtualmachine.yaml`.
 
 The following combines the example virtual machine definition from earlier, along with the templating functions and values from our `values.yaml` file.
 
