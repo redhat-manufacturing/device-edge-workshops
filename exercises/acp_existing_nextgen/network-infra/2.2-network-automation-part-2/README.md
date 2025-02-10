@@ -94,6 +94,6 @@ Same as before, ensure your code has been saved in your code repository. If you'
 ---
 **Navigation**
 
-[Previous Exercise](../2.1-network-automation-part-1/) | [Next Exercise](../3.1-contorller-as-code/)
+[Previous Exercise](../2.1-network-automation-part-1/) | [Next Exercise](../3.1-controller-as-code/)
 
 [Click here to return to the Workshop Homepage](../../README.md)

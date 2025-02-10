@@ -82,6 +82,6 @@ Add all the variables from above, with the proper modifications for your team, i
 ---
 **Navigation**
 
-[Previous Exercise](../3.1-contorller-as-code/) | [Next Exercise](../3.3-linking-to-automation/)
+[Previous Exercise](../3.1-controller-as-code/) | [Next Exercise](../3.3-linking-to-automation/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
