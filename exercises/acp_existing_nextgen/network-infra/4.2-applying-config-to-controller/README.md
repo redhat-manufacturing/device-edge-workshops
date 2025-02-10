@@ -109,7 +109,7 @@ To act as a shim between our declarative tooling (argoCD) and the procedural too
         - controller_workflow_launch_jobs is defined
 ```
 
-What this playbook does it load in variables from the `/runner/variables` directory, then run various roles that apply those variables to Controller.
+This playbook loads in variables from the `/runner/variables` directory, then run various roles that apply those variables to Controller.
 
 Since this will be run as a kubernetes job, we have the option of mounting items into that directory, and the playbook will automatically pick them up for us.
 
