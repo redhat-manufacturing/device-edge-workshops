@@ -13,7 +13,7 @@
 * Push that initial chart to git
 
 ## Step 1 - Starting the Declarative and Procedural Integration
-Now that our network automation has been created, we're going to integrate it with declarative tooling to enable a full end-to-end experience. Instead of manually configuring Ansible Controller, we're going to have other tools hanlde it for us.
+Now that our network automation has been created, we're going to integrate it with declarative tooling to enable a full end-to-end experience. Instead of manually configuring Ansible Controller, we're going to have other tools handle it for us.
 
 ## Step 2 - Helm Chart Structure
 Helm charts are simply a collection of files that represent definitions which create or modify resources on a kubernetes cluster. They can contain definitions for mostly anything, and usually, contain variables that are templated out when deploying the chart.
