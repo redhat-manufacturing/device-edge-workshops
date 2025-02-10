@@ -156,9 +156,9 @@ This job definition provides a few things:
 The next steps will wire these various elements up to provide our desired experience of merging declarative and procedural tooling.
 
 ## Step 2 - Creating a Job and ConfigMap
-Return to the `active-directory` helm chart we created earlier, and in the `templates/` directory, we'll add two files.
+Return to the `network-automation` helm chart we created earlier, and create a new directory named `templates`. Within that new directory, we'll create a few files that define resources we want created.
 
-First, create `job.yaml` with the following contents:
+First, create `job.yaml` in the `templates/` directory with the following contents:
 ```yaml
 ---
 apiVersion: batch/v1
@@ -188,7 +188,7 @@ spec:
             sizeLimit: 100Mi
 ```
 
-Additionally, create a file named `configmap.yaml`. This is where we'll leverage the variables from our `configure-controller.yaml` file, with a bit of customization to match the configmap spec:
+Additionally, create a file named `configmap.yaml`. This is where we'll leverage the variables from our `configure_controller_for_network_automation.yaml` file, with a bit of customization to match the configmap spec:
 ```yaml
 ---
 apiVersion: v1
@@ -197,23 +197,27 @@ metadata:
   name: configure-network-automation-configmap
 data:
   controller-configuration.yaml: |
+    # Ensure you replace these with the correct information!
     controller_hostname: REPLACE_WITH_CONTROLLER_URL_FROM_STUDENT_PAGE
     controller_username: REPLACE_WITH_CONTROLLER_USERNAME
     controller_password: REPLACE_WITH_CONTROLLER_PASSWORD
     controller_validate_certs: 'false'
 
+    # Remember to modify for your team if you're not Team 1!
     controller_hosts:
       - name: cisco-8000v
         inventory: team1 Network Infrastructure
         variables:
           ansible_host: cisco-8000v-ssh.team1.svc.cluster.local
-
+    
+    # Remember to modify for your team if you're not Team 1!
     controller_groups:
       - name: cisco_ios
         inventory: team1 Network Infrastructure
         hosts:
           - cisco-8000v
 
+    # Remember to modify for your team if you're not Team 1!
     controller_credentials:
       - name: Network Appliance Credentials
         organization: Team 1
@@ -222,6 +226,8 @@ data:
           username: ansible
           password: PASSWORDSETEARLIER
 
+    # Remember to modify for your team if you're not Team 1!
+    # Also, remember to enter the correct information from Gitea!
     controller_projects:
       - name: Code Repository
         organization: Team 1
