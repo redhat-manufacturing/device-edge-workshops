@@ -228,6 +228,7 @@ data:
 
     # Remember to modify for your team if you're not Team 1!
     # Also, remember to enter the correct information from Gitea!
+{% raw %}
     controller_projects:
       - name: Code Repository
         organization: Team 1
@@ -236,7 +237,7 @@ data:
         scm_url: "YOUR_GIT_URL_HERE"
         update_project: true
         credential: team{{ number }} Code Repository Credentials
-
+{% endraw %}
     controller_templates:
       - name: Configure NTP
         organization: Team 1

@@ -17,6 +17,7 @@
 Furthering the VLAN configuration, we'll set up some l3 interfaces aligned to the vlans created in another playbook. Create a new playbook named `vlan-interfaces.yaml` and add the following contents:
 
 ```yaml
+{% raw %}
 ---
 - name: Setup VLAN interfaces
   hosts:
@@ -34,6 +35,7 @@ Furthering the VLAN configuration, we'll set up some l3 interfaces aligned to th
       loop: "{{ range(200, 221)|list }}"
       loop_control:
         loop_var: vlan
+{% endraw %}
 ```
 
 ## Step 2 - Static Routes
