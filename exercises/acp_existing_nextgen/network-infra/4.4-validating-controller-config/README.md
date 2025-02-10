@@ -22,9 +22,6 @@ And our new credential:
 The host that corresponds to our network appliance:
 ![Controller Host](../.images/controller-appliance-host.png)
 
-And a workflow with nodes for our job templates:
-![Controller Workflow](../.images/controller-workflow.png)
-
 This confirms our integration between procedural and declarative tooling.
 
 ---
