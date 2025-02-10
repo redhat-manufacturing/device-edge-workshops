@@ -35,6 +35,12 @@ controller_hosts:
 
 With hosts defined under the `controller_hosts` variable, the Ansible collections outlined earlier will handle the creation of the hosts.
 
+We're going to be adding additional information to complete our controller configuration, so create a new file named `controller_configuration.yaml` in your code repo, and add content to it as you complete the following exercises.
+
+> Note:
+>
+> We won't actually use this file, but we will use the contents later on. Thus, the location of the file doesn't matter - just put it at the root of the repository for safe-keeping.
+
 ## Step 2 - Adding Hosts to Groups
 In the same fashion, group membership within an inventory can be defined as code, and the Ansible collections will handle the configuration for us.
 
