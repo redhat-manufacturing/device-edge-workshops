@@ -16,17 +16,17 @@ The last step is to capture your dashboard as JSON so it's portable.
 
 In the Grafana web UI, click on the **Export** button in the top right corner, then select **Export as JSON**. Ensure the `Export the dashboard to use in another instance` is toggled on, then copy the JSON out of the window.
 
-![Grafana Export Dashboard JSON](../.images/grafana-export-json-window.png)
+![Grafana Export Dashboard JSON](../images/grafana-export-json-window.png)
 
 ## Step 2 - Committing your Dashboard
 
 Finally, create a new directory in your code repository named `dashboard`, then a new file named `system-dashboard.json`, and enter the contents from the Grafana window:
 
-![Gitea Dashboard Code](../.images/gitea-dashboard-code.png)
+![Gitea Dashboard Code](../images/gitea-dashboard-code.png)
 
 Be sure to hit **Save**, or commit/push if using an IDE.
 
-![Gitea Saved Dashboard](../.images/gitea-committed-code.png)
+![Gitea Saved Dashboard](../images/gitea-committed-code.png)
 
 ---
 **Navigation**

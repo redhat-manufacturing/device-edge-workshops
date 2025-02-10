@@ -173,7 +173,7 @@ spec:
 
 Ensure you've saved your edits if using the Gitea web interface, or committed/pushed if using an IDE.
 
-![Blackbox Exporter Templates](../.images/blackbox-exporter-templates.png)
+![Blackbox Exporter Templates](../images/blackbox-exporter-templates.png)
 
 ---
 **Navigation**

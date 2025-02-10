@@ -26,7 +26,7 @@ Essentially, helm charts define **what** we want to deploy, and ArgoCD is **how*
 Refer back to your student page to retrieve the link to access your team's instance of ArgoCD, which will be used to deploy things into your namespace.
 
 Once logged in, you'll either be greeted with an empty window, or see a few existing application tiles, depending on how far your teammates have gotten.
-![ArgoCD App Tiles](../.images/argocd-existing-apps.png)
+![ArgoCD App Tiles](../images/argocd-existing-apps.png)
 
 Click on the `+ New App` button to start adding a new application to be deployed.
 
@@ -34,18 +34,18 @@ Click on the `+ New App` button to start adding a new application to be deployed
 In the window pane that appears on the right, we'll need to enter some information about our application, and where to find the code for it.
 
 Start by giving the application a name, such as `system-dashboard`, and setting the project name to `default` - this is just the namespace where the project definition will live, not where our resources will be deployed.
-![Create New App Name](../.images/argocd-new-app-tile.png)
+![Create New App Name](../images/argocd-new-app-tile.png)
 
 Scrolling down, add information about the code repository. The URL can be retrieved from the Gitea interface if needed:
-![Gitea Repo URL](../.images/gitea-repo-url.png)
+![Gitea Repo URL](../images/gitea-repo-url.png)
 
 Enter this information into the appropriate place under the `Source` header:
-![Create New App Source](../.images/argocd-new-app-source.png)
+![Create New App Source](../images/argocd-new-app-source.png)
 
 Under destination, ensure the cluster URL is set to the local cluster: `https://kubernetes.devault.svc`, and that the Namespace is set to your team's namespace. In this example, team1's namespace is used.
 
 ArgoCD should pull in some information about the repo, automatically displaying `helm` and the values we put into our `values.yaml` file:
-![Create New App Helm](../.images/argocd-new-app-helm.png)
+![Create New App Helm](../images/argocd-new-app-helm.png)
 
 Once finished, hit the `Create` button at the top of the window.
 
@@ -72,30 +72,30 @@ spec:
 ```
 
 This should appear as so in the web interface:
-![Create New App Yaml](../.images/argocd-new-app-yaml.png)
+![Create New App Yaml](../images/argocd-new-app-yaml.png)
 
 Once finished, click the `Create` button.
 
 ## Step 5 - Investigate New Application
 After hitting the create button, a new application tile should appear, with details about the new application:
-![New App Tile](../.images/argocd-new-app-tile.png)
+![New App Tile](../images/argocd-new-app-tile.png)
 
 Clicking on the application tile will show more information, such as the resources that are to be deployed and managed:
-![New App Info](../.images/argocd-before-sync.png)
+![New App Info](../images/argocd-before-sync.png)
 
 As discussed previously, our helm templates have been rendered, showing our two virtual machines as resources. ArgoCD is denoting these resources as "missing" because the application has not yet been synced.
 
 ## Step 6 - Syncing Application
 With the application sitting in an OutOfSync state, the resources are set to be deployed. To begin syncing the application, click on the `Sync` button. A menu will appear on the right with options:
-![ArgoCD Sync Window](../.images/argocd-sync-window.png)
+![ArgoCD Sync Window](../images/argocd-sync-window.png)
 
 For our purposes, no additional options are needed. Simply click the `Synchronize` button at the top.
 
 The ArgoCD interface will show the sync process, the resources being created, and the current state of the sync. After a few moments, the application will show Synced:
-![ArgoCD Syncing](../.images/argocd-application-synced.png)
+![ArgoCD Syncing](../images/argocd-application-synced.png)
 
 Return to the OpenShift web interface, and switch to the **Developer View**. Select the **Topology** view, and review the newly deployed application:
-![OCP New App](../.images/system-dashboard-app.png)
+![OCP New App](../images/system-dashboard-app.png)
 
 ---
 **Navigation**

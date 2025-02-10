@@ -167,7 +167,7 @@ spec:
 
 Ensure you've saved your edits if using the Gitea web interface, or committed/pushed if using an IDE.
 
-![Grafana Templates](../.images/grafana-templates.png)
+![Grafana Templates](../images/grafana-templates.png)
 
 ---
 **Navigation**

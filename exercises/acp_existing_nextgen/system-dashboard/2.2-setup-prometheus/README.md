@@ -276,7 +276,7 @@ spec:
 
 Ensure you've saved your edits if using the Gitea web interface, or committed/pushed if using an IDE.
 
-![Prometheus Templates](../.images/prometheus-templates.png)
+![Prometheus Templates](../images/prometheus-templates.png)
 
 ---
 **Navigation**
