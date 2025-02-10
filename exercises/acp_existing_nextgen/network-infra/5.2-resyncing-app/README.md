@@ -20,7 +20,7 @@ Our new configmaps and jobs should now be created, and will run during the sync,
 ![ArgoCD New Resources](../.images/argocd-new-resources.png)
 
 ## Step 2 - Investigating the Running Automation
-In the Ansible Controller Web Inteface, select **Views** > **Jobs**, and review the jobs list. Ideally, a workflow will be running, and various jobs will be kicked off:
+In the Ansible Controller Web Interface, select **Views** > **Jobs**, and review the jobs list. Ideally, a workflow will be running, and various jobs will be kicked off:
 
 ![Controller Automation Running](../.images/controller-automation-running.png)
 
