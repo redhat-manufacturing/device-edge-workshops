@@ -222,6 +222,10 @@ controller_workflow_launch_jobs:
 
 Ensure this file is saved/committed/pushed into your code repository, as it will be used in the next exercises.
 
+> Note:
+>
+> Ensure your indentation is correct here, otherwise you'll experience errors later on.
+
 ---
 **Navigation**
 
