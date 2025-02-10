@@ -23,11 +23,13 @@ metadata:
   name: network-automation-to-run-configmap
 data:
   controller-configuration.yaml: |
+    # Replace with your information!
     controller_hostname: REPLACE_WITH_CONTROLLER_URL_FROM_STUDENT_PAGE
     controller_username: REPLACE_WITH_CONTROLLER_USERNAME
     controller_password: REPLACE_WITH_CONTROLLER_PASSWORD
     controller_validate_certs: 'false'
-
+    
+    # If not Team 1, replace with your team number
     controller_workflow_launch_jobs:
       - name: Run Network Automation
         organization: Team 1
@@ -73,6 +75,6 @@ Ensure everything has been saved/committed/pushed before continuing.
 ---
 **Navigation**
 
-[Pervious Exercise](../4.4-validating-controller-config/)  [Next Exercise](../5.2-resyncing-app/)
+[Previous Exercise](../4.4-validating-controller-config/)  [Next Exercise](../5.2-resyncing-app/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
