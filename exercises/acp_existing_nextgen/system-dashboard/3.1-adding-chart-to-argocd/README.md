@@ -18,7 +18,7 @@
 ## Step 1 - Understanding the Relationship between Helm Charts and ArgoCD
 In the previous exercises, we create helm charts that can be used to create resources on kubernetes clusters. 
 
-To level up the experince, we're going to use ArgoCD to deliver that code to our cluster, and have it reconcile resources for us.
+To level up the experience, we're going to use ArgoCD to deliver that code to our cluster, and have it reconcile resources for us.
 
 Essentially, helm charts define **what** we want to deploy, and ArgoCD is **how** we deploy it. The two working together create a powerful flow for managing resources on clusters.
 
@@ -42,7 +42,7 @@ Scrolling down, add information about the code repository. The URL can be retrie
 Enter this information into the appropriate place under the `Source` header:
 ![Create New App Source](../.images/argocd-new-app-source.png)
 
-Under destination, ensure the cluster IRL is set to the local cluster: `https://kubernetes.devault.svc`, and that the Namespace is set to your team's namespace. In this example, team1's namespace is used.
+Under destination, ensure the cluster URL is set to the local cluster: `https://kubernetes.devault.svc`, and that the Namespace is set to your team's namespace. In this example, team1's namespace is used.
 
 ArgoCD should pull in some information about the repo, automatically displaying `helm` and the values we put into our `values.yaml` file:
 ![Create New App Helm](../.images/argocd-new-app-helm.png)
@@ -94,7 +94,7 @@ For our purposes, no additional options are needed. Simply click the `Synchroniz
 The ArgoCD interface will show the sync process, the resources being created, and the current state of the sync. After a few moments, the application will show Synced:
 ![ArgoCD Syncing](../.images/argocd-application-synced.png)
 
-And within the OpenShift Console, a new application will appear in your namespace:
+Return to the OpenShift web interface, and switch to the **Developer View**. Select the **Topology** view, and review the newly deployed application:
 ![OCP New App](../.images/system-dashboard-app.png)
 
 ---
