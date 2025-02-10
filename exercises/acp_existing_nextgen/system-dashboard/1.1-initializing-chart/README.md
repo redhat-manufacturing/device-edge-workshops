@@ -55,7 +55,7 @@ appVersion: "1.0.0"
 ```
 ![Populate Chart Yaml](../.images/populate-chart-yaml.png)
 
-Esure you save the file, or push it to the repo if working within another editor.
+Ensure you save the file, or push it to the repo if working within another editor.
 
 ---
 **Navigation**
