@@ -27,6 +27,6 @@ This confirms our integration between procedural and declarative tooling.
 ---
 **Navigation**
 
-[Pervious Exercise](../4.2-appling-config-to-controller/)  [Next Exercise](../2.1-ad-automation-part-1/)
+[Previous Exercise](../4.2-appling-config-to-controller/)  [Next Exercise](../2.1-ad-automation-part-1/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
