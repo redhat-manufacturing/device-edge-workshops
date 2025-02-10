@@ -151,7 +151,7 @@ spec:
               credential_type: Machine
               inputs:
                 username: 'team{{ number }}.lcl\Administrator'
-                password: 'R3dh4t123!'
+                password: '{{ admin_password }}'
 {% endfor %}
           controller_projects:
 {% for number in range(1, (team_total | int) + 1) %}
