@@ -45,8 +45,10 @@ Below are the experiences that can be completed. In coordination with your team,
 | Component | Required Knowledge | Exercises Link |
 | --- | --- | --- |
 | Active Directory | GitOps, Ansible Automation for Windows | [Link](../active-directory/1.1-initializing-chart/README.md) |
-| Network Automation | Ansible Automation for Networking | [Link](../network-infra/1.1-initialize-appliance/README.md) |
+| Network Automation | Ansible Automation for Networking | [Link](../network-automation/1.1-initialize-appliance/README.md) |
 | System Dashboard | Basics of Kubernetes | [Link](../system-dashboard/1.1-initializing-chart/README.md) |
+| FactoryTalk View | Ansible Automation for Windows | [Link](../rockwell-hmi-vm/1.1-initializing-chart/README.md)
+| Codesys Virtual Control Runtime | GitOps, Basics of Kubernetes | [Link](../codesys/1.1-initializing-chart/README.md)
 
 ---
 **Navigation**
