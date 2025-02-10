@@ -31,6 +31,10 @@ controller_projects:
     credential: team{{ number }} Code Repository Credentials
 ```
 
+> Note:
+>
+> Team 1 used as an example here, remember to replace with your team's information.
+
 Here, we're telling a specific role within the Ansible collections to look for a project named `Code Repository`, in your team's organization, and trigger an update, and wait for it to complete.
 
 ## Step 2 - Adding Job Templates
@@ -132,6 +136,8 @@ controller_workflow_launch_jobs:
 ## Step 5 - Committing the Code
 At this point, your `controller-configuration.yaml` file should contain the following:
 ```yaml
+# Remember to replace with your team's values!
+
 controller_hosts:
   - name: ad01
     inventory: team1 Active Directory Infrastructure
