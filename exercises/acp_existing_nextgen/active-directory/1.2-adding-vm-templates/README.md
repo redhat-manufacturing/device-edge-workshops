@@ -17,7 +17,7 @@
 As with everything else in OpenShift, virtual machines can be created and modified by using code instead of the web interface. This allows for managing them through a gitops flow, instead of manual modifications.
 
 For example, this is a snippet of a virtual machine's definition:
-![Virtual Machine Yaml](../.images/virtual-machine.yaml.png)
+![Virtual Machine Yaml](../images/virtual-machine.yaml.png)
 
 In the screenshot, the virtual machine configuration is shown as code.
 
@@ -46,7 +46,7 @@ virtualMachines:
 These values will be used by the template in the next step to create the specified virtual machines.
 
 Once complete, be sure to save the file, or if working within an IDE, commit and push.
-![Populate Values File](../.images/populate-values-yaml.png)
+![Populate Values File](../images/populate-values-yaml.png)
 
 ## Step 3 - Creating Virtual Machine Definition Templates
 Since we'll be creating two virtual machines that are nearly identical, we can create one template, and use the `range` function with helm to have it template out two virtual machines.
@@ -74,6 +74,7 @@ done
 
 To put that into practice, here's our virtual machine definition combined with the `range` function, based on what's in our `values.yaml` file from earlier:
 ```yaml
+{% raw %}
 {{- range $.Values.virtualMachines }}
 ---
 apiVersion: kubevirt.io/v1
@@ -153,17 +154,20 @@ spec:
             name: {{ .name }}-boot0
           name: rootdisk
 {{- end }}
+{% endraw %}
 ```
 
 Be sure to save this file once done editing, or if working within an code editor, commit and push.
-![Populate VirtualMachine Template](../.images/populate-vm-template-yaml.png)
+![Populate VirtualMachine Template](../images/populate-vm-template-yaml.png)
 
 ## Step 4 - Default Values within Templates
 You may have noticed a few lines in the virtual machine template earlier that appear to be referencing values that weren't defined in our `values.yaml` file, and had a pipe after them.
 
 ```yaml
+{% raw %}
 sockets: {{ .cpuCores | default "4" }}
 guest: {{ .memory | default "8Gi" }}
+{% endraw %}
 ```
 
 Another feature within helm templates is the ability to transform inputs, or to assign default values if nothing is specified. Here, defaults of 4 sockets and 8Gi of memory are set as defaults, and since our `values.yaml` file does not specify these values, the defaults will be applied.
