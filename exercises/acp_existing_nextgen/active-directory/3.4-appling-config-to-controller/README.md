@@ -164,7 +164,7 @@ First, create `job.yaml` with the following contents:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: configure-controller
+  generateName: configure-controller-
   annotations:
     argocd.argoproj.io/hook: Sync
 spec:
@@ -191,6 +191,7 @@ spec:
 Additionally, create a file named `configmap.yaml`. This is where we'll leverage the variables from our `configure-controller.yaml` file, with a bit of customization to match the configmap spec:
 ```yaml
 ---
+# Replace team1 with your team's information!
 apiVersion: v1
 kind: ConfigMap
 metadata:
