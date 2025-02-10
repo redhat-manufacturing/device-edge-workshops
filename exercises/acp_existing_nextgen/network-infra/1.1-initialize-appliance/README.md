@@ -26,6 +26,10 @@ Select the **Console** tab, and switch from the VNC console to the Serial consol
 
 ![8000v Serial Console](../.images/8000v-serial-console.png)
 
+> Note:
+>
+> If prompted to continue with the initial configuration, type `no` and hit enter. This is also called out later.
+
 ## Step 2 - Cancel Initial Setup
 Within the serial console, we'll execute a few steps to allow SSH access to the network appliance from Ansible Controller.
 
