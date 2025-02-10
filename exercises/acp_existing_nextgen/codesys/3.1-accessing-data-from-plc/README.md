@@ -28,12 +28,14 @@ Create a new file in the team's gitea repository/templates folder and call it "s
 
 Add the following content:
 ```yaml
-# Note: Team 1 is used as an example here - replace with your team information for the namespace
+{{- range .Values.plcs }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: codesys-pod-service
+  name: {{ .name }}
   namespace: team1
+  labels:
+    app.kubernetes.io/part-of: plc-application-another-plc
 spec:
   selector:
     app: codesys-plc
@@ -42,7 +44,14 @@ spec:
       protocol: TCP
       port: 4840
       targetPort: 4840
+{{ end }}
 ```
+
+Save and push the changes.
+Head over to the argoCD application and hit sync to get the service deployed into our workspace.
+
+## Step 3 - Investigate the service
+We now have a static reference point which we can use 
 
 
 

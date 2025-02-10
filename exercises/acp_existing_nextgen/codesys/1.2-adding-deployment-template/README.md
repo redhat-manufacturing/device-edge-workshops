@@ -93,6 +93,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .name }}
+  labels:
+    app.kubernetes.io/part-of: plc-application-{{ .name }}
 spec:
   selector:
     matchLabels:
@@ -103,6 +105,7 @@ spec:
       labels:
         app: {{ .name }}
     spec:
+      hostname: {{ .name }}
       volumes:
         - name: data-storage
           persistentVolumeClaim: 
