@@ -17,7 +17,7 @@
 * Create deployment resources for an instance of blackbox exporter
 
 ## Step 1 - Introduction to Blackbox Exporter
-Blackbox exporter is a tool that allows for monitoring of enpoints over various protocols such as HTTP, HTTPS, DNS, Ping, TCP, and more.
+Blackbox exporter is a tool that allows for monitoring of endpoints over various protocols such as HTTP, HTTPS, DNS, Ping, TCP, and more.
 
 Within our system, various services are exposed (over services) so their functionality can be consumed. We're going to configure blackbox exporter to watch some URLs over HTTP(S), check certain ports over TCP, and check if SSH is working.
 
