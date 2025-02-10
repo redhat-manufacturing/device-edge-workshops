@@ -3,12 +3,7 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Understanding the Relationship between Helm Charts and ArgoCD](#step-1---understanding-the-relationship-between-helm-charts-and-argocd)
-* [Step 2 - Adding an Application to ArgoCD](#step-2---adding-an-application-to-argocd)
-* [Step 3 - Adding New Application Information](#step-3---adding-new-application-information)
-* [Step 4 - OPTIONAL - Adding New Application via YAML](#step-4---optional---adding-new-application-via-yaml)
-* [Step 5 - Investigate New Application](#step-5---investigate-new-application)
-* [Step 6 - Syncing Application](#step-6---syncing-application)
+* [Step 1 - Reviewing Applied Controller Configuration](#step-1---reviewing-applied-controller-configuration)
 
 ## Objective
 
