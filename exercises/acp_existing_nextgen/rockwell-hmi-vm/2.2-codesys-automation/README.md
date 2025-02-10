@@ -17,19 +17,19 @@ Create another file in the `playbooks/` directory named `launch-codesys-ide.yaml
 ```yaml
 ---
 - name: Launch Codesys IDE
-  hosts: rockwell-ftview
+  hosts: all
   gather_facts: yes
   tasks:
     - name: Ensure the Red Hat One Project is installed
       win_package:
-        path: ‘C:\Users\Administrator\Documents\Red Hat One.project’
+        path: 'C:\Users\Administrator\Documents\Red Hat One.project'
         state: present
       when: ansible_facts['os_family'] == 'Windows'
 
     - name: Launch the Codesys IDE with Red Hat 1 Project 
-      win_command: ‘C:\Users\Administrator\Documents\Red Hat One.project’
+      win_command: 'C:\Users\Administrator\Documents\Red Hat One.project'
       args:
-        chdir: ‘C:\Users\Adminstrator\Documents’
+        chdir: 'C:\Users\Adminstrator\Documents'
       register: codesys_ide_process
 
     - name: Display Red Hat One Project on Codesys process result

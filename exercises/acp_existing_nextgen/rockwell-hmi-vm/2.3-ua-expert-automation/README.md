@@ -17,27 +17,25 @@ Create another file in the `playbooks/` directory named `launch-ua-expert.yaml`,
 ```yaml
 ---
 - name: Launch UA Expert 
-  hosts: rockwell-ftview
+  hosts: all
   gather_facts: yes
   tasks:
     - name: Ensure the UA Expert Project is installed
       win_package:
-        path: ‘C:\Program Files\UnifiedAutomation\UaExpert\bin\testcase.uap’
+        path: 'C:\\Program Files\\UnifiedAutomation\\UaExpert\\bin\\installer.exe'
         state: present
       when: ansible_facts['os_family'] == 'Windows'
 
     - name: Launch the UA Expert RH1 File
-      win_command: ‘C:\Program Files\UnifiedAutomation\UaExpert\bin\testcase.uap’
-      args:
-        chdir: ‘C:\Program Files\UnifiedAutomation\UaExpert\bin\’
+      win_command: 'C:\\Program Files\\UnifiedAutomation\\UaExpert\\bin\\UaExpert.exe C:\\Program Files\\UnifiedAutomation\\UaExpert\\bin\\testcase.uap'
       register: ua_expert_process
 
     - name: Display UA Expert process result
       debug:
-        msg: “UA Expert launched successfully. Process: {{ ua_expert_process.stdout }}"
+        msg: "UA Expert launched successfully. Process: {{ ua_expert_process.stdout }}"
       when: ua_expert_process.rc == 0
 
-    - name: Handle failure in launching Codesys IDE and Project
+    - name: Handle failure in launching UA Expert
       debug:
         msg: "Failed to launch UA Expert. Error: {{ ua_expert_process.stderr }}"
       when: ua_expert_process.rc != 0

@@ -65,19 +65,19 @@ Create another file in the `playbooks/` directory named `launchFTview.yaml`, and
 ```yaml
 ---
 - name: Launch FactoryTalk SE Client Application
-  hosts: rockwell-ftview
+  hosts: all
   gather_facts: yes
   tasks:
     - name: Ensure the FactoryTalk SE Client is installed
       win_package:
-        path: ‘C:\Users\Administrator\Desktop\ACP_RH_1.cli’
+        path: 'C:\Users\Administrator\Desktop\ACP_RH_1.cli'
         state: present
       when: ansible_facts['os_family'] == 'Windows'
 
     - name: Launch the FactoryTalk SE Client
-      win_command: ‘C:\Users\Administrator\Desktop\ACP_RH_1.cli’
+      win_command: 'C:\Users\Administrator\Desktop\ACP_RH_1.cli'
       args:
-        chdir: ‘C:\Users\Adminstrator\Desktop’
+        chdir: 'C:\Users\Administrator\Desktop'
       register: factorytalk_client_process
 
     - name: Display FactoryTalk SE Client process result
