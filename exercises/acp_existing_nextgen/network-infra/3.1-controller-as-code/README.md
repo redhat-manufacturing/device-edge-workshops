@@ -41,7 +41,7 @@ Once such collection is the [infra.controller_configuration](https://galaxy.ansi
 ![Infra.Controller_configuration Collection](../.images/infra.controller_configuration-collection.png)
 
 Leveraging this overlay collection provides a few key benefits:
-- Roles can be specified in a simplified playbook, over writing tasks that call the modules individually.
+- Roles can be specified in a simplified playbook, instead of needing tasks that call the modules individually.
 ![Infra.Controller_configuration Modules](../.images/infra.controller_configuration-roles.png)
 
 - Not all options need to specified when managing resources, allowing for a more simplified data structure overall:
