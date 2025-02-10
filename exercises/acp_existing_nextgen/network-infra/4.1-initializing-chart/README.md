@@ -64,6 +64,6 @@ Ensure you save the file, or push it to the repo if working within another edito
 ---
 **Navigation**
 
-[Previous Exercise](../3.3-linking-to-automation/) | [Next Exercise](../4.2-appling-config-to-controller/)
+[Previous Exercise](../3.3-linking-to-automation/) | [Next Exercise](../4.2-applying-config-to-controller/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
