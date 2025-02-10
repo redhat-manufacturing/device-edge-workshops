@@ -42,7 +42,7 @@ As a quick review, here's what we care about monitoring in our system:
 ## Step 2 - Setting up a Loop-able Data Structure
 Helm allows us to loop over ranges and template output for each item. This can be done for lines within a template, or entire resources if desired.
 
-Within the `system-dashbaord` directory, create a file named `values.yaml`, with the following contents:
+Within the `system-dashboard` directory, create a file named `values.yaml`, with the following contents:
 ```yaml
 httpProbes:
   - url: console.openshift-console.svc.cluster.local
