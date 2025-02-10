@@ -202,20 +202,23 @@ data:
     controller_username: REPLACE_WITH_CONTROLLER_USERNAME
     controller_password: REPLACE_WITH_CONTROLLER_PASSWORD
     controller_validate_certs: 'false'
+
+    # Don't forget to replace with your team's information!
     controller_hosts:
       - name: ad01
         inventory: team1 Active Directory Infrastructure
         variables:
-          ansible_host: ad01-winrm.team1.svc.cluster.local
+          ansible_host: ad01-winrm.team1.svc.cluster.local # HERE
       - name: ad02
         inventory: team1 Active Directory Infrastructure
         variables:
-          ansible_host: ad02-winrm.team1.svc.cluster.local
+          ansible_host: ad02-winrm.team1.svc.cluster.local # HERE
     controller_groups:
       - name: primary_domain_controller
         inventory: team1 Active Directory Infrastructure
         hosts:
           - ad01
+    # Ensure these match your team's information!
     controller_projects:
       - name: Code Repository
         organization: Team 1
