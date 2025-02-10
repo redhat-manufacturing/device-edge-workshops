@@ -1,4 +1,4 @@
-# Workshop Exercise 4.4 - Validating Controller Config
+# Workshop Exercise 4.4 - Validating Controller Configuration
 
 ## Table of Contents
 
