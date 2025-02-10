@@ -108,4 +108,8 @@ The Red Hat Edge team would like to offer special thanks to the following people
     <td>Tim Mirth</td>
     <td>Red Hat</td>
   </tr>
+   <tr>
+    <td>Ken Osborn</td>
+    <td>Red Hat</td>
+  </tr>
 </table>
