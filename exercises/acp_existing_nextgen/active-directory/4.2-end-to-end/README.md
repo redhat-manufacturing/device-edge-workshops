@@ -35,8 +35,7 @@ To confirm that AD was installed, return to the OpenShift web console, and navig
 
 ![Virtual Machine AD Login](../.images/virtual-machine-ad-login.png)
 
-For domain information, check the out the Active Directory Administrative Center:
-
+Within the console, wait for the **Server Manager** window to appear, then select **Tools** > **Active Directory Administrative Center**. Then, select **Domain Controllers**:
 ![Virtual Machine AD Center](../.images/virtual-machine-ad-center.png)
 
 ---
