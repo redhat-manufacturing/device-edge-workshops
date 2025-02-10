@@ -28,8 +28,12 @@ controller_projects:
     scm_type: git
     scm_url: "YOUR_GIT_URL_HERE"
     update_project: true
-    credential: team{{ number }} Code Repository Credentials
+    credential: team1 Code Repository Credentials
 ```
+
+> Note:
+>
+> Team 1 used as an example here - replace with your team's information. Also, ensure you enter the correct SCM URL from Gitea. When entering URLs, double-quote them to avoid parsing errors.
 
 Here, we're telling a specific role within the Ansible collections to look for a project named `Code Repository`, in your team's organization, and trigger an update, and wait for it to complete.
 
