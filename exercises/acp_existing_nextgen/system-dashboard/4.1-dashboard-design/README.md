@@ -19,9 +19,6 @@ With our stack ready to go, we can now start building a dashboard to display met
 In the Grafana webUI, click on **Dashboards** and then the `+ Create Dashboard` button in the middle of the screen.
 ![New Dashboard](../.images/grafana-new-dashboard.png)
 
-In the pop-up window, select `Prometheus` as the primary data source for the dashboard.
-![Select Datasource](../.images/grafana-select-datasource.png)
-
 This will create a new dashboard.
 
 ## Step 2 - Up-Down Panels
@@ -29,9 +26,12 @@ On the new dashbaord, select the `+ Add Visualization` button to begin building 
 
 ![Grafana Add Visualization](../.images/grafana-add-visualization.png)
 
+In the pop-up window, select `Prometheus` as the primary data source for the dashboard.
+![Select Datasource](../.images/grafana-select-datasource.png)
+
 A common panel for dashboard is a simple Up/Down panel, which is built off the `probe_success` metric.
 
-In the top left corner, change the panel type to `Stat`, then fill in the first query with:
+In the top right corner, change the panel type to `Stat`, then fill in the first query with:
 
 `probe_success{instance="https://console.openshift-console.svc.cluster.local:443"}`
 
@@ -64,7 +64,7 @@ For example:
 Once complete, return to the dashboard, resize the panel to your liking, and save your dashboard.
 
 ## Step 4 - Collaborate with your Team
-Continue to build out the dashboard according to your and your team's preferences. There is no set right or wrong here - feel free to experiment and modify as you'd like.
+Continue to build out the dashboard according to you and your team's preferences. There is no set right or wrong here - feel free to experiment and modify as you'd like.
 
 ![Grafana Finished Dashboard](../.images/grafana-finished-dashboard.png)
 
@@ -77,6 +77,6 @@ Once done editing, ensure you save your dashboard.
 ---
 **Navigation**
 
-[Pervious Exercise](../3.2-investigate-resources/)  [Next Exercise](../4.2-exporting-dashboards/)
+[Previous Exercise](../3.2-investigate-resources/)  [Next Exercise](../4.2-exporting-dashboards/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
