@@ -31,7 +31,7 @@ Back in Controller, under **Views** > **Jobs**, there should be some new jobs th
 ![Controller Workflow Launch](../.images/controller-completed-workflow.png)
 
 ## Step 3 - Investigating Virtual Machine
-To confirm that AD was installed, visit the **Console** for our virtual machine named **ad01** and log in using domain credentials:
+To confirm that AD was installed, return to the OpenShift web console, and navigate to **Virtualization** > **VirtualMachines**. visit the **Console** for our virtual machine named **ad01** and log in using domain credentials:
 
 ![Virtual Machine AD Login](../.images/virtual-machine-ad-login.png)
 
