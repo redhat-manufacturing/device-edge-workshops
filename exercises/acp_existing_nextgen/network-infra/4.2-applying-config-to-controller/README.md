@@ -10,7 +10,7 @@
 ## Objective
 
 * Understand how to apply configuration to Controller
-* Merge declarative and prodecural tooling
+* Merge declarative and procedural tooling
 
 ## Step 1 - Creating a Job to Configure Controller
 These next two steps are the crux of this workshop: merging declarative and procedural tooling together to achieve a true end-to-end deployment, using the tools provided on top of a single platform.
