@@ -14,7 +14,7 @@
 * Push a starting controller configuration into a code repository that defines hosts and groups
 
 ## Step 1 - Defining Hosts in an Inventory
-The pervious exercise laid out the resources that will be used to interact with the Controller API, so all we need to do is define what we'd like applied to Controller.
+The previous exercise laid out the resources that will be used to interact with the Controller API, so all we need to do is define what we'd like applied to Controller.
 
 To start, we can define hosts, which point Ansible at the services created earlier - allowing Controller to use the service to communicate with the virtual machines.
 
@@ -29,6 +29,10 @@ controller_hosts:
       # FQDN from service
       ansible_host: cisco-8000v-ssh.team1.svc.cluster.local
 ```
+
+> Note:
+>
+> Team 1 used as an example here - replace with your team's information.
 
 With hosts defined under the `controller_hosts` variable, the Ansible collections outlined earlier will handle the creation of the hosts.
 
