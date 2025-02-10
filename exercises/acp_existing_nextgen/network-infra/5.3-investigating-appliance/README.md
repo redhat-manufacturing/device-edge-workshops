@@ -23,6 +23,6 @@ To confirm our configuration has been applied, type `enable` and then `show run`
 ---
 **Navigation**
 
-[Pervious Exercise](../5.2-resyncing-app/)
+[Previous Exercise](../5.2-resyncing-app/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
