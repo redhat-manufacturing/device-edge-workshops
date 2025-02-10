@@ -19,7 +19,7 @@
 * Create deployment resources for an instance of prometheus
 
 ## Step 1 - Introduction to Prometheus
-Prometheus is a applicatoin used for event monitoring and alerting, storing data in a time series database. Metrics are stored in key:value pairs with labels.
+Prometheus is a application used for event monitoring and alerting, storing data in a time series database. Metrics are stored in key:value pairs with labels.
 
 Essentially, Prometheus acts as the "central brain" of our monitoring stack, where metrics will be gathered and stored, then retrieved later for use in building a dashboard.
 
