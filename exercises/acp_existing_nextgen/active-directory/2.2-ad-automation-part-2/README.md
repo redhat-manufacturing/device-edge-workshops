@@ -34,7 +34,7 @@ Create a file in the `playbooks` directory named `configure-domain-controllers.y
 ## Step 2 - Commit and Push Code
 If you've been using the web interface to create files, then your new code already ready to start consuming. If you're using an IDE, be sure to commit and push your code, so it can be pulled by Controller later on.
 
-![Active Directory Playbooks](../.images/active-directory-playbooks.png)
+![Active Directory Playbooks](../images/active-directory-playbooks.png)
 
 ---
 **Navigation**

@@ -285,7 +285,7 @@ This configmap will take our desired controller configuration we built in the pr
 
 Ensure you've replaced the variables at the top with the correct values, so the automation knows how to authenticate with controller.
 
-![Gitea SCM URL for ConfigMap](../.images/gitea-scm-url-for-configmap.png)
+![Gitea SCM URL for ConfigMap](../images/gitea-scm-url-for-configmap.png)
 
 > Note:
 >

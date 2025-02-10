@@ -17,26 +17,26 @@ In addition to the `configure-controller` job, we also added a job that happens 
 
 In the OpenShift web console, navigate to **Workloads** > **Jobs**, where a job named `run-automation-in-controller-GENERATED-STRING` will now be present:
 
-![Job List with PostSync](../.images/jobs-list-with-postsync.png)
+![Job List with PostSync](../images/jobs-list-with-postsync.png)
 
 The output from the pod should look similar to the `configure-controller` job:
 
-![PostSync Job Output](../.images/postsync-job-output.png)
+![PostSync Job Output](../images/postsync-job-output.png)
 
 ## Step 2 - Investigating the Run Automation in Controller
 Back in Controller, under **Views** > **Jobs**, there should be some new jobs that have been launched, driven by the workflow launch:
 
-![Controller Jobs in Progress](../.images/controller-jobs-in-progress.png)
+![Controller Jobs in Progress](../images/controller-jobs-in-progress.png)
 
-![Controller Workflow Launch](../.images/controller-completed-workflow.png)
+![Controller Workflow Launch](../images/controller-completed-workflow.png)
 
 ## Step 3 - Investigating Virtual Machine
 To confirm that AD was installed, return to the OpenShift web console, and navigate to **Virtualization** > **VirtualMachines**. visit the **Console** for our virtual machine named **ad01** and log in using domain credentials:
 
-![Virtual Machine AD Login](../.images/virtual-machine-ad-login.png)
+![Virtual Machine AD Login](../images/virtual-machine-ad-login.png)
 
 Within the console, wait for the **Server Manager** window to appear, then select **Tools** > **Active Directory Administrative Center**. Then, select **Domain Controllers**:
-![Virtual Machine AD Center](../.images/virtual-machine-ad-center.png)
+![Virtual Machine AD Center](../images/virtual-machine-ad-center.png)
 
 ---
 **Navigation**
