@@ -94,7 +94,7 @@ spec:
       spec:
         sourceRef:
           kind: DataSource
-          name: rockwell-software-template
+          name: rockwell-software
           namespace: openshift-virtualization-os-images
         storage:
           resources:
