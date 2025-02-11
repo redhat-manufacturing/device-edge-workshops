@@ -21,7 +21,7 @@ controller_hosts:
     # Display name
   - name: ft01
     # What inventory to add the host to
-    inventory: team5 FactoryTalk Infrastructure
+    inventory: team1 Process Control Systems
     variables:
       # FQDN from service
       ansible_host: ft01-winrm.team1.svc.cluster.local
@@ -41,14 +41,14 @@ To place the virtual machines in the correct inventory, the following data struc
 ```yaml
 controller_groups:
   - name: factorytalk_controller
-    inventory: team5 Factorytalk Infrastructure
+    inventory: team1 Process Control Systems
     hosts:
       - ft01
 ```
 
 > Note:
 >
-> Team5 is used as an example here, replace with your team number.
+> Team1 is used as an example here, replace with your team number.
 
 ## Step 3 - Committing the Code
 For now, we can place the created variables into a file in our code repository, as we'll be referencing them later on.

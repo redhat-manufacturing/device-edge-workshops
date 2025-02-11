@@ -20,27 +20,27 @@ Create another file in the `playbooks/` directory named `launch-codesys-ide.yaml
   hosts: all
   gather_facts: yes
   tasks:
-    - name: Ensure the Red Hat One Project is installed
-      win_package:
-        path: 'C:\Users\Administrator\Documents\Red Hat One.project'
-        state: present
+    - name: Launch the Codesys IDE with Red Hat One Project using PowerShell
+      win_shell: |
+        $projectFilePath = "C:\Users\Administrator\Documents\Red Hat One.project"
+        if (Test-Path $projectFilePath) {
+            Start-Process -FilePath $projectFilePath
+        } else {
+            Write-Host "Error: The project file does not exist at the specified path."
+        }
+      register: codesys_ide_process
       when: ansible_facts['os_family'] == 'Windows'
 
-    - name: Launch the Codesys IDE with Red Hat 1 Project 
-      win_command: 'C:\Users\Administrator\Documents\Red Hat One.project'
-      args:
-        chdir: 'C:\Users\Adminstrator\Documents'
-      register: codesys_ide_process
-
-    - name: Display Red Hat One Project on Codesys process result
+    - name: Display Codesys IDE process result
       debug:
-        msg: “Codesys IDE launched successfully. Process: {{ codesys_ide_process.stdout }}"
+        msg: "Codesys IDE launched successfully. Process: {{ codesys_ide_process.stdout }}"
       when: codesys_ide_process.rc == 0
 
     - name: Handle failure in launching Codesys IDE and Project
       debug:
         msg: "Failed to launch Codesys IDE. Error: {{ codesys_ide_process.stderr }}"
       when: codesys_ide_process.rc != 0
+
 ```
 
 A few quick notes about this playbook:

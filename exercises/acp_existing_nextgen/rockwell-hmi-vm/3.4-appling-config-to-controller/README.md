@@ -123,15 +123,15 @@ Within kubernetes, we can use a job and a configmap to handle this, along with t
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: configure-controller
+  generateNamename: configure-ftview-automation-
   annotations:
     argocd.argoproj.io/hook: Sync
 spec:
   template:
     spec:
       containers:
-        - name: configure-controller
-          image: quay.io/device-edge-workshops/configure-controller:latest
+        - name: configure-ftview-automation
+          image: quay.io/device-edge-workshops/configure-controller:2.0.1
           volumeMounts:
             - name: controller-vars
               mountPath: /runner/variables
@@ -141,7 +141,7 @@ spec:
       volumes:
         - name: controller-vars
           configMap:
-            name: configure-controller-configmap
+            name: configure-ftview-automation-configmap
         - name: tmp
           emptyDir:
             sizeLimit: 100Mi
@@ -164,25 +164,25 @@ First, create `job.yaml` with the following contents:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: configure-controller
+  generateName: run-automation-ftview-
   annotations:
-    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook: PostSync
 spec:
   template:
     spec:
       containers:
-        - name: configure-controller
+        - name: launch-automation-ftview
           image: quay.io/device-edge-workshops/configure-controller:latest
           volumeMounts:
-            - name: controller-vars
+            - name: automation-to-run-vars
               mountPath: /runner/variables
             - name: tmp
               mountPath: /tmp
-      restartPolicy: OnFailure
+      restartPolicy: Never
       volumes:
-        - name: controller-vars
+        - name: automation-to-run-vars
           configMap:
-            name: configure-controller-configmap
+            name: ftview-automation-to-run-configmap
         - name: tmp
           emptyDir:
             sizeLimit: 100Mi
@@ -194,7 +194,7 @@ Additionally, create a file named `configmap.yaml`. This is where we'll leverage
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: configure-controller-configmap
+  name: configure-ftview-automation-configmap
 data:
   controller-configuration.yaml: |
     controller_hostname: REPLACE_WITH_CONTROLLER_URL_FROM_STUDENT_PAGE
@@ -202,8 +202,8 @@ data:
     controller_password: REPLACE_WITH_CONTROLLER_PASSWORD
     controller_validate_certs: 'false'
     controller_hosts:
-      - name: ad01
-        inventory: team5 FactoryTalk Infrastructure
+      - name: ft01
+        inventory: team1 Process Control Systems
         variables:
           ansible_host: ft01-winrm.team1.svc.cluster.local
     controller_groups:
@@ -211,80 +211,77 @@ data:
         inventory: team5 FactoryTalk Infrastructure
         hosts:
           - ft01
-    controller_projects:
+   
+    controller_credentials:
+      - name: FTView Credentials
+        organization: Team 1
+        credential_type: Machine
+        inputs:
+          username: Administrator
+          password: 'R3dh4t123!'
+   controller_projects:
       - name: Code Repository
         organization: Team 5
-        scm_branch: main
         scm_type: git
         scm_url: "YOUR_GIT_URL_HERE"
         update_project: true
         credential: team1 Code Repository Credentials
+
     controller_templates:
       - name: Wait for Connectivity
-        organization: Team 5
+        organization: Team 1
         project: Code Repository
-        inventory: team5 FactoryTalk Infrastructure
+        inventory: team1 Process Control Systems
         credentials:
-          - Provisioning Machine Login
-        playbook: playbooks/wait-for-connectivity.yaml
-      - name: Set Base Configs
-        organization: Team 5
-        project: Code Repository
-        inventory: team5 FactoryTalk Infrastructure
-        credentials:
-          - Provisioning Machine Login
-        playbook: playbooks/set-base-configs.yaml    
+          - FTView Credentials
+        playbook: playbooks/wait-for-connectivity.yaml 
       - name: Launch FactoryTalk SE Client Application
-        organization: Team 5
+        organization: Team 1
         project: Code Repository
-        inventory: team5 FactoryTalk Infrastructure
+        inventory: team1 Process Control Systems
         credentials:
-          - Provisioning Machine Login
+          - FTView Credentials
         playbook: playbooks/launchftview.yaml
-        limit: launch_codesys_ide
+        limit: primary_ftview
       - name: Launch Codesys IDE
-        organization: Team 5
+        organization: Team 1
         project: Code Repository
-        inventory: team5 FactoryTalk Infrastructure
+        inventory: team1 Process Control Systems
         credentials:
-          - Provisioning Machine Login
+          - FTView Credentials
         playbook: playbooks/launch-codesys-ide.yaml
-        limit: launch_ua_expert
+        limit: primary_ftview
       - name: Launch UA Expert
-        organization: Team 5
+        organization: Team 1
         project: Code Repository
-        inventory: team5 FactoryTalk Infrastructure
+        inventory: team1 Process Control Systems
         credentials:
-          - Provisioning Machine Login
+          - FTView Credentials
         playbook: playbooks/launch-ua-expert.yaml
+        limit: primary_ftview
     controller_workflows:
       - name: Setup FactoryTalk Environment
-        organization: Team 5
+        organization: Team 1
         simplified_workflow_nodes:
           - identifier: Wait for Connectivity
             unified_job_template: Wait for Connectivity
             success_nodes:
-              - Set Base Configs
-            lookup_organization: Team 5
-          - identifier: Set Base Configs
-            unified_job_template: Set Base Configs
-            success_nodes:
               - Launch FactoryTalk SE Client Application
-            lookup_organization: Team 5
+            lookup_organization: Team 1
           - identifier: Launch FactoryTalk SE Client Application
             unified_job_template: Launch FactoryTalk SE Client Application
             success_nodes:
               - Launch Codesys IDE
-            lookup_organization: Team 5
+            lookup_organization: Team 1
           - identifier: Launch Codesys IDE
             unified_job_template: Launch Codesys IDE
-            lookup_organization: Team 5
+            lookup_organization: Team 1
             success_nodes:
               - Launch UA Expert
-            lookup_organization: Team 5
+            lookup_organization: Team 1
           - identifier: Launch UA Expert
             unified_job_template: Launch UA Expert
-            lookup_organization: Team 5
+            lookup_organization: Team 1
 ```
 
 This configmap will take our desired controller configuration we built in the previous exercises, and mount it into a file called `controller-configuration.yaml`, located in `/runner/variables` within the container. Then, the embedded automation will read it in, and apply our desired configuration.
@@ -293,7 +290,7 @@ Ensure you've replaced the variables at the top with the correct values, so the 
 
 > Note:
 >
-> Team5 is used as an example here, replace with your team number
+> Team1 is used as an example here, replace with your team number
 
 ## Step 3 - Creating a Job to Run a Workflow
 Following the idea from above, we're going to create another set of a job and configmap, however, this time we'll only specify what automation we want to run, and set the job to happen after everything else has been synced.
@@ -304,7 +301,7 @@ First, our configmap - simply add this to the bottom of the existing `configmap.
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: automation-to-run-configmap
+  name: ftview-automation-to-run-configmap
 data:
   controller-configuration.yaml: |
     controller_hostname: REPLACE_WITH_CONTROLLER_URL_FROM_STUDENT_PAGE
@@ -313,7 +310,7 @@ data:
     controller_validate_certs: 'false'
     controller_workflow_launch_jobs:
       - name: Setup FactoryTalk Environment
-        organization: Team 5
+        organization: Team 1
 ```
 
 > Note:
@@ -326,14 +323,14 @@ Then, add the following to the `job.yaml` file created earlier:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  generateName: run-automation-in-controller-
+  generateName: run-automation-ftview-
   annotations:
     argocd.argoproj.io/hook: PostSync
 spec:
   template:
     spec:
       containers:
-        - name: launch-automation
+        - name: launch-automation-ftview
           image: quay.io/device-edge-workshops/configure-controller:latest
           volumeMounts:
             - name: automation-to-run-vars
@@ -344,7 +341,7 @@ spec:
       volumes:
         - name: automation-to-run-vars
           configMap:
-            name: automation-to-run-configmap
+            name: ftview-automation-to-run-configmap
         - name: tmp
           emptyDir:
             sizeLimit: 100Mi

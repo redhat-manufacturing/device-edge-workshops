@@ -40,41 +40,42 @@ Same as before, we'll add more to our `controller-configuration.yaml` file:
 ```yaml
 controller_templates:
   - name: Wait for Connectivity
-    organization: Team 5
+    organization: Team 1
     project: Code Repository
-    inventory: team5 FactoryTalk Infrastructure
+    inventory: team1 Process Control Systems
     credentials:
       - Provisioning Machine Login
     playbook: playbooks/wait-for-connectivity.yaml
   - name: Set Base Configs
-    organization: Team 5
+    organization: Team 1
     project: Code Repository
-    inventory: team5 FactoryTalk Infrastructure
+    inventory: team1 Process Control Systems
     credentials:
       - Provisioning Machine Login
     playbook: playbooks/set-base-configs.yaml    
   - name: Launch FactoryTalk SE Client Application
-    organization: Team 5
+    organization: Team 1
     project: Code Repository
-    inventory: team5 FactoryTalkInfrastructure
+    inventory: team1 Process Control Systems
     credentials:
-      - Provisioning Machine Login
-    playbook: playbooks/launchFTview.yaml
+      - Domain Administrator
+    playbook: playbooks/launchftview.yaml
     limit: primary_domain_controller
   - name: Launch Codesys IDE
-    organization: Team 5
+    organization: Team 1
     project: Code Repository
-    inventory: team5 FactoryTalkInfrastructure
+    inventory: team1 Process Control Systems
     credentials:
-      - provisioning Machine Login
+      - Domain Administrator
     playbook: playbooks/launch-codesys-ide.yaml
   - name: Launch UA Expert
-    organization: Team 5
+    organization: Team 1
     project: Code Repository
-    inventory: team5 FactoryTalkInfrastructure
+    inventory: team1 Process Control Systems
     credentials:
-      - provisioning Machine Login
+      - Domain Administrator
     playbook: playbooks/launch-ua-expert.yaml
+
 ```
 
 Here, we've specified five job templates, tied to our five playbooks, with some additional information so Controller knows what playbook to run, and what inventory to run it against, optionally with a limit to a certain group.
@@ -93,31 +94,31 @@ Once again, adding to our `controller-configuration.yaml` file:
 ```yaml
 controller_workflows:
   - name: Setup FactoryTalk Environment
-    organization: Team 5
+    organization: Team 1
     simplified_workflow_nodes:
       - identifier: Wait for Connectivity
         unified_job_template: Wait for Connectivity
         success_nodes:
           - Set Base Configs
-        lookup_organization: Team 5
+        lookup_organization: Team 1
       - identifier: Set Base Configs
         unified_job_template: Set Base Configs
         success_nodes:
           - Launch FactoryTalk SE Client Application
-        lookup_organization: Team 5
+        lookup_organization: Team 1
       - identifier: Launch FactoryTalk SE Client Application
         unified_job_template: Launch FactoryTalk SE Client Application
         success_nodes:
           - Launch Codesys IDE
-        lookup_organization: Team 5
+        lookup_organization: Team 1
       - identifier: Launch Codesys IDE
         unified_job_template: Launch Codesys IDE
         success_nodes:
           - Launch UA Expert
-        lookup_organization: Team 5
+        lookup_organization: Team 1
       - indentifier: Launch UA Expert
         unified_job_template: Launch UA Expert
-        lookup_organization: Team 5
+        lookup_organization: Team 1
 ```
 
 Here, we're creating a single workflow, with 5 nodes, that correlate to our job templates above. This allows for Controller to handle running them in succession, instead of having to manually trigger them.
@@ -144,94 +145,98 @@ controller_workflow_launch_jobs:
 At this point, your `controller-configuration.yaml` file should contain the following:
 ```yaml
 controller_hosts:
+    # Display name
   - name: ft01
-    inventory: team5 FactoryTalk Infrastructure
+    # What inventory to add the host to
+    inventory: team1 Process Control Systems
     variables:
+      # FQDN from service
       ansible_host: ft01-winrm.team1.svc.cluster.local
 
 controller_groups:
-  - name: primary_domain_controller
-    inventory: team5 FactoryTalk  Infrastructure
+  - name: factorytalk_controller
+    inventory: team1 Process Control Systems
     hosts:
       - ft01
 
 controller_projects:
   - name: Code Repository
-    organization: Team 5
+    organization: Team 1
     scm_branch: main
     scm_type: git
-    scm_url: "YOUR_GIT_URL_HERE"
+    scm_url: https://gitea-student-services.apps.acp.rh1.redhat-workshops.com/rh1/team1-code.git
     update_project: true
-    credential: team5 Code Repository Credentials
+    credential: team{{ number }} Code Repository Credentials
 
 controller_templates:
   - name: Wait for Connectivity
-    organization: Team 5
+    organization: Team 1
     project: Code Repository
-    inventory: team5 FactoryTalk  Infrastructure
+    inventory: team1 Process Control Systems
     credentials:
       - Provisioning Machine Login
     playbook: playbooks/wait-for-connectivity.yaml
   - name: Set Base Configs
-    organization: Team 5
+    organization: Team 1
     project: Code Repository
-    inventory: team5 FactoryTalk  Infrastructure
+    inventory: team1 Process Control Systems
     credentials:
       - Provisioning Machine Login
     playbook: playbooks/set-base-configs.yaml    
   - name: Launch FactoryTalk SE Client Application
-    organization: Team 5
+    organization: Team 1
     project: Code Repository
-    inventory: team5 FactoryTalk  Infrastructure
+    inventory: team1 Process Control Systems
     credentials:
-      - Provisioning Machine Login
-    playbook: playbooks/launchFTview.yaml
+      - Domain Administrator
+    playbook: playbooks/launchftview.yaml
     limit: primary_domain_controller
   - name: Launch Codesys IDE
-    organization: Team 5
+    organization: Team 1
     project: Code Repository
-    inventory: team1 FactoryTalk  Infrastructure
+    inventory: team1 Process Control Systems
     credentials:
-      - primary_domain_controller
+      - Domain Administrator
     playbook: playbooks/launch-codesys-ide.yaml
   - name: Launch UA Expert
-    organization: Team 5
+    organization: Team 1
     project: Code Repository
-    inventory: team1 FactoryTalk  Infrastructure
+    inventory: team1 Process Control Systems
     credentials:
-      - primary_domain_controller
+      - Domain Administrator
     playbook: playbooks/launch-ua-expert.yaml
 
 controller_workflows:
-  - name: Setup FactoryTalk  Environment
-    organization: Team 5
+  - name: Setup FactoryTalk Environment
+    organization: Team 1
     simplified_workflow_nodes:
       - identifier: Wait for Connectivity
         unified_job_template: Wait for Connectivity
         success_nodes:
           - Set Base Configs
-        lookup_organization: Team 5
+        lookup_organization: Team 1
       - identifier: Set Base Configs
         unified_job_template: Set Base Configs
         success_nodes:
           - Launch FactoryTalk SE Client Application
-        lookup_organization: Team 5
+        lookup_organization: Team 1
       - identifier: Launch FactoryTalk SE Client Application
         unified_job_template: Launch FactoryTalk SE Client Application
         success_nodes:
           - Launch Codesys IDE
-        lookup_organization: Team 5
+        lookup_organization: Team 1
       - identifier: Launch Codesys IDE
         unified_job_template: Launch Codesys IDE
-        success_nodes: 
+        success_nodes:
           - Launch UA Expert
-        lookup_organization: Team 5
-      - identifier: Launch UA Expert
-        lookup_organization: Team 5
+        lookup_organization: Team 1
+      - indentifier: Launch UA Expert
+        unified_job_template: Launch UA Expert
+        lookup_organization: Team 1
 
 controller_workflow_launch_jobs:
   - name: Setup FactoryTalk Environment
-    organization: Team 5
+    organization: Team 1
 ```
 
 > Note:
