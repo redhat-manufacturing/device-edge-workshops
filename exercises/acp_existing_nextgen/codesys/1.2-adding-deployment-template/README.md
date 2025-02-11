@@ -39,11 +39,14 @@ Underneath this will provide us with a filesystem that can be mounted within our
 
 
 ```yaml
+{% raw %}
 {{- range .Values.plcs }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: {{ .name }}-data
+  labels:
+    app.kubernetes.io/part-of: plc-application-{{ .name }}
 spec:
   accessModes:
     - ReadWriteMany
@@ -58,11 +61,14 @@ spec:
 Let's do the same for a config storage, create conf-storage.yaml in the templates directory.
 
 ```yaml
+{% raw %}
 {{- range .Values.plcs }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: {{ .name }}-config
+  labels:
+    app.kubernetes.io/part-of: plc-application-{{ .name }}
 spec:
   accessModes:
     - ReadWriteMany
@@ -88,6 +94,7 @@ For this exercise, we will only need a single replica, but can investigate the e
 Add the deployment.yaml file to your group git repository's templates folder:
 
 ```yaml
+{% raw %}
 {{- range .Values.plcs }}
 apiVersion: apps/v1
 kind: Deployment

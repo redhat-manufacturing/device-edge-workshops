@@ -53,6 +53,7 @@ For this part of the excersise, create the codesys directory.
 Then, within that new directory, name the file `Chart.yaml` and enter the following information.
 
 ```yaml
+{% raw %}
 apiVersion: v2
 name: codesys
 description: A chart to install and configure a virtual PLC
@@ -66,6 +67,7 @@ Esure you save the file in the UI, or save and push it to the repo if working wi
 
 In this same folder, let's create the values.yaml file as well with some defaults to get started:
 ```yaml
+{% raw %}
 ---
 plcs:
   - name: codesys-plc-1

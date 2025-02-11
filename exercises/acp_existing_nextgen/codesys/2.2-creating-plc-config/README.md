@@ -33,12 +33,15 @@ Within the templates folder in your gitea repo, let us create a file named confi
 The contents for this file will look as follows:
 
 ```yaml
-# Note: Team 1 is used as an example here - replace with your team information for the namespace
+
+{{- range .Values.plcs }}
+{% raw %}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: 'codesys-user-settings'
-  namespace: team1
+  labels:
+    app.kubernetes.io/part-of: plc-application-{{ .name }}
 data: 
   user-config: |
       ;virtuallinux
@@ -59,7 +62,7 @@ data:
       [CmpApp]
       Bootproject.RetainMismatch.Init=1
       ;RetainType.Applications=InSRAM
-      Application.1=Application
+      Application.1={{ .app-name }}
 
       [CmpRedundancyConnectionIP]
 
@@ -70,7 +73,7 @@ data:
       [IoDrvEtherCAT]
 
       [SysTarget]
-      SerialNumber=RTS-00000000333a536a
+      SerialNumber=RTS-{{ .serial-no }}
 
       [CmpSecureChannel]
       SECURITY.CommunicationMode=ONLY_PLAIN
@@ -82,6 +85,7 @@ data:
 
       [CmpSecureChannel]
       CertificateHash=3c0f5865dd0f0fa209668e8f68c2d1341f37a805
+{{ end }}
 ```
 
 The secion under "user-config:" will be mounted within our codesys runtime pod as a file located at "/conf/codesyscontrol/CODESYSControl_User.cfg"

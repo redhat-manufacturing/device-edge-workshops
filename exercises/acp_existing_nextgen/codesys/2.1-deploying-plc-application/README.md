@@ -27,7 +27,7 @@ For more information, feel free to check out [the docs](https://kubernetes.io/do
 
 ## Step 2 - Update the template
 Let's start of by retrieving a pre-compiled application for the PLC.
-We have generated one which can be downloaded from this [repo](https://github.com/redhat-manufacturing/device-edge-workshops/tree/3dc6955f38164aecb030e6ff256f07218127059b/exercises/acp_existing_nextgen/codesys/2.1-deploying-plc-application/application)
+We have generated one which can be downloaded from this [repo](https://github.com/redhat-manufacturing/device-edge-workshops/tree/rh1-summit-acp-2025/exercises/acp_existing_nextgen/codesys/2.1-deploying-plc-application/application)
 You can click on the file and select the "download raw file" option
 
 Download both the app and crc files and upload to your team's gitea repo.
@@ -42,14 +42,17 @@ We will need to update our templates in order to get these files into the PLC co
 
 Let's start by adding the new URLs to our values.yaml file. For simplicity's sake, we'll add the same one to both.
 ```yaml
+{% raw %}
 ---
 plcs:
   - name: codesys-plc-1
-    app-url: https://gitea-student-services.apps.acp.rh1.redhat-workshops.com/student3/team1-code/src/commit/8172ee9afe44ffdd59e3c0e61461e1dbd86c4c0c/Application.app
-    app-crc: https://gitea-student-services.apps.acp.rh1.redhat-workshops.com/student3/team1-code/src/commit/8172ee9afe44ffdd59e3c0e61461e1dbd86c4c0c/Application.crc
+    app-url: https://gitea-student-services.apps.acp.rh1.redhat-workshops.com/student3/team1-code/src/commit/8172ee9afe44ffdd59e3c0e61461e1dbd86c4c0c/
+    app-name: Application
+    serial-no: 00000000333a536a
   - name: another-plc
-    app-url: https://gitea-student-services.apps.acp.rh1.redhat-workshops.com/student3/team1-code/src/commit/8172ee9afe44ffdd59e3c0e61461e1dbd86c4c0c/Application.app
-    app-crc: https://gitea-student-services.apps.acp.rh1.redhat-workshops.com/student3/team1-code/src/commit/8172ee9afe44ffdd59e3c0e61461e1dbd86c4c0c/Application.crc
+    app-url: https://gitea-student-services.apps.acp.rh1.redhat-workshops.com/student3/team1-code/src/commit/8172ee9afe44ffdd59e3c0e61461e1dbd86c4c0c/
+    app-name: Application
+    serial-no: 00000000333a536b
 
 ```
 
@@ -57,13 +60,15 @@ With these values and the files available, we can continue to add them to our de
 Edit the templates/deployment.yaml file and add the initContainer section
 
 ```yaml
+{% raw %}
+
 ...
 containers:
 ...
 initContainers:
   - name: init-myservice
     image: busybox:1.28
-    command: ['sh', '-c', "wget -P /data/codessyscontrol/PlcLogic {{ .app-url }} ; sleep 10; done"]
+    command: ['sh', '-c', "mkdir -p /data/codessyscontrol/PlcLogic; cd /data/codessyscontrol/PlcLogic; svn export {{ .app-url }} ; sleep 10; done"]
     volumeMounts:
       - mountPath: "/data/codesyscontrol"
         name: data-storage
