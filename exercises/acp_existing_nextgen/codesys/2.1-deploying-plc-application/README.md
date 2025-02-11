@@ -34,7 +34,7 @@ Download both the app and crc files and upload to your team's gitea repo.
 In practice, the commit to the repo should be the last step of the build process when publishing new application logic.
 
 Let's create a location within your gitea. In this example a new repository was added specifically for the binaries.
-![Application Binaries In Gitea](../.images/gitea-app-binaries.png)
+![Application Binaries In Gitea](../images/gitea-app-binaries.png)
 
 Once uploaded, remember to commit changes.
 
