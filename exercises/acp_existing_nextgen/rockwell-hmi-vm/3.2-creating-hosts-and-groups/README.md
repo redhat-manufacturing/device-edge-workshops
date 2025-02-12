@@ -17,6 +17,7 @@ The previous exercise laid out the resources that will be used to interact with 
 
 For example, team1 would use the following to create a host within Controller for their virtual machine named `ft01`:
 ```yaml
+{% raw %}
 controller_hosts:
     # Display name
   - name: ft01
@@ -25,6 +26,7 @@ controller_hosts:
     variables:
       # FQDN from service
       ansible_host: ft01-winrm.team1.svc.cluster.local
+{% endraw %}
 ```
 
 With hosts defined under the `controller_hosts` variable, the Ansible collections outlined earlier will handle the creation of the hosts.
@@ -39,11 +41,13 @@ In our case, one virtual machine will act as the primary domain controller, whil
 To place the virtual machines in the correct inventory, the following data structure will be used:
 
 ```yaml
+{% raw %}
 controller_groups:
   - name: factorytalk_controller
     inventory: team1 Process Control Systems
     hosts:
       - ft01
+{% endraw %}
 ```
 
 > Note:

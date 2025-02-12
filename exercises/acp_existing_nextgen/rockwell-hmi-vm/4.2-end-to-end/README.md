@@ -17,23 +17,23 @@ In addition to the `configure-controller` job, we also added a job that happens 
 
 In the OpenShift web console, navigate to **Workloads** > **Jobs**, where a job named `run-automation-in-controller-GENERATED-STRING` will now be present:
 
-![Job List with PostSync](../.images/jobs-list-with-postsync.png)
+![Job List with PostSync](../images/jobs-list-with-postsync.png)
 
 The output from the pod should look similar to the `configure-controller` job:
 
-![PostSync Job Output](../.images/postsync-job-output.png)
+![PostSync Job Output](../images/postsync-job-output.png)
 
 ## Step 2 - Investigating the Run Automation in Controller
 Back in Controller, under **Views** > **Jobs**, there should be some new jobs that have been launched, driven by the workflow launch:
 
-![Controller Jobs in Progress](../.images/controller-jobs-in-progress.png)
+![Controller Jobs in Progress](../images/controller-jobs-in-progress.png)
 
-![Controller Workflow Launch](../.images/controller-completed-workflow.png)
+![Controller Workflow Launch](../images/controller-completed-workflow.png)
 
 ## Step 3 - Investigating Virtual Machine
 To confirm that FT was install, visit the **Console** for our virtual machine named **ad01** and log in using domain credentials:
 
-![Virtual Machine FT Login](../.images/virtual-machine-ad-login.png)
+![Virtual Machine FT Login](../images/virtual-machine-ad-login.png)
 
 You should be able to click around and see multiple applications launched. Start with the FTView Client file, picture with a trend, and push the "Start" button, or push the "Stop" botton. If the pictures are "X"d out it's not communicating with the the Controller (Codesys Group). They may not be ready, or maybe there are other issues. 
 
@@ -41,7 +41,6 @@ Next check out the UA Expert application, there you will be able to see how it's
 
 Finally check out the Codesys IDE deployment. This is the actual program that was created to run the PLC. 
 
-![Virtual Machine FT Center](../.images/virtual-machine-ad-center.png)
 
 ---
 **Navigation**

@@ -22,6 +22,7 @@ Execution environments are container images, meaning they can be leveraged by Co
 
 To act as a shim between our declarative tooling (argoCD) and the procedural tooling (Controller), a container image has been built off of an execution environment that specifically looks for variables to go apply to Ansible Controller. Built into the image is a simple playbook:
 ```yaml
+{% raw %}
 ---
 - name: Configure Ansible Automation Platform
   hosts:
@@ -107,6 +108,7 @@ To act as a shim between our declarative tooling (argoCD) and the procedural too
         name: redhat_cop.controller_configuration.workflow_launch
       when:
         - controller_workflow_launch_jobs is defined
+{% endraw %}
 ```
 
 What this playbook does it load in variables from the `/runner/variables` directory, then run various roles that apply those variables to Controller.
@@ -119,6 +121,7 @@ Since Controller doesn't take configuration declaratively like other k8s resourc
 Within kubernetes, we can use a job and a configmap to handle this, along with the image from above. In addition, we'll apply an annotation to signifiy when ArgoCD should trigger the job.
 
 ```yaml
+{% raw %}
 ---
 apiVersion: batch/v1
 kind: Job
@@ -145,6 +148,7 @@ spec:
         - name: tmp
           emptyDir:
             sizeLimit: 100Mi
+{% endraw %}
 ```
 
 This job definition provides a few things:
@@ -160,6 +164,7 @@ Return to the `factorytalk` helm chart we created earlier, and in the `templates
 
 First, create `job.yaml` with the following contents:
 ```yaml
+{% raw %}
 ---
 apiVersion: batch/v1
 kind: Job
@@ -186,10 +191,12 @@ spec:
         - name: tmp
           emptyDir:
             sizeLimit: 100Mi
+{% endraw %}
 ```
 
 Additionally, create a file named `configmap.yaml`. This is where we'll leverage the variables from our `configure-controller.yaml` file, with a bit of customization to match the configmap spec:
 ```yaml
+{% raw %}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -282,6 +289,7 @@ data:
           - identifier: Launch UA Expert
             unified_job_template: Launch UA Expert
             lookup_organization: Team 1
+{% endraw %}
 ```
 
 This configmap will take our desired controller configuration we built in the previous exercises, and mount it into a file called `controller-configuration.yaml`, located in `/runner/variables` within the container. Then, the embedded automation will read it in, and apply our desired configuration.
@@ -298,6 +306,7 @@ Following the idea from above, we're going to create another set of a job and co
 First, our configmap - simply add this to the bottom of the existing `configmap.yaml` file in the `templates/` directory:
 ```yaml
 ---
+{% raw %}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -311,6 +320,7 @@ data:
     controller_workflow_launch_jobs:
       - name: Setup FactoryTalk Environment
         organization: Team 1
+{% endraw %}
 ```
 
 > Note:
@@ -319,6 +329,7 @@ data:
 
 Then, add the following to the `job.yaml` file created earlier:
 ```yaml
+{% raw %}
 ---
 apiVersion: batch/v1
 kind: Job
@@ -345,6 +356,7 @@ spec:
         - name: tmp
           emptyDir:
             sizeLimit: 100Mi
+{% endraw %}
 ```
 
 Ensure everything has been saved/committed/pushed before continuing.

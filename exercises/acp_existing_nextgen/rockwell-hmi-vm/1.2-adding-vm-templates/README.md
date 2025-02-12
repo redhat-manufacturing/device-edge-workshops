@@ -17,7 +17,7 @@
 As with everything else in OpenShift, virtual machines can be created and modified by using code instead of the web interface. This allows for managing them through a gitops flow, instead of manual modifications.
 
 For example, this is a snippet of a virtual machine's definition:
-![Virtual Machine Yaml](../.images/virtual-machine.yaml.png)
+![Virtual Machine Yaml](../images/virtual-machine.yaml.png)
 
 In the screenshot, the virtual machine configuration is shown as code.
 
@@ -41,7 +41,7 @@ virtualMachines:
 These values will be used by the template in the next step to create the specified virtual machines.
 
 Once complete, be sure to save the file, or if working within an IDE, commit and push.
-![Populate Values File](../.images/populate-values-yaml.png)
+![Populate Values File](../images/populate-values-yaml.png)
 
 ## Step 3 - Creating Virtual Machine Definition Templates
 Since we'll be creating two virtual machines that are nearly identical, we can create one template, and use the `range` function with helm to have it template out 1 virtual machines.
@@ -69,6 +69,7 @@ done
 
 To put that into practice, here's our virtual machine definition combined with the `range` function, based on what's in our `values.yaml` file from earlier:
 ```yaml
+{% raw %}
 {{- range $.Values.virtualMachines }}
 ---
 apiVersion: kubevirt.io/v1
@@ -148,10 +149,11 @@ spec:
             name: {{ .name }}-boot0
           name: rootdisk
 {{- end }}
+{% endraw %}
 ```
 
 Be sure to save this file once done editing, or if working within an code editor, commit and push.
-![Populate VirtualMachine Template](../.images/populate-vm-template-yaml.png)
+![Populate VirtualMachine Template](../images/populate-vm-template-yaml.png)
 
 ## Step 4 - Default Values within Templates
 You may have noticed a few lines in the virtual machine template earlier that appear to be referencing values that weren't defined in our `values.yaml` file, and had a pipe after them.
@@ -165,6 +167,7 @@ Another feature within helm templates is the ability to transform inputs, or to 
 
 Should we want to override these values, we simply need to define them in our `values.yaml` file. For example, to have our first virtual machine have more resources and let the second use the defaults, we could modify our `values.yaml` file accordingly:
 ```yaml
+{% raw %}
 ---
 virtualMachines:
   - name: ft01
@@ -172,6 +175,7 @@ virtualMachines:
     operatingSystem: server2019
     cpuCores: 8
     memory: 16Gi
+{% endraw %}
 ```
 
 This is not required for our use case, but feel free to modify your `values.yaml` file if desired.

@@ -40,15 +40,15 @@ spec:
 
 What's a bit different in this service is the selector - instead of looking for an app label, the name of the virtual machine is used. This will result in the service attaching to the virt-helper pod of the virtual machine.
 
-![Service Selector](../.images/service-selector.png)
+![Service Selector](../images/service-selector.png)
 
 In addition, the same looping function is used, so for each VM, a service will be created with the name `$(VM_NAME)-winrm`.
 
-![Looped Services](../.images/looped-services.png)
+![Looped Services](../images/looped-services.png)
 
 The fully-qualified hostname of the service will later be used by Ansible Controller to communicate to the virtual machine.
 
-![Service FQDN](../.images/service-fqdn.png)
+![Service FQDN](../images/service-fqdn.png)
 
 ## Step 2 - Adding a Service for FactoryTalk Services
 Since the HMI requires services over the network, we'll need to expose them as well or operations such as OPC-UA, Codesys Container Runtimes, and more.
@@ -115,12 +115,12 @@ spec:
 ```
 
 Same as above, a service will be created for every virtual machine in our list:
-![Looped Service 2](../.images/looped-services-2.png)
+![Looped Service 2](../images/looped-services.png)
 
 ## Step 3 - Adding the Service Template to the Code Repo
 With the template for the services completed, be sure to commit and push the new code if using an IDE, or hit save if using the Gitea web interface.
 
-![Services Template Code](../.images/service-template-code.png)
+![Services Template Code](../images/service-template-code.png)
 
 ---
 **Navigation**

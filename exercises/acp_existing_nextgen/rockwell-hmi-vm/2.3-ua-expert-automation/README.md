@@ -45,7 +45,6 @@ A few quick notes about this playbook:
 - This playbook should launch an instance of UA Expert with connections already established. In the bottom left quadrant of the UA Expert GUI, you will tags that can be viewed. You may have to navigate to them, and you can drag them into the main menu to see live data coming over UA. There is a bit of a fun message in the tag names in UA, thanks for being part of our lab. 
 - OPC-UA is a common standard for communication and information models using in the industrial automation/OT space. The reason it is popular is a common model that can be used by a variety of manufacturers. 
 
-![Controller Inventory Vars](../.images/controller-inventory-vars.png)
 
 With these playbooks, we launched the UA Expert GUI and program used so we can see the data the PLC is producing over OPC-UA. In the next exercise, 
 ---

@@ -21,6 +21,7 @@ However, we do need to trigger a sync of the project, as we've added new code to
 
 In our `controller-configuration.yaml` file, we can add the following to have our project be updated:
 ```yaml
+{% raw %}
 controller_projects:
   - name: Code Repository
     organization: Team 5
@@ -29,6 +30,7 @@ controller_projects:
     scm_url: "YOUR_GIT_URL_HERE"
     update_project: true
     credential: team{{ number }} Code Repository Credentials
+{% endraw %}
 ```
 
 Here, we're telling a specific role within the Ansible collections to look for a project named `Code Repository`, in your team's organization, and trigger an update, and wait for it to complete.
@@ -38,6 +40,7 @@ Now, we need to create job templates, tied to our new playbooks, that contain so
 
 Same as before, we'll add more to our `controller-configuration.yaml` file:
 ```yaml
+{% raw %}
 controller_templates:
   - name: Wait for Connectivity
     organization: Team 1
@@ -75,7 +78,7 @@ controller_templates:
     credentials:
       - Domain Administrator
     playbook: playbooks/launch-ua-expert.yaml
-
+{% endraw %}
 ```
 
 Here, we've specified five job templates, tied to our five playbooks, with some additional information so Controller knows what playbook to run, and what inventory to run it against, optionally with a limit to a certain group.
@@ -92,6 +95,7 @@ Now, we can tie our job templates together using a workflow, allowing the job te
 
 Once again, adding to our `controller-configuration.yaml` file:
 ```yaml
+{% endraw %}
 controller_workflows:
   - name: Setup FactoryTalk Environment
     organization: Team 1
@@ -119,6 +123,7 @@ controller_workflows:
       - indentifier: Launch UA Expert
         unified_job_template: Launch UA Expert
         lookup_organization: Team 1
+{% endraw %}
 ```
 
 Here, we're creating a single workflow, with 5 nodes, that correlate to our job templates above. This allows for Controller to handle running them in succession, instead of having to manually trigger them.
@@ -132,9 +137,11 @@ Finally, we'll want to add a last variable to our `controller-configuration.yaml
 
 Add the following to complete our file:
 ```yaml
+{% raw %}
 controller_workflow_launch_jobs:
   - name: Setup FactoryTalk Environment
     organization: Team 5
+{% endraw %}
 ```
 
 > Note:
@@ -144,6 +151,7 @@ controller_workflow_launch_jobs:
 ## Step 5 - Committing the Code
 At this point, your `controller-configuration.yaml` file should contain the following:
 ```yaml
+{% raw %}
 controller_hosts:
     # Display name
   - name: ft01
@@ -237,6 +245,7 @@ controller_workflows:
 controller_workflow_launch_jobs:
   - name: Setup FactoryTalk Environment
     organization: Team 1
+{% endraw %}
 ```
 
 > Note:

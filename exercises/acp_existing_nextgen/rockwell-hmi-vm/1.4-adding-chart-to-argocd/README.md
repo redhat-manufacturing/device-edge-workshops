@@ -26,7 +26,7 @@ Essentially, helm charts define **what** we want to deploy, and ArgoCD is **how*
 Refer back to your student page to retrieve the link to access your team's instance of ArgoCD, which will be used to deploy things into your namespace.
 
 Once logged in, you'll probably be greeted with an empty window.
-![ArgoCD Empty](../.images/argocd-empty.png)
+![ArgoCD Empty](../images/argocd-empty.png)
 
 Click on the `+ New App` button to start adding a new application to be deployed.
 
@@ -34,18 +34,18 @@ Click on the `+ New App` button to start adding a new application to be deployed
 In the window pane that appears on the right, we'll need to enter some information about our application, and where to find the code for it.
 
 Start by giving the application a name, such as `factorytalk`, and setting the project name to `default` - this is just the namespace where the project definition will live, not where our resources will be deployed.
-![Create New App Name](../.images/create-new-app-name.png)
+![Create New App Name](../images/create-new-app-name.png)
 
 Scrolling down, add information about the code repository. The URL can be retrieved from the Gitea interface if needed:
-![Gitea Repo URL](../.images/gitea-repo-url.png)
+![Gitea Repo URL](../images/gitea-repo-url.png)
 
 Enter this information into the appropriate place under the `Source` header:
-![Create New App Source](../.images/create-new-app-source.png)
+![Create New App Source](../images/create-new-app-source.png)
 
 Under destination, ensure the cluster IRL is set to the local cluster: `https://kubernetes.devault.svc`, and that the Namespace is set to your team's namespace. In this example, team1's namespace is used.
 
 ArgoCD should pull in some information about the repo, automatically displaying `helm` and the values we put into our `values.yaml` file:
-![Create New App Helm](../.images/create-new-app-helm-info.png)
+
 
 Once finished, hit the `Create` button at the top of the window.
 
@@ -71,37 +71,37 @@ spec:
   project: default
 ```
 
-This should appear as so in the web interface:
-![Create New App Yaml](../.images/create-new-app-yaml.png)
+This should appear as so in the web interface (ad as an example):
+![Create New App Yaml](../images/create-new-app-yaml.png)
 
 Once finished, click the `Create` button.
 
 ## Step 5 - Investigate New Application
 After hitting the create button, a new application tile should appear, with details about the new application:
-![New App Tile](../.images/new-app-tile.png)
+![New App Tile](../images/new-app-tile.png)
 
 Clicking on the application tile will show more information, such as the resources that are to be deployed and managed:
-![New App Info](../.images/new-app-info.png)
+![New App Info](../images/looped-services.png)
 
 As discussed previously, our helm templates have been rendered, showing our two virtual machines as resources. ArgoCD is denoting these resources as "missing" because the application has not yet been synced.
 
 ## Step 6 - Syncing Application
 With the application sitting in an OutOfSync state, the resources are set to be deployed:
-![ArgoCD Before Sync](../.images/argocd-before-sync.png)
+
 
 To begin syncing the application, click on the `Sync` button. A menu will appear on the right with options:
-![ArgoCD Sync Window](../.images/argocd-sync-window.png)
+![ArgoCD Sync Window](../images/argocd-sync-window.png)
 
 For our purposes, no additional options are needed. Simply click the `Synchronize` button at the top.
 
 The ArgoCD interface will show the sync process, the resources being created, and the current state of the sync.
-![ArgoCD Syncing](../.images/argocd-syncing.png)
+![ArgoCD Syncing](../images/looped-services.png)
 
 After a few moments, the application will show Synced:
-![ArgoCD Synced](../.images/argocd-synced.png)
+
 
 And within the OpenShift Console, new virtual machines will appear:
-![OCP New Virtual Machines](../.images/ocp-new-virtual-machines.png)
+![OCP New Virtual Machines](../images/ocp-new-virtual-machine.png)
 
 ---
 **Navigation**
