@@ -32,8 +32,10 @@ Within the `factorytalk` directory in our code repo, create a new file named `va
 ---
 virtualMachines:
   - name: cs01
-    partOf: codesys
+    partOf: codesys-ide
     operatingSystem: server2019
+ - name: cn01
+   partOf: codesys-ide
 ```
 
 
@@ -177,6 +179,100 @@ virtualMachines:
     memory: 16Gi
 {% endraw %}
 ```
+
+## Step 3 Setup PLC Debug HOST
+
+PLC - Programmable Logic Controlller - common in Industrial Autmation systems in manufacturing. Add this to the `virtual-machines.yaml`
+
+yaml` file from earlier:
+```yaml
+{% raw %}
+{{- range $.Values.virtualMachines }}
+---
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: {{ .name }}
+  finalizers:
+    - kubevirt.io/virtualMachineControllerFinalize
+  labels:
+    vm.kubevirt.io/template: centos-stream9-server-small
+    vm.kubevirt.io/template.namespace: openshift
+    vm.kubevirt.io/template.revision: '1'
+    vm.kubevirt.io/template.version: v0.26.0
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  dataVolumeTemplates:
+    - apiVersion: cdi.kubevirt.io/v1beta1
+      kind: DataVolume
+      metadata:
+        creationTimestamp: null
+        name: {{ .name }}-boot0
+      spec:
+        sourceRef:
+          kind: DataSource
+          name: CentOS Stream 9 VM
+          namespace: openshift-virtualization-os-images
+        storage:
+          resources:
+            requests:
+              storage: 100Gi
+  running: true
+  template:
+    metadata:
+      annotations:
+        vm.kubevirt.io/flavor: medium
+        vm.kubevirt.io/os: {{ .operatingSystem }}
+        vm.kubevirt.io/workload: server
+      labels:
+        kubevirt.io/domain: {{ .name }}
+        kubevirt.io/size: medium
+        app.kubernetes.io/name: {{ .name }}
+        app.kubernetes.io/part-of: {{ .partOf }}
+    spec:
+      architecture: amd64
+      domain:
+        cpu:
+          cores: 1
+          sockets: {{ .cpuCores | default "4" }}
+          threads: 1
+        devices:
+          disks:
+            - disk:
+                bus: sata
+              name: rootdisk
+          inputs:
+            - bus: usb
+              name: tablet
+              type: tablet
+          interfaces:
+            - name: default
+              masquerade: {}
+              model: e1000e
+              ports:
+                - name: winrm
+                  port: 5985
+        machine:
+          type: pc-q35-rhel9.2.0
+        memory:
+          guest: {{ .memory | default "8Gi" }}
+      networks:
+        - name: default
+          pod: {}
+      terminationGracePeriodSeconds: 3600
+      volumes:
+        - dataVolume:
+            name: {{ .name }}-boot0
+          name: rootdisk
+{{- end }}
+{% endraw %}
+```
+
+
+Once the the VM is running, check OpenShift Console (guest credentials and login) 
+
+![Openshift VM Login Credentials](../images/os-vm-login-cred.png)
 
 This is not required for our use case, but feel free to modify your `values.yaml` file if desired.
 
