@@ -29,7 +29,7 @@ Create a new file in the team's gitea repository/templates folder and call it "s
 Add the following content:
 ```yaml
 {% raw %}
-{{- range .Values.plcs }}
+{{- range $.Values.plcs }}
 apiVersion: v1
 kind: Service
 metadata:
