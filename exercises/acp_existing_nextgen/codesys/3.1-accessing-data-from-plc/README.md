@@ -63,6 +63,6 @@ Investigate the service and make a note of the IP address listed on it.
 ---
 **Navigation**
 
-[Next Exercise](../3.2-uaexpert-vm/)
+[Previous Exercise](../2.2-creating-plc-config/) | [Next Exercise](../3.2-create-uaexpert-vm/)
 
 [Click here to return to the Workshop Homepage](../../README.md)

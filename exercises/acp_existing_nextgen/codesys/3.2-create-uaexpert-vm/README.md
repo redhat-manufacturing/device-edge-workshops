@@ -187,6 +187,6 @@ This is not required for our use case, but feel free to modify your `values.yaml
 ---
 **Navigation**
 
-[Previous Exercise](../3.1-accessing-data-from-plc/) | [Next Exercise](../1.3-adding-services-for-connectivity/)
+[Previous Exercise](../3.1-accessing-data-from-plc/) 
 
 [Click here to return to the Workshop Homepage](../../README.md)

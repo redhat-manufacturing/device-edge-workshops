@@ -101,6 +101,6 @@ And within the OpenShift Console, new virtual deployments will be running:
 ---
 **Navigation**
 
-[Next Exercise](../2.1-deploying-plc-application/)
+[Previous Exercise](../1.2-adding-deployment-template/) | [Next Exercise](../2.1-deploying-plc-application/)
 
 [Click here to return to the Workshop Homepage](../README.md)

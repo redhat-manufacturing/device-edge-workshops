@@ -100,7 +100,7 @@ Esure you save the file, or push it to the repo if working within another editor
 ---
 **Navigation**
 
-[Next Exercise](../2.2-deploying-plc-application/)
+[Previous Exercise](../2.1-deploying-plc-application/) | [Next Exercise](../3.1-accessing-data-from-plc/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
 

@@ -62,7 +62,6 @@ Edit the templates/deployment.yaml file and add the initContainer section
 
 ```yaml
 {% raw %}
-
 ...
 containers:
 ...
@@ -82,6 +81,6 @@ initContainers:
 ---
 **Navigation**
 
-[Next Exercise](../2.2-creating-plc-config/)
+[Previous Exercise](../1.3-adding-chart-to-argocd/) | [Next Exercise](../2.2-creating-plc-config/)
 
 [Click here to return to the Workshop Homepage](../../README.md)

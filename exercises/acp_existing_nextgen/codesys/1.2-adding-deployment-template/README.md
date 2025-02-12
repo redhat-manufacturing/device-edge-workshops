@@ -55,7 +55,8 @@ spec:
       storage: 1Gi
   storageClassName: ocs-storagecluster-cephfs
   volumeMode: Filesystem
-{{ end }}
+{{- end }}
+{% endraw %}
 ```
 
 Let's do the same for a config storage, create conf-storage.yaml in the templates directory.
@@ -78,7 +79,7 @@ spec:
   storageClassName: ocs-storagecluster-cephfs
   volumeMode: Filesystem
 {{- end }}
-{{% endraw %}}
+{% endraw %}
 ```
 
 !Remember to commit and push this file to the gitea repo.
@@ -144,6 +145,6 @@ With these templates created we are ready to let ArgoCD start doing its magic.
 ---
 **Navigation**
 
-[Next Exercise](../1.3-adding-chart-to-argocd/)
+[Previous Exercise](../1.1-initializing-chart/) | [Next Exercise](../1.3-adding-chart-to-argocd/)
 
 [Click here to return to the Workshop Homepage](../README.md)
