@@ -213,7 +213,7 @@ spec:
       spec:
         sourceRef:
           kind: DataSource
-          name: CentOS Stream 9 VM
+          name: centos-stream9
           namespace: openshift-virtualization-os-images
         storage:
           resources:
