@@ -38,7 +38,7 @@ This will ensure the VMs can be contacted before attempting the next steps.
 ## Step 2 - Setting the start-up script for UA Expert
 This will setup what start-ups will be needed going forward. These will go in the playbook folder on gitea. 
 
-create yaml called: 'set-start-up-script.yaml' 
+create yaml called: `set-start-up-script1.yaml`
 
 ```yaml
 {% raw %}
@@ -63,14 +63,14 @@ create yaml called: 'set-start-up-script.yaml'
           Copy-Item -Path "$TempPath" -Destination "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup\" -Force    
           Write-Host "Script added to Startup. It will run at the next login."
         parameters:
-          AppPath: 'C:\Program Files\UnifiedAutomation\UaExpert\bin\uaexpert.exe'
+          AppPath: 'C:\Users\Administrator\Documents\Red Hat One.project'
           TempPath: 'C:\Users\Administrator\startup.cmd'
           Path: 'C:\Users\Administrator\Launch-Program.ps1'
 {% endraw %}
 ```
 
 ## Step 3 - Setup Default Usuer
-This yaml will help create an auto login script. Create another file in the `playbooks/` directory named `set-default-user.yaml`, and add the following contents:
+This yaml will help create an auto login script. Create another file in the `playbooks/` directory named `set-default-user1.yaml`, and add the following contents:
 
 ```yaml
 {% raw %}
@@ -113,12 +113,12 @@ This yaml will help create an auto login script. Create another file in the `pla
 
 A few quick notes about this playbook:
 -FactoryTalk View SE is an HMI/SCADA program created by Rockwell Automation used in a plant all over the world. While this is only a very sample of what it can do. Know that is is used in manufacturing of critical functions globally and rather popular HMI at that.  
--This playbook should launch a graphic Trend that shows the values from the Codesys PLC that was created in another team. If that PLC is not running or not finished yet, you will see greyed out or "x" out things on the display. But no worries, we have some other things to check out. If we don't have other pieces working, we have some ways to mitigate the problems, but let's cross our fingers and hope for the best. (note: crossing finguers might not actually work in fixing the issue)
 
-With these playbooks, we'll have created and configured an FactoryTalk HMI to show a trend on a single system. In the next exercise, we'll launch the Codesys IDE. 
+
+With these playbooks, we'll have created and configured a Windows VM with Codesys IDE running (PLC Programming software) project. We will also be creating a CentOS VM with services available to help connect the VM to the Codesys Runtime Container. 
 ---
 **Navigation**
 
-[Previous Exercise](../1.4-adding-chart-to-argocd/) | [Next Exercise](../2.2-codesys-automation/)
+[Previous Exercise](../1.4-adding-chart-to-argocd/) | [Next Exercise](../3.1-contoller-as-code/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
