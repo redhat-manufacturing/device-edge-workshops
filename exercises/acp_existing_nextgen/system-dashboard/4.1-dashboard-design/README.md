@@ -77,6 +77,6 @@ Once done editing, ensure you save your dashboard.
 ---
 **Navigation**
 
-[Previous Exercise](../3.2-investigate-resources/)  [Next Exercise](../4.2-exporting-dashboards/)
+[Previous Exercise](../3.2-investigate-resources/) | [Next Exercise](../4.2-exporting-dashboards/)
 
 [Click here to return to the Workshop Homepage](../../README.md)

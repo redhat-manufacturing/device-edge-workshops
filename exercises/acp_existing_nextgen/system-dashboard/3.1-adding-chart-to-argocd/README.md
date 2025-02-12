@@ -100,6 +100,6 @@ Return to the OpenShift web interface, and switch to the **Developer View**. Sel
 ---
 **Navigation**
 
-[Previous Exercise](../2.3-setup-grafana/)  [Next Exercise](../3.2-investigate-resources/)
+[Previous Exercise](../2.3-setup-grafana/) | [Next Exercise](../3.2-investigate-resources/)
 
 [Click here to return to the Workshop Homepage](../../README.md)

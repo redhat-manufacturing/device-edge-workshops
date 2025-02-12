@@ -44,6 +44,6 @@ Assuming everything is correct, we're now ready to start building a dashboard.
 ---
 **Navigation**
 
-[Previous Exercise](../3.1-adding-chart-to-argocd/)  [Next Exercise](../4.1-dashboard-design/)
+[Previous Exercise](../3.1-adding-chart-to-argocd/) | [Next Exercise](../4.1-dashboard-design/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
