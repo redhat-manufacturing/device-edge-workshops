@@ -107,7 +107,7 @@ Note how the configmap is mounted as a volume.
         command:
           - sh
           - '-c'
-          - mkdir -p cd /data/codesyscontrol/PlcLogic/Application && curl -O {{ .appUrl }}/Application.app && curl -O {{ .appUrl }}/Application.crc && cp -f /temp/conf/CODESYSControl_User.cfg /conf/codesyscontrol/ 
+          - mkdir -p /data/codesyscontrol/PlcLogic/Application cd /data/codesyscontrol/PlcLogic/Application && curl -O {{ .appUrl }}/Application.app && curl -O {{ .appUrl }}/Application.crc && cp -f /temp/conf/CODESYSControl_User.cfg /conf/codesyscontrol/ 
         resources: {}
         volumeMounts:
           - name: data-storage
