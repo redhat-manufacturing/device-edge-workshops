@@ -65,20 +65,22 @@ Create another file in the `playbooks/` directory named `launchFTview.yaml`, and
 ```yaml
 ---
 - name: Launch FactoryTalk SE Client Application
-  hosts: all
+  hosts: 
+    - all
   gather_facts: yes
   tasks:
-    - name: Ensure the FactoryTalk SE Client is installed
-      win_package:
-        path: 'C:\Users\Administrator\Desktop\ACP_RH_1.cli'
-        state: present
-      when: ansible_facts['os_family'] == 'Windows'
-
-    - name: Launch the FactoryTalk SE Client
-      win_command: 'C:\Users\Administrator\Desktop\ACP_RH_1.cli'
-      args:
-        chdir: 'C:\Users\Administrator\Desktop'
+    - name: Launch the FactoryTalk SE Client with PowerShell
+      win_shell: |
+        $cliFilePath = "C:\Users\Administrator\Desktop\ACP_RH_1.cli"
+        if (Test-Path $cliFilePath) {
+            Write-Host "File found at path: $cliFilePath"
+            $process = Start-Process -FilePath $cliFilePath
+            Write-Host "Started FactoryTalk SE Client with process ID: $($process.Id)"
+        } else {
+            Write-Host "Error: The file does not exist at the specified path."
+        }
       register: factorytalk_client_process
+      when: ansible_facts['os_family'] == 'Windows'
 
     - name: Display FactoryTalk SE Client process result
       debug:
@@ -89,6 +91,7 @@ Create another file in the `playbooks/` directory named `launchFTview.yaml`, and
       debug:
         msg: "Failed to launch FactoryTalk SE Client. Error: {{ factorytalk_client_process.stderr }}"
       when: factorytalk_client_process.rc != 0
+
 ```
 
 A few quick notes about this playbook:

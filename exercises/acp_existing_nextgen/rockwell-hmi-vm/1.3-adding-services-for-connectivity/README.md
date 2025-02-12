@@ -59,6 +59,21 @@ Modify your `service.yaml` file to include the following between the `range` fun
 apiVersion: v1
 kind: Service
 metadata:
+  name: {{ .name }}-winrm
+  labels:
+    app.kubernetes.io/part-of: {{ .partOf }}
+spec:
+  selector:
+    kubevirt.io/domain: {{ .name }}
+  ports:
+    - name: winrm
+      protocol: TCP
+      port: 5985
+      targetPort: 5985
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: ft-services-{{ .name }}
 spec:
   selector:
@@ -96,6 +111,7 @@ spec:
       port: 44818
       targetPort: 44818
       protocol: TCP
+{{- end }}
 ```
 
 Same as above, a service will be created for every virtual machine in our list:

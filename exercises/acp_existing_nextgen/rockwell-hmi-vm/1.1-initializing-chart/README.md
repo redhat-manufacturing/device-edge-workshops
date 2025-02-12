@@ -41,7 +41,7 @@ If you are comfortable with git and have a text editor available to you, feel fr
 Gitea has a web interface that can also be used for editing files, which will be shown here.
 
 First, let's create a directory to house our chart, and fill out Chart.yaml. In the Gitea web interface, select "New File". To add a directory, simply type the desired name of the directory, then put in a forward slash: `/`.
-![Start Chart Yaml](../.images/start-chart-yaml.png)
+![Start Chart Yaml](../images/repository.png)
 
 Then, within that new directory, name the file `Chart.yaml` and enter the following information.
 
@@ -53,9 +53,13 @@ type: application
 version: 1.0.0
 appVersion: "1.0.0"
 ```
-![Populate Chart Yaml](../.images/populate-chart-yaml.png)
+![Populate Chart Yaml](../images/populate-chart-yaml.png)
 
 Esure you save the file, or push it to the repo if working within another editor.
+
+> Note:
+>
+> You will interact with Gitea as a student, athough you may see "instructor" as the user on a commit in your repo. This is just how the workshop is provisioned - all commits going forward will be done as your student user.
 ---
 **Navigation**
 
