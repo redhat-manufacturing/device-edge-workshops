@@ -181,6 +181,10 @@ virtualMachines:
 {% endraw %}
 ```
 
+
+This is not required for our use case, but feel free to modify your `values.yaml` file if desired.
+
+
 ## Step 3 Setup PLC Debug HOST
 
 PLC - Programmable Logic Controlller - common in Industrial Autmation systems in manufacturing. Add this to the `virtual-machines.yaml`
@@ -271,11 +275,16 @@ spec:
 ```
 
 
-Once the the VM is running, check OpenShift Console (guest credentials and login) 
+Once the the VM is running, check OpenShift Console (guest credentials and login) .
 
 ![Openshift VM Login Credentials](../images/os-vm-login-cred.png)
 
-This is not required for our use case, but feel free to modify your `values.yaml` file if desired.
+Once logged in, we will install podman. 
+
+```
+sudo dnf install podman
+```
+
 
 ---
 **Navigation**
