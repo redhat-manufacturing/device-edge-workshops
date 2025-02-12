@@ -42,7 +42,7 @@ Scrolling down, add information about the code repository. The URL can be retrie
 Enter this information into the appropriate place under the `Source` header:
 ![Create New App Source](../images/argocd-new-app-source.png)
 
-Under destination, ensure the cluster URL is set to the local cluster: `https://kubernetes.devault.svc`, and that the Namespace is set to your team's namespace. In this example, team1's namespace is used.
+Under destination, ensure the cluster URL is set to the local cluster: `https://kubernetes.default.svc`, and that the Namespace is set to your team's namespace. In this example, team1's namespace is used.
 
 ArgoCD should pull in some information about the repo, automatically displaying `helm` and the values we put into our `values.yaml` file:
 ![Create New App Helm](../images/argocd-new-app-helm.png)
