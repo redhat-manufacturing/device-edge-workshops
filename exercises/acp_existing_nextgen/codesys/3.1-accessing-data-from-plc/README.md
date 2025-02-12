@@ -28,14 +28,14 @@ Create a new file in the team's gitea repository/templates folder and call it "s
 
 Add the following content:
 ```yaml
-{{- range .Values.plcs }}
 {% raw %}
+{{- range .Values.plcs }}
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ .name }}
   labels:
-    app.kubernetes.io/part-of: plc-application-{{ .name }}
+    app.kubernetes.io/part-of: {{ .partOf }}
 spec:
   selector:
     app: {{ .name }}
@@ -44,7 +44,9 @@ spec:
       protocol: TCP
       port: 4840
       targetPort: 4840
+
 {{ end }}
+{% end raw %}
 ```
 
 Save and push the changes.
@@ -54,10 +56,13 @@ Head over to the argoCD application and hit sync to get the service deployed int
 We now have a static reference point which we can use for accessing our PLC, we can retrieve the path and IP address for accessing our data from the PLC pod.
 One of the important aspects here is that a lot of industrial protocols require the IP address rather than a DNS resolvable name.
 
+Investigate the service and make a note of the IP address listed on it.
+![OPC UA Service](../images/opc-ua-service.png)
 
 
+---
+**Navigation**
 
+[Next Exercise](../3.2-uaexpert-vm/)
 
-
-
-
+[Click here to return to the Workshop Homepage](../../README.md)

@@ -42,17 +42,18 @@ We will need to update our templates in order to get these files into the PLC co
 
 Let's start by adding the new URLs to our values.yaml file. For simplicity's sake, we'll add the same one to both.
 ```yaml
-{% raw %}
 ---
 plcs:
   - name: codesys-plc-1
-    app-url: https://gitea-student-services.apps.acp.rh1.redhat-workshops.com/student3/team1-code/src/commit/8172ee9afe44ffdd59e3c0e61461e1dbd86c4c0c/
-    app-name: Application
-    serial-no: 00000000333a536a
+    appUrl: https://gitea-student-services.apps.acp.rh1.redhat-workshops.com/student3/team1-code/src/commit/8172ee9afe44ffdd59e3c0e61461e1dbd86c4c0c/
+    partOf: codesys
+    appName: Application
+    serialNo: 00000000333a536a
   - name: another-plc
-    app-url: https://gitea-student-services.apps.acp.rh1.redhat-workshops.com/student3/team1-code/src/commit/8172ee9afe44ffdd59e3c0e61461e1dbd86c4c0c/
-    app-name: Application
-    serial-no: 00000000333a536b
+    appUrl: https://gitea-student-services.apps.acp.rh1.redhat-workshops.com/student3/team1-code/src/commit/8172ee9afe44ffdd59e3c0e61461e1dbd86c4c0c/
+    partOf: codesys
+    appName: Application
+    serialNo: 00000000333a536b
 
 ```
 
@@ -66,14 +67,15 @@ Edit the templates/deployment.yaml file and add the initContainer section
 containers:
 ...
 initContainers:
-  - name: init-myservice
+  - name: init-plc-application
     image: busybox:1.28
-    command: ['sh', '-c', "mkdir -p /data/codessyscontrol/PlcLogic; cd /data/codessyscontrol/PlcLogic; svn export {{ .app-url }} ; sleep 10; done"]
+    command: ['sh', '-c', "mkdir -p /data/codessyscontrol/PlcLogic && cd /data/codessyscontrol/PlcLogic && touch test.txt" ]
     volumeMounts:
       - mountPath: "/data/codesyscontrol"
         name: data-storage
     
 ...
+{% end raw %}
 ```
 
 

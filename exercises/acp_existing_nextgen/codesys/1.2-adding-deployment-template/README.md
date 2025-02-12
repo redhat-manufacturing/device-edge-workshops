@@ -68,7 +68,7 @@ apiVersion: v1
 metadata:
   name: {{ .name }}-config
   labels:
-    app.kubernetes.io/part-of: plc-application-{{ .name }}
+    app.kubernetes.io/part-of: {{ .partOf }}
 spec:
   accessModes:
     - ReadWriteMany
@@ -101,7 +101,7 @@ kind: Deployment
 metadata:
   name: {{ .name }}
   labels:
-    app.kubernetes.io/part-of: plc-application-{{ .name }}
+    app.kubernetes.io/part-of: {{ .partOf }}
 spec:
   selector:
     matchLabels:
@@ -132,6 +132,7 @@ spec:
               name: config
             - mountPath: "/data/codesyscontrol"
               name: data-storage
+{% end raw %}
 {{ end }}
 ```
 !Remember to commit and push this file to the gitea repo.

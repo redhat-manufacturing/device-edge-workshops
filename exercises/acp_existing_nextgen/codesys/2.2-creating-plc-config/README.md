@@ -33,15 +33,14 @@ Within the templates folder in your gitea repo, let us create a file named confi
 The contents for this file will look as follows:
 
 ```yaml
-
-{{- range .Values.plcs }}
 {% raw %}
+{{- range .Values.plcs }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: 'codesys-user-settings'
+  name: {{ .name }}-user-config
   labels:
-    app.kubernetes.io/part-of: plc-application-{{ .name }}
+    app.kubernetes.io/part-of: {{ .partOf }}
 data: 
   user-config: |
       ;virtuallinux
@@ -62,7 +61,7 @@ data:
       [CmpApp]
       Bootproject.RetainMismatch.Init=1
       ;RetainType.Applications=InSRAM
-      Application.1={{ .app-name }}
+      Application.1={{ .appName }}
 
       [CmpRedundancyConnectionIP]
 
@@ -73,7 +72,7 @@ data:
       [IoDrvEtherCAT]
 
       [SysTarget]
-      SerialNumber=RTS-{{ .serial-no }}
+      SerialNumber=RTS-{{ .serialNo }}
 
       [CmpSecureChannel]
       SECURITY.CommunicationMode=ONLY_PLAIN
@@ -85,6 +84,7 @@ data:
 
       [CmpSecureChannel]
       CertificateHash=3c0f5865dd0f0fa209668e8f68c2d1341f37a805
+{% end raw %}
 {{ end }}
 ```
 
