@@ -55,10 +55,11 @@ The fully-qualified hostname of the service will later be used by Ansible Contro
 ## Step 2 - Adding a Service for FactoryTalk Services
 Since the HMI requires services over the network, we'll need to expose them as well or operations such as OPC-UA, Codesys Container Runtimes, and more.
 
+{% raw %}
 Modify your `service.yaml` file to include the following between the `range` function:
 
 ```yaml
-{% raw %}
+
 ---
 apiVersion: v1
 kind: Service
