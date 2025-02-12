@@ -150,7 +150,7 @@ spec:
             name: {{ .name }}-boot0
           name: rootdisk
 {{- end }}
-{% end raw %}
+{% endraw %}
 ```
 
 Be sure to save this file once done editing, or if working within an code editor, commit and push.
@@ -166,7 +166,7 @@ You may have noticed a few lines in the virtual machine template earlier that ap
 {% raw %}
 sockets: {{ .cpuCores | default "4" }}
 guest: {{ .memory | default "8Gi" }}
-{% end raw %}
+{% endraw %}
 ```
 
 Another feature within helm templates is the ability to transform inputs, or to assign default values if nothing is specified. Here, defaults of 4 sockets and 8Gi of memory are set as defaults, and since our `values.yaml` file does not specify these values, the defaults will be applied.

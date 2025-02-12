@@ -84,8 +84,9 @@ data:
 
       [CmpSecureChannel]
       CertificateHash=3c0f5865dd0f0fa209668e8f68c2d1341f37a805
-{% end raw %}
-{{ end }}
+
+{{- end }}
+{% endraw %}
 ```
 
 The secion under "user-config:" will be mounted within our codesys runtime pod as a file located at "/conf/codesyscontrol/CODESYSControl_User.cfg"

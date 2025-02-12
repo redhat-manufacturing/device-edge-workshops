@@ -51,13 +51,12 @@ Once finished, hit the `Create` button at the top of the window.
 ## Step 4 - OPTIONAL - Adding New Application via YAML
 The above process can also be done as code, if you like, using the following format:
 ```yaml
+
 # Note: Team 1 is used as an example here - replace with your team information for the namespace
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: codesys
-  labels:
-    app.kubernetes.io/part-of: {{ .partOf }}
 spec:
   destination:
     name: ''

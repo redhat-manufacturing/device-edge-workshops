@@ -45,8 +45,8 @@ spec:
       port: 4840
       targetPort: 4840
 
-{{ end }}
-{% end raw %}
+{{- end }}
+{% endraw %}
 ```
 
 Save and push the changes.

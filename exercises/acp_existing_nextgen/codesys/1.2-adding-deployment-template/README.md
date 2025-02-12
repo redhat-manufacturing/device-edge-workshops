@@ -132,8 +132,9 @@ spec:
               name: config
             - mountPath: "/data/codesyscontrol"
               name: data-storage
-{% end raw %}
-{{ end }}
+
+{{- end }}
+{% endraw %}
 ```
 !Remember to commit and push this file to the gitea repo.
 
