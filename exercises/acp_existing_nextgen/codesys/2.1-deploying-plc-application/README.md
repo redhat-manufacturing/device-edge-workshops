@@ -42,15 +42,16 @@ We will need to update our templates in order to get these files into the PLC co
 
 Let's start by adding the new URLs to our values.yaml file. For simplicity's sake, we'll add the same one to both.
 ```yaml
+*note you will need to ch
 ---
 plcs:
   - name: codesys-plc-1
-    appUrl: https://gitea-student-services.apps.acp.rh1.redhat-workshops.com/student3/team1-code/src/commit/8172ee9afe44ffdd59e3c0e61461e1dbd86c4c0c/
+    appUrl: https://github.com/redhat-manufacturing/device-edge-workshops/blob/c31081a2c697d17e9891f1ff3f17ed9457d6b90c/exercises/acp_existing_nextgen/codesys/2.1-deploying-plc-application/application/
     partOf: codesys
     appName: Application
     serialNo: 00000000333a536a
   - name: another-plc
-    appUrl: https://gitea-student-services.apps.acp.rh1.redhat-workshops.com/student3/team1-code/src/commit/8172ee9afe44ffdd59e3c0e61461e1dbd86c4c0c/
+    appUrl: https://github.com/redhat-manufacturing/device-edge-workshops/blob/c31081a2c697d17e9891f1ff3f17ed9457d6b90c/exercises/acp_existing_nextgen/codesys/2.1-deploying-plc-application/application/
     partOf: codesys
     appName: Application
     serialNo: 00000000333a536b
@@ -67,12 +68,11 @@ containers:
 ...
 initContainers:
   - name: init-plc-application
-    image: busybox:1.28
-    command: ['sh', '-c', "mkdir -p /data/codessyscontrol/PlcLogic && cd /data/codessyscontrol/PlcLogic && touch test.txt" ]
+    image: ubi9/ubi-minimal
+    command: ['sh', '-c', "mkdir -p /data/codesyscontrol/PlcLogic/Application && cd /data/codesyscontrol/PlcLogic/Application && curl -O {{ .appUrl }}/Application.app && curl -O {{ .appUrl }}/Application.crc" ]
     volumeMounts:
       - mountPath: "/data/codesyscontrol"
-        name: data-storage
-    
+        name: data-storage 
 ...
 {% endraw %}
 ```

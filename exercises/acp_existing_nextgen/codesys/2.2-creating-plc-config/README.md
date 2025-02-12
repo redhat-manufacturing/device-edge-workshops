@@ -3,8 +3,8 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Helm Chart Structure](#step-1---helm-chart-structure)
-* [Step 2 - Create the templates folder](#step-2---create-the-templates-folder)
+* [Step 1 - Helm Chart Structure](#step-1---config-as-configmap)
+* [Step 2 - Create the templates folder](#step-2---create-the-configmap)
 * [Step 3 - Create the configmap](#step-3---create-the-configmap)
 
 ## Objective
@@ -12,7 +12,7 @@
 * Understand the concept of ConfigMaps
 * Update our HELM chart to include configuration for the PLC
 
-## Step 1 Config as ConfigMap
+## Step 1 - Config as ConfigMap
 In Kubernetes having the ability to mount text-based configuration into a pod is a key method in firstly maintaining configuration and secondly having the ability to change configuration for several pods simultaneously.
 
 For the Codesys PLC we deployed in [a previous step](../1.3-adding-deployment-template/), it has several config files located within the pod's "/conf/codesyscontrol/" directory.
@@ -95,7 +95,40 @@ The key values in here are the SECURITY configurations for the OPC-UA server, as
 
 In our application's case, it's very creatively called "Application" and matches the name of the application we copied to the PLC's storage in the [previous step](../2.1-deploying-plc-application/)
 
-Esure you save the file, or push it to the repo if working within another editor.
+Update the deployment.yaml to utilize the config in a similar way to how we have done the Application files.
+The Codesys container requires readwrite access to the config directory, so we'll use the initContainer to copy the config over into the right directory, and have that mounted as persisted storage.
+Note how the configmap is mounted as a volume.
+
+```yaml
+  initContainers:
+      - name: init-plc-application
+        image: 'ubi9/ubi-minimal'
+        command:
+          - sh
+          - '-c'
+          - mkdir -p cd /data/codesyscontrol/PlcLogic/Application && curl -O {{ .appUrl }}/Application.app && curl -O {{ .appUrl }}/Application.crc && cp -f /temp/conf/CODESYSControl_User.cfg /conf/codesyscontrol/ && 
+        resources: {}
+        volumeMounts:
+          - name: data-storage
+            mountPath: /data/codesyscontrol
+          - name: codesys-user-config
+            mountPath: /temp/conf/
+          - name: config
+            mountPath: /conf/codesyscontrol
+...
+  volumes:
+    - name: codesys-user-config
+      configMap:
+        name: {{ .name }}-user-config
+        items:
+          - key: user-config
+            path: CODESYSControl_User.cfg
+
+{% endraw %}
+```
+
+Esure you save and commit the file, or push it to the repo if working within another editor.
+
 
 ---
 **Navigation**
