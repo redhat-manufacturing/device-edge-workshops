@@ -19,6 +19,7 @@ We'll want to have the service provide connectivity to the [WinRM](https://en.wi
 
 Within the `factorytalk/templates` directory, add a new file named `service.yaml`, and add the following contents:
 ```yaml
+{% raw %}
 {{- range .Values.virtualMachines }}
 ---
 apiVersion: v1
@@ -36,6 +37,7 @@ spec:
       port: 5985
       targetPort: 5985
 {{- end }}
+{% endraw %}
 ```
 
 What's a bit different in this service is the selector - instead of looking for an app label, the name of the virtual machine is used. This will result in the service attaching to the virt-helper pod of the virtual machine.
@@ -55,7 +57,9 @@ Since the HMI requires services over the network, we'll need to expose them as w
 
 Modify your `service.yaml` file to include the following between the `range` function:
 ```yaml
+{% raw %}
 ---
+{{- range $.Values.virtualMachines }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -99,7 +103,7 @@ spec:
       port: 53
       targetPort: 53
       protocol: UDP
-    - name: ssh
+    - name: https
       port: 443
       targetPort: 443
       protocol: TCP
@@ -112,6 +116,37 @@ spec:
       targetPort: 44818
       protocol: TCP
 {{- end }}
+{% endraw %}
+```
+
+Same as above we need to create services for the CentOS VM.
+
+```yaml
+{% raw %}
+---
+{{- range $.Values.virtualMachinesCentOS }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: codesys-services-{{ .name }}
+spec:
+  selector:
+    kubevirt.io/domain: {{ .name }}
+  ports:
+    - name: opcua
+      port: 4840
+      targetPort: 4840
+      protocol: TCP
+    - name: codesys
+      port: 1217
+      targetPort: 1217
+      protocol: TCP
+    - name: ssh
+      port: 22
+      targetPort: 22
+      protocol: TCP
+{{- end }}
+{% endraw %}
 ```
 
 Same as above, a service will be created for every virtual machine in our list:

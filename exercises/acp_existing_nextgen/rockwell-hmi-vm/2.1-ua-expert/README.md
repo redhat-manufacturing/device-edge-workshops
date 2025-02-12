@@ -111,11 +111,12 @@ This yaml will help create an auto login script. Create another file in the `pla
 {% endraw %}
 ```
 
+
 A few quick notes about this playbook:
 -FactoryTalk View SE is an HMI/SCADA program created by Rockwell Automation used in a plant all over the world. While this is only a very sample of what it can do. Know that is is used in manufacturing of critical functions globally and rather popular HMI at that.  
--This playbook should launch a graphic Trend that shows the values from the Codesys PLC that was created in another team. If that PLC is not running or not finished yet, you will see greyed out or "x" out things on the display. But no worries, we have some other things to check out. If we don't have other pieces working, we have some ways to mitigate the problems, but let's cross our fingers and hope for the best. (note: crossing finguers might not actually work in fixing the issue)
 
-With these playbooks, we'll have created and configured an FactoryTalk HMI to show a trend on a single system. In the next exercise, we'll launch the Codesys IDE. 
+
+With these playbooks, we'll have created and configured a Windows VM with multiple OT centric tools installed (Rockwell, UA Expert, Codesys IDE). For this lab we will be able to launch UA Expert, a software that talks OPC-UA and should connect to a Codesys Runtime Container, getting data from there. 
 ---
 **Navigation**
 

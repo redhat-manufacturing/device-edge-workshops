@@ -34,6 +34,7 @@ virtualMachines:
   - name: cs01
     partOf: codesys-ide
     operatingSystem: server2019
+virtualMachinesCentOS:
  - name: cn01
    partOf: codesys-ide
 ```
@@ -187,7 +188,7 @@ PLC - Programmable Logic Controlller - common in Industrial Autmation systems in
 yaml` file from earlier:
 ```yaml
 {% raw %}
-{{- range $.Values.virtualMachines }}
+{{- range $.Values.virtualMachinesCentOS }}
 ---
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
@@ -217,7 +218,7 @@ spec:
         storage:
           resources:
             requests:
-              storage: 100Gi
+              storage: 20Gi
   running: true
   template:
     metadata:
@@ -251,8 +252,8 @@ spec:
               masquerade: {}
               model: e1000e
               ports:
-                - name: winrm
-                  port: 5985
+                - name: ssh
+                  port: 22
         machine:
           type: pc-q35-rhel9.2.0
         memory:
