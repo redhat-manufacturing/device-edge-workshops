@@ -29,7 +29,7 @@
       ansible.builtin.include_role:
         name: redhat_cop.controller_configuration.users
       when:
-        - controller_users is defined
+        - controller_user_accounts is defined
 
     - name: Include roles role
       ansible.builtin.include_role:
