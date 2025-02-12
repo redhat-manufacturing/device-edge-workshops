@@ -1,4 +1,4 @@
-# Workshop Exercise 1.4 - Creating an Application in ArgoCD
+# Workshop Exercise 1.3 - Creating an Application in ArgoCD
 
 ## Table of Contents
 * [Step 1 - Understanding the Relationship between Helm Charts and ArgoCD](#step-1---understanding-the-relationship-between-helm-charts-and-argocd)
@@ -104,3 +104,4 @@ And within the OpenShift Console, new virtual deployments will be running:
 [Previous Exercise](../1.2-adding-deployment-template/) | [Next Exercise](../2.1-deploying-plc-application/)
 
 [Click here to return to the Workshop Homepage](../README.md)
+
