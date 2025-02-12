@@ -47,8 +47,8 @@ Then, within that new directory, name the file `Chart.yaml` and enter the follow
 
 ```
 apiVersion: v2
-name: factorytalk-hmi
-description: A chart to install and configure factorytalk hmi with cool extras
+name: uaexpert
+description: A chart to install and configure UA Expert
 type: application
 version: 1.0.0
 appVersion: "1.0.0"
