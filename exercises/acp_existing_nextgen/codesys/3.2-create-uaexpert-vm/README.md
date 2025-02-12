@@ -184,6 +184,14 @@ virtualMachines:
 
 This is not required for our use case, but feel free to modify your `values.yaml` file if desired.
 
+Once the VM is fired up, we can start the UAExpert application, saved on the desktop. This should be able to connect to our new Codesys PLCs and receive the data produced by them.
+
+![UAExpert Connect](../images/uaexpert-connect.png)
+
+For the connection, use the service details created in [Step 3.1](../3.1-accessing-data-from-plc/), pointing it to opc.tcp://<service-name>:4840.
+
+AU expert should do the rest and you can browse any of the symbols being output.
+
 ---
 **Navigation**
 
