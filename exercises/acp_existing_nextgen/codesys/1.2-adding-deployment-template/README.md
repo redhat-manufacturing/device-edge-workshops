@@ -78,7 +78,7 @@ spec:
   storageClassName: ocs-storagecluster-cephfs
   volumeMode: Filesystem
 {{- end }}
-{{ endraw }}
+{{% endraw %}}
 ```
 
 !Remember to commit and push this file to the gitea repo.
