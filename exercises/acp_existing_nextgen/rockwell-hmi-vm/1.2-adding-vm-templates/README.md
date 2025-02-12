@@ -67,9 +67,9 @@ for item in virtualMachines; do
 done
 ```
 
+{% raw %}
 To put that into practice, here's our virtual machine definition combined with the `range` function, based on what's in our `values.yaml` file from earlier:
 ```yaml
-{% raw %}
 {{- range $.Values.virtualMachines }}
 ---
 apiVersion: kubevirt.io/v1
