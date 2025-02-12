@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
         - name: configure-conrtoller
-          image: quay.io/device-edge-workshops/configure-controller:latest
+          image: quay.io/device-edge-workshops/configure-controller:02.12.2025
           volumeMounts:
             - name: controller-variables
               mountPath: /runner/variables
