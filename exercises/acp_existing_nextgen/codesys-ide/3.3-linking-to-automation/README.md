@@ -89,7 +89,7 @@ Now, we can tie our job templates together using a workflow, allowing the job te
 
 Once again, adding to our `controller-configuration.yaml` file:
 ```yaml
-{% endraw %}
+{% raw %}
 controller_workflows:
   - name: Setup FactoryTalk Environment
     organization: Team 1
