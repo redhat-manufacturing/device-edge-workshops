@@ -52,23 +52,25 @@ Once finished, hit the `Create` button at the top of the window.
 ## Step 4 - OPTIONAL - Adding New Application via YAML
 The above process can also be done as code, if you like, using the following format:
 ```yaml
+{% raw %}
 # Note: Team 1 is used as an example here - replace with your team information
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: factorytalk
+  name: codesys
 spec:
   destination:
     name: ''
     namespace: team5
     server: https://kubernetes.default.svc
   source:
-    path: factorytalk
+    path: codesys
     repoURL: >-
       https://gitea-student-services.apps.acp.rh1.redhat-workshops.com/rh1/team5-code.git
     targetRevision: HEAD
   sources: []
   project: default
+  {% endraw %}
 ```
 
 This should appear as so in the web interface (ad as an example):

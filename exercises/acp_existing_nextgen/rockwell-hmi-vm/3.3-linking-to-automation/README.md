@@ -47,37 +47,22 @@ controller_templates:
     project: Code Repository
     inventory: team1 Process Control Systems
     credentials:
-      - Provisioning Machine Login
+      - FTView Credentials
     playbook: playbooks/wait-for-connectivity.yaml
-  - name: Set Base Configs
+  - name: Set autostart script of UaExpert
     organization: Team 1
     project: Code Repository
     inventory: team1 Process Control Systems
     credentials:
-      - Provisioning Machine Login
-    playbook: playbooks/set-base-configs.yaml    
-  - name: Launch FactoryTalk SE Client Application
+      - FTView Credentials
+    playbook: playbooks/set-startup-script.yaml    
+  - name: Set auto-login for windows
     organization: Team 1
     project: Code Repository
     inventory: team1 Process Control Systems
     credentials:
-      - Domain Administrator
-    playbook: playbooks/launchftview.yaml
-    limit: primary_domain_controller
-  - name: Launch Codesys IDE
-    organization: Team 1
-    project: Code Repository
-    inventory: team1 Process Control Systems
-    credentials:
-      - Domain Administrator
-    playbook: playbooks/launch-codesys-ide.yaml
-  - name: Launch UA Expert
-    organization: Team 1
-    project: Code Repository
-    inventory: team1 Process Control Systems
-    credentials:
-      - Domain Administrator
-    playbook: playbooks/launch-ua-expert.yaml
+      - FTView Credentials
+    playbook: playbooks/set-default-user.yaml
 {% endraw %}
 ```
 

@@ -19,7 +19,7 @@ Normally, to connect Controller to a code repository, a project, and optionally,
 
 However, we do need to trigger a sync of the project, as we've added new code to the repo.
 
-In our `controller-configuration.yaml` file, we can add the following to have our project be updated:
+In our `controller-configuration1.yaml` file, we can add the following to have our project be updated:
 ```yaml
 {% raw %}
 controller_projects:
@@ -38,46 +38,40 @@ Here, we're telling a specific role within the Ansible collections to look for a
 ## Step 2 - Adding Job Templates
 Now, we need to create job templates, tied to our new playbooks, that contain some supporting configuration for running the automation we've created.
 
-Same as before, we'll add more to our `controller-configuration.yaml` file:
+Same as before, we'll add more to our `controller-configuration1.yaml` file:
 ```yaml
 {% raw %}
+controller_projects:
+  - name: Code Repository
+    organization: Team 1
+    scm_branch: main
+    scm_type: git
+    scm_url: https://gitea-student-services.apps.acp.rh1.redhat-workshops.com/rh1/team1-code.git
+    update_project: true
+    credential: team1 Code Repository Credentials
+
 controller_templates:
   - name: Wait for Connectivity
     organization: Team 1
     project: Code Repository
     inventory: team1 Process Control Systems
     credentials:
-      - Provisioning Machine Login
+      - FTView Credentials
     playbook: playbooks/wait-for-connectivity.yaml
-  - name: Set Base Configs
+  - name: Set autostart script of Codesys IDE
     organization: Team 1
     project: Code Repository
     inventory: team1 Process Control Systems
     credentials:
-      - Provisioning Machine Login
-    playbook: playbooks/set-base-configs.yaml    
-  - name: Launch FactoryTalk SE Client Application
+      - FTView Credentials
+    playbook: playbooks/set-startup-script1.yaml    
+  - name: Set auto-login for windows1
     organization: Team 1
     project: Code Repository
     inventory: team1 Process Control Systems
     credentials:
-      - Domain Administrator
-    playbook: playbooks/launchftview.yaml
-    limit: primary_domain_controller
-  - name: Launch Codesys IDE
-    organization: Team 1
-    project: Code Repository
-    inventory: team1 Process Control Systems
-    credentials:
-      - Domain Administrator
-    playbook: playbooks/launch-codesys-ide.yaml
-  - name: Launch UA Expert
-    organization: Team 1
-    project: Code Repository
-    inventory: team1 Process Control Systems
-    credentials:
-      - Domain Administrator
-    playbook: playbooks/launch-ua-expert.yaml
+      - FTView Credentials
+    playbook: playbooks/set-default-user1.yaml
 {% endraw %}
 ```
 
@@ -103,15 +97,15 @@ controller_workflows:
       - identifier: Wait for Connectivity
         unified_job_template: Wait for Connectivity
         success_nodes:
-           - Set Start-up Script
+           - Set Start-up Script1
         lookup_organization: Team 1
-       - identifier: Set Start-up Script
+       - identifier: Set Start-up Script1
         unified_job_template: Set autostart script of UaExpert
         success_nodes:
-          - Set auto-login for windows
+          - Set auto-login for windows1
         lookup_organization: Team 1
-       - identifier: Set auto-login for windows
-        unified_job_template: Set auto-login for windows
+       - identifier: Set auto-login for windows1
+        unified_job_template: Set auto-login for windows1
         lookup_organization: Team 1
 {% endraw %}
 ```

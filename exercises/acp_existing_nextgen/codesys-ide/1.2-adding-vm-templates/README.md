@@ -31,8 +31,8 @@ Within the `factorytalk` directory in our code repo, create a new file named `va
 ```yaml
 ---
 virtualMachines:
-  - name: ft01
-    partOf: factory-talk
+  - name: cs01
+    partOf: codesys
     operatingSystem: server2019
 ```
 
@@ -170,8 +170,8 @@ Should we want to override these values, we simply need to define them in our `v
 {% raw %}
 ---
 virtualMachines:
-  - name: ft01
-    partOf: factorytalk
+  - name: cs01
+    partOf: codesys
     operatingSystem: server2019
     cpuCores: 8
     memory: 16Gi
