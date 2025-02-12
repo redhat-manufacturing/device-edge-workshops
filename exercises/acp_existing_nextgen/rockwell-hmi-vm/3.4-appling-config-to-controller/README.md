@@ -204,21 +204,23 @@ metadata:
   name: configure-ftview-automation-configmap
 data:
   controller-configuration.yaml: |
-    controller_hostname: REPLACE_WITH_CONTROLLER_URL_FROM_STUDENT_PAGE
-    controller_username: REPLACE_WITH_CONTROLLER_USERNAME
-    controller_password: REPLACE_WITH_CONTROLLER_PASSWORD
+    controller_hostname: https://controller-student-services.apps.acp.rh1.redhat-workshops.com
+    controller_username: student5
+    controller_password: 'R3dh4t123!'
     controller_validate_certs: 'false'
     controller_hosts:
       - name: ft01
         inventory: team1 Process Control Systems
         variables:
           ansible_host: ft01-winrm.team1.svc.cluster.local
+
+
     controller_groups:
-      - name: primary_domain_controller
-        inventory: team5 FactoryTalk Infrastructure
+      - name: primary_ftview
+        inventory: team1 Process Control Systems
         hosts:
           - ft01
-   
+
     controller_credentials:
       - name: FTView Credentials
         organization: Team 1
@@ -226,13 +228,17 @@ data:
         inputs:
           username: Administrator
           password: 'R3dh4t123!'
-   controller_projects:
+
+
+    controller_projects:
       - name: Code Repository
-        organization: Team 5
+        organization: Team 1
+        scm_branch: main
         scm_type: git
-        scm_url: "YOUR_GIT_URL_HERE"
+        scm_url: https://gitea-student-services.apps.acp.rh1.redhat-workshops.com/rh1/team1-code.git
         update_project: true
         credential: team1 Code Repository Credentials
+
 
     controller_templates:
       - name: Wait for Connectivity
@@ -242,30 +248,25 @@ data:
         credentials:
           - FTView Credentials
         playbook: playbooks/wait-for-connectivity.yaml 
-      - name: Launch FactoryTalk SE Client Application
+      - name: Set autostart script of UaExpert
         organization: Team 1
         project: Code Repository
         inventory: team1 Process Control Systems
         credentials:
           - FTView Credentials
-        playbook: playbooks/launchftview.yaml
+        playbook: playbooks/set-start-up-script.yaml
         limit: primary_ftview
-      - name: Launch Codesys IDE
+      - name: Set auto-login for windows
         organization: Team 1
         project: Code Repository
         inventory: team1 Process Control Systems
         credentials:
           - FTView Credentials
-        playbook: playbooks/launch-codesys-ide.yaml
+        playbook: playbooks/set-default-user.yaml
         limit: primary_ftview
-      - name: Launch UA Expert
-        organization: Team 1
-        project: Code Repository
-        inventory: team1 Process Control Systems
-        credentials:
-          - FTView Credentials
-        playbook: playbooks/launch-ua-expert.yaml
-        limit: primary_ftview
+ 
+
+
     controller_workflows:
       - name: Setup FactoryTalk Environment
         organization: Team 1
@@ -273,21 +274,15 @@ data:
           - identifier: Wait for Connectivity
             unified_job_template: Wait for Connectivity
             success_nodes:
-              - Launch FactoryTalk SE Client Application
+              - Set Start-up Script
             lookup_organization: Team 1
-          - identifier: Launch FactoryTalk SE Client Application
-            unified_job_template: Launch FactoryTalk SE Client Application
+          - identifier: Set Start-up Script
+            unified_job_template: Set autostart script of UaExpert
             success_nodes:
-              - Launch Codesys IDE
+              - Set auto-login for windows
             lookup_organization: Team 1
-          - identifier: Launch Codesys IDE
-            unified_job_template: Launch Codesys IDE
-            lookup_organization: Team 1
-            success_nodes:
-              - Launch UA Expert
-            lookup_organization: Team 1
-          - identifier: Launch UA Expert
-            unified_job_template: Launch UA Expert
+          - identifier: Set auto-login for windows
+            unified_job_template: Set auto-login for windows
             lookup_organization: Team 1
 {% endraw %}
 ```

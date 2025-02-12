@@ -103,25 +103,15 @@ controller_workflows:
       - identifier: Wait for Connectivity
         unified_job_template: Wait for Connectivity
         success_nodes:
-          - Set Base Configs
+           - Set Start-up Script
         lookup_organization: Team 1
-      - identifier: Set Base Configs
-        unified_job_template: Set Base Configs
+       - identifier: Set Start-up Script
+        unified_job_template: Set autostart script of UaExpert
         success_nodes:
-          - Launch FactoryTalk SE Client Application
+          - Set auto-login for windows
         lookup_organization: Team 1
-      - identifier: Launch FactoryTalk SE Client Application
-        unified_job_template: Launch FactoryTalk SE Client Application
-        success_nodes:
-          - Launch Codesys IDE
-        lookup_organization: Team 1
-      - identifier: Launch Codesys IDE
-        unified_job_template: Launch Codesys IDE
-        success_nodes:
-          - Launch UA Expert
-        lookup_organization: Team 1
-      - indentifier: Launch UA Expert
-        unified_job_template: Launch UA Expert
+       - identifier: Set auto-login for windows
+        unified_job_template: Set auto-login for windows
         lookup_organization: Team 1
 {% endraw %}
 ```
@@ -177,42 +167,29 @@ controller_projects:
     credential: team{{ number }} Code Repository Credentials
 
 controller_templates:
-  - name: Wait for Connectivity
-    organization: Team 1
-    project: Code Repository
-    inventory: team1 Process Control Systems
-    credentials:
-      - Provisioning Machine Login
-    playbook: playbooks/wait-for-connectivity.yaml
-  - name: Set Base Configs
-    organization: Team 1
-    project: Code Repository
-    inventory: team1 Process Control Systems
-    credentials:
-      - Provisioning Machine Login
-    playbook: playbooks/set-base-configs.yaml    
-  - name: Launch FactoryTalk SE Client Application
-    organization: Team 1
-    project: Code Repository
-    inventory: team1 Process Control Systems
-    credentials:
-      - Domain Administrator
-    playbook: playbooks/launchftview.yaml
-    limit: primary_domain_controller
-  - name: Launch Codesys IDE
-    organization: Team 1
-    project: Code Repository
-    inventory: team1 Process Control Systems
-    credentials:
-      - Domain Administrator
-    playbook: playbooks/launch-codesys-ide.yaml
-  - name: Launch UA Expert
-    organization: Team 1
-    project: Code Repository
-    inventory: team1 Process Control Systems
-    credentials:
-      - Domain Administrator
-    playbook: playbooks/launch-ua-expert.yaml
+   - name: Wait for Connectivity
+     organization: Team 1
+     project: Code Repository
+     inventory: team1 Process Control Systems
+     credentials:
+      - FTView Credentials
+     playbook: playbooks/wait-for-connectivity.yaml 
+  - name: Set autostart script of UaExpert
+     organization: Team 1
+     project: Code Repository
+     inventory: team1 Process Control Systems
+     credentials:
+      - FTView Credentials
+     playbook: playbooks/set-start-up-script.yaml
+     limit: primary_ftview
+   - name: Set auto-login for windows
+     organization: Team 1
+     project: Code Repository
+     inventory: team1 Process Control Systems
+     credentials:
+      - FTView Credentials
+     playbook: playbooks/set-default-user.yaml
+     limit: primary_ftview
 
 controller_workflows:
   - name: Setup FactoryTalk Environment
@@ -221,25 +198,15 @@ controller_workflows:
       - identifier: Wait for Connectivity
         unified_job_template: Wait for Connectivity
         success_nodes:
-          - Set Base Configs
+          - Set Start-up Script
         lookup_organization: Team 1
-      - identifier: Set Base Configs
-        unified_job_template: Set Base Configs
+      - identifier: Set Start-up Script
+        unified_job_template: Set autostart script of UaExpert
         success_nodes:
-          - Launch FactoryTalk SE Client Application
+          - Set auto-login for windows
         lookup_organization: Team 1
-      - identifier: Launch FactoryTalk SE Client Application
-        unified_job_template: Launch FactoryTalk SE Client Application
-        success_nodes:
-          - Launch Codesys IDE
-        lookup_organization: Team 1
-      - identifier: Launch Codesys IDE
-        unified_job_template: Launch Codesys IDE
-        success_nodes:
-          - Launch UA Expert
-        lookup_organization: Team 1
-      - indentifier: Launch UA Expert
-        unified_job_template: Launch UA Expert
+      - identifier: Set auto-login for windows
+        unified_job_template: Set auto-login for windows
         lookup_organization: Team 1
 
 controller_workflow_launch_jobs:
