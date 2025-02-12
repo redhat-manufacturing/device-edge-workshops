@@ -100,6 +100,7 @@ The Codesys container requires readwrite access to the config directory, so we'l
 Note how the configmap is mounted as a volume.
 
 ```yaml
+{% raw %}
   initContainers:
       - name: init-plc-application
         image: 'ubi9/ubi-minimal'
