@@ -41,8 +41,9 @@ Once uploaded, remember to commit changes.
 We will need to update our templates in order to get these files into the PLC container.
 
 Let's start by adding the new URLs to our values.yaml file. For simplicity's sake, we'll add the same one to both.
+Edit the existing values.yaml and update it with the new entries.
 ```yaml
-*note you will need to ch
+
 ---
 plcs:
   - name: codesys-plc-1
