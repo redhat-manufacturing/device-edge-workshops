@@ -59,7 +59,7 @@ Since the HMI requires services over the network, we'll need to expose them as w
 Modify your `service.yaml` file to include the following between the `range` function:
 
 ```yaml
-
+{{- range $.Values.virtualMachines }}
 ---
 apiVersion: v1
 kind: Service
