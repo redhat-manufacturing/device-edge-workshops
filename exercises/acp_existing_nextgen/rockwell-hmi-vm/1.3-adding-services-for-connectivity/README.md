@@ -46,7 +46,6 @@ What's a bit different in this service is the selector - instead of looking for 
 
 In addition, the same looping function is used, so for each VM, a service will be created with the name `$(VM_NAME)-winrm`.
 
-![Looped Services](../images/looped-services.png)
 
 The fully-qualified hostname of the service will later be used by Ansible Controller to communicate to the virtual machine.
 
