@@ -9,6 +9,7 @@
 * [Step 4 - Default Values within Templates](#step-4---default-values-within-templates)
 
 ## Objective
+ Note: Pictures used as reference
 
 * Understand definitions for virtual machines
 * Create a template that can be looped

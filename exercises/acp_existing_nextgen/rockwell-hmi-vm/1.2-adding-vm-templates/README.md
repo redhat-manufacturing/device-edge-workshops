@@ -8,7 +8,9 @@
 * [Step 3 - Creating Virtual Machine Definition Templates](#step-3---creating-virtual-machine-definition-templates)
 * [Step 4 - Default Values within Templates](#step-4---default-values-within-templates)
 
-## Objective
+## Objective 
+
+Note: Pictures used as reference
 
 * Understand definitions for virtual machines
 * Create a template that can be looped
