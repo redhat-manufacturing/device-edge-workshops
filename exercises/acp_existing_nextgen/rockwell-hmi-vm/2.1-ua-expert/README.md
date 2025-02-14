@@ -120,6 +120,6 @@ With these playbooks, we'll have created and configured a Windows VM with multip
 ---
 **Navigation**
 
-[Previous Exercise](../1.4-adding-chart-to-argocd/) | [Next Exercise](../3.1-contoller-as-code//)
+[Previous Exercise](../1.4-adding-chart-to-argocd/) | [Next Exercise](../3.1-contoller-as-code/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
