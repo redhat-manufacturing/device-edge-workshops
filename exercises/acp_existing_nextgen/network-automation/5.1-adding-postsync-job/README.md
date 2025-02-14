@@ -75,6 +75,6 @@ Ensure everything has been saved/committed/pushed before continuing.
 ---
 **Navigation**
 
-[Previous Exercise](../4.4-validating-controller-config/)  [Next Exercise](../5.2-resyncing-app/)
+[Previous Exercise](../4.4-validating-controller-config/) | [Next Exercise](../5.2-resyncing-app/)
 
 [Click here to return to the Workshop Homepage](../../README.md)

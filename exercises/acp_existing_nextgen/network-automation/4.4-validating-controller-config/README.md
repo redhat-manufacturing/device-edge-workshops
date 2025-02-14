@@ -27,6 +27,6 @@ This confirms our integration between procedural and declarative tooling.
 ---
 **Navigation**
 
-[Previous Exercise](../4.3-adding-chart-to-argocd/)  [Next Exercise](../5.1-adding-postsync-job/)
+[Previous Exercise](../4.3-adding-chart-to-argocd/) | [Next Exercise](../5.1-adding-postsync-job/)
 
 [Click here to return to the Workshop Homepage](../../README.md)

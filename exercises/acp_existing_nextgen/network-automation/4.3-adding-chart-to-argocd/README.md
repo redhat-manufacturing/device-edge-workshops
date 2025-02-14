@@ -103,6 +103,6 @@ And within the OpenShift Console, a new job will appear:
 ---
 **Navigation**
 
-[Previous Exercise](../4.2-applying-config-to-controller/)  [Next Exercise](../4.4-validating-controller-config/)
+[Previous Exercise](../4.2-applying-config-to-controller/) |  [Next Exercise](../4.4-validating-controller-config/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
