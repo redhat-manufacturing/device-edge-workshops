@@ -52,6 +52,7 @@ Once finished, hit the `Create` button at the top of the window.
 ## Step 4 - OPTIONAL - Adding New Application via YAML
 The above process can also be done as code, if you like, using the following format:
 ```yaml
+{% raw %}
 # Note: Team 1 is used as an example here - replace with your team information
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -69,6 +70,7 @@ spec:
     targetRevision: HEAD
   sources: []
   project: default
+  {% endraw %}
 ```
 
 This should appear as so in the web interface (ad as an example):
@@ -106,6 +108,6 @@ And within the OpenShift Console, new virtual machines will appear:
 ---
 **Navigation**
 
-[Previous Exercise](../1.3-adding-services-for-connectivity/)  [Next Exercise](../2.1-ft-automation/)
+[Previous Exercise](../1.3-adding-services-for-connectivity/)  [Next Exercise](../2.1-ua-expert/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
