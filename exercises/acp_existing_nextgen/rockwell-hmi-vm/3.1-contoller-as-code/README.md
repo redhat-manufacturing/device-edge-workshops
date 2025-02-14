@@ -54,6 +54,6 @@ Leveraging this overlay collection provides a few key benefits:
 
 [Previous Exercise](../2.2-ad-automation-part-2/) | [Next Exercise](../3.2-creating-hosts-and-groups/)
 
-"You're doing great!"
+"You're doing great!!"
 
 [Click here to return to the Workshop Homepage](../../README.md)
