@@ -31,9 +31,8 @@ This is especially useful when redundancy is needed in the case of a node failur
 Since we will be using our gitea repo to contain all configurations and manifests that will be needed by our application, let's start off by creating the manifest for our data storage claim.
 
 Let's head to the templates folder and add a definition for our data storage.
-![Gitea storage Class](../images/gitea-storage-class.png)
 
- Notice thatt rather than creating the persistentVolumes directly, we will let Openshift Data Foundations create the persistent volume for us by using the "ocs-storagecluster-cephfs" storage class.
+Notice that rather than creating the persistentVolumes directly, we will let Openshift Data Foundations create the persistent volume for us by using the "ocs-storagecluster-cephfs" storage class.
 
 Underneath this will provide us with a filesystem that can be mounted within our container. More details on Openshift storage mechanisms can be found in our [documentation](https://docs.openshift.com/container-platform/4.17/storage/understanding-persistent-storage.html)
 
