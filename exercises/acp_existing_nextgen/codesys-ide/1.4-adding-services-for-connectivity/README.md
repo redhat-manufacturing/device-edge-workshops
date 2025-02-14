@@ -159,6 +159,6 @@ With the template for the services completed, be sure to commit and push the new
 ---
 **Navigation**
 
-[Pervious Exercise](../1.2-adding-vm-templates/) | [Next Exercise](../1.4-adding-chart-to-argocd/)
+[Pervious Exercise](../1.3-adding-vm-templates/) | [Next Exercise](../2.1-codesys-ide/)
 
 [Click here to return to the Workshop Homepage](../../README.md)

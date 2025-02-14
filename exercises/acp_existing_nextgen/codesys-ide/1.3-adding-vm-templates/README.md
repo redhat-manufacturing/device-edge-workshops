@@ -248,6 +248,9 @@ spec:
             - disk:
                 bus: sata
               name: rootdisk
+            - disk:
+                bus: virtio
+              name: cloudinitdisk
           inputs:
             - bus: usb
               name: tablet
@@ -271,6 +274,13 @@ spec:
         - dataVolume:
             name: {{ .name }}-boot0
           name: rootdisk
+        - cloudInitNoCloud:
+            userData: |-
+              #cloud-config
+              user: centos
+              password: 8bht-5u5i-m3vg
+              chpasswd: { expire: False }
+          name: cloudinitdisk
 {{- end }}
 {% endraw %}
 ```
@@ -290,6 +300,6 @@ sudo dnf install podman
 ---
 **Navigation**
 
-[Previous Exercise](../1.1-initializing-chart/) | [Next Exercise](../1.3-adding-services-for-connectivity/)
+[Previous Exercise](../1.2-adding-chart-to-argocd/) | [Next Exercise](../1.4-adding-services-for-connectivity/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
