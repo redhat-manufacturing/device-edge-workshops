@@ -451,13 +451,13 @@ while true; do
     fi
 done
 while true
-do 
+do
   podman pull {{ apps.app2.registry }}/{{ apps.app2.image }}:{{ apps.app1.prodtag }}
   podman image list | grep {{ apps.app2.image }}
   if [ \$? -eq 0 ]
-  then 
+  then
     break
-  fi  
+  fi
 done
 EOF
 
@@ -545,9 +545,9 @@ sudo cat << 'EOF' > /etc/greenboot/check/required.d/01-check-packages.sh
 required_packages=("python3-pip" "python3-inotify" "git")
 
 # Check if each package is installed
-for package in "\${required_packages[@]}"; do
-    if ! rpm -q "\$package" &>/dev/null; then
-        echo "Error: \$package is not installed."
+for package in "${required_packages[@]}"; do
+    if ! rpm -q "$package" &>/dev/null; then
+        echo "Error: $package is not installed."
         exit 1
     fi
 done
