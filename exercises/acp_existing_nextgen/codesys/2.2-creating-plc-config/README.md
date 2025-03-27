@@ -35,6 +35,7 @@ The contents for this file will look as follows:
 ```yaml
 {% raw %}
 {{- range $.Values.plcs }}
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:

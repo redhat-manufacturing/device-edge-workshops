@@ -40,6 +40,7 @@ Underneath this will provide us with a filesystem that can be mounted within our
 ```yaml
 {% raw %}
 {{- range $.Values.plcs }}
+---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -63,6 +64,7 @@ Let's do the same for a config storage, create conf-storage.yaml in the template
 ```yaml
 {% raw %}
 {{- range $.Values.plcs }}
+---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -97,6 +99,7 @@ Add the deployment.yaml file to your group git repository's templates folder:
 ```yaml
 {% raw %}
 {{- range $.Values.plcs }}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
