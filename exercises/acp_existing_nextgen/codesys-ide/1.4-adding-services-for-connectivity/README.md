@@ -51,7 +51,7 @@ The fully-qualified hostname of the service will later be used by Ansible Contro
 
 ![Service FQDN](../images/service-fqdn.png)
 
-## Step 2 - Adding a Service for FactoryTalk Services
+## Step 2 - Adding a Service for Codesys Services
 Since the HMI requires services over the network, we'll need to expose them as well or operations such as OPC-UA, Codesys Container Runtimes, and more.
 
 Modify your `service.yaml` file to include the following between the `range` function:
@@ -159,6 +159,6 @@ With the template for the services completed, be sure to commit and push the new
 ---
 **Navigation**
 
-[Pervious Exercise](../1.3-adding-vm-templates/) | [Next Exercise](../2.1-codesys-ide/)
+[Previous Exercise](../1.3-adding-vm-templates/) | [Next Exercise](../2.1-codesys-ide/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
