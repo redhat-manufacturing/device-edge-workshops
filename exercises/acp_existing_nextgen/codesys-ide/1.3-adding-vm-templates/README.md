@@ -45,7 +45,7 @@ virtualMachinesCentOS:
 These values will be used by the template in the next step to create the specified virtual machines.
 
 Once complete, be sure to save the file, or if working within an IDE, commit and push.
-![Populate Values File](../images/populate-values-yaml.png)
+![Populate Values File](../images/populate-values-file-codesys.png)
 
 ## Step 3 - Creating Virtual Machine Definition Templates
 Since we'll be creating two virtual machines that are nearly identical, we can create one template, and use the `range` function with helm to have it template out 1 virtual machines.
