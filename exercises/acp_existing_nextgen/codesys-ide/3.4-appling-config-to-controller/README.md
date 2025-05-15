@@ -313,7 +313,7 @@ data:
     controller_password: REPLACE_WITH_CONTROLLER_PASSWORD
     controller_validate_certs: 'false'
     controller_workflow_launch_jobs:
-      - name: Setup FactoryTalk Environment
+      - name: Setup Codesys Environment
         organization: Team 1
 {% endraw %}
 ```
