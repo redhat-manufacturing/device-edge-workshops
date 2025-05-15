@@ -33,7 +33,7 @@ Click on the `+ New App` button to start adding a new application to be deployed
 ## Step 3 - Adding New Application Information
 In the window pane that appears on the right, we'll need to enter some information about our application, and where to find the code for it.
 
-Start by giving the application a name, such as `factorytalk`, and setting the project name to `default` - this is just the namespace where the project definition will live, not where our resources will be deployed.
+Start by giving the application a name, such as `codesys`, and setting the project name to `default` - this is just the namespace where the project definition will live, not where our resources will be deployed.
 ![Create New App Name](../images/createappname.png)
 
 Scrolling down, add information about the code repository. The URL can be retrieved from the Gitea interface if needed:
