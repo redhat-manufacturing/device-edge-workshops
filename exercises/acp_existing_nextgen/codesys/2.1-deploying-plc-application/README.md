@@ -60,7 +60,7 @@ plcs:
 ```
 
 With these values and the files available, we can continue to add them to our deployment template before hitting the sync button in argoCD
-Edit the templates/deployment.yaml file and add the initContainer section
+Edit the templates/deployment.yaml file and add the initContainer section, notice that this container runs a shell script that downloads and creates files in the correct locations within our persistent volumes.
 
 ```yaml
 {% raw %}
@@ -70,13 +70,33 @@ containers:
 initContainers:
   - name: init-plc-application
     image: ubi9/ubi-minimal
-    command: ['sh', '-c', "mkdir -p /data/codesyscontrol/PlcLogic/Application && cd /data/codesyscontrol/PlcLogic/Application && curl -O {{ .appUrl }}/Application.app && curl -O {{ .appUrl }}/Application.crc" ]
-    volumeMounts:
-      - mountPath: "/data/codesyscontrol"
-        name: data-storage 
+              command:
+            - sh
+            - '-c'
+          args:
+            - mkdir -p /data/codesyscontrol/PlcLogic/{{ .appName }}; 
+              echo Downloading App from:{{ .appUrl }}; 
+              cd /data/codesyscontrol/PlcLogic/{{ .appName }};
+              curl -o {{ .appName }}.app {{ .appUrl }}/{{ .appName }}.app; 
+              curl -o {{ .appName }}.crc {{ .appUrl }}/{{ .appName }}.crc ;
+              cd /data/codesyscontrol/;
+              curl -o .UserDatabase.csv {{ .appUrl }}/UserDatabase.csv;
+              curl -o .GroupDatabase.csv {{ .appUrl }}/GroupDatabase.csv;
+              curl -o .UserMgmtRightsDB.csv {{ .appUrl }}/UserMgmtRightsDB.csv;
+              touch /data/codesyscontrol/.docker_initialized;
+          volumeMounts:
+            - name: data-storage
+              mountPath: /data/codesyscontrol/
 ...
 {% endraw %}
 ```
+
+![Init Container added](../images/initcontainer-deployment.png)
+
+
+!Remember to commit and push this file to the gitea repo.
+
+Do not sync argoCD yet, as we will be creating the config file for each of our PLC containers in the next section.
 
 
 ---
