@@ -218,6 +218,6 @@ Ensure this file is saved/committed/pushed into your code repository, as it will
 ---
 **Navigation**
 
-[Previous Exercise](../3.2-creating-hosts-and-groups/) | [Next Exercise](../4.1-resync-app/)E
+[Previous Exercise](../3.2-creating-hosts-and-groups/) | [Next Exercise](../3.4-appling-config-to-controller/)E
 
 [Click here to return to the Workshop Homepage](../../README.md)
