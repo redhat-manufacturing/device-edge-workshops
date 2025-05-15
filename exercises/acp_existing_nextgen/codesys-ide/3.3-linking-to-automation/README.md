@@ -38,7 +38,7 @@ Here, we're telling a specific role within the Ansible collections to look for a
 ## Step 2 - Adding Job Templates
 Now, we need to create job templates, tied to our new playbooks, that contain some supporting configuration for running the automation we've created.
 
-Same as before, we'll add more to our `controller-configuration1.yaml` file:
+Same as before, we'll add more to our `controller-configuration.yaml` file:
 ```yaml
 {% raw %}
 controller_projects:
@@ -138,7 +138,7 @@ At this point, your `controller-configuration.yaml` file should contain the foll
 {% raw %}
 controller_hosts:
     # Display name
-  - name: ft01
+  - name: cs01
     # What inventory to add the host to
     inventory: team1 Process Control Systems
     variables:
@@ -149,7 +149,7 @@ controller_groups:
   - name: codesys_controller
     inventory: team1 Process Control Systems
     hosts:
-      - ft01
+      - cs01
 
 controller_projects:
   - name: Code Repository
