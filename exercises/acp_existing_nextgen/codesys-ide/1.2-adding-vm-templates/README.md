@@ -300,6 +300,6 @@ sudo dnf install podman
 ---
 **Navigation**
 
-[Previous Exercise](../1.2-adding-chart-to-argocd/) | [Next Exercise](../1.4-adding-services-for-connectivity/)
+[Previous Exercise](../1.1-initializing-chart//) | [Next Exercise](../1.3-adding-services-for-connectivity//)
 
 [Click here to return to the Workshop Homepage](../../README.md)
