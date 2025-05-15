@@ -19,7 +19,7 @@ Normally, to connect Controller to a code repository, a project, and optionally,
 
 However, we do need to trigger a sync of the project, as we've added new code to the repo.
 
-In our `controller-configuration1.yaml` file, we can add the following to have our project be updated:
+In our `controller-configuration.yaml` file, we can add the following to have our project be updated:
 ```yaml
 {% raw %}
 controller_projects:
@@ -91,7 +91,7 @@ Once again, adding to our `controller-configuration.yaml` file:
 ```yaml
 {% raw %}
 controller_workflows:
-  - name: Setup FactoryTalk Environment
+  - name: Setup Codesys Environment
     organization: Team 1
     simplified_workflow_nodes:
       - identifier: Wait for Connectivity
@@ -123,7 +123,7 @@ Add the following to complete our file:
 ```yaml
 {% raw %}
 controller_workflow_launch_jobs:
-  - name: Setup FactoryTalk Environment
+  - name: Setup Codesys Environment
     organization: Team 5
 {% endraw %}
 ```
@@ -143,10 +143,10 @@ controller_hosts:
     inventory: team1 Process Control Systems
     variables:
       # FQDN from service
-      ansible_host: ft01-winrm.team1.svc.cluster.local
+      ansible_host: cs01-winrm.team1.svc.cluster.local
 
 controller_groups:
-  - name: factorytalk_controller
+  - name: codesys_controller
     inventory: team1 Process Control Systems
     hosts:
       - ft01
@@ -186,7 +186,7 @@ controller_templates:
      limit: primary_ftview
 
 controller_workflows:
-  - name: Setup FactoryTalk Environment
+  - name: Setup Codesys Environment
     organization: Team 1
     simplified_workflow_nodes:
       - identifier: Wait for Connectivity
@@ -204,7 +204,7 @@ controller_workflows:
         lookup_organization: Team 1
 
 controller_workflow_launch_jobs:
-  - name: Setup FactoryTalk Environment
+  - name: Setup Codesys Environment
     organization: Team 1
 {% endraw %}
 ```
