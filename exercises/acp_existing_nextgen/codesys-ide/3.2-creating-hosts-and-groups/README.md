@@ -15,17 +15,17 @@
 ## Step 1 - Defining Hosts in an Inventory
 The previous exercise laid out the resources that will be used to interact with the Controller API, so all we need to do is define what we'd like applied to Controller.
 
-For example, team1 would use the following to create a host within Controller for their virtual machine named `ft01`:
+For example, team1 would use the following to create a host within Controller for their virtual machine named `cs01`:
 ```yaml
 {% raw %}
 controller_hosts:
     # Display name
-  - name: ft01
+  - name: cs01
     # What inventory to add the host to
     inventory: team1 Process Control Systems
     variables:
       # FQDN from service
-      ansible_host: ft01-winrm.team1.svc.cluster.local
+      ansible_host: cs01-winrm.team1.svc.cluster.local
 {% endraw %}
 ```
 
@@ -46,7 +46,7 @@ controller_groups:
   - name: factorytalk_controller
     inventory: team1 Process Control Systems
     hosts:
-      - ft01
+      - cs01
 {% endraw %}
 ```
 

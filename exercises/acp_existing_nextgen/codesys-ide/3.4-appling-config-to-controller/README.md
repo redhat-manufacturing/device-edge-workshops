@@ -126,7 +126,7 @@ Within kubernetes, we can use a job and a configmap to handle this, along with t
 apiVersion: batch/v1
 kind: Job
 metadata:
-  generateNamename: configure-ftview-automation-
+  generateNamename: configure-codesys-automation-
   annotations:
     argocd.argoproj.io/hook: Sync
 spec:
@@ -144,7 +144,7 @@ spec:
       volumes:
         - name: controller-vars
           configMap:
-            name: configure-ftview-automation-configmap
+            name: configure-codesys-automation-configmap
         - name: tmp
           emptyDir:
             sizeLimit: 100Mi
@@ -160,7 +160,7 @@ This job definition provides a few things:
 The next steps will wire these various elements up to provide our desired experience of merging declarative and procedural tooling.
 
 ## Step 2 - Creating a Job and ConfigMap
-Return to the `factorytalk` helm chart we created earlier, and in the `templates/` directory, we'll add two files.
+Return to the `codesys` helm chart we created earlier, and in the `templates/` directory, we'll add two files.
 
 First, create `job.yaml` with the following contents:
 ```yaml
@@ -169,14 +169,14 @@ First, create `job.yaml` with the following contents:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  generateName: run-automation-ftview-
+  generateName: run-automation-codesys-
   annotations:
     argocd.argoproj.io/hook: PostSync
 spec:
   template:
     spec:
       containers:
-        - name: launch-automation-ftview
+        - name: launch-automation-codesys
           image: quay.io/device-edge-workshops/configure-controller:latest
           volumeMounts:
             - name: automation-to-run-vars
@@ -187,7 +187,7 @@ spec:
       volumes:
         - name: automation-to-run-vars
           configMap:
-            name: ftview-automation-to-run-configmap
+            name: codesys-automation-to-run-configmap
         - name: tmp
           emptyDir:
             sizeLimit: 100Mi
@@ -201,7 +201,7 @@ Additionally, create a file named `configmap.yaml`. This is where we'll leverage
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: configure-ftview-automation-configmap
+  name: configure-codesys-automation-configmap
 data:
   controller-configuration.yaml: |
     controller_hostname: https://controller-student-services.apps.acp.rh1.redhat-workshops.com
@@ -212,17 +212,17 @@ data:
       - name: ft01
         inventory: team1 Process Control Systems
         variables:
-          ansible_host: ft01-winrm.team1.svc.cluster.local
+          ansible_host: cs01-winrm.team1.svc.cluster.local
 
 
     controller_groups:
-      - name: primary_ftview
+      - name: primary_codesys
         inventory: team1 Process Control Systems
         hosts:
           - ft01
 
     controller_credentials:
-      - name: FTView Credentials
+      - name: Codesys Credentials
         organization: Team 1
         credential_type: Machine
         inputs:
@@ -268,7 +268,7 @@ data:
 
 
     controller_workflows:
-      - name: Setup FactoryTalk Environment
+      - name: Setup Codesys Environment
         organization: Team 1
         simplified_workflow_nodes:
           - identifier: Wait for Connectivity
@@ -305,7 +305,7 @@ First, our configmap - simply add this to the bottom of the existing `configmap.
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ftview-automation-to-run-configmap
+  name: codesys-automation-to-run-configmap
 data:
   controller-configuration.yaml: |
     controller_hostname: REPLACE_WITH_CONTROLLER_URL_FROM_STUDENT_PAGE
@@ -329,14 +329,14 @@ Then, add the following to the `job.yaml` file created earlier:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  generateName: run-automation-ftview-
+  generateName: run-automation-codesys-
   annotations:
     argocd.argoproj.io/hook: PostSync
 spec:
   template:
     spec:
       containers:
-        - name: launch-automation-ftview
+        - name: launch-automation-codesys
           image: quay.io/device-edge-workshops/configure-controller:latest
           volumeMounts:
             - name: automation-to-run-vars
@@ -347,7 +347,7 @@ spec:
       volumes:
         - name: automation-to-run-vars
           configMap:
-            name: ftview-automation-to-run-configmap
+            name: codesys-automation-to-run-configmap
         - name: tmp
           emptyDir:
             sizeLimit: 100Mi

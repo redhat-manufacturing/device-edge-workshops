@@ -10,7 +10,7 @@
 ## Objective
 
 * Confirm the kickoff of the workflow via postSync job
-* Validate that Active Directory was installed
+* Validate that Codesys was installed
 
 ## Step 1 - Confirming the PostSync Job Run
 In addition to the `configure-controller` job, we also added a job that happens after all resources are synced. This job will kickoff the workflow we specified in the Controller configuration configMap.
@@ -31,11 +31,11 @@ Back in Controller, under **Views** > **Jobs**, there should be some new jobs th
 ![Controller Workflow Launch](../images/controller-completed-workflow.png)
 
 ## Step 3 - Investigating Virtual Machine
-To confirm that FT was install, visit the **Console** for our virtual machine named **ad01** and log in using domain credentials:
+To confirm that Codesys was install, visit the **Console** for our virtual machine named **cs01** and log in using domain credentials:
 
 ![Virtual Machine FT Login](../images/virtual-machine-ad-login.png)
 
-You should be able to click around and see multiple applications launched. Start with the FTView Client file, picture with a trend, and push the "Start" button, or push the "Stop" botton. If the pictures are "X"d out it's not communicating with the the Controller (Codesys Group). They may not be ready, or maybe there are other issues. 
+You should be able to click around and see multiple applications launched. Start with the Codesys IDE file, picture with a trend, and push the "Start" button, or push the "Stop" botton. If the pictures are "X"d out it's not communicating with the the Controller (Codesys Group). They may not be ready, or maybe there are other issues. 
 
 Next check out the UA Expert application, there you will be able to see how it's communictating with the PLC. 
 
