@@ -112,7 +112,7 @@ This yaml will help create an auto login script. Create another file in the `pla
 ```
 
 A few quick notes about this playbook:
--FactoryTalk View SE is an HMI/SCADA program created by Rockwell Automation used in a plant all over the world. While this is only a very sample of what it can do. Know that is is used in manufacturing of critical functions globally and rather popular HMI at that.  
+-Codesys IDE is an PLC programimg Environment created by Codesys used in a plant all over the world. While this is only a very sample of what it can do. Know that is is used in manufacturing of critical functions globally and rather popular HMI at that.  
 
 
 With these playbooks, we'll have created and configured a Windows VM with Codesys IDE running (PLC Programming software) project. We will also be creating a CentOS VM with services available to help connect the VM to the Codesys Runtime Container. 

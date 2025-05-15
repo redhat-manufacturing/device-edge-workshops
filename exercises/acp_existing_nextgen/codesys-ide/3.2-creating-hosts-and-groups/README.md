@@ -36,14 +36,12 @@ In the same fashion, group membership within an inventory can be defined as code
 
 Since we've created two virtual machines with two distinct purposes, we can use groups to steer our automation to the right system.
 
-In our case, one virtual machine will act as the primary domain controller, while the other will be a secondary or replica domain controller.
-
 To place the virtual machines in the correct inventory, the following data structure will be used:
 
 ```yaml
 {% raw %}
 controller_groups:
-  - name: factorytalk_controller
+  - name: codesys_controller
     inventory: team1 Process Control Systems
     hosts:
       - cs01
