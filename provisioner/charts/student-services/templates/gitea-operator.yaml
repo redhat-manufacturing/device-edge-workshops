@@ -16,4 +16,3 @@ spec:
   source:
     repoURL: https://github.com/rhpds/gitea-operator.git
     targetRevision: HEAD
-    path: OLMDeploy/
