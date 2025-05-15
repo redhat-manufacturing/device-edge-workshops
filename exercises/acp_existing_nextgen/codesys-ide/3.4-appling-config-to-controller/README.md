@@ -209,7 +209,7 @@ data:
     controller_password: 'R3dh4t123!'
     controller_validate_certs: 'false'
     controller_hosts:
-      - name: ft01
+      - name: cs01
         inventory: team1 Process Control Systems
         variables:
           ansible_host: cs01-winrm.team1.svc.cluster.local
@@ -219,7 +219,7 @@ data:
       - name: primary_codesys
         inventory: team1 Process Control Systems
         hosts:
-          - ft01
+          - cs01
 
     controller_credentials:
       - name: Codesys Credentials
