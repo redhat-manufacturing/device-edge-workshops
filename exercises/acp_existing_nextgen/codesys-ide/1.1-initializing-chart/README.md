@@ -53,7 +53,7 @@ version: 1.0.0
 appVersion: "1.0.0"
 ```
 
-![Populate Chart Yaml](chartyamlcodesys.png)
+![Populate Chart Yaml](../images/chartyamlcodesys.png)
 Ensure you save the file, or push it to the repo if working within another editor.
 
 > Note:
