@@ -1,4 +1,4 @@
-# Workshop Exercise 2.1 - FactoryTalk HMI Automation Part 1
+# Workshop Exercise 2.1 - Codesys IDE Automation Part 1
 
 ## Table of Contents
 

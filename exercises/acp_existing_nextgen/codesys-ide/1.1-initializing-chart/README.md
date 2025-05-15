@@ -61,6 +61,6 @@ Ensure you save the file, or push it to the repo if working within another edito
 ---
 **Navigation**
 
-[Next Exercise](../1.2-adding-chart-to-argocd/)
+[Next Exercise](../1.2-adding-vm-templates/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
