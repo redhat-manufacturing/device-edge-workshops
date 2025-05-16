@@ -211,7 +211,7 @@ controller_workflow_launch_jobs:
 
 > Note:
 >
-> Team5 is used as an example here, replace with your team number
+> Team 1 is used as an example here, replace with your team number
 
 Ensure this file is saved/committed/pushed into your code repository, as it will be used in the next exercises.
 

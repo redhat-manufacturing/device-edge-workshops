@@ -77,7 +77,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ft-services-{{ .name }}
+  name: cs-services-{{ .name }}
 spec:
   selector:
     kubevirt.io/domain: {{ .name }}
