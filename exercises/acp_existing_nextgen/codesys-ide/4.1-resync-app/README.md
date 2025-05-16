@@ -13,7 +13,7 @@
 * Validate the configured resources
 
 ## Step 1 - Resyncing the Application in ArgoCD
-Return to the web interface in ArgoCD, and select the `factorytalk` application tile. Click on the `Refresh` button, and give the application a few minutes to update. Then, click on the `Sync` button.
+Return to the web interface in ArgoCD, and select the `codesys` application tile. Click on the `Refresh` button, and give the application a few minutes to update. Then, click on the `Sync` button.
 
 Our new configmaps and jobs should now be created, and will run during the sync, and be triggered after everything else syncs for the postSync job.
 

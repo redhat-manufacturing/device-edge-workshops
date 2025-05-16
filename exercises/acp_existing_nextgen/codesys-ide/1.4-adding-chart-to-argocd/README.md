@@ -109,6 +109,6 @@ And within the OpenShift Console, new virtual machines will appear:
 ---
 **Navigation**
 
-[Previous Exercise](../1.1-initializing-chart/)  [Next Exercise](../1.3-adding-vm-templates/)
+[Previous Exercise](../1.3-adding-services-for-connectivity/)  [Next Exercise](../2.1-codesys-ide/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
