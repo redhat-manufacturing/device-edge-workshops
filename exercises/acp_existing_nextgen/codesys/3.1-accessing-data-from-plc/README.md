@@ -3,7 +3,8 @@
 ## Table of Contents
 
 * [Objective](#objective)
-* [Step 1 - Understanding the Relationship between Helm Charts and ArgoCD]
+* [Step 1 - Understand the concept of services](#step-1---understand-the-concept-of-services)
+* [Step 2 - Add a service for OPC-UA traffic ](#step-2---Add-a-service-for-opc-ua-traffic )
 
 
 ## Objective
@@ -30,6 +31,7 @@ Add the following content:
 ```yaml
 {% raw %}
 {{- range $.Values.plcs }}
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -44,7 +46,6 @@ spec:
       protocol: TCP
       port: 4840
       targetPort: 4840
-
 {{- end }}
 {% endraw %}
 ```

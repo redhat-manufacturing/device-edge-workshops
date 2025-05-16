@@ -65,7 +65,7 @@ spec:
   source:
     path: codesys
     repoURL: >-
-      https://gitea-student-services.apps.acp.rh1.redhat-workshops.com/student3/team1-code.git
+      https://gitea-student-services.apps.acp.summit2025.redhat-workshops.com/summit2025/team1-code.git
     targetRevision: HEAD
   sources: []
   project: default

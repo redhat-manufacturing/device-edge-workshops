@@ -37,7 +37,8 @@ Notice that rather than creating the persistentVolumes directly, we will let Ope
 
 Underneath this will provide us with a filesystem that can be mounted within our container. More details on Openshift storage mechanisms can be found in our [documentation](https://docs.openshift.com/container-platform/latest/storage/understanding-persistent-storage.html)
 
-*Note copy these blocks with the range tags as these will allow iteration over the components, remember to include the "-end" tag as well.
+Create the `data-storage.yaml` file in the templates folder with the following content:
+*Note copy these blocks with the range tags as these will allow iteration over the components, remember to include the `{{- end }}` tag as well.
 
 ```yaml
 {% raw %}
@@ -61,7 +62,7 @@ spec:
 {% endraw %}
 ```
 
-Let's do the same for a config storage, create conf-storage.yaml in the templates directory.
+Let's do the same for a config storage, create `conf-storage.yaml` in the templates directory.
 
 ```yaml
 {% raw %}
@@ -188,7 +189,7 @@ spec:
         - name: data-storage
           persistentVolumeClaim: 
             claimName: {{ .name }}-data
-        - name: config
+        - name: config-storage
           persistentVolumeCLaim:
             claimName: {{ .name }}-config
       containers:
@@ -200,8 +201,8 @@ spec:
               protocol: TCP
           volumeMounts:
             - mountPath: "/conf/codesyscontrol/"
-              name: config
-            - mountPath: "/data/codesyscontrol"
+              name: config-storage
+            - mountPath: "/data/codesyscontrol/"
               name: data-storage
 {{- end }}
 {% endraw %}

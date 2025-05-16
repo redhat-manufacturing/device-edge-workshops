@@ -46,11 +46,13 @@ To find the gitea url, refer to your student details page.
 Head there and sign in if you have not yet done so.
 
 First, let's create a directory to house our chart, and fill out Chart.yaml. In the Gitea web interface, select "New File". To add a directory, simply type the desired name of the directory, then put in a forward slash: `/`.
+For this workstream, add the `codesys/` path before creating your `Chart.yaml` file
 
 For this part of the excersise, create the codesys directory.
 ![Start Chart Yaml](../images/start-codesys-chart.png)
 
 Then, within that new directory, name the file `Chart.yaml` and enter the following information.
+*Note that the Chart.yaml name is case sensitive as per [Helm convension](https://helm.sh/docs/chart_best_practices/conventions/).
 
 ```yaml
 apiVersion: v2
@@ -65,6 +67,7 @@ appVersion: "1.0.0"
 Esure you save the file in the UI, or save and push it to the repo if working within another editor.
 
 In this same folder, let's create the values.yaml file as well with some defaults to get started:
+
 ```yaml
 ---
 plcs:
@@ -75,6 +78,25 @@ plcs:
 
 ```
 Adding this template will allow us to deploy multiple instances of the PLC base image, and we'll look into defining what actual applications would go into them at a later point.
+
+Since we'll be creating two PLC's that are nearly identical, we can create one template, and use the `range` function with helm to have it template out our PLCs
+
+All values live under the `.Values` key, so the path to our list of plcs is: `.Values.plcs`. Since we have a list, we can use the `range` function to iterate over the items within the list, and helm will render out the template accordingly.
+
+A quick note: when using certain functions within helm, the **scope** of variables can change. Within the range function, we "enter" the specific item, and can then reference the contents using a short notation.
+
+We can think of this like a `for` loop, iterating over the items in the list.
+
+Here's some psudocode with some notes:
+```
+# Loop over every item in the list
+for item in plcs; do
+  # Since we're now "in" the first item, our values move from .Values.plcs[0].name to just .name
+  echo .name
+  # Same idea, from .Values.plcs[0].partOf to just .partOf
+  echo .partOf
+done
+```
 
 ---
 **Navigation**

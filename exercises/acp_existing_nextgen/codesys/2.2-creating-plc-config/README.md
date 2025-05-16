@@ -30,7 +30,7 @@ Configmaps are handy to keep all configuration in the same place, even though it
 
 
 ## Step 2 - Create the configmap
-Within the templates folder in your gitea repo, let us create a file named configmap.yaml
+Within the templates folder in your gitea repo, let us create a file named `configmap.yaml`
 The contents for this file will look as follows:
 
 ```yaml
@@ -214,46 +214,48 @@ The configmap is mounted as a volume, and it's contents created as a read-only f
 
 ```yaml
 {% raw %}
-    initContainers:
-      - name: init-plc-application
-        image: 'ubi9/ubi-minimal'
-          command:
-            - sh
-            - '-c'
-          args:
-            - mkdir -p /data/codesyscontrol/PlcLogic/{{ .appName }}; 
-              echo Downloading App from:{{ .appUrl }}; 
-              cd /data/codesyscontrol/PlcLogic/{{ .appName }};
-              curl -o {{ .appName }}.app {{ .appUrl }}/{{ .appName }}.app; 
-              curl -o {{ .appName }}.crc {{ .appUrl }}/{{ .appName }}.crc ;
-              cd /data/codesyscontrol/;
-              curl -o .UserDatabase.csv {{ .appUrl }}/UserDatabase.csv;
-              cp .UserDatabase.csv .UserDatabase.csv_;
-              curl -o .GroupDatabase.csv {{ .appUrl }}/GroupDatabase.csv;
-              cp .GroupDatabase.csv .GroupDatabase.csv_;
-              curl -o .UserMgmtRightsDB.csv {{ .appUrl }}/UserMgmtRightsDB.csv;
-              cp .UserMgmtRightsDB.csv .UserMgmtRightsDB.csv_;       
-              touch /data/codesyscontrol/.docker_initialized;
-              mkdir -p /conf/codesyscontrol/ && cd /conf/codesyscontrol;
-              echo Copyng files;
-              cp -fvLR /temp/conf/* /conf/codesyscontrol/;       
-              touch /conf/codesyscontrol/.docker_initialized;
-              echo Contents of new conf folder;
-              ls /conf/codesyscontrol/ -lah;
-              cat /conf/codesyscontrol/CODESYSControl_User.cfg;
-          volumeMounts:
-            - name: data-storage
-              mountPath: /data/codesyscontrol/
-            - name: codesys-user-config
-              mountPath: /temp/conf/
-            - name: conf-storage
-              mountPath: /conf/codesyscontrol/
+      containers:
+      ...
+      initContainers:
+        - name: init-plc-application
+          image: 'ubi9/ubi-minimal'
+            command:
+              - sh
+              - '-c'
+            args:
+              - mkdir -p /data/codesyscontrol/PlcLogic/{{ .appName }}; 
+                echo Downloading App from:{{ .appUrl }}; 
+                cd /data/codesyscontrol/PlcLogic/{{ .appName }};
+                curl -o {{ .appName }}.app {{ .appUrl }}/{{ .appName }}.app; 
+                curl -o {{ .appName }}.crc {{ .appUrl }}/{{ .appName }}.crc ;
+                cd /data/codesyscontrol/;
+                curl -o .UserDatabase.csv {{ .appUrl }}/UserDatabase.csv;
+                cp .UserDatabase.csv .UserDatabase.csv_;
+                curl -o .GroupDatabase.csv {{ .appUrl }}/GroupDatabase.csv;
+                cp .GroupDatabase.csv .GroupDatabase.csv_;
+                curl -o .UserMgmtRightsDB.csv {{ .appUrl }}/UserMgmtRightsDB.csv;
+                cp .UserMgmtRightsDB.csv .UserMgmtRightsDB.csv_;       
+                touch /data/codesyscontrol/.docker_initialized;
+                mkdir -p /conf/codesyscontrol/ && cd /conf/codesyscontrol;
+                echo Copyng files;
+                cp -fvLR /temp/conf/* /conf/codesyscontrol/;       
+                touch /conf/codesyscontrol/.docker_initialized;
+                echo Contents of new conf folder;
+                ls /conf/codesyscontrol/ -lah;
+                cat /conf/codesyscontrol/CODESYSControl_User.cfg;
+            volumeMounts:
+              - name: data-storage
+                mountPath: /data/codesyscontrol/
+              - name: codesys-user-config
+                mountPath: /temp/conf/
+              - name: config-storage
+                mountPath: /conf/codesyscontrol/
 ...
       volumes:
       - name: data-storage
         persistentVolumeClaim: 
           claimName: {{ .name }}-data
-      - name: conf-storage
+      - name: config-storage
         persistentVolumeClaim:
           claimName: {{ .name }}-config
       - name: codesys-user-config
