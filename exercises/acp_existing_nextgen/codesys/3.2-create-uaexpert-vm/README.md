@@ -1,4 +1,4 @@
-# Workshop Exercise 1.2 - Adding Virtual Machine Templates
+# Workshop Exercise 3.2 - Adding Virtual Machine Templates
 
 ## Table of Contents
 
@@ -25,9 +25,9 @@ In the screenshot, the virtual machine configuration is shown as code.
 An example virtual machine has been created for you, and is located in your team namespace. To begin reviewing it, access the OpenShift web console using the URL and credentials from your student page. Then, navigate to Virtualization > VirtualMachines > example-server2019. Select the YAML tab to view the yaml definition of the virtual machine. This can be used as a base for building other virtual machine definitions.
 
 ## Step 2 - Creating a Base Values.yaml File
-Values that are used by templates can be placed into a file called `values.yaml` within the chart directory, which helm will automatically look for and use. These can be overriden if needed, but for our purposes, a simple values file will work.
+Values that are used by templates can be placed into the `values.yaml` within the chart directory, which helm will automatically look for and use. These can be overriden if needed, but for our purposes, a simple values file will work.
 
-Within the `codesys` directory in our code repo, add the section a new file named `values.yaml`, and add the following content:
+Within the `codesys` directory in our code repo, add the section `values.yaml` file:
 
 ```yaml
 ---
@@ -44,30 +44,9 @@ Once complete, be sure to save the file, or if working within an IDE, commit and
 ![Populate Values File](../images/populate-values-yaml.png)
 
 ## Step 3 - Creating Virtual Machine Definition Templates
-Since we'll be creating two virtual machines that are nearly identical, we can create one template, and use the `range` function with helm to have it template out 1 virtual machines.
+Create a new file within our `templates` folder called `virtualmachines.yaml`.
 
-All values live under the `.Values` key, so the path to our list of virtual machines is: `.Values.virtualMachines`. Since we have a list, we can use the `range` function to iterate over the items within the list, and helm will render out the template accordingly.
-
-Create a new directory within the chart directory called `templates`, and within it create a new file called `virtualmachines.yaml`.
-
-The following combines the example virtual machine definition from earlier, along with the templating functions and values from our `values.yaml` file.
-
-A quick note: when using certain functions within helm, the **scope** of variables can change. Wthin the range function, we "enter" the specific item, and can then reference the contents using a short notation.
-
-We can think of this like a `for` loop, iterating over the items in the list.
-
-Here's some psudocode with some notes:
-```
-# Loop over every item in the list
-for item in virtualMachines; do
-  # Since we're now "in" the first item, our values move from .Values.virtualMachines[0].name to just .name
-  echo .name
-  # Same idea, from .Values.virtualMachines[0].partOf to just .partOf
-  echo .partOf
-done
-```
-
-To put that into practice, here's our virtual machine definition combined with the `range` function, based on what's in our `values.yaml` file from earlier:
+The content will allow us to create multiple virtual machines if needed, but for this usecase, the virtual machine already has the Codesys IDE installed as well, so we only need a single virtual machine.
 ```yaml
 {% raw %}
 {{- range $.Values.virtualMachines }}
@@ -184,7 +163,12 @@ virtualMachines:
 
 This is not required for our use case, but feel free to modify your `values.yaml` file if desired.
 
-Once the VM is fired up, we can start the UAExpert application, saved on the desktop. This should be able to connect to our new Codesys PLCs and receive the data produced by them.
+
+
+
+
+
+Once the VM is fired up, we can head to the next section where we
 
 ![UAExpert Connect](../images/uaexpert-connect.png)
 
@@ -195,6 +179,6 @@ AU expert should do the rest and you can browse any of the symbols being output.
 ---
 **Navigation**
 
-[Previous Exercise](../3.1-accessing-data-from-plc/) 
+[Previous Exercise](../3.1-accessing-data-from-plc/) | [Next Exercise](../3.3-connecting-ide/)
 
 [Click here to return to the Workshop Homepage](../../README.md)
