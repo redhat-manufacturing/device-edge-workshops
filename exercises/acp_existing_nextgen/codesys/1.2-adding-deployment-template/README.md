@@ -5,7 +5,8 @@
 * [Objective](#objective)
 * [Step 1 - Create the templates folder](#step-1---create-the-templates-folder)
 * [Step 2 - Create a Storage Clain](#step-2---create-a-storage-claim)
-* [Step 3 - Add the deployment](#step-3---add-the-deployment)
+* [Step 3 - Create security roles](#step-3---create-security-roles)
+* [Step 4 - Add the deployment](#step-4---add-the-deployment)
 
 ## Objective
 
@@ -34,8 +35,10 @@ Let's head to the templates folder and add a definition for our data storage.
 
 Notice that rather than creating the persistentVolumes directly, we will let Openshift Data Foundations create the persistent volume for us by using the "ocs-storagecluster-cephfs" storage class.
 
-Underneath this will provide us with a filesystem that can be mounted within our container. More details on Openshift storage mechanisms can be found in our [documentation](https://docs.openshift.com/container-platform/4.17/storage/understanding-persistent-storage.html)
+Underneath this will provide us with a filesystem that can be mounted within our container. More details on Openshift storage mechanisms can be found in our [documentation](https://docs.openshift.com/container-platform/latest/storage/understanding-persistent-storage.html)
 
+Create the `data-storage.yaml` file in the templates folder with the following content:
+*Note copy these blocks with the range tags as these will allow iteration over the components, remember to include the `{{- end }}` tag as well.
 
 ```yaml
 {% raw %}
@@ -59,7 +62,7 @@ spec:
 {% endraw %}
 ```
 
-Let's do the same for a config storage, create conf-storage.yaml in the templates directory.
+Let's do the same for a config storage, create `conf-storage.yaml` in the templates directory.
 
 ```yaml
 {% raw %}
@@ -85,9 +88,74 @@ spec:
 
 !Remember to commit and push this file to the gitea repo.
 
+## Step 3 - Create security roles
+As with many applications that require specific permissions, our vPLCs will be utilizing some specific service accounts in order to access hardware layers and components needed for more optimal tuning as well as reading network interface cards and configurations.
+
+These are shared between all our PLC's, so only need to be created once. 
+
+Head to your values.yaml and add a section to the bottom for the serviceAccount:
+```yaml
+{% raw %}
+...
+serviceAccount:
+  create: true
+  name:  codesys-plc-controller-sa
+{% end %}
+```
+
+Let's give ArgoCD some rolebindings to add to our project. 
+A rolebinding is an instruction for OpenShift to allocate specific roles to a user or service account.
+Add the rolebinding.yaml file to your group git repository's templates folder:
+
+```yaml
+
+{% raw %}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: argocd-codesys-admin
+subjects:
+  - kind: ServiceAccount
+    name: openshift-gitops-argocd-application-controller
+    namespace: openshift-gitops
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: admin
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: privileged-scc-binding
+subjects:
+  - kind: ServiceAccount
+    name: codesys-plc-controller-sa
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: Role
+  name: privileged-scc-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: codesys-privileged-binding
+  namespace: {{ .Release.Namespace }}
+subjects:
+  - kind: ServiceAccount
+    name: codesys-plc-controller-sa
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: privileged
+{% endraw %}
+```
+!Remember to commit and push this file to the gitea repo.
 
 
-## Step 3 - Add the deployment 
+## Step 4 - Add the deployment 
 For the Codesys application to run, we need somethig to actually do the processing (work). 
 In order deploy a pod with the vPLC image, we will create an object in kubernetes called a [Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 
@@ -121,7 +189,7 @@ spec:
         - name: data-storage
           persistentVolumeClaim: 
             claimName: {{ .name }}-data
-        - name: config
+        - name: config-storage
           persistentVolumeCLaim:
             claimName: {{ .name }}-config
       containers:
@@ -133,10 +201,9 @@ spec:
               protocol: TCP
           volumeMounts:
             - mountPath: "/conf/codesyscontrol/"
-              name: config
-            - mountPath: "/data/codesyscontrol"
+              name: config-storage
+            - mountPath: "/data/codesyscontrol/"
               name: data-storage
-
 {{- end }}
 {% endraw %}
 ```

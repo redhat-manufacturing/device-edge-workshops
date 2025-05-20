@@ -1,0 +1,11 @@
+GroupDB,FileVersion,2
+g,Watch,0x00000000
+g,Service,0x00000000
+g,Developer,0x00000000
+g,Administrator,0x00000000
+g,Anonymous_OPCUAServer,0x00004000
+g,Anonymous_PLCShellLinuxBackend,0x00004000
+a,Administrator,u=admin
+a,Anonymous_OPCUAServer,u=Anonymous_OPCUAServer
+a,Anonymous_PLCShellLinuxBackend,u=Anonymous_PLCShellLinuxBackend
+Checksum,0x0636e2db

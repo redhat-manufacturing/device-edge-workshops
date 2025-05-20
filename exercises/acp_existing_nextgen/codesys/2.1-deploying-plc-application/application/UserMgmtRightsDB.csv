@@ -1,0 +1,46 @@
+#Object,GroupRights(group=,rights=,deniedrights=)
+<object name="Device"/>,<group name="Administrator" rights=0xffffffff deniedrights=0x00000000/>,<group name="Service" rights=0x00000009 deniedrights=0xfffffff6/>,<group name="Developer" rights=0x00000009 deniedrights=0xfffffff6/>,<group name="Watch" rights=0x00000001 deniedrights=0xfffffffe/>
+<object name="Device.PlcLogic"/>,<group name="Administrator" rights=0xffffffff deniedrights=0x00000000/>,<group name="Developer" rights=0xffffffff deniedrights=0x00000000/>,<group name="Service" rights=0x00000001 deniedrights=0xfffffffe/>,<group name="Watch" rights=0x00000001 deniedrights=0xfffffffe/>
+<object name="Device.PlcLogic.__Backup&Restore"/>,<group name="Developer" rights=0x00000003 deniedrights=0x00000000/>,<group name="Service" rights=0x00000003 deniedrights=0x00000000/>,<group name="Watch" rights=0x00000000 deniedrights=0xffffffff/>
+<object name="/"/>,<group name="Administrator" rights=0xffffffff deniedrights=0x00000000/>,<group name="Service" rights=0xffffffff deniedrights=0x00000000/>,<group name="Developer" rights=0xffffffff deniedrights=0x00000000/>,<group name="Watch" rights=0x00000001 deniedrights=0xfffffffe/>
+<object name="/PlcLogic"/>
+<object name="/PlcLogic/Application"/>
+<object name="/PlcLogic/visu"/>
+<object name="/PlcLogic/trend"/>
+<object name="/PlcLogic/alarms"/>
+<object name="/PlcLogic/ac_persistence"/>
+<object name="/PlcLogic/_cnc"/>
+<object name="/cert"/>
+<object name="/cert/import"/>
+<object name="/cert/export"/>
+<object name="/OPCUAServer"/>
+<object name="/OPCUAServer/Intermediate"/>
+<object name="Device.Logger"/>
+<object name="Device.Settings"/>,<group name="Administrator" rights=0xffffffff deniedrights=0x00000000/>,<group name="Developer" rights=0xffffffff deniedrights=0x00000000/>,<group name="Service" rights=0x00000002 deniedrights=0x00000000/>
+<object name="Device.Settings.SecuritySettings"/>,<group name="Watch" rights=0x00000000 deniedrights=0x00000002/>,<group name="Service" rights=0x00000000 deniedrights=0x00000002/>,<group name="Developer" rights=0x00000000 deniedrights=0x00000002/>,<group name="Administrator" rights=0xffffffff deniedrights=0x00000002/>
+<object name="Device.CodeMeter"/>
+<object name="Device.X509"/>,<group name="Administrator" rights=0xffffffff deniedrights=0x00000000/>,<group name="Developer" rights=0x00000000 deniedrights=0xffffffff/>,<group name="Service" rights=0x00000000 deniedrights=0xffffffff/>,<group name="Watch" rights=0x00000000 deniedrights=0xffffffff/>
+<object name="Device.X509.ImportCertificate"/>
+<object name="Device.X509.ExportCertificate"/>
+<object name="Device.X509.DeleteCertificate"/>
+<object name="Device.X509.MoveCertificate"/>
+<object name="Device.X509.ListCertificates"/>
+<object name="Device.X509.ListUseCases"/>
+<object name="Device.X509.CreateSelfSignedCertificate"/>
+<object name="Device.X509.CreateCertificateSigningRequest"/>
+<object name="Device.X509.GetStatus"/>
+<object name="Device.X509.ImportPkcs12Keystore"/>
+<object name="Device.X509.ExportPkcs12Keystore"/>
+<object name="Device.PlcShell"/>,<group name="Administrator" rights=0xffffffff deniedrights=0x00000000/>,<group name="Service" rights=0x00000000 deniedrights=0xffffffff/>,<group name="Developer" rights=0x00000000 deniedrights=0xffffffff/>,<group name="Watch" rights=0x00000000 deniedrights=0xffffffff/>,<group name="Anonymous_PLCShellLinuxBackend" rights=0x00000007 deniedrights=0x00000000/>
+<object name="Device.UserManagement"/>,<group name="Watch" rights=0x00000000 deniedrights=0xffffffff/>,<group name="Service" rights=0x00000000 deniedrights=0xffffffff/>,<group name="Developer" rights=0x00000000 deniedrights=0xffffffff/>,<group name="Administrator" rights=0xffffffff deniedrights=0xffffffff/>,<group name="Anonymous_OPCUAServer" rights=0x00000000 deniedrights=0xffffffff/>,<group name="Anonymous_PLCShellLinuxBackend" rights=0x00000000 deniedrights=0xffffffff/>
+<object name="Device.UserManagement.Groups"/>
+<object name="Device.UserManagement.Users"/>
+<object name="Device.UserManagement.Access Rights"/>
+<object name="Device.RemoteConnections"/>
+<object name="Device.RemoteConnections.OPCUAServer"/>,<group name="Anonymous_OPCUAServer" rights=0x00000007 deniedrights=0x00000000/>
+<object name="Device.PlcLogic.Application"/>
+<object name="Device.PlcLogic.Application.__C-ModuleIntegration__"/>
+<object name="Device.UserManagement.Groups.Watch"/>
+<object name="Device.UserManagement.Groups.Service"/>
+<object name="Device.UserManagement.Groups.Developer"/>
+<object name="Device.UserManagement.Groups.Administrator"/>
