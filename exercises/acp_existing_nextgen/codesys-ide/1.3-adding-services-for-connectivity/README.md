@@ -17,7 +17,7 @@ Since our virtual machines exist within the normal OpenShift SDN, we'll need a s
 
 We'll want to have the service provide connectivity to the [WinRM](https://en.wikipedia.org/wiki/Windows_Remote_Management) port on the Windows VMs, which is port 5985/tcp.
 
-Within the `codesys/templates` directory, add a new file named `service.yaml`, and add the following contents:
+Within the `codesys-ide/templates` directory, add a new file named `service.yaml`, and add the following contents:
 ```yaml
 {% raw %}
 {{- range .Values.virtualMachines }}
