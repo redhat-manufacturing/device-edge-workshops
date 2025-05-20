@@ -27,7 +27,7 @@ An example virtual machine has been created for you, and is located in your team
 ## Step 2 - Creating a Base Values.yaml File
 Values that are used by templates can be placed into a file called `values.yaml` within the chart directory, which helm will automatically look for and use. These can be overriden if needed, but for our purposes, a simple values file will work.
 
-Within the `codesys` directory in our code repo, create a new file named `values.yaml`, and add the following content:
+Within the `codesys-ide` directory in our code repo, create a new file named `values.yaml`, and add the following content:
 
 ```yaml
 ---
