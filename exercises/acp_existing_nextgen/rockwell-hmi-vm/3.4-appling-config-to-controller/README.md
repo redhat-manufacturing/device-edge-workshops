@@ -160,7 +160,7 @@ This job definition provides a few things:
 The next steps will wire these various elements up to provide our desired experience of merging declarative and procedural tooling.
 
 ## Step 2 - Creating a Job and ConfigMap
-Return to the `factorytalk` helm chart we created earlier, and in the `templates/` directory, we'll add two files.
+Return to the `uaexpert` helm chart we created earlier, and in the `templates/` directory, we'll add two files.
 
 First, create `job.yaml` with the following contents:
 ```yaml

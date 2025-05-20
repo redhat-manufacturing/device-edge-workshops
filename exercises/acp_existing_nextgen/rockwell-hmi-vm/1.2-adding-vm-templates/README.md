@@ -28,13 +28,13 @@ An example virtual machine has been created for you, and is located in your team
 ## Step 2 - Creating a Base Values.yaml File
 Values that are used by templates can be placed into a file called `values.yaml` within the chart directory, which helm will automatically look for and use. These can be overriden if needed, but for our purposes, a simple values file will work.
 
-Within the `factorytalk` directory in our code repo, create a new file named `values.yaml`, and add the following content:
+Within the `uaExpert` directory in our code repo, create a new file named `values.yaml`, and add the following content:
 
 ```yaml
 ---
 virtualMachines:
-  - name: ft01
-    partOf: factory-talk
+  - name: ua01
+    partOf: ua-expert
     operatingSystem: server2019
 ```
 
@@ -172,8 +172,8 @@ Should we want to override these values, we simply need to define them in our `v
 {% raw %}
 ---
 virtualMachines:
-  - name: ft01
-    partOf: factorytalk
+  - name: ua01
+    partOf: ua-expert
     operatingSystem: server2019
     cpuCores: 8
     memory: 16Gi

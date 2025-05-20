@@ -82,7 +82,7 @@ Once again, adding to our `controller-configuration.yaml` file:
 ```yaml
 {% raw %}
 controller_workflows:
-  - name: Setup FactoryTalk Environment
+  - name: Setup UA Expert Environment
     organization: Team 1
     simplified_workflow_nodes:
       - identifier: Wait for Connectivity
@@ -114,7 +114,7 @@ Add the following to complete our file:
 ```yaml
 {% raw %}
 controller_workflow_launch_jobs:
-  - name: Setup FactoryTalk Environment
+  - name: Setup UA Expert Environment
     organization: Team 5
 {% endraw %}
 ```
@@ -129,15 +129,15 @@ At this point, your `controller-configuration.yaml` file should contain the foll
 {% raw %}
 controller_hosts:
     # Display name
-  - name: ft01
+  - name: ua01
     # What inventory to add the host to
     inventory: team1 Process Control Systems
     variables:
       # FQDN from service
-      ansible_host: ft01-winrm.team1.svc.cluster.local
+      ansible_host: ua01-winrm.team1.svc.cluster.local
 
 controller_groups:
-  - name: factorytalk_controller
+  - name: ua_controller
     inventory: team1 Process Control Systems
     hosts:
       - ft01
@@ -177,7 +177,7 @@ controller_templates:
      limit: primary_ftview
 
 controller_workflows:
-  - name: Setup FactoryTalk Environment
+  - name: Setup UA Expert Environment
     organization: Team 1
     simplified_workflow_nodes:
       - identifier: Wait for Connectivity
@@ -195,7 +195,7 @@ controller_workflows:
         lookup_organization: Team 1
 
 controller_workflow_launch_jobs:
-  - name: Setup FactoryTalk Environment
+  - name: Setup UA Expert Environment
     organization: Team 1
 {% endraw %}
 ```
