@@ -24,8 +24,8 @@ In the screenshot, the virtual machine configuration is shown as code.
 
 An example virtual machine has been created for you, and is located in your team namespace. To begin reviewing it, access the OpenShift web console using the URL and credentials from your student page. Then, navigate to Virtualization > VirtualMachines > example-server2019. Select the YAML tab to view the yaml definition of the virtual machine. This can be used as a base for building other virtual machine definitions.
 
-## Step 2 - Creating a Base Values.yaml File
-Values that are used by templates can be placed into the `values.yaml` within the chart directory, which helm will automatically look for and use. These can be overriden if needed, but for our purposes, a simple values file will work.
+## Step 2 - Updating Virtual Machine Variables in the Values File
+Variables that are used by templates can be placed into the `values.yaml` within the chart directory, which helm will automatically look for and use. These can be overriden if needed, but for our purposes, a simple values file will work.
 
 Within the `codesys` directory in our code repo, add the section `values.yaml` file:
 

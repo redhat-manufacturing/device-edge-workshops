@@ -91,6 +91,8 @@ initContainers:
 {% endraw %}
 ```
 
+Within the bigger picture, the `deployment.yaml` should now look similar to this:
+
 ![Init Container added](../images/initcontainer-deployment.png)
 
 
