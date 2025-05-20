@@ -53,7 +53,7 @@ version: 1.0.0
 appVersion: "1.0.0"
 ```
 ![Populate Chart Yaml](../images/chartfile.png)
-Ensure you save the file, or push it to the repo if working within another editor.
+Ensure you save the file, or push it to the repo if working within another editor.   (NOTE: USE "CODESYS-IDE" as your folder, NOT CODESYS, there will be a conflict.)
 
 > Note:
 >
