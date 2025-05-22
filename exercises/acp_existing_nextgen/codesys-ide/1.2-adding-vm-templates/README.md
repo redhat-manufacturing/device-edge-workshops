@@ -286,7 +286,7 @@ spec:
 ```
 
 
-Once the the VM is running, check OpenShift Console (guest credentials and login) .
+
 
 ![Openshift VM Login Credentials](../images/os-vm-login-cred.png)
 
